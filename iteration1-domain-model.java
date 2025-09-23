@@ -1,3 +1,4 @@
+package ca.mcgill.ecse.cheecsemanager.model;
 //%% NEW FILE Order BEGINS HERE %%
 
 /*PLEASE DO NOT EDIT THIS CODE*/
