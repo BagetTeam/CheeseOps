@@ -1,4 +1,4 @@
-package ca.mcgill.ecse.cheecsemanager.model;
+package ca.mcgill.esce.cheecsemanager.model;
 //%% NEW FILE Order BEGINS HERE %%
 
 /*PLEASE DO NOT EDIT THIS CODE*/
@@ -313,7 +313,7 @@ public class Company
   }
   /* Code from template association_AddIndexControlFunctions */
   public boolean addOrderAt(Order aOrder, int index)
-  {  
+  {
     boolean wasAdded = false;
     if(addOrder(aOrder))
     {
@@ -336,8 +336,8 @@ public class Company
       orders.remove(aOrder);
       orders.add(index, aOrder);
       wasAdded = true;
-    } 
-    else 
+    }
+    else
     {
       wasAdded = addOrderAt(aOrder, index);
     }
@@ -353,7 +353,7 @@ public class Company
       aOrder.delete();
       orders.remove(aOrder);
     }
-    
+
   }
 
 
@@ -710,7 +710,7 @@ public class CheeseManager
   }
   /* Code from template association_AddIndexControlFunctions */
   public boolean addUserAt(User aUser, int index)
-  {  
+  {
     boolean wasAdded = false;
     if(addUser(aUser))
     {
@@ -733,8 +733,8 @@ public class CheeseManager
       users.remove(aUser);
       users.add(index, aUser);
       wasAdded = true;
-    } 
-    else 
+    }
+    else
     {
       wasAdded = addUserAt(aUser, index);
     }
@@ -943,7 +943,7 @@ public class FacilityManager extends User
   }
   /* Code from template association_AddIndexControlFunctions */
   public boolean addFarmerAt(Farmer aFarmer, int index)
-  {  
+  {
     boolean wasAdded = false;
     if(addFarmer(aFarmer))
     {
@@ -966,8 +966,8 @@ public class FacilityManager extends User
       farmers.remove(aFarmer);
       farmers.add(index, aFarmer);
       wasAdded = true;
-    } 
-    else 
+    }
+    else
     {
       wasAdded = addFarmerAt(aFarmer, index);
     }
@@ -1000,7 +1000,7 @@ public class FacilityManager extends User
   }
   /* Code from template association_AddIndexControlFunctions */
   public boolean addCompanyAt(Company aCompany, int index)
-  {  
+  {
     boolean wasAdded = false;
     if(addCompany(aCompany))
     {
@@ -1023,8 +1023,8 @@ public class FacilityManager extends User
       companies.remove(aCompany);
       companies.add(index, aCompany);
       wasAdded = true;
-    } 
-    else 
+    }
+    else
     {
       wasAdded = addCompanyAt(aCompany, index);
     }
@@ -1072,7 +1072,7 @@ public class FacilityManager extends User
   }
   /* Code from template association_AddIndexControlFunctions */
   public boolean addShelfAt(Shelf aShelf, int index)
-  {  
+  {
     boolean wasAdded = false;
     if(addShelf(aShelf))
     {
@@ -1095,8 +1095,8 @@ public class FacilityManager extends User
       shelfs.remove(aShelf);
       shelfs.add(index, aShelf);
       wasAdded = true;
-    } 
-    else 
+    }
+    else
     {
       wasAdded = addShelfAt(aShelf, index);
     }
@@ -1129,7 +1129,7 @@ public class FacilityManager extends User
   }
   /* Code from template association_AddIndexControlFunctions */
   public boolean addOrderAt(Order aOrder, int index)
-  {  
+  {
     boolean wasAdded = false;
     if(addOrder(aOrder))
     {
@@ -1152,8 +1152,8 @@ public class FacilityManager extends User
       orders.remove(aOrder);
       orders.add(index, aOrder);
       wasAdded = true;
-    } 
-    else 
+    }
+    else
     {
       wasAdded = addOrderAt(aOrder, index);
     }
@@ -1269,14 +1269,14 @@ public class ShelfSlot
       //Unable to setCheese to null, as shelfSlot must always be associated to a cheese
       return wasSet;
     }
-    
+
     ShelfSlot existingShelfSlot = aNewCheese.getShelfSlot();
     if (existingShelfSlot != null && !equals(existingShelfSlot))
     {
       //Unable to setCheese, the current cheese already has a shelfSlot, which would be orphaned if it were re-assigned
       return wasSet;
     }
-    
+
     Cheese anOldCheese = cheese;
     cheese = aNewCheese;
     cheese.setShelfSlot(this);
@@ -1499,7 +1499,7 @@ public class Shelf
   }
   /* Code from template association_AddIndexControlFunctions */
   public boolean addShelfSlotAt(ShelfSlot aShelfSlot, int index)
-  {  
+  {
     boolean wasAdded = false;
     if(addShelfSlot(aShelfSlot))
     {
@@ -1522,8 +1522,8 @@ public class Shelf
       shelfSlots.remove(aShelfSlot);
       shelfSlots.add(index, aShelfSlot);
       wasAdded = true;
-    } 
-    else 
+    }
+    else
     {
       wasAdded = addShelfSlotAt(aShelfSlot, index);
     }
@@ -1558,7 +1558,7 @@ public class Shelf
       aShelfSlot.delete();
       shelfSlots.remove(aShelfSlot);
     }
-    
+
     FacilityManager placeholderFacilityManager = facilityManager;
     this.facilityManager = null;
     if(placeholderFacilityManager != null)
@@ -1939,7 +1939,7 @@ public class Farmer extends User
   }
   /* Code from template association_AddIndexControlFunctions */
   public boolean addCheeseAt(Cheese aCheese, int index)
-  {  
+  {
     boolean wasAdded = false;
     if(addCheese(aCheese))
     {
@@ -1962,8 +1962,8 @@ public class Farmer extends User
       cheeses.remove(aCheese);
       cheeses.add(index, aCheese);
       wasAdded = true;
-    } 
-    else 
+    }
+    else
     {
       wasAdded = addCheeseAt(aCheese, index);
     }
@@ -2153,7 +2153,7 @@ public class Robot
   }
   /* Code from template association_AddIndexControlFunctions */
   public boolean addRobotActionLogAt(RobotActionLog aRobotActionLog, int index)
-  {  
+  {
     boolean wasAdded = false;
     if(addRobotActionLog(aRobotActionLog))
     {
@@ -2176,8 +2176,8 @@ public class Robot
       robotActionLogs.remove(aRobotActionLog);
       robotActionLogs.add(index, aRobotActionLog);
       wasAdded = true;
-    } 
-    else 
+    }
+    else
     {
       wasAdded = addRobotActionLogAt(aRobotActionLog, index);
     }
@@ -2199,7 +2199,7 @@ public class Robot
       aRobotActionLog.delete();
       robotActionLogs.remove(aRobotActionLog);
     }
-    
+
   }
 
 
