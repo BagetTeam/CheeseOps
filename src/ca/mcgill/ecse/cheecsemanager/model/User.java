@@ -4,8 +4,8 @@
 
 import java.util.*;
 
-// line 75 "model.ump"
-// line 169 "model.ump"
+// line 80 "model.ump"
+// line 166 "model.ump"
 public abstract class User
 {
 

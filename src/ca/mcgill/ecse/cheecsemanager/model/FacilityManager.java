@@ -4,8 +4,8 @@
 
 import java.util.*;
 
-// line 10 "model.ump"
-// line 104 "model.ump"
+// line 15 "model.ump"
+// line 101 "model.ump"
 public class FacilityManager extends User
 {
 

@@ -4,8 +4,8 @@
 
 import java.util.*;
 
-// line 47 "model.ump"
-// line 142 "model.ump"
+// line 52 "model.ump"
+// line 139 "model.ump"
 public class Robot
 {
 

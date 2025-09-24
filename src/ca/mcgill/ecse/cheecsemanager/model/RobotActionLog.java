@@ -3,8 +3,8 @@
 
 
 
-// line 54 "model.ump"
-// line 152 "model.ump"
+// line 59 "model.ump"
+// line 149 "model.ump"
 public class RobotActionLog
 {
 

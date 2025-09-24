@@ -3,8 +3,8 @@
 
 
 
-// line 23 "model.ump"
-// line 121 "model.ump"
+// line 28 "model.ump"
+// line 118 "model.ump"
 public class Cheese
 {
 
@@ -18,9 +18,9 @@ public class Cheese
   private boolean isSpoiled;
 
   //Cheese Associations
-  private ShelfSlot slot;
-  private Order Order;
   private Purchase purchase;
+  private ShelfSlot slot;
+  private Order order;
 
   //------------------------
   // CONSTRUCTOR
@@ -81,6 +81,11 @@ public class Cheese
     return isSpoiled;
   }
   /* Code from template association_GetOne */
+  public Purchase getPurchase()
+  {
+    return purchase;
+  }
+  /* Code from template association_GetOne */
   public ShelfSlot getSlot()
   {
     return slot;
@@ -94,18 +99,43 @@ public class Cheese
   /* Code from template association_GetOne */
   public Order getOrder()
   {
-    return Order;
+    return order;
   }
 
   public boolean hasOrder()
   {
-    boolean has = Order != null;
+    boolean has = order != null;
     return has;
   }
-  /* Code from template association_GetOne */
-  public Purchase getPurchase()
+  /* Code from template association_SetOneToMandatoryMany */
+  public boolean setPurchase(Purchase aPurchase)
   {
-    return purchase;
+    boolean wasSet = false;
+    //Must provide purchase to cheeseWheel
+    if (aPurchase == null)
+    {
+      return wasSet;
+    }
+
+    if (purchase != null && purchase.numberOfCheeseWheels() <= Purchase.minimumNumberOfCheeseWheels())
+    {
+      return wasSet;
+    }
+
+    Purchase existingPurchase = purchase;
+    purchase = aPurchase;
+    if (existingPurchase != null && !existingPurchase.equals(aPurchase))
+    {
+      boolean didRemove = existingPurchase.removeCheeseWheel(this);
+      if (!didRemove)
+      {
+        purchase = existingPurchase;
+        return wasSet;
+      }
+    }
+    purchase.addCheeseWheel(this);
+    wasSet = true;
+    return wasSet;
   }
   /* Code from template association_SetOptionalOneToOne */
   public boolean setSlot(ShelfSlot aNewSlot)
@@ -138,8 +168,8 @@ public class Cheese
   public boolean setOrder(Order aOrder)
   {
     boolean wasSet = false;
-    Order existingOrder = Order;
-    Order = aOrder;
+    Order existingOrder = order;
+    order = aOrder;
     if (existingOrder != null && !existingOrder.equals(aOrder))
     {
       existingOrder.removeOrderedCheese(this);
@@ -151,56 +181,26 @@ public class Cheese
     wasSet = true;
     return wasSet;
   }
-  /* Code from template association_SetOneToMandatoryMany */
-  public boolean setPurchase(Purchase aPurchase)
-  {
-    boolean wasSet = false;
-    //Must provide purchase to cheeseWheel
-    if (aPurchase == null)
-    {
-      return wasSet;
-    }
-
-    if (purchase != null && purchase.numberOfCheeseWheels() <= Purchase.minimumNumberOfCheeseWheels())
-    {
-      return wasSet;
-    }
-
-    Purchase existingPurchase = purchase;
-    purchase = aPurchase;
-    if (existingPurchase != null && !existingPurchase.equals(aPurchase))
-    {
-      boolean didRemove = existingPurchase.removeCheeseWheel(this);
-      if (!didRemove)
-      {
-        purchase = existingPurchase;
-        return wasSet;
-      }
-    }
-    purchase.addCheeseWheel(this);
-    wasSet = true;
-    return wasSet;
-  }
 
   public void delete()
   {
+    Purchase placeholderPurchase = purchase;
+    this.purchase = null;
+    if(placeholderPurchase != null)
+    {
+      placeholderPurchase.removeCheeseWheel(this);
+    }
     ShelfSlot existingSlot = slot;
     slot = null;
     if (existingSlot != null)
     {
       existingSlot.delete();
     }
-    if (Order != null)
+    if (order != null)
     {
-      Order placeholderOrder = Order;
-      this.Order = null;
+      Order placeholderOrder = order;
+      this.order = null;
       placeholderOrder.removeOrderedCheese(this);
-    }
-    Purchase placeholderPurchase = purchase;
-    this.purchase = null;
-    if(placeholderPurchase != null)
-    {
-      placeholderPurchase.removeCheeseWheel(this);
     }
   }
 
@@ -211,8 +211,8 @@ public class Cheese
             "age" + ":" + getAge()+ "," +
             "monthsToAge" + ":" + getMonthsToAge()+ "," +
             "isSpoiled" + ":" + getIsSpoiled()+ "]" + System.getProperties().getProperty("line.separator") +
+            "  " + "purchase = "+(getPurchase()!=null?Integer.toHexString(System.identityHashCode(getPurchase())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "slot = "+(getSlot()!=null?Integer.toHexString(System.identityHashCode(getSlot())):"null") + System.getProperties().getProperty("line.separator") +
-            "  " + "Order = "+(getOrder()!=null?Integer.toHexString(System.identityHashCode(getOrder())):"null") + System.getProperties().getProperty("line.separator") +
-            "  " + "purchase = "+(getPurchase()!=null?Integer.toHexString(System.identityHashCode(getPurchase())):"null");
+            "  " + "order = "+(getOrder()!=null?Integer.toHexString(System.identityHashCode(getOrder())):"null");
   }
 }

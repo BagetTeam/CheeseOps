@@ -6,7 +6,7 @@ import java.util.*;
 import java.sql.Date;
 
 // line 2 "model.ump"
-// line 93 "model.ump"
+// line 92 "model.ump"
 public class Farmer extends User
 {
 

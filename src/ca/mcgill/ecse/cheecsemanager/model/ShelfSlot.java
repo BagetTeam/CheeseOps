@@ -3,8 +3,8 @@
 
 
 
-// line 30 "model.ump"
-// line 127 "model.ump"
+// line 35 "model.ump"
+// line 124 "model.ump"
 public class ShelfSlot
 {
 
