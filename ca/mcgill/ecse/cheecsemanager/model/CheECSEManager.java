@@ -5,15 +5,15 @@
 import java.util.*;
 
 // line 82 "model.ump"
-// line 163 "model.ump"
-public class CheeseManager
+// line 174 "model.ump"
+public class CheECSEManager
 {
 
   //------------------------
   // MEMBER VARIABLES
   //------------------------
 
-  //CheeseManager Associations
+  //CheECSEManager Associations
   private List<User> users;
   private Robot robot;
 
@@ -21,20 +21,20 @@ public class CheeseManager
   // CONSTRUCTOR
   //------------------------
 
-  public CheeseManager(Robot aRobot)
+  public CheECSEManager(Robot aRobot)
   {
     users = new ArrayList<User>();
-    if (aRobot == null || aRobot.getCheeseManager() != null)
+    if (aRobot == null || aRobot.getApplication() != null)
     {
-      throw new RuntimeException("Unable to create CheeseManager due to aRobot. See https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+      throw new RuntimeException("Unable to create CheECSEManager due to aRobot. See https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
     robot = aRobot;
   }
 
-  public CheeseManager(int aDirectionForRobot, ShelfSlot aShelfSlotForRobot)
+  public CheECSEManager(int aDirectionForRobot, ShelfSlot aDesiredSlotForRobot)
   {
     users = new ArrayList<User>();
-    robot = new Robot(aDirectionForRobot, this, aShelfSlotForRobot);
+    robot = new Robot(aDirectionForRobot, this, aDesiredSlotForRobot);
   }
 
   //------------------------

@@ -6,7 +6,7 @@ import java.sql.Date;
 import java.util.*;
 
 // line 38 "model.ump"
-// line 129 "model.ump"
+// line 135 "model.ump"
 public class Order
 {
 
@@ -21,7 +21,7 @@ public class Order
   private Date deliveryDate;
 
   //Order Associations
-  private List<Cheese> cheeses;
+  private List<Cheese> orderedCheese;
   private Company company;
 
   //------------------------
@@ -34,7 +34,7 @@ public class Order
     numberOfMissingCheese = aNumberOfMissingCheese;
     purchaseDate = aPurchaseDate;
     deliveryDate = aDeliveryDate;
-    cheeses = new ArrayList<Cheese>();
+    orderedCheese = new ArrayList<Cheese>();
     boolean didAddCompany = setCompany(aCompany);
     if (!didAddCompany)
     {
@@ -98,33 +98,33 @@ public class Order
     return deliveryDate;
   }
   /* Code from template association_GetMany */
-  public Cheese getCheese(int index)
+  public Cheese getOrderedCheese(int index)
   {
-    Cheese aCheese = cheeses.get(index);
-    return aCheese;
+    Cheese aOrderedCheese = orderedCheese.get(index);
+    return aOrderedCheese;
   }
 
-  public List<Cheese> getCheeses()
+  public List<Cheese> getOrderedCheese()
   {
-    List<Cheese> newCheeses = Collections.unmodifiableList(cheeses);
-    return newCheeses;
+    List<Cheese> newOrderedCheese = Collections.unmodifiableList(orderedCheese);
+    return newOrderedCheese;
   }
 
-  public int numberOfCheeses()
+  public int numberOfOrderedCheese()
   {
-    int number = cheeses.size();
+    int number = orderedCheese.size();
     return number;
   }
 
-  public boolean hasCheeses()
+  public boolean hasOrderedCheese()
   {
-    boolean has = cheeses.size() > 0;
+    boolean has = orderedCheese.size() > 0;
     return has;
   }
 
-  public int indexOfCheese(Cheese aCheese)
+  public int indexOfOrderedCheese(Cheese aOrderedCheese)
   {
-    int index = cheeses.indexOf(aCheese);
+    int index = orderedCheese.indexOf(aOrderedCheese);
     return index;
   }
   /* Code from template association_GetOne */
@@ -133,73 +133,73 @@ public class Order
     return company;
   }
   /* Code from template association_MinimumNumberOfMethod */
-  public static int minimumNumberOfCheeses()
+  public static int minimumNumberOfOrderedCheese()
   {
     return 0;
   }
   /* Code from template association_AddManyToOptionalOne */
-  public boolean addCheese(Cheese aCheese)
+  public boolean addOrderedCheese(Cheese aOrderedCheese)
   {
     boolean wasAdded = false;
-    if (cheeses.contains(aCheese)) { return false; }
-    Order existingOrder = aCheese.getOrder();
+    if (orderedCheese.contains(aOrderedCheese)) { return false; }
+    Order existingOrder = aOrderedCheese.getOrder();
     if (existingOrder == null)
     {
-      aCheese.setOrder(this);
+      aOrderedCheese.setOrder(this);
     }
     else if (!this.equals(existingOrder))
     {
-      existingOrder.removeCheese(aCheese);
-      addCheese(aCheese);
+      existingOrder.removeOrderedCheese(aOrderedCheese);
+      addOrderedCheese(aOrderedCheese);
     }
     else
     {
-      cheeses.add(aCheese);
+      orderedCheese.add(aOrderedCheese);
     }
     wasAdded = true;
     return wasAdded;
   }
 
-  public boolean removeCheese(Cheese aCheese)
+  public boolean removeOrderedCheese(Cheese aOrderedCheese)
   {
     boolean wasRemoved = false;
-    if (cheeses.contains(aCheese))
+    if (orderedCheese.contains(aOrderedCheese))
     {
-      cheeses.remove(aCheese);
-      aCheese.setOrder(null);
+      orderedCheese.remove(aOrderedCheese);
+      aOrderedCheese.setOrder(null);
       wasRemoved = true;
     }
     return wasRemoved;
   }
   /* Code from template association_AddIndexControlFunctions */
-  public boolean addCheeseAt(Cheese aCheese, int index)
+  public boolean addOrderedCheeseAt(Cheese aOrderedCheese, int index)
   {  
     boolean wasAdded = false;
-    if(addCheese(aCheese))
+    if(addOrderedCheese(aOrderedCheese))
     {
       if(index < 0 ) { index = 0; }
-      if(index > numberOfCheeses()) { index = numberOfCheeses() - 1; }
-      cheeses.remove(aCheese);
-      cheeses.add(index, aCheese);
+      if(index > numberOfOrderedCheese()) { index = numberOfOrderedCheese() - 1; }
+      orderedCheese.remove(aOrderedCheese);
+      orderedCheese.add(index, aOrderedCheese);
       wasAdded = true;
     }
     return wasAdded;
   }
 
-  public boolean addOrMoveCheeseAt(Cheese aCheese, int index)
+  public boolean addOrMoveOrderedCheeseAt(Cheese aOrderedCheese, int index)
   {
     boolean wasAdded = false;
-    if(cheeses.contains(aCheese))
+    if(orderedCheese.contains(aOrderedCheese))
     {
       if(index < 0 ) { index = 0; }
-      if(index > numberOfCheeses()) { index = numberOfCheeses() - 1; }
-      cheeses.remove(aCheese);
-      cheeses.add(index, aCheese);
+      if(index > numberOfOrderedCheese()) { index = numberOfOrderedCheese() - 1; }
+      orderedCheese.remove(aOrderedCheese);
+      orderedCheese.add(index, aOrderedCheese);
       wasAdded = true;
     } 
     else 
     {
-      wasAdded = addCheeseAt(aCheese, index);
+      wasAdded = addOrderedCheeseAt(aOrderedCheese, index);
     }
     return wasAdded;
   }
@@ -225,9 +225,9 @@ public class Order
 
   public void delete()
   {
-    while( !cheeses.isEmpty() )
+    while( !orderedCheese.isEmpty() )
     {
-      cheeses.get(0).setOrder(null);
+      orderedCheese.get(0).setOrder(null);
     }
     Company placeholderCompany = company;
     this.company = null;

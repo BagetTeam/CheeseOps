@@ -2,10 +2,9 @@
 /*This code was generated using the UMPLE 1.35.0.7523.c616a4dce modeling language!*/
 
 
-import java.sql.Date;
 
 // line 23 "model.ump"
-// line 116 "model.ump"
+// line 121 "model.ump"
 public class Cheese
 {
 
@@ -19,8 +18,8 @@ public class Cheese
   private boolean isSpoiled;
 
   //Cheese Associations
-  private ShelfSlot shelfSlot;
-  private Order order;
+  private ShelfSlot slot;
+  private Order Order;
   private Purchase purchase;
 
   //------------------------
@@ -32,19 +31,11 @@ public class Cheese
     age = aAge;
     monthsToAge = aMonthsToAge;
     isSpoiled = aIsSpoiled;
-    if (aPurchase == null || aPurchase.getCheese() != null)
+    boolean didAddPurchase = setPurchase(aPurchase);
+    if (!didAddPurchase)
     {
-      throw new RuntimeException("Unable to create Cheese due to aPurchase. See https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+      throw new RuntimeException("Unable to create cheeseWheel due to purchase. See https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
-    purchase = aPurchase;
-  }
-
-  public Cheese(int aAge, int aMonthsToAge, boolean aIsSpoiled, Date aPurchaseDateForPurchase, Farmer aFarmerForPurchase)
-  {
-    age = aAge;
-    monthsToAge = aMonthsToAge;
-    isSpoiled = aIsSpoiled;
-    purchase = new Purchase(aPurchaseDateForPurchase, this, aFarmerForPurchase);
   }
 
   //------------------------
@@ -90,25 +81,25 @@ public class Cheese
     return isSpoiled;
   }
   /* Code from template association_GetOne */
-  public ShelfSlot getShelfSlot()
+  public ShelfSlot getSlot()
   {
-    return shelfSlot;
+    return slot;
   }
 
-  public boolean hasShelfSlot()
+  public boolean hasSlot()
   {
-    boolean has = shelfSlot != null;
+    boolean has = slot != null;
     return has;
   }
   /* Code from template association_GetOne */
   public Order getOrder()
   {
-    return order;
+    return Order;
   }
 
   public boolean hasOrder()
   {
-    boolean has = order != null;
+    boolean has = Order != null;
     return has;
   }
   /* Code from template association_GetOne */
@@ -117,27 +108,27 @@ public class Cheese
     return purchase;
   }
   /* Code from template association_SetOptionalOneToOne */
-  public boolean setShelfSlot(ShelfSlot aNewShelfSlot)
+  public boolean setSlot(ShelfSlot aNewSlot)
   {
     boolean wasSet = false;
-    if (shelfSlot != null && !shelfSlot.equals(aNewShelfSlot) && equals(shelfSlot.getCheese()))
+    if (slot != null && !slot.equals(aNewSlot) && equals(slot.getCheese()))
     {
-      //Unable to setShelfSlot, as existing shelfSlot would become an orphan
+      //Unable to setSlot, as existing slot would become an orphan
       return wasSet;
     }
 
-    shelfSlot = aNewShelfSlot;
-    Cheese anOldCheese = aNewShelfSlot != null ? aNewShelfSlot.getCheese() : null;
+    slot = aNewSlot;
+    Cheese anOldCheese = aNewSlot != null ? aNewSlot.getCheese() : null;
 
     if (!this.equals(anOldCheese))
     {
       if (anOldCheese != null)
       {
-        anOldCheese.shelfSlot = null;
+        anOldCheese.slot = null;
       }
-      if (shelfSlot != null)
+      if (slot != null)
       {
-        shelfSlot.setCheese(this);
+        slot.setCheese(this);
       }
     }
     wasSet = true;
@@ -147,39 +138,69 @@ public class Cheese
   public boolean setOrder(Order aOrder)
   {
     boolean wasSet = false;
-    Order existingOrder = order;
-    order = aOrder;
+    Order existingOrder = Order;
+    Order = aOrder;
     if (existingOrder != null && !existingOrder.equals(aOrder))
     {
-      existingOrder.removeCheese(this);
+      existingOrder.removeOrderedCheese(this);
     }
     if (aOrder != null)
     {
-      aOrder.addCheese(this);
+      aOrder.addOrderedCheese(this);
     }
+    wasSet = true;
+    return wasSet;
+  }
+  /* Code from template association_SetOneToMandatoryMany */
+  public boolean setPurchase(Purchase aPurchase)
+  {
+    boolean wasSet = false;
+    //Must provide purchase to cheeseWheel
+    if (aPurchase == null)
+    {
+      return wasSet;
+    }
+
+    if (purchase != null && purchase.numberOfCheeseWheels() <= Purchase.minimumNumberOfCheeseWheels())
+    {
+      return wasSet;
+    }
+
+    Purchase existingPurchase = purchase;
+    purchase = aPurchase;
+    if (existingPurchase != null && !existingPurchase.equals(aPurchase))
+    {
+      boolean didRemove = existingPurchase.removeCheeseWheel(this);
+      if (!didRemove)
+      {
+        purchase = existingPurchase;
+        return wasSet;
+      }
+    }
+    purchase.addCheeseWheel(this);
     wasSet = true;
     return wasSet;
   }
 
   public void delete()
   {
-    ShelfSlot existingShelfSlot = shelfSlot;
-    shelfSlot = null;
-    if (existingShelfSlot != null)
+    ShelfSlot existingSlot = slot;
+    slot = null;
+    if (existingSlot != null)
     {
-      existingShelfSlot.delete();
+      existingSlot.delete();
     }
-    if (order != null)
+    if (Order != null)
     {
-      Order placeholderOrder = order;
-      this.order = null;
-      placeholderOrder.removeCheese(this);
+      Order placeholderOrder = Order;
+      this.Order = null;
+      placeholderOrder.removeOrderedCheese(this);
     }
-    Purchase existingPurchase = purchase;
-    purchase = null;
-    if (existingPurchase != null)
+    Purchase placeholderPurchase = purchase;
+    this.purchase = null;
+    if(placeholderPurchase != null)
     {
-      existingPurchase.delete();
+      placeholderPurchase.removeCheeseWheel(this);
     }
   }
 
@@ -190,8 +211,8 @@ public class Cheese
             "age" + ":" + getAge()+ "," +
             "monthsToAge" + ":" + getMonthsToAge()+ "," +
             "isSpoiled" + ":" + getIsSpoiled()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "shelfSlot = "+(getShelfSlot()!=null?Integer.toHexString(System.identityHashCode(getShelfSlot())):"null") + System.getProperties().getProperty("line.separator") +
-            "  " + "order = "+(getOrder()!=null?Integer.toHexString(System.identityHashCode(getOrder())):"null") + System.getProperties().getProperty("line.separator") +
+            "  " + "slot = "+(getSlot()!=null?Integer.toHexString(System.identityHashCode(getSlot())):"null") + System.getProperties().getProperty("line.separator") +
+            "  " + "Order = "+(getOrder()!=null?Integer.toHexString(System.identityHashCode(getOrder())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "purchase = "+(getPurchase()!=null?Integer.toHexString(System.identityHashCode(getPurchase())):"null");
   }
 }

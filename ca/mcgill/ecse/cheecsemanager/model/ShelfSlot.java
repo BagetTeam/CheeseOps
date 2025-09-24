@@ -4,7 +4,7 @@
 
 
 // line 30 "model.ump"
-// line 122 "model.ump"
+// line 127 "model.ump"
 public class ShelfSlot
 {
 
@@ -31,12 +31,12 @@ public class ShelfSlot
     boolean didAddCheese = setCheese(aCheese);
     if (!didAddCheese)
     {
-      throw new RuntimeException("Unable to create shelfSlot due to cheese. See https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+      throw new RuntimeException("Unable to create slot due to cheese. See https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
     boolean didAddShelf = setShelf(aShelf);
     if (!didAddShelf)
     {
-      throw new RuntimeException("Unable to create shelfSlot due to shelf. See https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+      throw new RuntimeException("Unable to create slot due to shelf. See https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
   }
 
@@ -85,24 +85,24 @@ public class ShelfSlot
     boolean wasSet = false;
     if (aNewCheese == null)
     {
-      //Unable to setCheese to null, as shelfSlot must always be associated to a cheese
+      //Unable to setCheese to null, as slot must always be associated to a cheese
       return wasSet;
     }
     
-    ShelfSlot existingShelfSlot = aNewCheese.getShelfSlot();
-    if (existingShelfSlot != null && !equals(existingShelfSlot))
+    ShelfSlot existingSlot = aNewCheese.getSlot();
+    if (existingSlot != null && !equals(existingSlot))
     {
-      //Unable to setCheese, the current cheese already has a shelfSlot, which would be orphaned if it were re-assigned
+      //Unable to setCheese, the current cheese already has a slot, which would be orphaned if it were re-assigned
       return wasSet;
     }
     
     Cheese anOldCheese = cheese;
     cheese = aNewCheese;
-    cheese.setShelfSlot(this);
+    cheese.setSlot(this);
 
     if (anOldCheese != null)
     {
-      anOldCheese.setShelfSlot(null);
+      anOldCheese.setSlot(null);
     }
     wasSet = true;
     return wasSet;
@@ -120,9 +120,9 @@ public class ShelfSlot
     shelf = aShelf;
     if (existingShelf != null && !existingShelf.equals(aShelf))
     {
-      existingShelf.removeShelfSlot(this);
+      existingShelf.removeSlot(this);
     }
-    shelf.addShelfSlot(this);
+    shelf.addSlot(this);
     wasSet = true;
     return wasSet;
   }
@@ -133,13 +133,13 @@ public class ShelfSlot
     cheese = null;
     if (existingCheese != null)
     {
-      existingCheese.setShelfSlot(null);
+      existingCheese.setSlot(null);
     }
     Shelf placeholderShelf = shelf;
     this.shelf = null;
     if(placeholderShelf != null)
     {
-      placeholderShelf.removeShelfSlot(this);
+      placeholderShelf.removeSlot(this);
     }
   }
 

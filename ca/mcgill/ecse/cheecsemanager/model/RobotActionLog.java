@@ -4,7 +4,7 @@
 
 
 // line 54 "model.ump"
-// line 143 "model.ump"
+// line 152 "model.ump"
 public class RobotActionLog
 {
 
@@ -32,7 +32,7 @@ public class RobotActionLog
     boolean didAddRobot = setRobot(aRobot);
     if (!didAddRobot)
     {
-      throw new RuntimeException("Unable to create robotActionLog due to robot. See https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+      throw new RuntimeException("Unable to create actionLog due to robot. See https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
   }
 
@@ -96,9 +96,9 @@ public class RobotActionLog
     robot = aRobot;
     if (existingRobot != null && !existingRobot.equals(aRobot))
     {
-      existingRobot.removeRobotActionLog(this);
+      existingRobot.removeActionLog(this);
     }
-    robot.addRobotActionLog(this);
+    robot.addActionLog(this);
     wasSet = true;
     return wasSet;
   }
@@ -109,7 +109,7 @@ public class RobotActionLog
     this.robot = null;
     if(placeholderRobot != null)
     {
-      placeholderRobot.removeRobotActionLog(this);
+      placeholderRobot.removeActionLog(this);
     }
   }
 

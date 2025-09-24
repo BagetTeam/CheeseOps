@@ -5,7 +5,7 @@
 import java.util.*;
 
 // line 16 "model.ump"
-// line 109 "model.ump"
+// line 112 "model.ump"
 public class Shelf
 {
 
@@ -23,24 +23,24 @@ public class Shelf
   private String id;
 
   //Shelf Associations
-  private List<ShelfSlot> shelfSlots;
-  private FacilityManager facilityManager;
+  private List<ShelfSlot> slots;
+  private FacilityManager manager;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public Shelf(String aId, FacilityManager aFacilityManager)
+  public Shelf(String aId, FacilityManager aManager)
   {
     if (!setId(aId))
     {
       throw new RuntimeException("Cannot create due to duplicate id. See https://manual.umple.org?RE003ViolationofUniqueness.html");
     }
-    shelfSlots = new ArrayList<ShelfSlot>();
-    boolean didAddFacilityManager = setFacilityManager(aFacilityManager);
-    if (!didAddFacilityManager)
+    slots = new ArrayList<ShelfSlot>();
+    boolean didAddManager = setManager(aManager);
+    if (!didAddManager)
     {
-      throw new RuntimeException("Unable to create shelf due to facilityManager. See https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+      throw new RuntimeException("Unable to create shelve due to manager. See https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
   }
 
@@ -82,128 +82,128 @@ public class Shelf
     return getWithId(aId) != null;
   }
   /* Code from template association_GetMany */
-  public ShelfSlot getShelfSlot(int index)
+  public ShelfSlot getSlot(int index)
   {
-    ShelfSlot aShelfSlot = shelfSlots.get(index);
-    return aShelfSlot;
+    ShelfSlot aSlot = slots.get(index);
+    return aSlot;
   }
 
-  public List<ShelfSlot> getShelfSlots()
+  public List<ShelfSlot> getSlots()
   {
-    List<ShelfSlot> newShelfSlots = Collections.unmodifiableList(shelfSlots);
-    return newShelfSlots;
+    List<ShelfSlot> newSlots = Collections.unmodifiableList(slots);
+    return newSlots;
   }
 
-  public int numberOfShelfSlots()
+  public int numberOfSlots()
   {
-    int number = shelfSlots.size();
+    int number = slots.size();
     return number;
   }
 
-  public boolean hasShelfSlots()
+  public boolean hasSlots()
   {
-    boolean has = shelfSlots.size() > 0;
+    boolean has = slots.size() > 0;
     return has;
   }
 
-  public int indexOfShelfSlot(ShelfSlot aShelfSlot)
+  public int indexOfSlot(ShelfSlot aSlot)
   {
-    int index = shelfSlots.indexOf(aShelfSlot);
+    int index = slots.indexOf(aSlot);
     return index;
   }
   /* Code from template association_GetOne */
-  public FacilityManager getFacilityManager()
+  public FacilityManager getManager()
   {
-    return facilityManager;
+    return manager;
   }
   /* Code from template association_MinimumNumberOfMethod */
-  public static int minimumNumberOfShelfSlots()
+  public static int minimumNumberOfSlots()
   {
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public ShelfSlot addShelfSlot(int aRow, int aColumn, Cheese aCheese)
+  public ShelfSlot addSlot(int aRow, int aColumn, Cheese aCheese)
   {
     return new ShelfSlot(aRow, aColumn, aCheese, this);
   }
 
-  public boolean addShelfSlot(ShelfSlot aShelfSlot)
+  public boolean addSlot(ShelfSlot aSlot)
   {
     boolean wasAdded = false;
-    if (shelfSlots.contains(aShelfSlot)) { return false; }
-    Shelf existingShelf = aShelfSlot.getShelf();
+    if (slots.contains(aSlot)) { return false; }
+    Shelf existingShelf = aSlot.getShelf();
     boolean isNewShelf = existingShelf != null && !this.equals(existingShelf);
     if (isNewShelf)
     {
-      aShelfSlot.setShelf(this);
+      aSlot.setShelf(this);
     }
     else
     {
-      shelfSlots.add(aShelfSlot);
+      slots.add(aSlot);
     }
     wasAdded = true;
     return wasAdded;
   }
 
-  public boolean removeShelfSlot(ShelfSlot aShelfSlot)
+  public boolean removeSlot(ShelfSlot aSlot)
   {
     boolean wasRemoved = false;
-    //Unable to remove aShelfSlot, as it must always have a shelf
-    if (!this.equals(aShelfSlot.getShelf()))
+    //Unable to remove aSlot, as it must always have a shelf
+    if (!this.equals(aSlot.getShelf()))
     {
-      shelfSlots.remove(aShelfSlot);
+      slots.remove(aSlot);
       wasRemoved = true;
     }
     return wasRemoved;
   }
   /* Code from template association_AddIndexControlFunctions */
-  public boolean addShelfSlotAt(ShelfSlot aShelfSlot, int index)
+  public boolean addSlotAt(ShelfSlot aSlot, int index)
   {  
     boolean wasAdded = false;
-    if(addShelfSlot(aShelfSlot))
+    if(addSlot(aSlot))
     {
       if(index < 0 ) { index = 0; }
-      if(index > numberOfShelfSlots()) { index = numberOfShelfSlots() - 1; }
-      shelfSlots.remove(aShelfSlot);
-      shelfSlots.add(index, aShelfSlot);
+      if(index > numberOfSlots()) { index = numberOfSlots() - 1; }
+      slots.remove(aSlot);
+      slots.add(index, aSlot);
       wasAdded = true;
     }
     return wasAdded;
   }
 
-  public boolean addOrMoveShelfSlotAt(ShelfSlot aShelfSlot, int index)
+  public boolean addOrMoveSlotAt(ShelfSlot aSlot, int index)
   {
     boolean wasAdded = false;
-    if(shelfSlots.contains(aShelfSlot))
+    if(slots.contains(aSlot))
     {
       if(index < 0 ) { index = 0; }
-      if(index > numberOfShelfSlots()) { index = numberOfShelfSlots() - 1; }
-      shelfSlots.remove(aShelfSlot);
-      shelfSlots.add(index, aShelfSlot);
+      if(index > numberOfSlots()) { index = numberOfSlots() - 1; }
+      slots.remove(aSlot);
+      slots.add(index, aSlot);
       wasAdded = true;
     } 
     else 
     {
-      wasAdded = addShelfSlotAt(aShelfSlot, index);
+      wasAdded = addSlotAt(aSlot, index);
     }
     return wasAdded;
   }
   /* Code from template association_SetOneToMany */
-  public boolean setFacilityManager(FacilityManager aFacilityManager)
+  public boolean setManager(FacilityManager aManager)
   {
     boolean wasSet = false;
-    if (aFacilityManager == null)
+    if (aManager == null)
     {
       return wasSet;
     }
 
-    FacilityManager existingFacilityManager = facilityManager;
-    facilityManager = aFacilityManager;
-    if (existingFacilityManager != null && !existingFacilityManager.equals(aFacilityManager))
+    FacilityManager existingManager = manager;
+    manager = aManager;
+    if (existingManager != null && !existingManager.equals(aManager))
     {
-      existingFacilityManager.removeShelf(this);
+      existingManager.removeShelve(this);
     }
-    facilityManager.addShelf(this);
+    manager.addShelve(this);
     wasSet = true;
     return wasSet;
   }
@@ -211,18 +211,18 @@ public class Shelf
   public void delete()
   {
     shelfsById.remove(getId());
-    while (shelfSlots.size() > 0)
+    while (slots.size() > 0)
     {
-      ShelfSlot aShelfSlot = shelfSlots.get(shelfSlots.size() - 1);
-      aShelfSlot.delete();
-      shelfSlots.remove(aShelfSlot);
+      ShelfSlot aSlot = slots.get(slots.size() - 1);
+      aSlot.delete();
+      slots.remove(aSlot);
     }
     
-    FacilityManager placeholderFacilityManager = facilityManager;
-    this.facilityManager = null;
-    if(placeholderFacilityManager != null)
+    FacilityManager placeholderManager = manager;
+    this.manager = null;
+    if(placeholderManager != null)
     {
-      placeholderFacilityManager.removeShelf(this);
+      placeholderManager.removeShelve(this);
     }
   }
 
@@ -231,6 +231,6 @@ public class Shelf
   {
     return super.toString() + "["+
             "id" + ":" + getId()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "facilityManager = "+(getFacilityManager()!=null?Integer.toHexString(System.identityHashCode(getFacilityManager())):"null");
+            "  " + "manager = "+(getManager()!=null?Integer.toHexString(System.identityHashCode(getManager())):"null");
   }
 }

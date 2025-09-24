@@ -5,7 +5,7 @@
 import java.util.*;
 
 // line 10 "model.ump"
-// line 102 "model.ump"
+// line 104 "model.ump"
 public class FacilityManager extends User
 {
 
@@ -15,7 +15,7 @@ public class FacilityManager extends User
 
   //FacilityManager Associations
   private List<Company> companies;
-  private List<Shelf> shelfs;
+  private List<Shelf> shelves;
 
   //------------------------
   // CONSTRUCTOR
@@ -25,7 +25,7 @@ public class FacilityManager extends User
   {
     super(aEmail, aPassword);
     companies = new ArrayList<Company>();
-    shelfs = new ArrayList<Shelf>();
+    shelves = new ArrayList<Shelf>();
   }
 
   //------------------------
@@ -62,33 +62,33 @@ public class FacilityManager extends User
     return index;
   }
   /* Code from template association_GetMany */
-  public Shelf getShelf(int index)
+  public Shelf getShelve(int index)
   {
-    Shelf aShelf = shelfs.get(index);
-    return aShelf;
+    Shelf aShelve = shelves.get(index);
+    return aShelve;
   }
 
-  public List<Shelf> getShelfs()
+  public List<Shelf> getShelves()
   {
-    List<Shelf> newShelfs = Collections.unmodifiableList(shelfs);
-    return newShelfs;
+    List<Shelf> newShelves = Collections.unmodifiableList(shelves);
+    return newShelves;
   }
 
-  public int numberOfShelfs()
+  public int numberOfShelves()
   {
-    int number = shelfs.size();
+    int number = shelves.size();
     return number;
   }
 
-  public boolean hasShelfs()
+  public boolean hasShelves()
   {
-    boolean has = shelfs.size() > 0;
+    boolean has = shelves.size() > 0;
     return has;
   }
 
-  public int indexOfShelf(Shelf aShelf)
+  public int indexOfShelve(Shelf aShelve)
   {
-    int index = shelfs.indexOf(aShelf);
+    int index = shelves.indexOf(aShelve);
     return index;
   }
   /* Code from template association_MinimumNumberOfMethod */
@@ -149,74 +149,74 @@ public class FacilityManager extends User
     return wasAdded;
   }
   /* Code from template association_MinimumNumberOfMethod */
-  public static int minimumNumberOfShelfs()
+  public static int minimumNumberOfShelves()
   {
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public Shelf addShelf(String aId)
+  public Shelf addShelve(String aId)
   {
     return new Shelf(aId, this);
   }
 
-  public boolean addShelf(Shelf aShelf)
+  public boolean addShelve(Shelf aShelve)
   {
     boolean wasAdded = false;
-    if (shelfs.contains(aShelf)) { return false; }
-    FacilityManager existingFacilityManager = aShelf.getFacilityManager();
-    boolean isNewFacilityManager = existingFacilityManager != null && !this.equals(existingFacilityManager);
-    if (isNewFacilityManager)
+    if (shelves.contains(aShelve)) { return false; }
+    FacilityManager existingManager = aShelve.getManager();
+    boolean isNewManager = existingManager != null && !this.equals(existingManager);
+    if (isNewManager)
     {
-      aShelf.setFacilityManager(this);
+      aShelve.setManager(this);
     }
     else
     {
-      shelfs.add(aShelf);
+      shelves.add(aShelve);
     }
     wasAdded = true;
     return wasAdded;
   }
 
-  public boolean removeShelf(Shelf aShelf)
+  public boolean removeShelve(Shelf aShelve)
   {
     boolean wasRemoved = false;
-    //Unable to remove aShelf, as it must always have a facilityManager
-    if (!this.equals(aShelf.getFacilityManager()))
+    //Unable to remove aShelve, as it must always have a manager
+    if (!this.equals(aShelve.getManager()))
     {
-      shelfs.remove(aShelf);
+      shelves.remove(aShelve);
       wasRemoved = true;
     }
     return wasRemoved;
   }
   /* Code from template association_AddIndexControlFunctions */
-  public boolean addShelfAt(Shelf aShelf, int index)
+  public boolean addShelveAt(Shelf aShelve, int index)
   {  
     boolean wasAdded = false;
-    if(addShelf(aShelf))
+    if(addShelve(aShelve))
     {
       if(index < 0 ) { index = 0; }
-      if(index > numberOfShelfs()) { index = numberOfShelfs() - 1; }
-      shelfs.remove(aShelf);
-      shelfs.add(index, aShelf);
+      if(index > numberOfShelves()) { index = numberOfShelves() - 1; }
+      shelves.remove(aShelve);
+      shelves.add(index, aShelve);
       wasAdded = true;
     }
     return wasAdded;
   }
 
-  public boolean addOrMoveShelfAt(Shelf aShelf, int index)
+  public boolean addOrMoveShelveAt(Shelf aShelve, int index)
   {
     boolean wasAdded = false;
-    if(shelfs.contains(aShelf))
+    if(shelves.contains(aShelve))
     {
       if(index < 0 ) { index = 0; }
-      if(index > numberOfShelfs()) { index = numberOfShelfs() - 1; }
-      shelfs.remove(aShelf);
-      shelfs.add(index, aShelf);
+      if(index > numberOfShelves()) { index = numberOfShelves() - 1; }
+      shelves.remove(aShelve);
+      shelves.add(index, aShelve);
       wasAdded = true;
     } 
     else 
     {
-      wasAdded = addShelfAt(aShelf, index);
+      wasAdded = addShelveAt(aShelve, index);
     }
     return wasAdded;
   }
@@ -224,10 +224,10 @@ public class FacilityManager extends User
   public void delete()
   {
     companies.clear();
-    for(int i=shelfs.size(); i > 0; i--)
+    for(int i=shelves.size(); i > 0; i--)
     {
-      Shelf aShelf = shelfs.get(i - 1);
-      aShelf.delete();
+      Shelf aShelve = shelves.get(i - 1);
+      aShelve.delete();
     }
     super.delete();
   }

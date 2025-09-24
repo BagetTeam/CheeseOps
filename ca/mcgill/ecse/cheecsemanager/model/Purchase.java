@@ -3,9 +3,10 @@
 
 
 import java.sql.Date;
+import java.util.*;
 
 // line 87 "model.ump"
-// line 171 "model.ump"
+// line 183 "model.ump"
 public class Purchase
 {
 
@@ -17,36 +18,21 @@ public class Purchase
   private Date purchaseDate;
 
   //Purchase Associations
-  private Cheese cheese;
+  private List<Cheese> cheeseWheels;
   private Farmer farmer;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public Purchase(Date aPurchaseDate, Cheese aCheese, Farmer aFarmer)
+  public Purchase(Date aPurchaseDate, Farmer aFarmer)
   {
     purchaseDate = aPurchaseDate;
-    if (aCheese == null || aCheese.getPurchase() != null)
-    {
-      throw new RuntimeException("Unable to create Purchase due to aCheese. See https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
-    cheese = aCheese;
+    cheeseWheels = new ArrayList<Cheese>();
     boolean didAddFarmer = setFarmer(aFarmer);
     if (!didAddFarmer)
     {
-      throw new RuntimeException("Unable to create purchase due to farmer. See https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
-  }
-
-  public Purchase(Date aPurchaseDate, int aAgeForCheese, int aMonthsToAgeForCheese, boolean aIsSpoiledForCheese, Farmer aFarmer)
-  {
-    purchaseDate = aPurchaseDate;
-    cheese = new Cheese(aAgeForCheese, aMonthsToAgeForCheese, aIsSpoiledForCheese, this);
-    boolean didAddFarmer = setFarmer(aFarmer);
-    if (!didAddFarmer)
-    {
-      throw new RuntimeException("Unable to create purchase due to farmer. See https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+      throw new RuntimeException("Unable to create sale due to farmer. See https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
   }
 
@@ -66,15 +52,132 @@ public class Purchase
   {
     return purchaseDate;
   }
-  /* Code from template association_GetOne */
-  public Cheese getCheese()
+  /* Code from template association_GetMany */
+  public Cheese getCheeseWheel(int index)
   {
-    return cheese;
+    Cheese aCheeseWheel = cheeseWheels.get(index);
+    return aCheeseWheel;
+  }
+
+  public List<Cheese> getCheeseWheels()
+  {
+    List<Cheese> newCheeseWheels = Collections.unmodifiableList(cheeseWheels);
+    return newCheeseWheels;
+  }
+
+  public int numberOfCheeseWheels()
+  {
+    int number = cheeseWheels.size();
+    return number;
+  }
+
+  public boolean hasCheeseWheels()
+  {
+    boolean has = cheeseWheels.size() > 0;
+    return has;
+  }
+
+  public int indexOfCheeseWheel(Cheese aCheeseWheel)
+  {
+    int index = cheeseWheels.indexOf(aCheeseWheel);
+    return index;
   }
   /* Code from template association_GetOne */
   public Farmer getFarmer()
   {
     return farmer;
+  }
+  /* Code from template association_IsNumberOfValidMethod */
+  public boolean isNumberOfCheeseWheelsValid()
+  {
+    boolean isValid = numberOfCheeseWheels() >= minimumNumberOfCheeseWheels();
+    return isValid;
+  }
+  /* Code from template association_MinimumNumberOfMethod */
+  public static int minimumNumberOfCheeseWheels()
+  {
+    return 1;
+  }
+  /* Code from template association_AddMandatoryManyToOne */
+  public Cheese addCheeseWheel(int aAge, int aMonthsToAge, boolean aIsSpoiled)
+  {
+    Cheese aNewCheeseWheel = new Cheese(aAge, aMonthsToAge, aIsSpoiled, this);
+    return aNewCheeseWheel;
+  }
+
+  public boolean addCheeseWheel(Cheese aCheeseWheel)
+  {
+    boolean wasAdded = false;
+    if (cheeseWheels.contains(aCheeseWheel)) { return false; }
+    Purchase existingPurchase = aCheeseWheel.getPurchase();
+    boolean isNewPurchase = existingPurchase != null && !this.equals(existingPurchase);
+
+    if (isNewPurchase && existingPurchase.numberOfCheeseWheels() <= minimumNumberOfCheeseWheels())
+    {
+      return wasAdded;
+    }
+    if (isNewPurchase)
+    {
+      aCheeseWheel.setPurchase(this);
+    }
+    else
+    {
+      cheeseWheels.add(aCheeseWheel);
+    }
+    wasAdded = true;
+    return wasAdded;
+  }
+
+  public boolean removeCheeseWheel(Cheese aCheeseWheel)
+  {
+    boolean wasRemoved = false;
+    //Unable to remove aCheeseWheel, as it must always have a purchase
+    if (this.equals(aCheeseWheel.getPurchase()))
+    {
+      return wasRemoved;
+    }
+
+    //purchase already at minimum (1)
+    if (numberOfCheeseWheels() <= minimumNumberOfCheeseWheels())
+    {
+      return wasRemoved;
+    }
+
+    cheeseWheels.remove(aCheeseWheel);
+    wasRemoved = true;
+    return wasRemoved;
+  }
+  /* Code from template association_AddIndexControlFunctions */
+  public boolean addCheeseWheelAt(Cheese aCheeseWheel, int index)
+  {  
+    boolean wasAdded = false;
+    if(addCheeseWheel(aCheeseWheel))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfCheeseWheels()) { index = numberOfCheeseWheels() - 1; }
+      cheeseWheels.remove(aCheeseWheel);
+      cheeseWheels.add(index, aCheeseWheel);
+      wasAdded = true;
+    }
+    return wasAdded;
+  }
+
+  public boolean addOrMoveCheeseWheelAt(Cheese aCheeseWheel, int index)
+  {
+    boolean wasAdded = false;
+    if(cheeseWheels.contains(aCheeseWheel))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfCheeseWheels()) { index = numberOfCheeseWheels() - 1; }
+      cheeseWheels.remove(aCheeseWheel);
+      cheeseWheels.add(index, aCheeseWheel);
+      wasAdded = true;
+    } 
+    else 
+    {
+      wasAdded = addCheeseWheelAt(aCheeseWheel, index);
+    }
+    return wasAdded;
   }
   /* Code from template association_SetOneToMany */
   public boolean setFarmer(Farmer aFarmer)
@@ -89,26 +192,25 @@ public class Purchase
     farmer = aFarmer;
     if (existingFarmer != null && !existingFarmer.equals(aFarmer))
     {
-      existingFarmer.removePurchase(this);
+      existingFarmer.removeSale(this);
     }
-    farmer.addPurchase(this);
+    farmer.addSale(this);
     wasSet = true;
     return wasSet;
   }
 
   public void delete()
   {
-    Cheese existingCheese = cheese;
-    cheese = null;
-    if (existingCheese != null)
+    for(int i=cheeseWheels.size(); i > 0; i--)
     {
-      existingCheese.delete();
+      Cheese aCheeseWheel = cheeseWheels.get(i - 1);
+      aCheeseWheel.delete();
     }
     Farmer placeholderFarmer = farmer;
     this.farmer = null;
     if(placeholderFarmer != null)
     {
-      placeholderFarmer.removePurchase(this);
+      placeholderFarmer.removeSale(this);
     }
   }
 
@@ -117,7 +219,6 @@ public class Purchase
   {
     return super.toString() + "["+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "purchaseDate" + "=" + (getPurchaseDate() != null ? !getPurchaseDate().equals(this)  ? getPurchaseDate().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-            "  " + "cheese = "+(getCheese()!=null?Integer.toHexString(System.identityHashCode(getCheese())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "farmer = "+(getFarmer()!=null?Integer.toHexString(System.identityHashCode(getFarmer())):"null");
   }
 }

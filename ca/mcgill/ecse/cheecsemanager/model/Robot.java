@@ -5,7 +5,7 @@
 import java.util.*;
 
 // line 47 "model.ump"
-// line 135 "model.ump"
+// line 142 "model.ump"
 public class Robot
 {
 
@@ -17,35 +17,35 @@ public class Robot
   private int direction;
 
   //Robot Associations
-  private CheeseManager cheeseManager;
-  private ShelfSlot shelfSlot;
-  private List<RobotActionLog> robotActionLogs;
+  private CheECSEManager application;
+  private ShelfSlot desiredSlot;
+  private List<RobotActionLog> actionLogs;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public Robot(int aDirection, CheeseManager aCheeseManager, ShelfSlot aShelfSlot)
+  public Robot(int aDirection, CheECSEManager aApplication, ShelfSlot aDesiredSlot)
   {
     direction = aDirection;
-    if (aCheeseManager == null || aCheeseManager.getRobot() != null)
+    if (aApplication == null || aApplication.getRobot() != null)
     {
-      throw new RuntimeException("Unable to create Robot due to aCheeseManager. See https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+      throw new RuntimeException("Unable to create Robot due to aApplication. See https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
-    cheeseManager = aCheeseManager;
-    if (!setShelfSlot(aShelfSlot))
+    application = aApplication;
+    if (!setDesiredSlot(aDesiredSlot))
     {
-      throw new RuntimeException("Unable to create Robot due to aShelfSlot. See https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+      throw new RuntimeException("Unable to create Robot due to aDesiredSlot. See https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
-    robotActionLogs = new ArrayList<RobotActionLog>();
+    actionLogs = new ArrayList<RobotActionLog>();
   }
 
-  public Robot(int aDirection, ShelfSlot aShelfSlot)
+  public Robot(int aDirection, ShelfSlot aDesiredSlot)
   {
     direction = aDirection;
-    cheeseManager = new CheeseManager(this);
-    shelfSlot = new ShelfSlot(null);
-    robotActionLogs = new ArrayList<RobotActionLog>();
+    application = new CheECSEManager(this);
+    desiredSlot = new ShelfSlot(null);
+    actionLogs = new ArrayList<RobotActionLog>();
   }
 
   //------------------------
@@ -65,143 +65,143 @@ public class Robot
     return direction;
   }
   /* Code from template association_GetOne */
-  public CheeseManager getCheeseManager()
+  public CheECSEManager getApplication()
   {
-    return cheeseManager;
+    return application;
   }
   /* Code from template association_GetOne */
-  public ShelfSlot getShelfSlot()
+  public ShelfSlot getDesiredSlot()
   {
-    return shelfSlot;
+    return desiredSlot;
   }
   /* Code from template association_GetMany */
-  public RobotActionLog getRobotActionLog(int index)
+  public RobotActionLog getActionLog(int index)
   {
-    RobotActionLog aRobotActionLog = robotActionLogs.get(index);
-    return aRobotActionLog;
+    RobotActionLog aActionLog = actionLogs.get(index);
+    return aActionLog;
   }
 
-  public List<RobotActionLog> getRobotActionLogs()
+  public List<RobotActionLog> getActionLogs()
   {
-    List<RobotActionLog> newRobotActionLogs = Collections.unmodifiableList(robotActionLogs);
-    return newRobotActionLogs;
+    List<RobotActionLog> newActionLogs = Collections.unmodifiableList(actionLogs);
+    return newActionLogs;
   }
 
-  public int numberOfRobotActionLogs()
+  public int numberOfActionLogs()
   {
-    int number = robotActionLogs.size();
+    int number = actionLogs.size();
     return number;
   }
 
-  public boolean hasRobotActionLogs()
+  public boolean hasActionLogs()
   {
-    boolean has = robotActionLogs.size() > 0;
+    boolean has = actionLogs.size() > 0;
     return has;
   }
 
-  public int indexOfRobotActionLog(RobotActionLog aRobotActionLog)
+  public int indexOfActionLog(RobotActionLog aActionLog)
   {
-    int index = robotActionLogs.indexOf(aRobotActionLog);
+    int index = actionLogs.indexOf(aActionLog);
     return index;
   }
   /* Code from template association_SetUnidirectionalOne */
-  public boolean setShelfSlot(ShelfSlot aNewShelfSlot)
+  public boolean setDesiredSlot(ShelfSlot aNewDesiredSlot)
   {
     boolean wasSet = false;
-    if (aNewShelfSlot != null)
+    if (aNewDesiredSlot != null)
     {
-      shelfSlot = aNewShelfSlot;
+      desiredSlot = aNewDesiredSlot;
       wasSet = true;
     }
     return wasSet;
   }
   /* Code from template association_MinimumNumberOfMethod */
-  public static int minimumNumberOfRobotActionLogs()
+  public static int minimumNumberOfActionLogs()
   {
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public RobotActionLog addRobotActionLog(String aSeverity, String aTitle, String aDetails)
+  public RobotActionLog addActionLog(String aSeverity, String aTitle, String aDetails)
   {
     return new RobotActionLog(aSeverity, aTitle, aDetails, this);
   }
 
-  public boolean addRobotActionLog(RobotActionLog aRobotActionLog)
+  public boolean addActionLog(RobotActionLog aActionLog)
   {
     boolean wasAdded = false;
-    if (robotActionLogs.contains(aRobotActionLog)) { return false; }
-    Robot existingRobot = aRobotActionLog.getRobot();
+    if (actionLogs.contains(aActionLog)) { return false; }
+    Robot existingRobot = aActionLog.getRobot();
     boolean isNewRobot = existingRobot != null && !this.equals(existingRobot);
     if (isNewRobot)
     {
-      aRobotActionLog.setRobot(this);
+      aActionLog.setRobot(this);
     }
     else
     {
-      robotActionLogs.add(aRobotActionLog);
+      actionLogs.add(aActionLog);
     }
     wasAdded = true;
     return wasAdded;
   }
 
-  public boolean removeRobotActionLog(RobotActionLog aRobotActionLog)
+  public boolean removeActionLog(RobotActionLog aActionLog)
   {
     boolean wasRemoved = false;
-    //Unable to remove aRobotActionLog, as it must always have a robot
-    if (!this.equals(aRobotActionLog.getRobot()))
+    //Unable to remove aActionLog, as it must always have a robot
+    if (!this.equals(aActionLog.getRobot()))
     {
-      robotActionLogs.remove(aRobotActionLog);
+      actionLogs.remove(aActionLog);
       wasRemoved = true;
     }
     return wasRemoved;
   }
   /* Code from template association_AddIndexControlFunctions */
-  public boolean addRobotActionLogAt(RobotActionLog aRobotActionLog, int index)
+  public boolean addActionLogAt(RobotActionLog aActionLog, int index)
   {  
     boolean wasAdded = false;
-    if(addRobotActionLog(aRobotActionLog))
+    if(addActionLog(aActionLog))
     {
       if(index < 0 ) { index = 0; }
-      if(index > numberOfRobotActionLogs()) { index = numberOfRobotActionLogs() - 1; }
-      robotActionLogs.remove(aRobotActionLog);
-      robotActionLogs.add(index, aRobotActionLog);
+      if(index > numberOfActionLogs()) { index = numberOfActionLogs() - 1; }
+      actionLogs.remove(aActionLog);
+      actionLogs.add(index, aActionLog);
       wasAdded = true;
     }
     return wasAdded;
   }
 
-  public boolean addOrMoveRobotActionLogAt(RobotActionLog aRobotActionLog, int index)
+  public boolean addOrMoveActionLogAt(RobotActionLog aActionLog, int index)
   {
     boolean wasAdded = false;
-    if(robotActionLogs.contains(aRobotActionLog))
+    if(actionLogs.contains(aActionLog))
     {
       if(index < 0 ) { index = 0; }
-      if(index > numberOfRobotActionLogs()) { index = numberOfRobotActionLogs() - 1; }
-      robotActionLogs.remove(aRobotActionLog);
-      robotActionLogs.add(index, aRobotActionLog);
+      if(index > numberOfActionLogs()) { index = numberOfActionLogs() - 1; }
+      actionLogs.remove(aActionLog);
+      actionLogs.add(index, aActionLog);
       wasAdded = true;
     } 
     else 
     {
-      wasAdded = addRobotActionLogAt(aRobotActionLog, index);
+      wasAdded = addActionLogAt(aActionLog, index);
     }
     return wasAdded;
   }
 
   public void delete()
   {
-    CheeseManager existingCheeseManager = cheeseManager;
-    cheeseManager = null;
-    if (existingCheeseManager != null)
+    CheECSEManager existingApplication = application;
+    application = null;
+    if (existingApplication != null)
     {
-      existingCheeseManager.delete();
+      existingApplication.delete();
     }
-    shelfSlot = null;
-    while (robotActionLogs.size() > 0)
+    desiredSlot = null;
+    while (actionLogs.size() > 0)
     {
-      RobotActionLog aRobotActionLog = robotActionLogs.get(robotActionLogs.size() - 1);
-      aRobotActionLog.delete();
-      robotActionLogs.remove(aRobotActionLog);
+      RobotActionLog aActionLog = actionLogs.get(actionLogs.size() - 1);
+      aActionLog.delete();
+      actionLogs.remove(aActionLog);
     }
     
   }
@@ -211,7 +211,7 @@ public class Robot
   {
     return super.toString() + "["+
             "direction" + ":" + getDirection()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "cheeseManager = "+(getCheeseManager()!=null?Integer.toHexString(System.identityHashCode(getCheeseManager())):"null") + System.getProperties().getProperty("line.separator") +
-            "  " + "shelfSlot = "+(getShelfSlot()!=null?Integer.toHexString(System.identityHashCode(getShelfSlot())):"null");
+            "  " + "application = "+(getApplication()!=null?Integer.toHexString(System.identityHashCode(getApplication())):"null") + System.getProperties().getProperty("line.separator") +
+            "  " + "desiredSlot = "+(getDesiredSlot()!=null?Integer.toHexString(System.identityHashCode(getDesiredSlot())):"null");
   }
 }

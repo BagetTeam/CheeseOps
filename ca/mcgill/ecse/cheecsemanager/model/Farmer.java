@@ -25,7 +25,7 @@ public class Farmer extends User
   private String name;
 
   //Farmer Associations
-  private List<Purchase> purchases;
+  private List<Purchase> sales;
 
   //------------------------
   // CONSTRUCTOR
@@ -39,7 +39,7 @@ public class Farmer extends User
     {
       throw new RuntimeException("Cannot create due to duplicate name. See https://manual.umple.org?RE003ViolationofUniqueness.html");
     }
-    purchases = new ArrayList<Purchase>();
+    sales = new ArrayList<Purchase>();
   }
 
   //------------------------
@@ -93,104 +93,104 @@ public class Farmer extends User
     return getWithName(aName) != null;
   }
   /* Code from template association_GetMany */
-  public Purchase getPurchase(int index)
+  public Purchase getSale(int index)
   {
-    Purchase aPurchase = purchases.get(index);
-    return aPurchase;
+    Purchase aSale = sales.get(index);
+    return aSale;
   }
 
-  public List<Purchase> getPurchases()
+  public List<Purchase> getSales()
   {
-    List<Purchase> newPurchases = Collections.unmodifiableList(purchases);
-    return newPurchases;
+    List<Purchase> newSales = Collections.unmodifiableList(sales);
+    return newSales;
   }
 
-  public int numberOfPurchases()
+  public int numberOfSales()
   {
-    int number = purchases.size();
+    int number = sales.size();
     return number;
   }
 
-  public boolean hasPurchases()
+  public boolean hasSales()
   {
-    boolean has = purchases.size() > 0;
+    boolean has = sales.size() > 0;
     return has;
   }
 
-  public int indexOfPurchase(Purchase aPurchase)
+  public int indexOfSale(Purchase aSale)
   {
-    int index = purchases.indexOf(aPurchase);
+    int index = sales.indexOf(aSale);
     return index;
   }
   /* Code from template association_MinimumNumberOfMethod */
-  public static int minimumNumberOfPurchases()
+  public static int minimumNumberOfSales()
   {
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public Purchase addPurchase(Date aPurchaseDate, Cheese aCheese)
+  public Purchase addSale(Date aPurchaseDate)
   {
-    return new Purchase(aPurchaseDate, aCheese, this);
+    return new Purchase(aPurchaseDate, this);
   }
 
-  public boolean addPurchase(Purchase aPurchase)
+  public boolean addSale(Purchase aSale)
   {
     boolean wasAdded = false;
-    if (purchases.contains(aPurchase)) { return false; }
-    Farmer existingFarmer = aPurchase.getFarmer();
+    if (sales.contains(aSale)) { return false; }
+    Farmer existingFarmer = aSale.getFarmer();
     boolean isNewFarmer = existingFarmer != null && !this.equals(existingFarmer);
     if (isNewFarmer)
     {
-      aPurchase.setFarmer(this);
+      aSale.setFarmer(this);
     }
     else
     {
-      purchases.add(aPurchase);
+      sales.add(aSale);
     }
     wasAdded = true;
     return wasAdded;
   }
 
-  public boolean removePurchase(Purchase aPurchase)
+  public boolean removeSale(Purchase aSale)
   {
     boolean wasRemoved = false;
-    //Unable to remove aPurchase, as it must always have a farmer
-    if (!this.equals(aPurchase.getFarmer()))
+    //Unable to remove aSale, as it must always have a farmer
+    if (!this.equals(aSale.getFarmer()))
     {
-      purchases.remove(aPurchase);
+      sales.remove(aSale);
       wasRemoved = true;
     }
     return wasRemoved;
   }
   /* Code from template association_AddIndexControlFunctions */
-  public boolean addPurchaseAt(Purchase aPurchase, int index)
+  public boolean addSaleAt(Purchase aSale, int index)
   {  
     boolean wasAdded = false;
-    if(addPurchase(aPurchase))
+    if(addSale(aSale))
     {
       if(index < 0 ) { index = 0; }
-      if(index > numberOfPurchases()) { index = numberOfPurchases() - 1; }
-      purchases.remove(aPurchase);
-      purchases.add(index, aPurchase);
+      if(index > numberOfSales()) { index = numberOfSales() - 1; }
+      sales.remove(aSale);
+      sales.add(index, aSale);
       wasAdded = true;
     }
     return wasAdded;
   }
 
-  public boolean addOrMovePurchaseAt(Purchase aPurchase, int index)
+  public boolean addOrMoveSaleAt(Purchase aSale, int index)
   {
     boolean wasAdded = false;
-    if(purchases.contains(aPurchase))
+    if(sales.contains(aSale))
     {
       if(index < 0 ) { index = 0; }
-      if(index > numberOfPurchases()) { index = numberOfPurchases() - 1; }
-      purchases.remove(aPurchase);
-      purchases.add(index, aPurchase);
+      if(index > numberOfSales()) { index = numberOfSales() - 1; }
+      sales.remove(aSale);
+      sales.add(index, aSale);
       wasAdded = true;
     } 
     else 
     {
-      wasAdded = addPurchaseAt(aPurchase, index);
+      wasAdded = addSaleAt(aSale, index);
     }
     return wasAdded;
   }
@@ -198,10 +198,10 @@ public class Farmer extends User
   public void delete()
   {
     farmersByName.remove(getName());
-    for(int i=purchases.size(); i > 0; i--)
+    for(int i=sales.size(); i > 0; i--)
     {
-      Purchase aPurchase = purchases.get(i - 1);
-      aPurchase.delete();
+      Purchase aSale = sales.get(i - 1);
+      aSale.delete();
     }
     super.delete();
   }
