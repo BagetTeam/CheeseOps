@@ -1,0 +1,183 @@
+class Farmer
+{
+  1 farmer -- * Purchase sales;
+  isA User;
+  String postalCode;
+  unique String name;
+}
+
+class Purchase {
+  Date purchaseDate;
+  1 purchase -- 1..* Cheese cheeseWheels;
+}
+
+class FacilityManager
+{
+  isA User;
+  1 manager -> * Company companies;
+}
+
+class Shelf {
+  1 shelf <@>- * ShelfSlot slots;
+  * shelves -- 1 FacilityManager manager;
+  
+  unique String id;
+}
+
+class Cheese
+{
+  int age;
+  int monthsToAge;
+  boolean isSpoiled;
+}
+
+class ShelfSlot
+{
+  0..1 slot -- 1 Cheese cheese;
+  
+  int row;
+  int column;
+}
+
+class Order
+{
+  0..1 Order -- * Cheese orderedCheese;
+  int kind;
+  int numberOfMissingCheese;
+  Date purchaseDate;
+  Date deliveryDate;
+}
+
+class Robot
+{
+  int direction;
+  1 robot -- 1 CheECSEManager application;
+  1 robot -> 1 ShelfSlot desiredSlot;
+}
+
+class RobotActionLog
+{
+  * actionLogs -<@> 1 Robot robot;
+  
+  String severity;
+  String title;
+  String details;
+}
+
+
+
+namespace -;
+
+class Company
+{
+  1 company -- * Order orders;
+  
+  String address;
+  unique String name;
+}
+
+class User
+{
+  unique String email;
+  String password;
+  abstract;
+}
+
+class CheECSEManager
+{
+  1 application -> * User users;
+}
+
+class Farmer
+{
+  position 530 221 149.233 79.3667;
+  position.association User__Farmer 54,0 63,95;
+  position.association CheeseForSale__Farmer 121,77 103,0;
+  position.association Cheese__Farmer 64,77 58,0;
+  position.association Farmer:farmer__Purchase:sales 23,79 0,10;
+}
+
+class FacilityManager
+{
+  position 57 214 127.067 43.3667;
+  position.association FacilityManager__Farmer 127,15 0,10;
+  position.association User__FacilityManager 63,0 0,10;
+  position.association Company__FacilityManager 95,43 0,0;
+  position.association Company:companies__FacilityManager:manager 127,36 0,10;
+}
+
+class Shelf
+{
+  position 59 622 109 61.3667;
+  position.association Shelf__ShelfSlot 109,26 0,10;
+  position.association FacilityManager__Shelf 12,0 53,43;
+  position.association FacilityManager:manager__Shelf:shelves 15,0 21,43;
+}
+
+class Cheese
+{
+  position 535 517 147.117 97.3667;
+  position.association Cheese__CheeseState 50,95 32,0;
+}
+
+class ShelfSlot
+{
+  position 316 626 109 79.3667;
+  position.association ShelfSlot__Shelf 0,26 109,32;
+  position.association Cheese__ShelfSlot 69,0 0,48;
+  position.association Cheese:cheese__ShelfSlot:slot 84,0 0,72;
+}
+
+class Order
+{
+  position 134 417 216.9 115.367;
+  position.association FacilityManager__Order 0,10 127,36;
+    position.association Cheese:orderedCheese__Order:order 217,86 0,10;
+}
+
+class Robot
+{
+  position 726 682 109 61.3667;
+  position.association Facility__Robot 10,0 12,60;
+  position.association Robot__ShelfSlot 22,61 109,35;
+  position.association CheECSEManager__Robot 46,0 85,43;
+  position.association CheeseManager:application__Robot:robot 0,10 39,43;
+  position.association Robot:robot__ShelfSlot:desiredSlot 0,10 109,44;
+}
+
+class RobotActionLog
+{
+  position 517 771 128.333 97.3667;
+  position.association Robot__RobotActionLog 80,0 43,61;
+  position.association Robot:robot__RobotActionLog:actionLogs 0,10 0,54;
+}
+
+namespace -;
+
+
+class Company
+{
+  position 323 245 127.433 79.3667;
+  position.association Company__Order 58,0 57,115;
+  position.association Company:company__Order:orders 36,79 88,0;
+}
+
+class User
+{
+  position 319 59 138.5 96.3667;
+}
+
+class CheECSEManager
+{
+  position 677 26 109 43.3667;
+  position.association CheECSEManager__User 0,23 172,27;
+  position.association CheeseManager:application__User:users 0,10 139,31;
+}//$?[End_of_model]$?
+
+namespace -;
+
+class Purchase
+{
+  position 530 366 158.483 61.3667;
+  position.association Cheese:cheeseWheels__Purchase:purchase 65,61 63,0;
+}
