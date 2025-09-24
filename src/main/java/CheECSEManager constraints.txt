@@ -1,0 +1,133 @@
+// For concepts with autounique keys, the first instance of said concept has a key of 1, the second has a key of 2, and so on.
+// rows and columns are numbered starting from 1
+
+for each User:
+   // unique email already captured by unique keyword in Umple
+
+for each FacilityManager:
+   // email has to be manager@cheecse.fr
+   email = "manager@cheecse.fr"
+
+   // password must be at least four characters long
+   password.length() > 3
+   // password must contain a special character out of !#$
+   password.contains("!") or password.contains("#") or password.contains("$")
+   // password must contain an upper case character
+   there exists a character c in password such that Character.isUpperCase(c) = true
+   // password must contain a lower case character
+   there exists a character c in password such that Character.isLowerCase(c) = true
+
+for each Farmer:
+   // email must not contain any spaces
+   not email.contains(" ")
+
+   // email must contain some characters (anything is allowed except @), a @, some characters, a dot, and some characters
+   // this is a simplified check sufficient for this application
+   email.indexOf("@") > 0 // index starts at zero
+   email.indexOf("@") = email.lastIndexOf("@")
+   email.indexOf("@") < email.lastIndexOf(".") - 1
+   email.lastIndexOf(".") < email.length() - 1
+
+   // email cannot be manager@cheecse.fr
+   email <> "manager@cheecse.fr"
+
+   // password must not be empty or null
+   password <> ""
+   password <> null
+
+   // address must not be empty or null
+   address <> ""
+   address <> null
+
+   // it is possible to delete a farmer only if the farmer has not yet supplied cheese
+
+for each WholesaleCompany:
+   // unique name already captured by unique keyword in Umple
+
+   // name must not be empty or null
+   name <> ""
+   name <> null
+
+   // address must not be empty or null
+   address <> ""
+   address <> null
+
+   // it is possible to delete a wholesale company only if the wholesale company has not yet ordered cheese
+
+for each Shelf:
+   // unique id already captured by unique keyword in Umple
+
+   // the id is three characters long
+   id.length() = 3
+   // the first character of the id is a letter
+   Character.isLetter(id.charAt(0))
+   // the second character and third character of the id are digits
+   Character.isDigit(id.charAt(1))
+   Character.isDigit(id.charAt(2))
+
+   // the attributes nrColumns and nrRows are not in the common domain model
+   // they are used here as they are required input when creating a shelf
+
+   // nrColumns must be greater than zero
+   nrColumns > 0
+
+   // nrRows must be greater than zero and at the most ten
+   nrRows > 0
+   nrRows < 11
+
+   // exactly one ShelfLocation exists for each column/row pair from 1/1 to shelf.nrColumns/shelf.nrRows
+
+   // no other ShelfLocations exist
+   locations.size() = nrColumns * nrRows
+
+   // it is possible to delete a shelf only if no cheese wheels are stored on the shelf
+
+for each ShelfLocation:
+   // unique id already captured by autounique keyword in Umple
+
+   // column and row attributes are set by the application based on nrColumns and nrRows input for shelf
+   // (see constraint for Shelf)
+
+for each CheeseWheel:
+   // unique id already captured by autounique keyword in Umple
+
+   // a spoiled CheeseWheel is not on a shelf
+   isSpoiled implies (location = null)
+ 
+   // a spoiled CheeseWheel is not sold
+   isSpoiled implies (order = null)
+
+   // it is only possible to increase monthsAged
+
+class Transaction:
+   // unique id already captured by autounique keyword in Umple
+
+class Purchase:
+   // the attributes nrCheeseWheels and monthsAged are not in the common domain model
+   // they are used here as they are required input when creating a purchase 
+  
+   // nrCheeseWheels must be greater than zero
+   nrCheeseWheels > 0
+
+   // the number of cheeseWheels is nrCheeseWheels
+   cheeseWheels.size() = nrCheeseWheels
+
+   // all cheeseWheels must mature at monthsAged (only at the time of the purchase)
+   for all c in cheeseWheels it is true that c.monthsAged = monthsAged
+
+class Order:
+   // nrCheeseWheels must be greater than zero
+   nrCheeseWheels > 0
+
+   // the number of cheeseWheels is at the most nrCheeseWheels
+   cheeseWheels.size() <= nrCheeseWheels
+
+   // all cheeseWheels must mature at monthsAged
+   for all c in cheeseWheels it is true that c.monthsAged = monthsAged
+
+   // the delivery date must be after the transaction date
+   transactionDate < deliveryDate
+
+   // the delivery date must be after the maturation dates of all cheeseWheels in the order
+   // monthsAgedInteger is monthsAged converted into an integer
+   for all c in cheeseWheels it is true that c.purchase.transactionDate + monthsAgedInteger <= deliveryDate

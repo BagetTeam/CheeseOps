@@ -1,0 +1,99 @@
+namespace ca.mcgill.ecse.cheecsemanager.model;
+
+class CheECSEManager {
+  1 <@>- 0..1 FacilityManager manager;
+  1 <@>- * Farmer farmers;
+  1 <@>- * Shelf shelves;
+  1 <@>- * CheeseWheel cheeseWheels;
+  1 <@>- * Transaction transactions;
+  1 <@>- * WholesaleCompany companies;
+  1 <@>- 0..1 Robot robot;
+}
+
+class User {
+  abstract;
+  unique immutable email;
+  password;
+}
+
+class FacilityManager {
+  isA User;
+}
+
+class Farmer {
+  depend ca.mcgill.ecse.cheecsemanager.model.CheeseWheel.MaturationPeriod;
+  isA User;
+  lazy name;
+  address;
+  1 -- * Purchase purchases;
+}
+
+class WholesaleCompany {
+  depend ca.mcgill.ecse.cheecsemanager.model.CheeseWheel.MaturationPeriod;
+  unique name;
+  address;
+  1 company -- * Order orders;
+}
+
+class Shelf {
+  unique id;
+  1 <@>- * ShelfLocation locations;
+}
+
+class ShelfLocation {
+  autounique id;
+  Integer column;
+  Integer row;
+
+  public static void resetId() {
+    nextId = 1;
+  }
+}
+
+class CheeseWheel {
+  autounique id;
+  enum MaturationPeriod { Six, Twelve, TwentyFour, ThirtySix }
+  MaturationPeriod monthsAged;
+  Boolean isSpoiled;
+  * cheeseWheels -- 1 Purchase purchase;
+  0..1 cheeseWheel -- 0..1 ShelfLocation location;
+  * cheeseWheels -- 0..1 Order order;
+
+  public static void resetId() {
+    nextId = 1;
+  }
+}
+
+class Transaction {
+  abstract;
+  autounique id;
+  Date transactionDate;
+
+  public static void resetId() {
+    nextId = 1;
+  }
+}
+
+class Purchase {
+  depend ca.mcgill.ecse.cheecsemanager.model.CheeseWheel.MaturationPeriod;
+  isA Transaction;
+}
+
+class Order {
+  depend ca.mcgill.ecse.cheecsemanager.model.CheeseWheel.MaturationPeriod;
+  isA Transaction;
+  Integer nrCheeseWheels;
+  MaturationPeriod monthsAged;
+  Date deliveryDate;
+}
+
+class Robot {
+  Boolean isFacingAisle;
+  0..1 -- 0..1 Shelf currentShelf;
+  0..1 -- 0..1 CheeseWheel currentCheeseWheel;
+  1 <@>- * LogEntry log;
+}
+
+class LogEntry {
+  description;
+}

@@ -1,10 +1,20 @@
-Hello
+# 🧀 ECSE223 CheECSEManager Project: Team N
 
-Welcome to group 2 -Ewen*
+_(Edit this file as needed, then remove this sentence)._
 
-I use neovim (btw) -Ming li
+## Project Overview
 
-i use vscode bc im inferior :( -Ben
+_Provide a one-sentence overview of your project here._
 
-Hi guys, I just joined the group. Nice to meet you :) -Eunjun (Daniel)
+For more information about the CheECSEManager application, please consult the [wiki](../../wiki).
 
+## Team Members
+
+| Name          | GitHub username |
+| ------------- | --------------- |
+| Team Member A | ...             |
+| Team Member B | ...             |
+| Team Member C | ...             |
+| Team Member D | ...             |
+| Team Member E | ...             |
+| Team Member F | ...             |
