@@ -1,0 +1,43 @@
+namespace ca.mcgill.ecse.cheecsemanager.controller;
+
+class TOFarmer {
+  immutable;
+  String email;
+  String password;
+  String name;
+  String address;
+  Integer[] cheeseWheelIDs;
+  Date[] purchaseDates;
+  String[] monthsAgeds;
+  String[] isSpoileds;
+}
+
+class TOWholesaleCompany {
+  String name;
+  String address;
+  Date[] orderDates;
+  String[] monthsAgeds;
+  Integer[] nrCheeseWheelsOrdereds;
+  Integer[] nrCheeseWheelsMissings;
+  Date[] deliveryDates;
+}
+
+class TOShelf {
+  immutable;
+  String shelfID;
+  Integer[] cheeseWheelIDs;
+  Integer[] columnNrs;
+  Integer[] rowNrs;
+  String[] monthsAgeds;
+}
+
+class TOCheeseWheel {
+  Integer id;
+  String monthsAged;
+  Boolean isSpoiled;
+  Date purchaseDate;
+  String shelfID;
+  Integer column; // -1 if cheese wheel is not assigned to shelf
+  Integer row; // -1 if cheese wheel is not assigned to shelf
+  Boolean isOrdered;
+}
