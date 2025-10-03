@@ -5,7 +5,7 @@ package ca.mcgill.ecse.cheecsemanager.controller;
 import java.sql.Date;
 import java.util.*;
 
-// line 16 "../../../../../CheECSEManagerTransferObjects.ump"
+// line 14 "../../../../../CheECSEManagerTransferObjects.ump"
 public class TOWholesaleCompany
 {
 
