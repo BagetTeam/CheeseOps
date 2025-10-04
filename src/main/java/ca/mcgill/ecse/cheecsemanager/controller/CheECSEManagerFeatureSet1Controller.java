@@ -3,8 +3,16 @@ package ca.mcgill.ecse.cheecsemanager.controller;
 import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
 import java.util.List;
 
+/**
+ * @author Ming Li Liu
+ * */
 public class CheECSEManagerFeatureSet1Controller {
 
+  /**
+   * Updates the manager's password.
+   * @param password the new password.
+   * @return the error message. Empty string if there is no error.
+   * */
   public static String updateFacilityManager(String password) {
     if (password.length() < 4) {
       return "Password must be at least 4 characters long.";
@@ -24,6 +32,12 @@ public class CheECSEManagerFeatureSet1Controller {
     return "";
   }
 
+  /**
+   * Get the shelf from shelf Id
+   * @param id shelf Id
+   * @return instance of {@link TOShelf} associated with the shelf Id
+   * @throws if shelf Id doesn't exist
+   * */
   public static TOShelf getShelf(String id) {
     var app = CheECSEManagerApplication.getCheecseManager();
 
@@ -36,7 +50,10 @@ public class CheECSEManagerFeatureSet1Controller {
     throw new IllegalArgumentException("No shelf with id " + id);
   }
 
-  // returns all shelves
+  /**
+   * Get all the shelves in the system
+   * @return list of {@link TOShelf}
+   * */
   public static List<TOShelf> getShelves() {
     var app = CheECSEManagerApplication.getCheecseManager();
 
