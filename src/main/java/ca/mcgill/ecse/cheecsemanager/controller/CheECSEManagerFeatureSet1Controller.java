@@ -5,12 +5,23 @@ import java.util.List;
 
 public class CheECSEManagerFeatureSet1Controller {
 
-  public static String updateFacilityManager(String password) {
+  public static String updateFacilityManagerPassword(String password) {
+
+    if (password.length() < 4) {
+      return "password must be at least four characters long";
+    } else if (!password.matches("[#!$]")) {
+      return "password must contain a special character out of !#$";
+    } else if (!password.matches("[A-Z]")) {
+      return "password must contain an upper case character";
+    } else if (!password.matches("[a-z]")) {
+      return "password must contain a lower case character";
+    }
+
     var app = CheECSEManagerApplication.getCheecseManager();
     var manager = app.getManager();
-    String oldPassword = manager.getPassword();
     manager.setPassword(password);
-    return oldPassword;
+
+    return "";
   }
 
   public static TOShelf getShelf(String id) {
