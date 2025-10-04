@@ -6,15 +6,15 @@ import java.util.List;
 public class CheECSEManagerFeatureSet1Controller {
 
   public static String updateFacilityManagerPassword(String password) {
-
     if (password.length() < 4) {
-      return "password must be at least four characters long";
-    } else if (!password.matches("[#!$]")) {
-      return "password must contain a special character out of !#$";
-    } else if (!password.matches("[A-Z]")) {
-      return "password must contain an upper case character";
-    } else if (!password.matches("[a-z]")) {
-      return "password must contain a lower case character";
+      return "Password must be at least 4 characters long.";
+    } else if (!password.contains("!") && !password.contains("#") &&
+               !password.contains("$")) {
+      return "Password must contain a special character from !, #, or $.";
+    } else if (!password.chars().anyMatch((c) -> (c >= 'A' && c <= 'Z'))) {
+      return "Password must contain an uppercase character.";
+    } else if (!password.chars().anyMatch((c) -> (c >= 'a' && c <= 'z'))) {
+      return "Password must contain a lowercase character.";
     }
 
     var app = CheECSEManagerApplication.getCheecseManager();
