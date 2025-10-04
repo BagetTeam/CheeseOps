@@ -4,7 +4,7 @@
 package ca.mcgill.ecse.cheecsemanager.controller;
 import java.util.*;
 
-// line 26 "../../../../../CheECSEManagerTransferObjects.ump"
+// line 24 "../../../../../CheECSEManagerTransferObjects.ump"
 public class TOShelf
 {
 
@@ -35,6 +35,70 @@ public class TOShelf
   //------------------------
   // INTERFACE
   //------------------------
+
+  public boolean setShelfID(String aShelfID)
+  {
+    boolean wasSet = false;
+    shelfID = aShelfID;
+    wasSet = true;
+    return wasSet;
+  }
+  /* Code from template attribute_SetMany */
+  public boolean addCheeseWheelID(Integer aCheeseWheelID)
+  {
+    boolean wasAdded = false;
+    wasAdded = cheeseWheelIDs.add(aCheeseWheelID);
+    return wasAdded;
+  }
+
+  public boolean removeCheeseWheelID(Integer aCheeseWheelID)
+  {
+    boolean wasRemoved = false;
+    wasRemoved = cheeseWheelIDs.remove(aCheeseWheelID);
+    return wasRemoved;
+  }
+  /* Code from template attribute_SetMany */
+  public boolean addColumnNr(Integer aColumnNr)
+  {
+    boolean wasAdded = false;
+    wasAdded = columnNrs.add(aColumnNr);
+    return wasAdded;
+  }
+
+  public boolean removeColumnNr(Integer aColumnNr)
+  {
+    boolean wasRemoved = false;
+    wasRemoved = columnNrs.remove(aColumnNr);
+    return wasRemoved;
+  }
+  /* Code from template attribute_SetMany */
+  public boolean addRowNr(Integer aRowNr)
+  {
+    boolean wasAdded = false;
+    wasAdded = rowNrs.add(aRowNr);
+    return wasAdded;
+  }
+
+  public boolean removeRowNr(Integer aRowNr)
+  {
+    boolean wasRemoved = false;
+    wasRemoved = rowNrs.remove(aRowNr);
+    return wasRemoved;
+  }
+  /* Code from template attribute_SetMany */
+  public boolean addMonthsAged(String aMonthsAged)
+  {
+    boolean wasAdded = false;
+    wasAdded = monthsAgeds.add(aMonthsAged);
+    return wasAdded;
+  }
+
+  public boolean removeMonthsAged(String aMonthsAged)
+  {
+    boolean wasRemoved = false;
+    wasRemoved = monthsAgeds.remove(aMonthsAged);
+    return wasRemoved;
+  }
 
   public String getShelfID()
   {

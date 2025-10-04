@@ -5,7 +5,7 @@ package ca.mcgill.ecse.cheecsemanager.controller;
 import java.util.*;
 import java.sql.Date;
 
-// line 4 "../../../../../CheECSEManagerTransferObjects.ump"
+// line 3 "../../../../../CheECSEManagerTransferObjects.ump"
 public class TOFarmer
 {
 
@@ -42,6 +42,94 @@ public class TOFarmer
   //------------------------
   // INTERFACE
   //------------------------
+
+  public boolean setEmail(String aEmail)
+  {
+    boolean wasSet = false;
+    email = aEmail;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean setPassword(String aPassword)
+  {
+    boolean wasSet = false;
+    password = aPassword;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean setName(String aName)
+  {
+    boolean wasSet = false;
+    name = aName;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean setAddress(String aAddress)
+  {
+    boolean wasSet = false;
+    address = aAddress;
+    wasSet = true;
+    return wasSet;
+  }
+  /* Code from template attribute_SetMany */
+  public boolean addCheeseWheelID(Integer aCheeseWheelID)
+  {
+    boolean wasAdded = false;
+    wasAdded = cheeseWheelIDs.add(aCheeseWheelID);
+    return wasAdded;
+  }
+
+  public boolean removeCheeseWheelID(Integer aCheeseWheelID)
+  {
+    boolean wasRemoved = false;
+    wasRemoved = cheeseWheelIDs.remove(aCheeseWheelID);
+    return wasRemoved;
+  }
+  /* Code from template attribute_SetMany */
+  public boolean addPurchaseDate(Date aPurchaseDate)
+  {
+    boolean wasAdded = false;
+    wasAdded = purchaseDates.add(aPurchaseDate);
+    return wasAdded;
+  }
+
+  public boolean removePurchaseDate(Date aPurchaseDate)
+  {
+    boolean wasRemoved = false;
+    wasRemoved = purchaseDates.remove(aPurchaseDate);
+    return wasRemoved;
+  }
+  /* Code from template attribute_SetMany */
+  public boolean addMonthsAged(String aMonthsAged)
+  {
+    boolean wasAdded = false;
+    wasAdded = monthsAgeds.add(aMonthsAged);
+    return wasAdded;
+  }
+
+  public boolean removeMonthsAged(String aMonthsAged)
+  {
+    boolean wasRemoved = false;
+    wasRemoved = monthsAgeds.remove(aMonthsAged);
+    return wasRemoved;
+  }
+  /* Code from template attribute_SetMany */
+  public boolean addIsSpoiled(String aIsSpoiled)
+  {
+    boolean wasAdded = false;
+    wasAdded = isSpoileds.add(aIsSpoiled);
+    return wasAdded;
+  }
+
+  public boolean removeIsSpoiled(String aIsSpoiled)
+  {
+    boolean wasRemoved = false;
+    wasRemoved = isSpoileds.remove(aIsSpoiled);
+    return wasRemoved;
+  }
 
   public String getEmail()
   {

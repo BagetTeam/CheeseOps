@@ -1,7 +1,6 @@
 namespace ca.mcgill.ecse.cheecsemanager.controller;
 
 class TOFarmer {
-  immutable;
   String email;
   String password;
   String name;
@@ -23,7 +22,6 @@ class TOWholesaleCompany {
 }
 
 class TOShelf {
-  immutable;
   String shelfID;
   Integer[] cheeseWheelIDs;
   Integer[] columnNrs;
