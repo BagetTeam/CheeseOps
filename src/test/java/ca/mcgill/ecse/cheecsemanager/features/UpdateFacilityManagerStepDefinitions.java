@@ -11,11 +11,17 @@ import io.cucumber.java.en.When;
 import java.util.List;
 import java.util.Map;
 
+/*
+ * @author Ming Li Liu
+ * */
 public class UpdateFacilityManagerStepDefinitions {
   FacilityManager manager;
   String error;
   String initialPassword;
 
+  /*
+   * @author Ming Li Liu
+   * */
   @Given("the following facility manager exists in the system \\(p2)")
   public void the_following_facility_manager_exists_in_the_system_p2(
       List<Map<String, String>> dataTable) {
@@ -35,6 +41,9 @@ public class UpdateFacilityManagerStepDefinitions {
     manager = new FacilityManager(email, password, app);
   }
 
+  /*
+   * @author Ming Li Liu
+   * */
   @When("the facility manager attempts to update the facility manager "
         + "password to {string} \\(p2)")
   public void
@@ -44,13 +53,19 @@ public class UpdateFacilityManagerStepDefinitions {
         updatedPassword);
   }
 
-  // how tf you even get the number of managers in the system???????
+  /*
+   * @author Ming Li Liu
+   * */
   @Then("the number of facility managers in the system shall be {int} \\(p2)")
   public void
   the_number_of_facility_managers_in_the_system_shall_be_p2(Integer int1) {
+    // how tf you even get the number of managers in the system???????
     assertNotNull(manager);
   }
 
+  /*
+   * @author Ming Li Liu
+   * */
   @Then("the facility manager with password {string} shall exist in the "
         + "system \\(p2)")
   public void
@@ -60,6 +75,9 @@ public class UpdateFacilityManagerStepDefinitions {
     assertEquals(updatedPassword, manager.getPassword());
   }
 
+  /*
+   * @author Ming Li Liu
+   * */
   @Then("the error {string} shall be raised \\(p2)")
   public void the_error_shall_be_raised_p2(String expectedError) {
     assertEquals(expectedError, error);
