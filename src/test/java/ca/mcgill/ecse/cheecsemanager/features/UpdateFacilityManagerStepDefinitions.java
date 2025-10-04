@@ -11,7 +11,7 @@ import io.cucumber.java.en.When;
 import java.util.List;
 import java.util.Map;
 
-/*
+/**
  * @author Ming Li Liu
  * */
 public class UpdateFacilityManagerStepDefinitions {
@@ -19,7 +19,7 @@ public class UpdateFacilityManagerStepDefinitions {
   String error;
   String initialPassword;
 
-  /*
+  /**
    * @author Ming Li Liu
    * */
   @Given("the following facility manager exists in the system \\(p2)")
@@ -41,7 +41,7 @@ public class UpdateFacilityManagerStepDefinitions {
     manager = new FacilityManager(email, password, app);
   }
 
-  /*
+  /**
    * @author Ming Li Liu
    * */
   @When("the facility manager attempts to update the facility manager "
@@ -53,7 +53,7 @@ public class UpdateFacilityManagerStepDefinitions {
         updatedPassword);
   }
 
-  /*
+  /**
    * @author Ming Li Liu
    * */
   @Then("the number of facility managers in the system shall be {int} \\(p2)")
@@ -64,7 +64,7 @@ public class UpdateFacilityManagerStepDefinitions {
     assertNotNull(manager);
   }
 
-  /*
+  /**
    * @author Ming Li Liu
    * */
   @Then("the facility manager with password {string} shall exist in the "
@@ -76,7 +76,7 @@ public class UpdateFacilityManagerStepDefinitions {
     assertEquals(updatedPassword, manager.getPassword());
   }
 
-  /*
+  /**
    * @author Ming Li Liu
    * */
   @Then("the error {string} shall be raised \\(p2)")
