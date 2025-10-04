@@ -2,7 +2,6 @@ package ca.mcgill.ecse.cheecsemanager.features;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThrows;
 
 import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
 import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet1Controller;
@@ -14,8 +13,9 @@ import io.cucumber.java.en.When;
 import java.util.Map;
 
 public class UpdateFacilityManagerStepDefinitions {
-  CheECSEManager app;
+  FacilityManager manager;
   String error;
+  String initialPassword;
 
   @Given("the following facility manager exists in the system \\(p2)")
   public void the_following_facility_manager_exists_in_the_system_p2(
@@ -30,9 +30,10 @@ public class UpdateFacilityManagerStepDefinitions {
 
     String email = dataTable.get("email");
     String password = dataTable.get("password");
+    initialPassword = password;
 
-    app = CheECSEManagerApplication.getCheecseManager();
-    new FacilityManager(email, password, app);
+    var app = CheECSEManagerApplication.getCheecseManager();
+    manager = new FacilityManager(email, password, app);
   }
 
   @When("the facility manager attempts to update the facility manager "
@@ -50,7 +51,6 @@ public class UpdateFacilityManagerStepDefinitions {
   public void
   the_number_of_facility_managers_in_the_system_shall_be_p2(Integer int1) {
     // Write code here that turns the phrase above into concrete actions
-    var manager = app.getManager();
     assertNotNull(manager);
   }
 
@@ -60,7 +60,6 @@ public class UpdateFacilityManagerStepDefinitions {
   the_facility_manager_with_password_shall_exist_in_the_system_p2(
       String updatedPassword) {
     // Write code here that turns the phrase above into concrete actions
-    var manager = app.getManager();
     assertEquals(updatedPassword, manager.getPassword());
   }
 
@@ -69,5 +68,8 @@ public class UpdateFacilityManagerStepDefinitions {
     // Write code here that turns the phrase above into concrete actions
     assertNotNull(error);
     assertEquals(error, expectedError);
+
+    String password = manager.getPassword();
+    assertEquals(initialPassword, password);
   }
 }
