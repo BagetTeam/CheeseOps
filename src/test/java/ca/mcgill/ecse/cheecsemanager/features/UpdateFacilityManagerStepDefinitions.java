@@ -49,7 +49,7 @@ public class UpdateFacilityManagerStepDefinitions {
   public void
   the_facility_manager_attempts_to_update_the_facility_manager_password_to_p2(
       String updatedPassword) {
-    error = CheECSEManagerFeatureSet1Controller.updateFacilityManagerPassword(
+    error = CheECSEManagerFeatureSet1Controller.updateFacilityManager(
         updatedPassword);
   }
 

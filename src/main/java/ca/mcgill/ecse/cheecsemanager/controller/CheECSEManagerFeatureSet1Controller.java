@@ -5,7 +5,7 @@ import java.util.List;
 
 public class CheECSEManagerFeatureSet1Controller {
 
-  public static String updateFacilityManagerPassword(String password) {
+  public static String updateFacilityManager(String password) {
     if (password.length() < 4) {
       return "Password must be at least 4 characters long.";
     } else if (!password.contains("!") && !password.contains("#") &&
