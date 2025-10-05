@@ -59,7 +59,7 @@ public class UpdateFacilityManagerStepDefinitions {
   @Then("the number of facility managers in the system shall be {int} \\(p2)")
   public void
   the_number_of_facility_managers_in_the_system_shall_be_p2(Integer int1) {
-    // how tf you even get the number of managers in the system???????
+    // how do you even get the number of managers in the system???????
     var manager = CheECSEManagerApplication.getCheecseManager().getManager();
     assertNotNull(manager);
   }
