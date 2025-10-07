@@ -32,7 +32,7 @@ For more information about the CheECSEManager application, please consult the [w
 | Name          | GitHub username |
 | ------------- | --------------- |
 | Ming Li Liu   | mingli202       |
-| Team Member B | ...             |
+| Olivier Mao   | OlivierMao19    |
 | Team Member C | ...             |
 | Team Member D | ...             |
 | Team Member E | ...             |
