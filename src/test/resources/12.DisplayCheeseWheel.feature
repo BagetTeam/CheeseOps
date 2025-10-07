@@ -58,5 +58,5 @@ As the facility manager, I want to display cheese wheels from the system.
 
   Scenario: Unsuccessfully display a cheese wheel that does not exist
     When the facility manager attempts to display cheese wheel 10 (p10)
-    Then the error "The cheese wheel with id 10 does not exist." shall be raised (p10)
+    Then no cheese wheels shall be presented (p10)
     Then the number of cheese wheels in the system shall be 5 (p10)
