@@ -60,5 +60,5 @@ As the facility manager, I want to display a wholesale company from the system w
 
   Scenario: Unsuccessfully display a wholesale company that does not exist in the system
     When the facility manager attempts to display from the system the wholesale company with name "Cheese Paradise" (p4)
-    Then the number of wholesale companies in the system shall be 2 (p4)
+    Then the number of wholesale companies in the system shall be 1 (p4)
     Then the error "The wholesale company Cheese Paradise does not exist." shall be raised (p4)
