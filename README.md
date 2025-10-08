@@ -33,7 +33,7 @@ For more information about the CheECSEManager application, please consult the [w
 | ------------- | --------------- |
 | Ming Li Liu   | mingli202       |
 | Olivier Mao   | OlivierMao19    |
-| Team Member C | ...             |
+| Eun-Jun Chang | 1313eunjun      |
 | Team Member D | ...             |
 | Team Member E | ...             |
 | Team Member F | ...             |
