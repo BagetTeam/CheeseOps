@@ -37,3 +37,4 @@ For more information about the CheECSEManager application, please consult the [w
 | Team Member D | ...             |
 | Team Member E | ...             |
 | Team Member F | ...             |
+| Team Member G | ...             |
