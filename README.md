@@ -13,6 +13,14 @@
 
 Make sure to have Java 21. The TA uses an old verison of Gradle (8.6) which only Java <=21 supports. If you have a version higher than 21, your LSP will not work and you won't get autocomplete in VSCode/Neovim/Zed/etc.. I haven't tried on Eclipse since I wasn't able to install it, but the Neovim plugin jdtls-nvim that I use is based on the jdtls from Eclipse so chances are it won't work.
 
+## Building the app
+
+Install gradle and run `gradle build`
+
+## Running tests
+
+Install gradle and run `gradle test -t`
+
 ## Project Overview
 
 _Provide a one-sentence overview of your project here._
@@ -24,8 +32,9 @@ For more information about the CheECSEManager application, please consult the [w
 | Name          | GitHub username |
 | ------------- | --------------- |
 | Ming Li Liu   | mingli202       |
-| Team Member B | ...             |
-| Team Member C | ...             |
+| Olivier Mao   | OlivierMao19    |
+| Eun-Jun Chang | 1313eunjun      |
 | Team Member D | ...             |
 | Team Member E | ...             |
 | Team Member F | ...             |
+| Team Member G | ...             |
