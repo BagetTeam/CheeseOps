@@ -7,6 +7,8 @@ import java.util.List;
  * @author Ming Li Liu
  * */
 public class CheECSEManagerFeatureSet1Controller {
+  private static int MAX_ROWS = 10;
+  private static int MAX_COLS = 100; // TODO: update with the actual max columns
 
   /**
    * Updates the manager's password.
@@ -38,12 +40,12 @@ public class CheECSEManagerFeatureSet1Controller {
    * @return instance of {@link TOShelf} associated with the shelf Id
    * @throws if shelf Id doesn't exist
    * */
-  public static TOShelf getShelf(String id) {
+  public static TOShelf getShelf(String id) throws Exception {
     var app = CheECSEManagerApplication.getCheecseManager();
 
     for (var s : app.getShelves()) {
       if (s.getId().equals(id)) {
-        return new TOShelf(s.getId());
+        return new TOShelf(s.getId(), MAX_COLS, MAX_ROWS);
       }
     }
 
@@ -59,7 +61,7 @@ public class CheECSEManagerFeatureSet1Controller {
 
     return app.getShelves()
         .stream()
-        .map(shelf -> new TOShelf(shelf.getId()))
+        .map(shelf -> new TOShelf(shelf.getId(), MAX_COLS, MAX_ROWS))
         .toList();
   }
 }
