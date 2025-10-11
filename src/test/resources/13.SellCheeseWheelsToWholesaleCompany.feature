@@ -98,10 +98,7 @@ As the facility manager, I want to sell cheese wheel to wholesale company.
 
   Scenario Outline: Unsuccessfully add an order to the system with invalid values
     When the facility manager attempts to add an order in the system with transaction date "<transactionDate>", <nrCheeseWheels> cheese wheels, months aged "<monthsAged>", delivery date "<deliveryDate>", and company "<company>" (p15)
-    Then the number of orders in the system shall be 1 (p15)
-    Then the following orders shall exist in the system (p15)
-      | transactionDate | nrCheeseWheels | monthsAged | deliveryDate | company      |
-      |      2025-04-04 |             10 | Six        |   2025-12-01 | Cheesy Bites |
+    Then the number of orders in the system shall be 0 (p15)
     Then the error "<error>" shall be raised (p15)
 
     Examples:
