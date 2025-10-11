@@ -22,11 +22,13 @@ class TOWholesaleCompany {
 }
 
 class TOShelf {
-  String shelfID;
-  Integer[] cheeseWheelIDs;
-  Integer[] columnNrs;
-  Integer[] rowNrs;
-  String[] monthsAgeds;
+ String shelfID;
+ Integer maxColumns;
+ Integer maxRows;
+ Integer[] cheeseWheelIDs;
+ Integer[] columnNrs;
+ Integer[] rowNrs;
+ String[] monthsAgeds;
 }
 
 class TOCheeseWheel {

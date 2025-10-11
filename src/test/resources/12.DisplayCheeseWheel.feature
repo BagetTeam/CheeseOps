@@ -48,15 +48,15 @@ As the facility manager, I want to display cheese wheels from the system.
     When the facility manager attempts to display all cheese wheels (p10)
     Then the number of cheese wheels in the system shall be 5 (p10)
     Then the following cheese wheels shall be presented (p10)
-      | id | monthsAged | isSpoiled | purchaseId | shelfId | column | row | isOrdered |
-      |  1 | Six        | true      |          1 |         |     -1 |  -1 | false     |
-      |  2 | Six        | false     |          1 | A12     |      2 |   1 | true      |
-      |  3 | Six        | false     |          1 | A12     |      1 |   1 | true      |
-      |  4 | Six        | false     |          1 |         |     -1 |  -1 | true      |
-      |  5 | Six        | false     |          1 |         |     -1 |  -1 | true      |
+      | id | monthsAged | isSpoiled | purchaseDate | shelfId | column | row | isOrdered |
+      |  1 | Six        | true      |   2025-04-04 |         |     -1 |  -1 | false     |
+      |  2 | Six        | false     |   2025-04-04 | A12     |      2 |   1 | true      |
+      |  3 | Six        | false     |   2025-04-04 | A12     |      1 |   1 | true      |
+      |  4 | Six        | false     |   2025-04-04 |         |     -1 |  -1 | true      |
+      |  5 | Six        | false     |   2025-04-04 |         |     -1 |  -1 | true      |
     Then the number of cheese wheels in the system shall be 5 (p10)
 
   Scenario: Unsuccessfully display a cheese wheel that does not exist
     When the facility manager attempts to display cheese wheel 10 (p10)
-    Then the error "The cheese wheel with id 10 does not exist." shall be raised (p10)
+    Then no cheese wheels shall be presented (p10)
     Then the number of cheese wheels in the system shall be 5 (p10)

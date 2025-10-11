@@ -14,6 +14,8 @@ public class TOShelf
 
   //TOShelf Attributes
   private String shelfID;
+  private int maxColumns;
+  private int maxRows;
   private List<Integer> cheeseWheelIDs;
   private List<Integer> columnNrs;
   private List<Integer> rowNrs;
@@ -23,9 +25,11 @@ public class TOShelf
   // CONSTRUCTOR
   //------------------------
 
-  public TOShelf(String aShelfID)
+  public TOShelf(String aShelfID, int aMaxColumns, int aMaxRows)
   {
     shelfID = aShelfID;
+    maxColumns = aMaxColumns;
+    maxRows = aMaxRows;
     cheeseWheelIDs = new ArrayList<Integer>();
     columnNrs = new ArrayList<Integer>();
     rowNrs = new ArrayList<Integer>();
@@ -40,6 +44,22 @@ public class TOShelf
   {
     boolean wasSet = false;
     shelfID = aShelfID;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean setMaxColumns(int aMaxColumns)
+  {
+    boolean wasSet = false;
+    maxColumns = aMaxColumns;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean setMaxRows(int aMaxRows)
+  {
+    boolean wasSet = false;
+    maxRows = aMaxRows;
     wasSet = true;
     return wasSet;
   }
@@ -103,6 +123,16 @@ public class TOShelf
   public String getShelfID()
   {
     return shelfID;
+  }
+
+  public int getMaxColumns()
+  {
+    return maxColumns;
+  }
+
+  public int getMaxRows()
+  {
+    return maxRows;
   }
   /* Code from template attribute_GetMany */
   public Integer getCheeseWheelID(int index)
@@ -232,6 +262,8 @@ public class TOShelf
   public String toString()
   {
     return super.toString() + "["+
-            "shelfID" + ":" + getShelfID()+ "]";
+            "shelfID" + ":" + getShelfID()+ "," +
+            "maxColumns" + ":" + getMaxColumns()+ "," +
+            "maxRows" + ":" + getMaxRows()+ "]";
   }
 }

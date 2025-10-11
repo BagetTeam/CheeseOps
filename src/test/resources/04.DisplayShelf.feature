@@ -52,4 +52,4 @@ As the facility manager, I want to display a shelf from the system with all its 
   Scenario: Unsuccessfully display a shelf that does not exist in the system
     When the facility manager attempts to display from the system the shelf with id "C34" (p1)
     Then the number of shelves in the system shall be 2 (p1)
-    Then the error "The shelf C34 does not exist." shall be raised (p1)
+    Then no shelves shall be presented (p1)
