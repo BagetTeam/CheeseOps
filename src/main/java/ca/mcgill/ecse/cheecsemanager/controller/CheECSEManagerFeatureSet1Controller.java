@@ -1,15 +1,13 @@
 package ca.mcgill.ecse.cheecsemanager.controller;
 
 import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
+import ca.mcgill.ecse.cheecsemanager.model.Shelf;
 import java.util.List;
 
 /**
  * @author Ming Li Liu
  * */
 public class CheECSEManagerFeatureSet1Controller {
-  private static int MAX_ROWS = 10;
-  private static int MAX_COLS = 100; // TODO: update with the actual max columns
-
   /**
    * Updates the manager's password.
    * @param password the new password.
@@ -43,9 +41,9 @@ public class CheECSEManagerFeatureSet1Controller {
   public static TOShelf getShelf(String id) throws Exception {
     var app = CheECSEManagerApplication.getCheecseManager();
 
-    for (var s : app.getShelves()) {
-      if (s.getId().equals(id)) {
-        return new TOShelf(s.getId(), MAX_COLS, MAX_ROWS);
+    for (var shelf : app.getShelves()) {
+      if (shelf.getId().equals(id)) {
+        return _toShelf(shelf);
       }
     }
 
@@ -59,9 +57,23 @@ public class CheECSEManagerFeatureSet1Controller {
   public static List<TOShelf> getShelves() {
     var app = CheECSEManagerApplication.getCheecseManager();
 
-    return app.getShelves()
-        .stream()
-        .map(shelf -> new TOShelf(shelf.getId(), MAX_COLS, MAX_ROWS))
-        .toList();
+    return app.getShelves().stream().map(shelf -> _toShelf(shelf)).toList();
+  }
+
+  /**
+   * @param helloworld
+   * */
+  private static TOShelf _toShelf(Shelf shelf) {
+    var locations = shelf.getLocations();
+
+    int maxCols = 0;
+    int maxRows = 10;
+
+    for (var location : locations) {
+      maxCols = Math.max(location.getColumn(), maxCols);
+      maxRows = Math.max(location.getRow(), maxRows);
+    }
+
+    return new TOShelf(shelf.getId(), maxCols, maxRows);
   }
 }
