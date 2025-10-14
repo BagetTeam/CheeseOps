@@ -267,8 +267,7 @@ public class DeleteShelfStepDefinitions {
   public void the_number_of_locations_associated_with_the_shelf_shall_be_p12(String shelfId,
       Integer expectedCount) {
     Shelf shelf = Shelf.getWithId(shelfId);
-    int actualCount = shelf.getLocations().size();
-    assertNotNull(shelf, "Expected shelf with Id given not to be null");
+    int actualCount = (shelf == null) ? 0 : shelf.getLocations().size();
     assertEquals(expectedCount.intValue(), actualCount,
         String.format("Expected %d locations for shelf '%s', but found %d.", expectedCount, shelfId,
             actualCount));
