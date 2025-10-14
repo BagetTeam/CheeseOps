@@ -38,7 +38,7 @@ public class CheECSEManagerFeatureSet1Controller {
    * @return instance of {@link TOShelf} associated with the shelf Id
    * @throws if shelf Id doesn't exist
    * */
-  public static TOShelf getShelf(String id) throws Exception {
+  public static TOShelf getShelf(String id) {
     var app = CheECSEManagerApplication.getCheecseManager();
 
     for (var shelf : app.getShelves()) {
@@ -47,7 +47,7 @@ public class CheECSEManagerFeatureSet1Controller {
       }
     }
 
-    throw new IllegalArgumentException("No shelf with id " + id);
+    return null;
   }
 
   /**
