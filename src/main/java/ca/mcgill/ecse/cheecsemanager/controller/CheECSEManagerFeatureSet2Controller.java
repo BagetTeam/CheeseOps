@@ -40,7 +40,6 @@ public class CheECSEManagerFeatureSet2Controller {
     for(int i=1; i<=nrColumns; i++) {
       for(int j=1; j<=nrRows; j++) {
         ShelfLocation newShelfLocation = new ShelfLocation(i, j, aShelf);
-        aShelf.addLocation(newShelfLocation);
       }
     }
   }
