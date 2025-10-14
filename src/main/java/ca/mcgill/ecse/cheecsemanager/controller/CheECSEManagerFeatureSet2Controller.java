@@ -19,10 +19,57 @@ public class CheECSEManagerFeatureSet2Controller {
    *
    * **/
   public static String addShelf(String id, Integer nrColumns, Integer nrRows) {
+    // check the validity of the id
+    Optional<String> isIdValid = Optional.ofNullable(isIdValid(id));
+    if(isIdValid.isPresent()) {
+      return isIdValid.get();
+    }
+
+    Optional<String> isColRowsValid = Optional.ofNullable(isColRowsValid(nrRows, nrColumns));
+    if(isColRowsValid.isPresent()) {
+      return isColRowsValid.get();
+    }
+
+    Optional<Shelf> existingShelf = Optional.ofNullable(Shelf.getWithId(id));
+
+    if(existingShelf.isPresent()){
+      return String.format("The shelf %s already exists.", id);
+    }
+
     var cheecseManager = CheECSEManagerApplication.getCheecseManager();
+
     Shelf newShelf = new Shelf(id, cheecseManager);
+    newShelf.setId(id);
     addShelfLocations(newShelf, nrColumns, nrRows);
-    return id;
+    return null;
+  }
+
+  private static String isIdValid(String id) {
+    if (id.length() != 3){
+      return "The id must be three characters long.";
+    }
+    if (!Character.isLetter(id.charAt(0))) {
+      return "The first character must be a letter.";
+    }
+    if (!Character.isDigit(id.charAt(1)) || !Character.isDigit(id.charAt(2))) {
+      return "The second and third characters must be digits.";
+    }
+    return null;
+  }
+
+  private static String isColRowsValid(Integer nrRows, Integer nrColumns) {
+    if(nrRows > 10) {
+      return "Number of rows must be at the most ten.";
+    }
+
+    if (nrRows <= 0) {
+      return "Number of rows must be greater than zero.";
+    }
+
+    if (nrColumns <= 0) {
+      return "Number of columns must be greater than zero.";
+    }
+    return null;
   }
 
   /**
@@ -33,10 +80,6 @@ public class CheECSEManagerFeatureSet2Controller {
    *
    * **/
   private static void addShelfLocations(Shelf aShelf, Integer nrColumns, Integer nrRows) {
-    if(nrRows > 10) {
-      throw new IllegalArgumentException("Number of rows must be less than 10");
-    }
-
     for(int i=1; i<=nrColumns; i++) {
       for(int j=1; j<=nrRows; j++) {
         ShelfLocation newShelfLocation = new ShelfLocation(i, j, aShelf);
@@ -54,12 +97,12 @@ public class CheECSEManagerFeatureSet2Controller {
     if(shelfToDelete.isPresent()) {
         if(checkIsEmpty(shelfToDelete.get())){
           shelfToDelete.get().delete(); // this method takes care of deleting all locations as well
-          return id;
+          return null;
       } else {
-          throw new IllegalArgumentException("Shelf with id " + id + " exists but is not empty. Could not delete shelf.");
+          return "Cannot delete a shelf that contains cheese wheels.";
         }
     } else {
-      throw new IllegalArgumentException("Shelf with id " + id + " not found.");
+      return String.format("The shelf %s does not exist.", id);
     }
   }
   /**
