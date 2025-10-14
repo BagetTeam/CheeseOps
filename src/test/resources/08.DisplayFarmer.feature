@@ -47,4 +47,4 @@ As the facility manager, I want to display a farmer from the system with all the
   Scenario: Unsuccessfully display a farmer that does not exist in the system
     When the facility manager attempts to display from the system the farmer with email "farmer@cheecse.ca" (p5)
     Then the number of farmers in the system shall be 2 (p5)
-    Then the error "The farmer with email farmer@cheecse.ca does not exist." shall be raised (p5)
+    Then no farmers shall be presented (p5)
