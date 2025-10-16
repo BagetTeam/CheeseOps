@@ -5,11 +5,14 @@ import ca.mcgill.ecse.cheecsemanager.model.CheeseWheel;
 import ca.mcgill.ecse.cheecsemanager.model.Farmer;
 
 import java.util.List;
-
+/**
+ * @author David Tang
+ * */
 public class CheECSEManagerFeatureSet3Controller {
 
-  public static String registerFarmer(String email, String password, String name, String address) {
 
+  public static String registerFarmer(String email, String password, String name, String address) {
+    // checks for existing farmer
     var app = CheECSEManagerApplication.getCheecseManager();
     for (var farmer : app.getFarmers()) {
       if (email.equals(farmer.getEmail())) {
@@ -17,6 +20,7 @@ public class CheECSEManagerFeatureSet3Controller {
       }
     }
 
+    //ensures that all the error messages shown in the feature file for register farmer are thrown
     if (!email.contains("@")) return "Email must contain @ symbol.";
     int atLocation = email.indexOf("@");
     if (atLocation-1 <=0 ) return "Email must have characters before @.";
@@ -27,10 +31,12 @@ public class CheECSEManagerFeatureSet3Controller {
     else if (password==null || password.isBlank()) return "Password must not be empty.";
     else if (address==null || address.isBlank()) return "Address must not be empty.";
 
+    // if no issues with registration, create a new farmer and add it to the farmer List in the application
     Farmer farmer = new Farmer(email, password, address, app.getManager().getCheECSEManager());
     farmer.setName(name);
     app.addFarmer(farmer);
 
+    //return no error message
     return "";
   }
 
@@ -75,7 +81,7 @@ public class CheECSEManagerFeatureSet3Controller {
   public static TOCheeseWheel getCheeseWheel(Integer cheeseWheelID) {
     var app = CheECSEManagerApplication.getCheecseManager();
     for (var cheeseWheel : app.getCheeseWheels()) {
-
+      // if the ID can be found in the List of cheeseWheels, then create a TOCheeseWheel instance with its constructor.
       if (cheeseWheelID.equals(cheeseWheel.getId())) {
         /* use this if location can be null to avoid exceptions
           var location = cheeseWheel.getLocation();
@@ -96,6 +102,7 @@ public class CheECSEManagerFeatureSet3Controller {
   public static List<TOCheeseWheel> getCheeseWheels() {
     var app = CheECSEManagerApplication.getCheecseManager();
 
+    // returns a List of TOCheeseWheels created from the CheeseWheel List stored in the application.
     return app.getCheeseWheels()
             .stream()
             .map(cheeseWheel -> new TOCheeseWheel(cheeseWheel.getId(), cheeseWheel.getMonthsAged().name(), cheeseWheel.isIsSpoiled(), cheeseWheel.getPurchase().getTransactionDate(), cheeseWheel.getLocation().getShelf().getId(), cheeseWheel.getLocation().getColumn(), cheeseWheel.getLocation().getRow(), cheeseWheel.hasOrder()))
