@@ -16,10 +16,9 @@ public class CheECSEManagerFeatureSet7Controller {
   public static TOFarmer getFarmer(String email) {
     throw new UnsupportedOperationException("Implement me!");
   }
-
+  
   // returns all farmers
   public static List<TOFarmer> getFarmers() {
     throw new UnsupportedOperationException("Implement me!");
   }
-
 }
