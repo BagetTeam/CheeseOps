@@ -16,18 +16,27 @@ import ca.mcgill.ecse.cheecsemanager.model.WholesaleCompany;
  * @author Olivier Mao
  * */
 public class CheECSEManagerFeatureSet5Controller {
-
+  
+  private static int monthsToInt(MaturationPeriod period) {
+      return switch (period) {
+          case Six -> 6;
+          case Twelve -> 12;
+          case TwentyFour -> 24;
+          case ThirtySix -> 36;
+          default -> 0;
+      };
+}
   public static String sellCheeseWheels(String nameCompany, Date orderDate, Integer nrCheeseWheels,
       String monthsAged, Date deliveryDate) {
     var app = CheECSEManagerApplication.getCheecseManager();
     
     // nrCheeseWheels > 0
     if (nrCheeseWheels == null || nrCheeseWheels <= 0) {
-      return "Number of cheese wheels must be greater than zero";
+      return "nrCheeseWheels must be greater than zero.";
     } else if (deliveryDate == null) {
       return "Delivery date cannot be null";
-    } else if ( orderDate != null && !deliveryDate.after(orderDate)) { // transactionDate < deliveryDate
-      return "Delivery date must be after transaction date";
+    } else if ( orderDate != null && deliveryDate.before(orderDate)) { // delivery date after transaction date
+      return "The delivery date must be after the transaction date.";
     } 
 
     // Find wholesale company
@@ -40,7 +49,7 @@ public class CheECSEManagerFeatureSet5Controller {
     }
 
     if (company == null) {
-      return "Wholesale company not found";
+      return "The wholesale company " + nameCompany + " does not exist.";
     }
 
     // convert string monthsAged to MaturationPeriod enum
@@ -59,41 +68,37 @@ public class CheECSEManagerFeatureSet5Controller {
         maturationPeriod = MaturationPeriod.ThirtySix;
         break;
       default:
-        return "Invalid months aged value";
+        return "The monthsAged must be Six, Twelve, TwentyFour, or ThirtySix.";
     }
     // Find cheese wheels that match monthsAged and maturation constraints
     List<CheeseWheel> availableWheels = new ArrayList<>();
     for (CheeseWheel wheel : app.getCheeseWheels()) {
       // all cheeseWheels must mature at monthsAged
-      if (wheel.getMonthsAged().equals(maturationPeriod) && !wheel.getIsSpoiled() && wheel.getLocation() != null && wheel.getOrder() == null) {
+      if (wheel.getMonthsAged().equals(maturationPeriod) && !wheel.getIsSpoiled() && wheel.getOrder() == null) {
         
         // delivery date must be after maturation date
         Purchase purchase = wheel.getPurchase();
-        if (purchase != null) {
-          Calendar calendar = Calendar.getInstance();
-          calendar.setTime(purchase.getTransactionDate());
-          int monthsInt = 0;
-          switch (maturationPeriod) {
-            case Six: monthsInt = 6; break;
-            case Twelve: monthsInt = 12; break;
-            case TwentyFour: monthsInt = 24; break;
-            case ThirtySix: monthsInt = 36; break;
-          }
-           calendar.add(Calendar.MONTH, monthsInt);
-          Date maturationDate = new Date(calendar.getTimeInMillis());
 
-          // check if delivery date is on or after maturation date
-          if (deliveryDate.after(maturationDate) || deliveryDate.equals(maturationDate)) {
-            availableWheels.add(wheel);
-          }
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(purchase.getTransactionDate());
+      
+          calendar.add(Calendar.MONTH, monthsToInt(maturationPeriod));
+        Date maturationDate = new Date(calendar.getTimeInMillis());
+
+        // check if delivery date is on or after maturation date
+        if (deliveryDate.after(maturationDate) || deliveryDate.equals(maturationDate)) {
+          availableWheels.add(wheel);
         }
+        
       }
     }
     
     try {
-      // create order
+      // create order and add to transactions
       Order order = new Order(orderDate, app, nrCheeseWheels, maturationPeriod, deliveryDate, company);
-      
+
+      app.addTransaction(order);
+
       // assign cheese wheels
       int wheelsAssigned = 0;
       for (CheeseWheel wheel : availableWheels) {
@@ -103,13 +108,8 @@ public class CheECSEManagerFeatureSet5Controller {
           wheelsAssigned++;
         }
       }
-      
-      if (wheelsAssigned < nrCheeseWheels) {
-      int missing = nrCheeseWheels - wheelsAssigned;
-        return "Order created with " + wheelsAssigned + " cheese wheels. " + missing + " wheels missing due to insufficient aged inventory or maturation constraints.";
-      } else {
-        return "Order successfully created with " + wheelsAssigned + " cheese wheels aged " + monthsAged + " months.";
-      }
+
+      return "";
   
     } catch (Exception e) {
       return e.getMessage();
@@ -122,11 +122,16 @@ public class CheECSEManagerFeatureSet5Controller {
 
     // Constraint: name <> "" and name <> null
     if (name == null || name.equals("")) {
-      return "Name cannot be empty or null";
+      return "Name must not be empty.";
     } else if  (address == null || address.equals("")) {
-      return "Address cannot be empty or null";
+      return "Address must not be empty.";
     }
 
+    for (WholesaleCompany wc : app.getCompanies()) {
+        if (wc.getName().equals(name)) {
+            return "The wholesale company already exists.";
+        }
+    }
     try {
       new WholesaleCompany(name, address, app);
       return "";
@@ -139,10 +144,10 @@ public class CheECSEManagerFeatureSet5Controller {
     var app = CheECSEManagerApplication.getCheecseManager();
 
     // Constraint: newName <> "" and newName <> null
-    if (newName == null || newName.equals("")) {
-      return "New name cannot be empty or null";
-    } else if  (newAddress == null || newAddress.equals("")) {
-      return "New address cannot be empty or null";
+    if (newName == null || newName.trim().isEmpty()) {
+      return "The name must not be empty.";
+    } else if  (newAddress == null || newAddress.trim().isEmpty()) {
+      return "The address must not be empty.";
     }
         
     WholesaleCompany company = null;
@@ -154,7 +159,13 @@ public class CheECSEManagerFeatureSet5Controller {
     }
         
     if (company == null) {
-      return "Company not found";
+      return "The wholesale company " + name + " does not exist.";
+    }
+
+    for (WholesaleCompany wc : app.getCompanies()) {
+        if (wc.getName().equals(newName) && wc != company) {
+            return "The wholesale company " + newName + " already exists.";
+        }
     }
 
     try {
