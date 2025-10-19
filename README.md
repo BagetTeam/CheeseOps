@@ -29,12 +29,12 @@ For more information about the CheECSEManager application, please consult the [w
 
 ## Team Members
 
-| Name          | GitHub username |
-| ------------- | --------------- |
-| Ming Li Liu   | mingli202       |
-| Olivier Mao   | OlivierMao19    |
-| Eun-Jun Chang | 1313eunjun      |
-| Team Member D | ...             |
-| Team Member E | ...             |
-| Team Member F | ...             |
-| Team Member G | ...             |
+| Name                    | GitHub username |
+| ----------------------- | --------------- |
+| Ming Li Liu             | mingli202       |
+| Olivier Mao             | OlivierMao19    |
+| Eun-Jun Chang           | 1313eunjun      |
+| Benjamin Curis-Friedman | Benjamincf0     |
+| Team Member E           | ...             |
+| Team Member F           | ...             |
+| Team Member G           | ...             |
