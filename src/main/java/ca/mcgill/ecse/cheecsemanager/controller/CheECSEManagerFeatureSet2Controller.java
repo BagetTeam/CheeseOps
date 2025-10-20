@@ -20,14 +20,14 @@ public class CheECSEManagerFeatureSet2Controller {
    * **/
   public static String addShelf(String id, Integer nrColumns, Integer nrRows) {
     // check the validity of the id
-    Optional<String> isIdValid = Optional.ofNullable(isIdValid(id));
-    if(isIdValid.isPresent()) {
-      return isIdValid.get();
+    Optional<String> errorMessageWithId = Optional.ofNullable(checkErrorMessageWithId(id));
+    if(errorMessageWithId.isPresent()) {
+      return errorMessageWithId.get();
     }
 
-    Optional<String> isColRowsValid = Optional.ofNullable(isColRowsValid(nrRows, nrColumns));
-    if(isColRowsValid.isPresent()) {
-      return isColRowsValid.get();
+    Optional<String> colsRowsErrorMessage = Optional.ofNullable(checkErrorMessageWithRowsCols(nrRows, nrColumns));
+    if(colsRowsErrorMessage.isPresent()) {
+      return colsRowsErrorMessage.get();
     }
 
     Optional<Shelf> existingShelf = Optional.ofNullable(Shelf.getWithId(id));
@@ -39,12 +39,11 @@ public class CheECSEManagerFeatureSet2Controller {
     var cheecseManager = CheECSEManagerApplication.getCheecseManager();
 
     Shelf newShelf = new Shelf(id, cheecseManager);
-    newShelf.setId(id);
     addShelfLocations(newShelf, nrColumns, nrRows);
     return null;
   }
 
-  private static String isIdValid(String id) {
+  private static String checkErrorMessageWithId(String id) {
     if (id.length() != 3){
       return "The id must be three characters long.";
     }
@@ -57,7 +56,7 @@ public class CheECSEManagerFeatureSet2Controller {
     return null;
   }
 
-  private static String isColRowsValid(Integer nrRows, Integer nrColumns) {
+  private static String checkErrorMessageWithRowsCols(Integer nrRows, Integer nrColumns) {
     if(nrRows > 10) {
       return "Number of rows must be at the most ten.";
     }
