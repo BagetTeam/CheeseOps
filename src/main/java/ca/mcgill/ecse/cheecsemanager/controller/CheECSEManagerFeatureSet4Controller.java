@@ -30,10 +30,10 @@ public class CheECSEManagerFeatureSet4Controller {
 			return "Purchase date cannot be empty.";
 		}
 		if(nrCheeseWheels == null || nrCheeseWheels <= 0) {
-			return "Number of cheese wheels must be positive.";
+			return "nrCheeseWheels must be greater than zero.";
 		}
 		if(monthsAged == null || monthsAged.trim().isEmpty()) {
-			return "Maturation period must be specified.";
+			return "The monthsAged must be Six, Twelve, TwentyFour, or ThirtySix.";
 		}
 		
 		//Find the farmer by email
@@ -45,18 +45,20 @@ public class CheECSEManagerFeatureSet4Controller {
 			}
 		}
 		if(farmer == null){
-			return "Farmer with email " + emailFarmer + " not found.";
+			return "The farmer with email " + emailFarmer + " does not exist.";
 		}
 
 		try {
+			CheeseWheel.MaturationPeriod period;
+			try {
+				period = CheeseWheel.MaturationPeriod.valueOf(monthsAged);
+			}catch (IllegalArgumentException e) {
+				return "The monthsAged must be Six, Twelve, TwentyFour, or ThirtySix.";
+			}
 			var purchase = new Purchase(purchaseDate, manager, farmer);							//Create purchase
+			
 			for (int i = 0; i < nrCheeseWheels; i++) {											//Add cheese wheels to purchase
-				try {
-					var period = CheeseWheel.MaturationPeriod.valueOf(monthsAged);				//Invalid maturation period
-					purchase.addCheeseWheel(period, false, manager);
-				}catch (IllegalArgumentException e) {
-					return "Invalid maturation period: " + monthsAged;
-				}
+				purchase.addCheeseWheel(period, false, manager);
 			}
 		}catch (Exception e) {
 			return "Error while purchasing: " + e.getMessage();
@@ -96,7 +98,10 @@ public class CheECSEManagerFeatureSet4Controller {
 			}
 		}
 		if(cheese == null) {
-			return "Cheese wheel with ID " + cheeseWheelID + " not found.";
+			return "The cheese wheel with id " + cheeseWheelID + " does not exist.";
+		}
+		if(cheese.isIsSpoiled()) {
+			return "Cannot place a spoiled cheese wheel on a shelf.";
 		}
 		
 		//Find shelf
@@ -111,23 +116,30 @@ public class CheECSEManagerFeatureSet4Controller {
 			return "Shelf with ID " + shelfID + " not found.";
 		}
 		
+		//Finding shelf location
+		ShelfLocation Location = null;
+		for(ShelfLocation l : shelf.getLocations()) {
+			if(l.getColumn() == columnNr && l.getRow() == rowNr) {
+				Location = l;
+				break;
+			}
+		}
+		if(Location == null) {
+			return "The shelf location does not exist.";
+		}
+		if(Location.hasCheeseWheel()) {
+			return "The shelf location is already occupied.";
+		}
+		
 		//Check if cheese is already assigned
-		if(cheese.hasLocation()) {
-			return "Cheese wheel is already assigned to a shelf.";
+		if(cheese.getLocation() != null) {
+			ShelfLocation oldLocation = cheese.getLocation();
+			oldLocation.setCheeseWheel(null);
+			cheese.setLocation(null);
 		}
 		
-		//Create shelf location and link cheese
-		ShelfLocation newLocation = new ShelfLocation(columnNr, rowNr, shelf);
-		boolean linked = newLocation.setCheeseWheel(cheese);
-		if(!linked) {
-			return "Failed to assign cheese wheel to shelf location.";
-		}
-		
-		//Add location to shelf
-		boolean added = shelf.addLocation(newLocation);
-		if(!added) {
-			return "Failed to add location to shelf.";
-		}
+		Location.setCheeseWheel(cheese);
+		cheese.setLocation(Location);
 		
 		return "";
 	}
@@ -154,13 +166,13 @@ public class CheECSEManagerFeatureSet4Controller {
 			}
 		}
 		if(cheese == null) {
-			return "Cheese wheel with ID " + cheeseWheelID + " not found.";
+			return "The cheese wheel with id " + cheeseWheelID + " does not exist.";
 		}
 		
 		//Get location
 		ShelfLocation location = cheese.getLocation();
 		if(location == null) {
-			return "This cheese wheel is not currently assigned to a shelf.";
+			return "The cheese wheel is not on any shelf.";
 		}
 		
 		//Remove cheese link from shelf location
