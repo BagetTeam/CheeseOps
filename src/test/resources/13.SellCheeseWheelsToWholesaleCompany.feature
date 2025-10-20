@@ -107,4 +107,4 @@ As the facility manager, I want to sell cheese wheel to wholesale company.
       |      2025-11-01 |             -5 | Six        |   2026-05-01 | Cheesy Bites    | nrCheeseWheels must be greater than zero.                     |
       |      2025-11-01 |             22 | Invalid    |   2026-11-01 | Cheesy Bites    | The monthsAged must be Six, Twelve, TwentyFour, or ThirtySix. |
       |      2025-11-01 |             22 | Twelve     |   2026-11-01 | Dairy Something | The wholesale company Dairy Something does not exist.         |
-      |      2025-11-01 |             22 | Twelve     |   2025-10-01 | Cheesy Bites    | The delivery date must be after the transaction date.         |
+      |      2025-11-01 |             22 | Twelve     |   2025-10-01 | Cheesy Bites    | The delivery date must be on or after the transaction date.   |
