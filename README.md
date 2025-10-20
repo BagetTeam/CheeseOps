@@ -35,6 +35,6 @@ For more information about the CheECSEManager application, please consult the [w
 | Olivier Mao             | OlivierMao19    |
 | Eun-Jun Chang           | 1313eunjun      |
 | Benjamin Curis-Friedman | Benjamincf0     |
-| Team Member E           | ...             |
+| Ewen Gueguen            | BagetTeam       |
 | Team Member F           | ...             |
 | Team Member G           | ...             |
