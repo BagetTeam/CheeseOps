@@ -1,6 +1,7 @@
 package ca.mcgill.ecse.cheecsemanager.controller;
 
 import java.util.List;
+import java.util.stream.Stream;
 import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
 import ca.mcgill.ecse.cheecsemanager.model.Farmer;
 
@@ -34,6 +35,8 @@ public class CheECSEManagerFeatureSet7Controller {
   public static List<TOFarmer> getFarmers() {
     var app = CheECSEManagerApplication.getCheecseManager();
     List<Farmer> farmers = app.getFarmers();
-    throw new UnsupportedOperationException("Implement me!");
+    List<TOFarmer> toFarmers = farmers.stream().map(farmer -> new TOFarmer(farmer.getEmail(), farmer.getPassword(), farmer.getName(), farmer.getAddress())).toList();
+    
+    return toFarmers;
   }
 }
