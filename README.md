@@ -30,10 +30,11 @@ For more information about the CheECSEManager application, please consult the [w
 ## Team Members
 
 | Name                    | GitHub username |
-| ----------------------- | --------------- |
+|-------------------------|-----------------|
 | Ming Li Liu             | mingli202       |
 | Olivier Mao             | OlivierMao19    |
 | Eun-Jun Chang           | 1313eunjun      |
+| Ayush Patel             | 4yushP4tel      |
 | Benjamin Curis-Friedman | Benjamincf0     |
 | Ewen Gueguen            | BagetTeam       |
 | Team Member F           | ...             |
