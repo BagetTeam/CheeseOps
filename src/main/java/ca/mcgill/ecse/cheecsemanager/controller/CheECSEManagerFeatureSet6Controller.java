@@ -26,16 +26,13 @@ public class CheECSEManagerFeatureSet6Controller {
 
   public static TOWholesaleCompany getWholesaleCompany(String name) {
     // throw new UnsupportedOperationException("Implement me!");
-    var app = CheECSEManagerApplication.getCheecseManager();
-    var companies = app.getCompanies();
+    WholesaleCompany company = WholesaleCompany.getWithName(name);
 
-    for (WholesaleCompany company: companies) {
-      if (company.getName().equals(name)) {
-        return _toCompany(company);
-      }
+    if (company == null) {
+      return null;
     }
 
-    return null;
+    return _toCompany(company);
   }
 
   // returns all wholesale companies
