@@ -304,7 +304,12 @@ public class SellCheeseWheelsToWholesaleCompanyStepDefinitions {
 
 
     // Count cheese wheels in the order that came from the target purchase
-    int actualCount = targetOrder.numberOfCheeseWheels();
+    int actualCount = 0;
+    for (CheeseWheel cw : targetOrder.getCheeseWheels()) {
+      if (cw.getPurchase() != null && cw.getPurchase().getId() == purchaseId) {
+        actualCount++;
+      }
+    }
     // Compare expected vs actual
     assertEquals(expectedCount.intValue(), actualCount,
         "Unexpected number of cheese wheels from purchase " + purchaseId + " in order " + orderId
