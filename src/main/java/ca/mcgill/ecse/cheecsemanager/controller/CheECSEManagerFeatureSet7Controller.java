@@ -9,10 +9,10 @@ public class CheECSEManagerFeatureSet7Controller {
 
   public static String updateFarmer(String email, String newPassword, String newName,String newAddress) {
     if (newPassword.isEmpty()) {
-      throw new IllegalArgumentException("Password must not be empty.");
+      return "Password must not be empty.";
     }
     if (newAddress.isEmpty()) {
-      throw new IllegalArgumentException("Address must not be empty.");
+      return "Address must not be empty.";
     }
     
     var app = CheECSEManagerApplication.getCheecseManager();
@@ -25,29 +25,27 @@ public class CheECSEManagerFeatureSet7Controller {
         return "";
       }
     }
-    throw new IllegalArgumentException("The farmer with email " + email + " does not exist.");
+    return "The farmer with email " + email + " does not exist.";
   }
 
   public static String deleteFarmer(String email) {
     var app = CheECSEManagerApplication.getCheecseManager();
     List<Farmer> farmers = app.getFarmers();
-    boolean isRemoved = false;
     for (Farmer farmer : farmers) {
       if (email.equals(farmer.getEmail())) {
         List<Purchase> purchases = farmer.getPurchases();
 
         for (Purchase purchase : purchases) {
           if (purchase.hasCheeseWheels()) {
-            throw new IllegalArgumentException("Cannot delete farmer who has supplied cheese.");
+            return "Cannot delete farmer who has supplied cheese.";
           }
         }
-        isRemoved = app.removeFarmer(farmer);
+
+        farmer.delete();
+        return "";
       }
     }
-    if (!isRemoved) {
-      throw new IllegalArgumentException("The farmer with email " + email +" does not exist.");
-    }
-    return "";
+    return "The farmer with email " + email +" does not exist.";
   }
 
   public static TOFarmer getFarmer(String email) {
@@ -58,8 +56,7 @@ public class CheECSEManagerFeatureSet7Controller {
         return new TOFarmer(farmer.getEmail(), farmer.getPassword(), farmer.getName(), farmer.getAddress());
       }
     }
-
-    throw new IllegalArgumentException("No farmer with email " + email + " found");
+    return null;
   }
   
   // returns all farmers
