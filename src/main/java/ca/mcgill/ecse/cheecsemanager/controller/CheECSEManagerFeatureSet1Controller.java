@@ -59,9 +59,11 @@ public class CheECSEManagerFeatureSet1Controller {
   }
 
   /**
-   * @param helloworld
+   * helper function
    * */
   private static TOShelf _toShelf(Shelf shelf) {
+    var toShelf = new TOShelf(shelf.getId(), 0, 0);
+
     var locations = shelf.getLocations();
 
     int maxCols = 0;
@@ -70,8 +72,19 @@ public class CheECSEManagerFeatureSet1Controller {
     for (var location : locations) {
       maxCols = Math.max(location.getColumn(), maxCols);
       maxRows = Math.max(location.getRow(), maxRows);
+
+      var cw = location.getCheeseWheel();
+      if (cw != null) {
+        toShelf.addCheeseWheelID(cw.getId());
+        toShelf.addColumnNr(location.getColumn());
+        toShelf.addRowNr(location.getRow());
+        toShelf.addMonthsAged(cw.getMonthsAged().toString());
+      }
     }
 
-    return new TOShelf(shelf.getId(), maxCols, maxRows);
+    toShelf.setMaxColumns(maxCols);
+    toShelf.setMaxRows(maxRows);
+
+    return toShelf;
   }
 }
