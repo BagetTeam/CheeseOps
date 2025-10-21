@@ -23,7 +23,7 @@ Install gradle and run `gradle test -t`
 
 ## Project Overview
 
-_Provide a one-sentence overview of your project here._
+CheecseManager is an innovative application that allows businesses to effectively manage the flow of local cheese products from the production line all the way to the clients!
 
 For more information about the CheECSEManager application, please consult the [wiki](../../wiki). there is nothing
 
