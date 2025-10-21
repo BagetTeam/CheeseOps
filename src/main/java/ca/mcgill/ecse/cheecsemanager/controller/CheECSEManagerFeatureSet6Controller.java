@@ -41,7 +41,7 @@ public class CheECSEManagerFeatureSet6Controller {
     var companies = app.getCompanies();
     List<TOWholesaleCompany> retCompanies = new ArrayList<>();
 
-    for (var company: companies) {
+    for (var company : companies) {
       var toCompany = _toCompany(company);
       retCompanies.add(toCompany);
     }
@@ -57,10 +57,10 @@ public class CheECSEManagerFeatureSet6Controller {
       ret.addOrderDate(order.getTransactionDate());
       ret.addMonthsAged(order.getMonthsAged().toString());
       ret.addNrCheeseWheelsOrdered(order.getNrCheeseWheels());
-      ret.addNrCheeseWheelsMissing(order.getNrCheeseWheels() - order.getCheeseWheels().size());
+      ret.addNrCheeseWheelsMissing(order.getNrCheeseWheels() -
+                                   order.getCheeseWheels().size());
       ret.addDeliveryDate(order.getDeliveryDate());
     }
     return ret;
   }
-
 }
