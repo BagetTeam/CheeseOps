@@ -39,8 +39,7 @@ public class CheECSEManagerFeatureSet3Controller {
 
     // if no issues with registration, create a new farmer and add it to the
     // farmer List in the application
-    Farmer farmer = new Farmer(email, password, address,
-                               app.getManager().getCheECSEManager());
+    Farmer farmer = new Farmer(email, password, address, app);
     farmer.setName(name);
     app.addFarmer(farmer);
 
