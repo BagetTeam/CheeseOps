@@ -65,7 +65,7 @@ public class CheECSEManagerFeatureSet1Controller {
     var locations = shelf.getLocations();
 
     int maxCols = 0;
-    int maxRows = 10;
+    int maxRows = 0;
 
     for (var location : locations) {
       maxCols = Math.max(location.getColumn(), maxCols);
