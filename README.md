@@ -37,5 +37,5 @@ For more information about the CheECSEManager application, please consult the [w
 | Ayush Patel             | 4yushP4tel      |
 | Benjamin Curis-Friedman | Benjamincf0     |
 | Ewen Gueguen            | BagetTeam       |
-| Team Member F           | ...             |
+| David Tang              | Tangdavid1      |
 | Team Member G           | ...             |
