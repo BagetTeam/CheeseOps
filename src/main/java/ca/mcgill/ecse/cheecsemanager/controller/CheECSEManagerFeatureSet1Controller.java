@@ -39,15 +39,13 @@ public class CheECSEManagerFeatureSet1Controller {
    * @throws if shelf Id doesn't exist
    * */
   public static TOShelf getShelf(String id) {
-    var app = CheECSEManagerApplication.getCheecseManager();
+    var shelf = Shelf.getWithId(id);
 
-    for (var shelf : app.getShelves()) {
-      if (shelf.getId().equals(id)) {
-        return _toShelf(shelf);
-      }
+    if (shelf == null) {
+      return null;
     }
 
-    return null;
+    return _toShelf(shelf);
   }
 
   /**
@@ -67,7 +65,7 @@ public class CheECSEManagerFeatureSet1Controller {
     var locations = shelf.getLocations();
 
     int maxCols = 0;
-    int maxRows = 10;
+    int maxRows = 0;
 
     for (var location : locations) {
       maxCols = Math.max(location.getColumn(), maxCols);
