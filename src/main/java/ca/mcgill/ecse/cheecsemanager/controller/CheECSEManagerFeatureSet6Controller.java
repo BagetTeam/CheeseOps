@@ -27,6 +27,7 @@ public class CheECSEManagerFeatureSet6Controller {
       return "Cannot delete a wholesale company that has ordered cheese.";
     }
 
+    // If no orders are associated, delete the company
     company.delete();
     return "";
   }
@@ -44,6 +45,7 @@ public class CheECSEManagerFeatureSet6Controller {
       return null;
     }
 
+    // Convert the found company to a transfer object
     return _toCompany(company);
   }
 
@@ -57,6 +59,7 @@ public class CheECSEManagerFeatureSet6Controller {
     var companies = app.getCompanies();
     List<TOWholesaleCompany> retCompanies = new ArrayList<>();
 
+    // Iterate through all companies and convert them to transfer objects
     for (var company: companies) {
       var toCompany = _toCompany(company);
       retCompanies.add(toCompany);
@@ -71,16 +74,20 @@ public class CheECSEManagerFeatureSet6Controller {
    * @return instance of {@link WholesaleCompany}
    * */
   private static TOWholesaleCompany _toCompany(WholesaleCompany company) {
+    // Create a new transfer object with company details
     var ret = new TOWholesaleCompany(company.getName(), company.getAddress());
     var orders = company.getOrders();
 
+    // Populate the transfer object with order information
     for (var order : orders) {
       ret.addOrderDate(order.getTransactionDate());
       ret.addMonthsAged(order.getMonthsAged().toString());
       ret.addNrCheeseWheelsOrdered(order.getNrCheeseWheels());
+      // Calculate the number of missing cheese wheels for the order
       ret.addNrCheeseWheelsMissing(order.getNrCheeseWheels() - order.getCheeseWheels().size());
       ret.addDeliveryDate(order.getDeliveryDate());
     }
+    // Return the fully populated transfer object
     return ret;
   }
 
