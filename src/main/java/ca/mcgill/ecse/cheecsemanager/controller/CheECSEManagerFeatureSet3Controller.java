@@ -1,6 +1,7 @@
 package ca.mcgill.ecse.cheecsemanager.controller;
 
 import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
+import ca.mcgill.ecse.cheecsemanager.model.CheECSEManager;
 import ca.mcgill.ecse.cheecsemanager.model.CheeseWheel;
 import ca.mcgill.ecse.cheecsemanager.model.Farmer;
 import java.util.List;
@@ -8,10 +9,12 @@ import java.util.List;
  * @author David Tang
  * */
 public class CheECSEManagerFeatureSet3Controller {
+  private static CheECSEManager app =
+      CheECSEManagerApplication.getCheecseManager();
+
   public static String registerFarmer(String email, String password,
                                       String name, String address) {
     // checks for existing farmer
-    var app = CheECSEManagerApplication.getCheecseManager();
     if (Farmer.hasWithEmail(email)) {
       return "The farmer email already exists.";
     }
@@ -50,41 +53,50 @@ public class CheECSEManagerFeatureSet3Controller {
   public static String updateCheeseWheel(Integer cheeseWheelID,
                                          String newMonthsAged,
                                          Boolean newIsSpoiled) {
-    var app = CheECSEManagerApplication.getCheecseManager();
-    for (var cheeseWheel : app.getCheeseWheels()) {
-      // checks list for matching cheese ID to ensure it even exists
-      if (cheeseWheelID.equals(cheeseWheel.getId())) {
-        // Parse and validate monthsAged
-        CheeseWheel.MaturationPeriod updatedPeriod;
-        try {
-          updatedPeriod = CheeseWheel.MaturationPeriod.valueOf(newMonthsAged);
-        } catch (IllegalArgumentException e) {
-          return "The monthsAged must be Six, Twelve, TwentyFour, or "
-              + "ThirtySix.";
-        }
+    var cheeseWheel = _getCheeseWheelFromId(cheeseWheelID.intValue());
 
-        if (updatedPeriod.ordinal() < cheeseWheel.getMonthsAged().ordinal()) {
-          return "Cannot decrease the monthsAged of a cheese wheel.";
-        }
+    if (cheeseWheel == null) {
+      return "The cheese wheel with id " + cheeseWheelID + " does not exist.";
+    }
 
-        cheeseWheel.setMonthsAged(updatedPeriod);
-        cheeseWheel.setIsSpoiled(newIsSpoiled);
+    CheeseWheel.MaturationPeriod updatedPeriod;
 
-        if (newIsSpoiled) {
-          if (cheeseWheel.getLocation() != null) {
-            // deletes the cheese wheel from the shelf location.
-            cheeseWheel.getLocation().setCheeseWheel(null);
-          }
-          if (cheeseWheel.getOrder() != null) {
-            // deletes the cheese wheel from the order.
-            cheeseWheel.getOrder().removeCheeseWheel(cheeseWheel);
-          }
-        }
+    try {
+      updatedPeriod = CheeseWheel.MaturationPeriod.valueOf(newMonthsAged);
+    } catch (Exception e) {
+      return "The monthsAged must be Six, Twelve, TwentyFour, or "
+          + "ThirtySix.";
+    }
 
-        return "";
+    if (updatedPeriod.ordinal() < cheeseWheel.getMonthsAged().ordinal()) {
+      return "Cannot decrease the monthsAged of a cheese wheel.";
+    }
+
+    cheeseWheel.setMonthsAged(updatedPeriod);
+    cheeseWheel.setIsSpoiled(newIsSpoiled);
+
+    if (newIsSpoiled) {
+      cheeseWheel.setLocation(null);
+      cheeseWheel.setOrder(null);
+    }
+
+    var order = cheeseWheel.getOrder();
+
+    if (order != null && !order.getMonthsAged().equals(updatedPeriod)) {
+      cheeseWheel.setOrder(null);
+    }
+
+    return "";
+  }
+
+  private static CheeseWheel _getCheeseWheelFromId(int cheeseWheelId) {
+    for (var cw : app.getCheeseWheels()) {
+      if (cw.getId() == cheeseWheelId) {
+        return cw;
       }
     }
-    return "The cheese wheel with id " + cheeseWheelID + " does not exist.";
+
+    return null;
   }
 
   public static TOCheeseWheel getCheeseWheel(Integer cheeseWheelID) {
