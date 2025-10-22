@@ -15,11 +15,15 @@ Make sure to have Java 21. The TA uses an old verison of Gradle (8.6) which only
 
 ## Building the app
 
-Install gradle and run `gradle build`
+Install gradle and run `gradle build` or `./gradlew build` or `gradlew.bat build` on Windows
 
 ## Running tests
 
-Install gradle and run `gradle test -t`
+Install gradle and run `gradle test -t` or `./gradlew test -t` or `gradlew.bat test -t` on Windows
+
+## Formatting your code
+
+Install `clang-format` and run `clang-format --style=Google -i <filename>` or `clang-format --style=Google -i src/**/*.java` for all files in the `src` directory.
 
 ## Project Overview
 
@@ -38,4 +42,3 @@ For more information about the CheECSEManager application, please consult the [w
 | Benjamin Curis-Friedman | Benjamincf0     |
 | Ewen Gueguen            | BagetTeam       |
 | David Tang              | Tangdavid1      |
-| Team Member G           | ...             |
