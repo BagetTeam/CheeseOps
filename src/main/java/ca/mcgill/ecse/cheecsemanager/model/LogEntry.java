@@ -4,30 +4,28 @@
 package ca.mcgill.ecse.cheecsemanager.model;
 
 // line 97 "../../../../../CheECSEManager.ump"
-public class LogEntry
-{
-
+public class LogEntry {
   //------------------------
   // MEMBER VARIABLES
   //------------------------
 
-  //LogEntry Attributes
+  // LogEntry Attributes
   private String description;
 
-  //LogEntry Associations
+  // LogEntry Associations
   private Robot robot;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public LogEntry(String aDescription, Robot aRobot)
-  {
+  public LogEntry(String aDescription, Robot aRobot) {
     description = aDescription;
     boolean didAddRobot = setRobot(aRobot);
-    if (!didAddRobot)
-    {
-      throw new RuntimeException("Unable to create log due to robot. See https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+    if (!didAddRobot) {
+      throw new RuntimeException(
+          "Unable to create log due to robot. See "
+          + "https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
   }
 
@@ -35,36 +33,30 @@ public class LogEntry
   // INTERFACE
   //------------------------
 
-  public boolean setDescription(String aDescription)
-  {
+  public boolean setDescription(String aDescription) {
     boolean wasSet = false;
     description = aDescription;
     wasSet = true;
     return wasSet;
   }
 
-  public String getDescription()
-  {
+  public String getDescription() {
     return description;
   }
   /* Code from template association_GetOne */
-  public Robot getRobot()
-  {
+  public Robot getRobot() {
     return robot;
   }
   /* Code from template association_SetOneToMany */
-  public boolean setRobot(Robot aRobot)
-  {
+  public boolean setRobot(Robot aRobot) {
     boolean wasSet = false;
-    if (aRobot == null)
-    {
+    if (aRobot == null) {
       return wasSet;
     }
 
     Robot existingRobot = robot;
     robot = aRobot;
-    if (existingRobot != null && !existingRobot.equals(aRobot))
-    {
+    if (existingRobot != null && !existingRobot.equals(aRobot)) {
       existingRobot.removeLog(this);
     }
     robot.addLog(this);
@@ -72,21 +64,20 @@ public class LogEntry
     return wasSet;
   }
 
-  public void delete()
-  {
+  public void delete() {
     Robot placeholderRobot = robot;
     this.robot = null;
-    if(placeholderRobot != null)
-    {
+    if (placeholderRobot != null) {
       placeholderRobot.removeLog(this);
     }
   }
 
-
-  public String toString()
-  {
-    return super.toString() + "["+
-            "description" + ":" + getDescription()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "robot = "+(getRobot()!=null?Integer.toHexString(System.identityHashCode(getRobot())):"null");
+  public String toString() {
+    return super.toString() + "["
+        + "description"
+        + ":" + getDescription() + "]" + System.getProperties().getProperty("line.separator")
+        + "  "
+        + "robot = "
+        + (getRobot() != null ? Integer.toHexString(System.identityHashCode(getRobot())) : "null");
   }
 }

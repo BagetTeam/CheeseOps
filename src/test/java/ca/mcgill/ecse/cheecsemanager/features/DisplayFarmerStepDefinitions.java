@@ -1,25 +1,25 @@
 package ca.mcgill.ecse.cheecsemanager.features;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import java.sql.Date;
+
 import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
 import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet7Controller;
 import ca.mcgill.ecse.cheecsemanager.controller.TOFarmer;
 import ca.mcgill.ecse.cheecsemanager.model.CheECSEManager;
 import ca.mcgill.ecse.cheecsemanager.model.CheeseWheel;
-import io.cucumber.java.en.Given;
-import io.cucumber.java.en.Then;
-import io.cucumber.java.en.When;
+import ca.mcgill.ecse.cheecsemanager.model.CheeseWheel.MaturationPeriod;
 import ca.mcgill.ecse.cheecsemanager.model.Farmer;
 import ca.mcgill.ecse.cheecsemanager.model.Purchase;
 import ca.mcgill.ecse.cheecsemanager.model.User;
-import ca.mcgill.ecse.cheecsemanager.model.CheeseWheel.MaturationPeriod;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Step definitions for Display Farmer feature (p5)
@@ -27,13 +27,12 @@ import ca.mcgill.ecse.cheecsemanager.model.CheeseWheel.MaturationPeriod;
  * Defines Cucumber acceptance tests to verify the display farmer features, including success and
  * error conditions
  * </p>
- * 
+ *
  * @author Dominic Cloutier, Rahma Ammari, Kaiyan Chu, Mohamed Amine Gabsi, Sarah Bouziad, Bill
  *         Huynh-Lu, Aya Merdjaoui
  */
 
 public class DisplayFarmerStepDefinitions {
-
   private List<TOFarmer> displayedFarmers = new ArrayList<>();
   private List<Map<String, String>> purchaseListData = new ArrayList<>();
   private List<Purchase> purchaseList = new ArrayList<>();
@@ -42,7 +41,7 @@ public class DisplayFarmerStepDefinitions {
   /**
    * Initial adding of the list of farmers with their attributes from the dataTable into a
    * CheECSEManager
-   * 
+   *
    * @param dataTable Cucumber data table that includes farmer's information: email, password,
    *        address, name
    * @author Kaiyan Chu
@@ -65,7 +64,7 @@ public class DisplayFarmerStepDefinitions {
 
   /**
    * Setup the purchases made in the system with their attributes in the dataTable
-   * 
+   *
    * @param dataTable Cucumber dataTable containing Purchases: purchaseDate, nrCheeseWheels,
    *        monthsAged, farmerEmail
    * @author Mohamed Amine Gabsi
@@ -73,7 +72,6 @@ public class DisplayFarmerStepDefinitions {
   @Given("the following purchase exists in the system \\(p5)")
   public void the_following_purchase_exists_in_the_system_p5(
       io.cucumber.datatable.DataTable dataTable) {
-
     List<Map<String, String>> rows = dataTable.asMaps();
 
     for (var row : rows) {
@@ -92,13 +90,12 @@ public class DisplayFarmerStepDefinitions {
 
   /**
    * Setup the cheeseWheel for each purchase with their attributes in the previous dataTable
-   * 
+   *
    * @param integer
    * @author Mohamed Amine Gabsi, Aya Merdjaoui
    */
   @Given("all cheese wheels from purchase {int} are created \\(p5)")
   public void all_cheese_wheels_from_purchase_are_created_p5(Integer purchaseNumber) {
-
     Map<String, String> purchaseListRow = purchaseListData.get(purchaseNumber - 1);
     // Age in String
     String monthAge = purchaseListRow.get("monthsAged");
@@ -128,7 +125,7 @@ public class DisplayFarmerStepDefinitions {
 
   /**
    * Assign the cheeseWheel with a certain ID to Spoiled True
-   * 
+   *
    * @param int1
    * @author Dominic Cloutier
    */
@@ -158,11 +155,11 @@ public class DisplayFarmerStepDefinitions {
   /**
    * @author: Kaiyan Chu
    */
-  @When("the facility manager attempts to display from the system the farmer with email {string} \\(p5)")
-  public void the_facility_manager_attempts_to_display_from_the_system_the_farmer_with_email_p5(
-      String email) {
+  @When("the facility manager attempts to display from the system the farmer with email {string} "
+        + "\\(p5)")
+  public void
+  the_facility_manager_attempts_to_display_from_the_system_the_farmer_with_email_p5(String email) {
     displayedFarmers.add(CheECSEManagerFeatureSet7Controller.getFarmer(email));
-
   }
 
   /**
@@ -175,16 +172,15 @@ public class DisplayFarmerStepDefinitions {
 
   /**
    * Checking if the list of farmer is the compatible with the one created in the setup
-   * 
+   *
    * @param dataTable Cucumber data table that includes farmer's information: email, password,
    *        address, name
-   * 
+   *
    * @author Sarah Bouziad, Rahma Ammari, Mohamed Amine Gabsi
    */
   @Then("the following farmer details shall be presented \\(p5)")
   public void the_following_farmer_details_shall_be_presented_p5(
       io.cucumber.datatable.DataTable dataTable) {
-
     List<Map<String, String>> rows = dataTable.asMaps();
     Integer inputTestSizeCounter = rows.size();
     Integer farmerCount = 0;
@@ -206,14 +202,12 @@ public class DisplayFarmerStepDefinitions {
     assertEquals(inputTestSizeCounter, farmerCount);
   }
 
-
   /**
    * @author Mohamed Amine Gabsi
    */
   @Then("the following cheese wheels shall be presented for farmer {string} \\(p5)")
-  public void the_following_cheese_wheels_shall_be_presented_for_farmer_p5(String email,
-      io.cucumber.datatable.DataTable dataTable) {
-
+  public void the_following_cheese_wheels_shall_be_presented_for_farmer_p5(
+      String email, io.cucumber.datatable.DataTable dataTable) {
     TOFarmer farmer = null;
     for (TOFarmer toFarmer : displayedFarmers) {
       if (toFarmer.getEmail().equals(email)) {
@@ -228,7 +222,6 @@ public class DisplayFarmerStepDefinitions {
     String[] cheesesAge = farmer.getMonthsAgeds();
 
     for (Map<String, String> row : rows) {
-
       // Get the ID from the Cheese Row input
       Integer id = Integer.parseInt(row.get("id"));
 
@@ -240,7 +233,6 @@ public class DisplayFarmerStepDefinitions {
 
       // Get the age of the cheese and transform the string input into the right type (enum)
       String monthAge = row.get("monthsAged");
-
 
       // Go Over the cheese in the farmer
       for (int i = 0; i < farmer.numberOfCheeseWheelIDs(); i++) {
@@ -255,7 +247,7 @@ public class DisplayFarmerStepDefinitions {
   }
 
   /**
-   * 
+   *
    * @author Bill Huynh-Lu
    */
   @Then("no cheese wheels shall be presented for farmer {string} \\(p5)")
@@ -275,7 +267,7 @@ public class DisplayFarmerStepDefinitions {
   }
 
   /**
-   * 
+   *
    * @author Mohamed Amine Gabsi
    */
   @Then("no farmers shall be presented \\(p5)")
@@ -284,5 +276,3 @@ public class DisplayFarmerStepDefinitions {
         "The result is supposed to be null because the farmer doesn't exist");
   }
 }
-
-

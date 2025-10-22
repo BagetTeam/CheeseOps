@@ -3,7 +3,6 @@ package ca.mcgill.ecse.cheecsemanager.application;
 import ca.mcgill.ecse.cheecsemanager.model.CheECSEManager;
 
 public class CheECSEManagerApplication {
-
   private static CheECSEManager cheecsemanager;
 
   public static void main(String[] args) {
@@ -17,5 +16,4 @@ public class CheECSEManagerApplication {
     }
     return cheecsemanager;
   }
-
 }

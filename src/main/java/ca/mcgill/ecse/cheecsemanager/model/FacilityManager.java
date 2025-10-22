@@ -5,27 +5,25 @@ package ca.mcgill.ecse.cheecsemanager.model;
 import java.util.*;
 
 // line 19 "../../../../../CheECSEManager.ump"
-public class FacilityManager extends User
-{
-
+public class FacilityManager extends User {
   //------------------------
   // MEMBER VARIABLES
   //------------------------
 
-  //FacilityManager Associations
+  // FacilityManager Associations
   private CheECSEManager cheECSEManager;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public FacilityManager(String aEmail, String aPassword, CheECSEManager aCheECSEManager)
-  {
+  public FacilityManager(String aEmail, String aPassword, CheECSEManager aCheECSEManager) {
     super(aEmail, aPassword);
     boolean didAddCheECSEManager = setCheECSEManager(aCheECSEManager);
-    if (!didAddCheECSEManager)
-    {
-      throw new RuntimeException("Unable to create manager due to cheECSEManager. See https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+    if (!didAddCheECSEManager) {
+      throw new RuntimeException(
+          "Unable to create manager due to cheECSEManager. See "
+          + "https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
   }
 
@@ -33,48 +31,42 @@ public class FacilityManager extends User
   // INTERFACE
   //------------------------
   /* Code from template association_GetOne */
-  public CheECSEManager getCheECSEManager()
-  {
+  public CheECSEManager getCheECSEManager() {
     return cheECSEManager;
   }
   /* Code from template association_SetOneToOptionalOne */
-  public boolean setCheECSEManager(CheECSEManager aNewCheECSEManager)
-  {
+  public boolean setCheECSEManager(CheECSEManager aNewCheECSEManager) {
     boolean wasSet = false;
-    if (aNewCheECSEManager == null)
-    {
-      //Unable to setCheECSEManager to null, as manager must always be associated to a cheECSEManager
+    if (aNewCheECSEManager == null) {
+      // Unable to setCheECSEManager to null, as manager must always be associated to a
+      // cheECSEManager
       return wasSet;
     }
-    
+
     FacilityManager existingManager = aNewCheECSEManager.getManager();
-    if (existingManager != null && !equals(existingManager))
-    {
-      //Unable to setCheECSEManager, the current cheECSEManager already has a manager, which would be orphaned if it were re-assigned
+    if (existingManager != null && !equals(existingManager)) {
+      // Unable to setCheECSEManager, the current cheECSEManager already has a manager, which would
+      // be orphaned if it were re-assigned
       return wasSet;
     }
-    
+
     CheECSEManager anOldCheECSEManager = cheECSEManager;
     cheECSEManager = aNewCheECSEManager;
     cheECSEManager.setManager(this);
 
-    if (anOldCheECSEManager != null)
-    {
+    if (anOldCheECSEManager != null) {
       anOldCheECSEManager.setManager(null);
     }
     wasSet = true;
     return wasSet;
   }
 
-  public void delete()
-  {
+  public void delete() {
     CheECSEManager existingCheECSEManager = cheECSEManager;
     cheECSEManager = null;
-    if (existingCheECSEManager != null)
-    {
+    if (existingCheECSEManager != null) {
       existingCheECSEManager.setManager(null);
     }
     super.delete();
   }
-
 }

@@ -1,23 +1,23 @@
 package ca.mcgill.ecse.cheecsemanager.features;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import java.sql.Date;
-import java.util.List;
-import java.util.Map;
+
 import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
+import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet6Controller;
 import ca.mcgill.ecse.cheecsemanager.model.CheECSEManager;
 import ca.mcgill.ecse.cheecsemanager.model.CheeseWheel.MaturationPeriod;
 import ca.mcgill.ecse.cheecsemanager.model.Order;
 import ca.mcgill.ecse.cheecsemanager.model.WholesaleCompany;
-import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet6Controller;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import java.sql.Date;
+import java.util.List;
+import java.util.Map;
 
 public class DeleteWholesaleCompanyStepDefinitions {
-
   private CheECSEManager cheecsemanager = CheECSEManagerApplication.getCheecseManager();
   private String error = "";
 
@@ -56,30 +56,37 @@ public class DeleteWholesaleCompanyStepDefinitions {
       Date transactionDate = Date.valueOf(order.get("transactionDate"));
       int nrCheeseWheels = Integer.parseInt(order.get("nrCheeseWheels"));
       MaturationPeriod monthsAged = null;
-      switch (order.get("monthsAged")) {                        // Convert string to the correct
-        case "Six" : monthsAged = MaturationPeriod.Six;         // enum (we assume that it will be one of the
-        case "Twelve" : monthsAged = MaturationPeriod.Twelve;   // four possible choices)
-        case "TwentyFour" : monthsAged = MaturationPeriod.TwentyFour;
-        case "ThirtySix" : monthsAged = MaturationPeriod.ThirtySix;
+      switch (order.get("monthsAged")) { // Convert string to the correct
+        case "Six":
+          monthsAged = MaturationPeriod.Six; // enum (we assume that it will be one of the
+        case "Twelve":
+          monthsAged = MaturationPeriod.Twelve; // four possible choices)
+        case "TwentyFour":
+          monthsAged = MaturationPeriod.TwentyFour;
+        case "ThirtySix":
+          monthsAged = MaturationPeriod.ThirtySix;
       }
       Date deliveryDate = Date.valueOf(order.get("deliveryDate"));
       String companyName = order.get("company");
 
       // Instantiate wanted orders in the system
-      cheecsemanager.addTransaction(new Order(transactionDate, cheecsemanager, 
-        nrCheeseWheels, monthsAged, deliveryDate, WholesaleCompany.getWithName(companyName)));
+      cheecsemanager.addTransaction(new Order(transactionDate, cheecsemanager, nrCheeseWheels,
+          monthsAged, deliveryDate, WholesaleCompany.getWithName(companyName)));
     }
   }
 
   /**
    * Step definition that calls the corresponding Controller method for deleting
    * a Wholesale Company from the system.
-   * This step definition calls the {@link #callController(String) callController} method for updating the error message, if there is any
+   * This step definition calls the {@link #callController(String) callController} method for
+   * updating the error message, if there is any
    * @author Santiago Padron (@santipadron)
    * @param companyName , the name of a Wholesale Company
    */
-  @When("the facility manager attempts to delete the wholesale company with name {string} from the system \\(p16)")
-  public void the_facility_manager_attempts_to_delete_the_wholesale_company_with_name_from_the_system_p16(
+  @When("the facility manager attempts to delete the wholesale company with name {string} from the "
+        + "system \\(p16)")
+  public void
+  the_facility_manager_attempts_to_delete_the_wholesale_company_with_name_from_the_system_p16(
       String companyName) {
     callController(CheECSEManagerFeatureSet6Controller.deleteWholesaleCompany(companyName));
   }
@@ -132,5 +139,4 @@ public class DeleteWholesaleCompanyStepDefinitions {
       error = result;
     }
   }
-
 }

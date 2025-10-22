@@ -9,7 +9,6 @@ import java.util.List;
  * @author Benjamin Curis-Friedman
  * */
 public class CheECSEManagerFeatureSet6Controller {
-
   /**
    * Delete the wholesale company from name
    * @param name wholesale company name
@@ -60,7 +59,7 @@ public class CheECSEManagerFeatureSet6Controller {
     List<TOWholesaleCompany> retCompanies = new ArrayList<>();
 
     // Iterate through all companies and convert them to transfer objects
-    for (var company: companies) {
+    for (var company : companies) {
       var toCompany = _toCompany(company);
       retCompanies.add(toCompany);
     }
@@ -90,5 +89,4 @@ public class CheECSEManagerFeatureSet6Controller {
     // Return the fully populated transfer object
     return ret;
   }
-
 }

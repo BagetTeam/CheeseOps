@@ -19,14 +19,12 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class DisplayShelfStepDefinitions {
-  private CheECSEManager manager =
-      CheECSEManagerApplication.getCheecseManager();
+  private CheECSEManager manager = CheECSEManagerApplication.getCheecseManager();
   private Map<String, int[]> shelfDimensions;
   private List<Purchase> purchases;
   private List<Map<String, String>> purchaseDataAsList;
@@ -34,14 +32,14 @@ public class DisplayShelfStepDefinitions {
 
   private static MaturationPeriod parseMaturation(String s) {
     switch (s) {
-    case "Six":
-      return MaturationPeriod.Six;
-    case "Twelve":
-      return MaturationPeriod.Twelve;
-    case "TwentyFour":
-      return MaturationPeriod.TwentyFour;
-    case "ThirtySix":
-      return MaturationPeriod.ThirtySix;
+      case "Six":
+        return MaturationPeriod.Six;
+      case "Twelve":
+        return MaturationPeriod.Twelve;
+      case "TwentyFour":
+        return MaturationPeriod.TwentyFour;
+      case "ThirtySix":
+        return MaturationPeriod.ThirtySix;
     }
     throw new IllegalArgumentException(
         "This function has a string paramater written exactly as on of the "
@@ -109,9 +107,8 @@ public class DisplayShelfStepDefinitions {
     List<Map<String, String>> dataAsList = dataTable.asMaps();
 
     for (var farmerData : dataAsList) {
-      Farmer farmer =
-          new Farmer(farmerData.get("email"), farmerData.get("password"),
-                     farmerData.get("address"), manager);
+      Farmer farmer = new Farmer(
+          farmerData.get("email"), farmerData.get("password"), farmerData.get("address"), manager);
       farmer.setName(farmerData.get("name"));
     }
   }
@@ -134,8 +131,7 @@ public class DisplayShelfStepDefinitions {
 
     for (var purchaseData : purchaseDataAsList) {
       Date date = Date.valueOf(purchaseData.get("purchaseDate"));
-      Farmer farmer =
-          (Farmer)Farmer.getWithEmail(purchaseData.get("farmerEmail"));
+      Farmer farmer = (Farmer) Farmer.getWithEmail(purchaseData.get("farmerEmail"));
       Purchase purchase = new Purchase(date, manager, farmer);
       purchases.add(purchase);
     }
@@ -151,15 +147,11 @@ public class DisplayShelfStepDefinitions {
    * @author William Zhang
    */
   @Given("all cheese wheels from purchase {int} are created \\(p1)")
-  public void
-  all_cheese_wheels_from_purchase_are_created_p1(Integer purchaseNumber) {
+  public void all_cheese_wheels_from_purchase_are_created_p1(Integer purchaseNumber) {
     for (var purchaseData : purchaseDataAsList) {
-      for (int j = 0; j < Integer.parseInt(purchaseData.get("nrCheeseWheels"));
-           j++) {
-        MaturationPeriod maturationPeriod =
-            parseMaturation(purchaseData.get("monthsAged"));
-        new CheeseWheel(maturationPeriod, false,
-                        purchases.get(purchaseNumber - 1), manager);
+      for (int j = 0; j < Integer.parseInt(purchaseData.get("nrCheeseWheels")); j++) {
+        MaturationPeriod maturationPeriod = parseMaturation(purchaseData.get("monthsAged"));
+        new CheeseWheel(maturationPeriod, false, purchases.get(purchaseNumber - 1), manager);
       }
     }
   }
@@ -191,11 +183,10 @@ public class DisplayShelfStepDefinitions {
 
         int cheeseColumn = Integer.parseInt(cheesePlacement.get("column"));
         int cheeseRow = Integer.parseInt(cheesePlacement.get("row"));
-        CheeseWheel currentCheesewheel = manager.getCheeseWheel(
-            Integer.parseInt(cheesePlacement.get("id")) - 1);
+        CheeseWheel currentCheesewheel =
+            manager.getCheeseWheel(Integer.parseInt(cheesePlacement.get("id")) - 1);
 
-        if (shelfLocation.getColumn() == cheeseColumn &&
-            shelfLocation.getRow() == cheeseRow) {
+        if (shelfLocation.getColumn() == cheeseColumn && shelfLocation.getRow() == cheeseRow) {
           shelfLocation.setCheeseWheel(currentCheesewheel);
         }
       }
@@ -210,10 +201,9 @@ public class DisplayShelfStepDefinitions {
    * @author William Zhang
    */
   @When("the facility manager attempts to display from the system the shelf "
-        + "with id {string} \\(p1)")
+      + "with id {string} \\(p1)")
   public void
-  the_facility_manager_attempts_to_display_from_the_system_the_shelf_with_id_p1(
-      String ShelfID) {
+  the_facility_manager_attempts_to_display_from_the_system_the_shelf_with_id_p1(String ShelfID) {
     // Use list even for single shelf to conform with cucumber feature
     shelves = new ArrayList<>();
     shelves.add(CheECSEManagerFeatureSet1Controller.getShelf(ShelfID));
@@ -226,7 +216,7 @@ public class DisplayShelfStepDefinitions {
    * @author Dragos Bajanica
    */
   @When("the facility manager attempts to display from the system all the "
-        + "shelves \\(p1)")
+      + "shelves \\(p1)")
   public void
   the_facility_manager_attempts_to_display_from_the_system_all_the_shelves_p1() {
     shelves = CheECSEManagerFeatureSet1Controller.getShelves();
@@ -241,8 +231,7 @@ public class DisplayShelfStepDefinitions {
    * @author William Zhang
    */
   @Then("the number of shelves in the system shall be {int} \\(p1)")
-  public void
-  the_number_of_shelves_in_the_system_shall_be_p1(Integer numOfShelves) {
+  public void the_number_of_shelves_in_the_system_shall_be_p1(Integer numOfShelves) {
     System.out.println("==============================");
     System.out.println("numOfShelves: " + numOfShelves.intValue());
     System.out.println("==============================");
@@ -294,7 +283,7 @@ public class DisplayShelfStepDefinitions {
    * @author Dragos Bajanica
    */
   @Then("the following cheese wheels shall be presented for shelf {string} "
-        + "\\(p1)")
+      + "\\(p1)")
   public void
   the_following_cheese_wheels_shall_be_presented_for_shelf_p1(
       String shelfID, io.cucumber.datatable.DataTable dataTable) {
@@ -304,8 +293,7 @@ public class DisplayShelfStepDefinitions {
     // Find wanted shelf
     TOShelf shelf = null;
     for (TOShelf currentShelf : shelves) {
-      assertNotNull(currentShelf,
-                    "Expected created shelf in the system, got null instead.");
+      assertNotNull(currentShelf, "Expected created shelf in the system, got null instead.");
 
       // Check if it is the wanted shelf
       if (currentShelf.getShelfID().equals(shelfID)) {
@@ -351,13 +339,11 @@ public class DisplayShelfStepDefinitions {
   @Then("no cheese wheels shall be presented for shelf {string} \\(p1)")
   public void no_cheese_wheels_shall_be_presented_for_shelf_p1(String shelfID) {
     Shelf shelf = Shelf.getWithId(shelfID);
-    assertNotNull(shelf,
-                  "The wanted shelf with ID " + shelfID + " does not exist.");
+    assertNotNull(shelf, "The wanted shelf with ID " + shelfID + " does not exist.");
 
     for (ShelfLocation location : shelf.getLocations()) {
       assertNull(location.getCheeseWheel(),
-                 "Expected no cheese wheels assigned to shelf " + shelfID +
-                     " locations.");
+          "Expected no cheese wheels assigned to shelf " + shelfID + " locations.");
     }
   }
 
