@@ -22,7 +22,7 @@ public class CheECSEManagerFeatureSet7Controller {
    * @param newName     The new name to set.
    * @param newAddress  The new address to set.
    * @return An empty string on success, or an error message otherwise.
-   * 
+   *
    * @author Ewen Gueguen
    */
   public static String updateFarmer(
@@ -54,7 +54,7 @@ public class CheECSEManagerFeatureSet7Controller {
    *
    * @param email       The email of the farmer to delete.
    * @return An empty string on success, or an error message otherwise.
-   * 
+   *
    * @author Ewen Gueguen
    */
   public static String deleteFarmer(String email) {
@@ -83,7 +83,7 @@ public class CheECSEManagerFeatureSet7Controller {
    *
    * @param email       The email of the farmer.
    * @return A TOFarmer instance if found, otherwise null.
-   * 
+   *
    * @author Ewen Gueguen
    */
   public static TOFarmer getFarmer(String email) {
@@ -99,7 +99,7 @@ public class CheECSEManagerFeatureSet7Controller {
    * Retrieve all farmers as data transfer object for display.
    *
    * @return A list of all farmers as TOFarmer instances.
-   * 
+   *
    * @author Ewen Gueguen
    */
   public static List<TOFarmer> getFarmers() {
@@ -118,7 +118,7 @@ public class CheECSEManagerFeatureSet7Controller {
    *
    * @param email The email to search for.
    * @return An Optional containing the farmer if found, or empty otherwise.
-   * 
+   *
    * @author Ewen Gueguen
    */
   private static Optional<Farmer> findFarmerWithEmail(String email) {
@@ -138,7 +138,7 @@ public class CheECSEManagerFeatureSet7Controller {
    *
    * @param str The string to check.
    * @return true if the string is null or empty; false otherwise.
-   * 
+   *
    * @author Ewen Gueguen
    */
   private static boolean isNullOrEmpty(String str) {
