@@ -20,7 +20,8 @@ public class CheECSEManagerFeatureSet2Controller {
    * */
   public static String addShelf(String id, Integer nrColumns, Integer nrRows) {
     // check the validity of the id
-    Optional<String> errorMessageWithId = Optional.ofNullable(checkErrorMessageWithId(id));
+    Optional<String> errorMessageWithId =
+        Optional.ofNullable(checkErrorMessageWithId(id));
     if (errorMessageWithId.isPresent()) {
       return errorMessageWithId.get();
     }
@@ -70,7 +71,8 @@ public class CheECSEManagerFeatureSet2Controller {
    * @param nrColumns the number of columns
    * @return the error message. Null if there is no error.
    * */
-  private static String checkErrorMessageWithRowsCols(Integer nrRows, Integer nrColumns) {
+  private static String checkErrorMessageWithRowsCols(Integer nrRows,
+                                                      Integer nrColumns) {
     if (nrRows > 10) {
       return "Number of rows must be at the most ten.";
     }
@@ -87,13 +89,13 @@ public class CheECSEManagerFeatureSet2Controller {
 
   /**
    * Add shelf locations to a new shelf
+   * @author Ayush Patel
    * @param aShelf new shelf
    * @param nrColumns nr Columns in the shelf
    * @param nrRows nr rows in the shelf
-   *
-   * *
-   */
-  private static void addShelfLocations(Shelf aShelf, Integer nrColumns, Integer nrRows) {
+   * */
+  private static void addShelfLocations(Shelf aShelf, Integer nrColumns,
+                                        Integer nrRows) {
     for (int i = 1; i <= nrColumns; i++) {
       for (int j = 1; j <= nrRows; j++) {
         new ShelfLocation(i, j, aShelf);
@@ -103,9 +105,10 @@ public class CheECSEManagerFeatureSet2Controller {
 
   /**
    * Delete some shelf and all the locations linked to it
+   * @author Ayush Patel
    * @param id id of shelf
-   * *
-   */
+   * @return the error message. Null if there is no error.
+   * */
   public static String deleteShelf(String id) {
     var app = CheECSEManagerApplication.getCheecseManager();
     Optional<Shelf> shelfToDelete =
@@ -124,12 +127,14 @@ public class CheECSEManagerFeatureSet2Controller {
   }
   /**
    * when deleting a shelf, need to check if the shelf is empty first
+   * @author Ayush Patel
    * @param aShelf shelf from which we want to remove the locations
-   * *
-   */
+   * @return true if the shelf is empty, false otherwise
+   * */
   private static boolean checkIsEmpty(Shelf aShelf) {
     for (ShelfLocation shelfLocation : aShelf.getLocations()) {
-      Optional<CheeseWheel> cheeseWheel = Optional.ofNullable(shelfLocation.getCheeseWheel());
+      Optional<CheeseWheel> cheeseWheel =
+          Optional.ofNullable(shelfLocation.getCheeseWheel());
       if (cheeseWheel.isPresent()) {
         return false;
       }
