@@ -65,7 +65,7 @@ public class CheECSEManagerFeatureSet3Controller {
    * @param cheeseWheelID ID to identify the wheel in the system.
    * @param newMonthsAged new aging value.
    * @param newIsSpoiled bool value to determine if cheese is spoiled.
-   * @return the error message. Null if there is no error.
+   * @return the error message. Empty string if there is no error.
    * */
   public static String updateCheeseWheel(Integer cheeseWheelID,
                                          String newMonthsAged,
@@ -103,7 +103,7 @@ public class CheECSEManagerFeatureSet3Controller {
       cheeseWheel.setOrder(null);
     }
 
-    return null;
+    return "";
   }
 
   /**
@@ -125,7 +125,6 @@ public class CheECSEManagerFeatureSet3Controller {
 
   /**
    * Get cheese wheel from cheese wheel ID.
-   * @author David Tang
    * @param cheeseWheelID ID to identify the wheel in the system.
    * @return a TOCheeseWheel object of the desired cheese wheel. Null if there
    *     is no matching cheese wheel.
