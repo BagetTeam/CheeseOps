@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CheECSEManagerFeatureSet6Controller {
-
   public static String deleteWholesaleCompany(String name) {
     // var app = CheECSEManagerApplication.getCheecseManager();
     // List<WholesaleCompany> companies = app.getCompanies();
@@ -57,8 +56,7 @@ public class CheECSEManagerFeatureSet6Controller {
       ret.addOrderDate(order.getTransactionDate());
       ret.addMonthsAged(order.getMonthsAged().toString());
       ret.addNrCheeseWheelsOrdered(order.getNrCheeseWheels());
-      ret.addNrCheeseWheelsMissing(order.getNrCheeseWheels() -
-                                   order.getCheeseWheels().size());
+      ret.addNrCheeseWheelsMissing(order.getNrCheeseWheels() - order.getCheeseWheels().size());
       ret.addDeliveryDate(order.getDeliveryDate());
     }
     return ret;

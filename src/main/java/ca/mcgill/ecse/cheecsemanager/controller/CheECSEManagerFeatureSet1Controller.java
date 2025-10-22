@@ -16,8 +16,7 @@ public class CheECSEManagerFeatureSet1Controller {
   public static String updateFacilityManager(String password) {
     if (password.length() < 4) {
       return "Password must be at least 4 characters long.";
-    } else if (!password.contains("!") && !password.contains("#") &&
-               !password.contains("$")) {
+    } else if (!password.contains("!") && !password.contains("#") && !password.contains("$")) {
       return "Password must contain a special character from !, #, or $.";
     } else if (!password.chars().anyMatch((c) -> (c >= 'A' && c <= 'Z'))) {
       return "Password must contain an uppercase character.";

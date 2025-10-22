@@ -6,7 +6,6 @@ package ca.mcgill.ecse.cheecsemanager.model;
 
 // line 53 "../../../../../CheECSEManager.ump"
 public class CheeseWheel {
-
   //------------------------
   // ENUMERATIONS
   //------------------------
@@ -41,24 +40,22 @@ public class CheeseWheel {
   // CONSTRUCTOR
   //------------------------
 
-  public CheeseWheel(MaturationPeriod aMonthsAged, boolean aIsSpoiled,
-                     Purchase aPurchase, CheECSEManager aCheECSEManager) {
+  public CheeseWheel(MaturationPeriod aMonthsAged, boolean aIsSpoiled, Purchase aPurchase,
+      CheECSEManager aCheECSEManager) {
     monthsAged = aMonthsAged;
     isSpoiled = aIsSpoiled;
     id = nextId++;
     boolean didAddPurchase = setPurchase(aPurchase);
     if (!didAddPurchase) {
-      throw new RuntimeException(
-          "Unable to create cheeseWheel due to purchase. See " +
-          "https://" +
-          "manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+      throw new RuntimeException("Unable to create cheeseWheel due to purchase. See "
+          + "https://"
+          + "manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
     boolean didAddCheECSEManager = setCheECSEManager(aCheECSEManager);
     if (!didAddCheECSEManager) {
-      throw new RuntimeException(
-          "Unable to create cheeseWheel due to cheECSEManager. See " +
-          "https://" +
-          "manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+      throw new RuntimeException("Unable to create cheeseWheel due to cheECSEManager. See "
+          + "https://"
+          + "manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
   }
 
@@ -80,33 +77,51 @@ public class CheeseWheel {
     return wasSet;
   }
 
-  public MaturationPeriod getMonthsAged() { return monthsAged; }
+  public MaturationPeriod getMonthsAged() {
+    return monthsAged;
+  }
 
-  public boolean getIsSpoiled() { return isSpoiled; }
+  public boolean getIsSpoiled() {
+    return isSpoiled;
+  }
 
-  public int getId() { return id; }
+  public int getId() {
+    return id;
+  }
   /* Code from template attribute_IsBoolean */
-  public boolean isIsSpoiled() { return isSpoiled; }
+  public boolean isIsSpoiled() {
+    return isSpoiled;
+  }
   /* Code from template association_GetOne */
-  public Purchase getPurchase() { return purchase; }
+  public Purchase getPurchase() {
+    return purchase;
+  }
   /* Code from template association_GetOne */
-  public ShelfLocation getLocation() { return location; }
+  public ShelfLocation getLocation() {
+    return location;
+  }
 
   public boolean hasLocation() {
     boolean has = location != null;
     return has;
   }
   /* Code from template association_GetOne */
-  public Order getOrder() { return order; }
+  public Order getOrder() {
+    return order;
+  }
 
   public boolean hasOrder() {
     boolean has = order != null;
     return has;
   }
   /* Code from template association_GetOne */
-  public CheECSEManager getCheECSEManager() { return cheECSEManager; }
+  public CheECSEManager getCheECSEManager() {
+    return cheECSEManager;
+  }
   /* Code from template association_GetOne */
-  public Robot getRobot() { return robot; }
+  public Robot getRobot() {
+    return robot;
+  }
 
   public boolean hasRobot() {
     boolean has = robot != null;
@@ -135,8 +150,7 @@ public class CheeseWheel {
       ShelfLocation existingLocation = location;
       location = null;
 
-      if (existingLocation != null &&
-          existingLocation.getCheeseWheel() != null) {
+      if (existingLocation != null && existingLocation.getCheeseWheel() != null) {
         existingLocation.setCheeseWheel(null);
       }
       wasSet = true;
@@ -180,8 +194,7 @@ public class CheeseWheel {
 
     CheECSEManager existingCheECSEManager = cheECSEManager;
     cheECSEManager = aCheECSEManager;
-    if (existingCheECSEManager != null &&
-        !existingCheECSEManager.equals(aCheECSEManager)) {
+    if (existingCheECSEManager != null && !existingCheECSEManager.equals(aCheECSEManager)) {
       existingCheECSEManager.removeCheeseWheel(this);
     }
     cheECSEManager.addCheeseWheel(this);
@@ -195,8 +208,7 @@ public class CheeseWheel {
       Robot existingRobot = robot;
       robot = null;
 
-      if (existingRobot != null &&
-          existingRobot.getCurrentCheeseWheel() != null) {
+      if (existingRobot != null && existingRobot.getCurrentCheeseWheel() != null) {
         existingRobot.setCurrentCheeseWheel(null);
       }
       wasSet = true;
@@ -243,46 +255,40 @@ public class CheeseWheel {
   }
 
   // line 63 "../../../../../CheECSEManager.ump"
-  public static void resetId() { nextId = 1; }
+  public static void resetId() {
+    nextId = 1;
+  }
 
   public String toString() {
     return super.toString() + "["
         + "id"
         + ":" + getId() + ","
         + "isSpoiled"
-        + ":" + getIsSpoiled() + "]" +
-        System.getProperties().getProperty("line.separator") + "  "
+        + ":" + getIsSpoiled() + "]" + System.getProperties().getProperty("line.separator") + "  "
         + "monthsAged"
-        + "=" +
-        (getMonthsAged() != null
-             ? !getMonthsAged().equals(this)
-                   ? getMonthsAged().toString().replaceAll("  ", "    ")
-                   : "this"
-             : "null") +
-        System.getProperties().getProperty("line.separator") + "  "
-        + "purchase = " +
-        (getPurchase() != null
-             ? Integer.toHexString(System.identityHashCode(getPurchase()))
-             : "null") +
-        System.getProperties().getProperty("line.separator") + "  "
-        + "location = " +
-        (getLocation() != null
-             ? Integer.toHexString(System.identityHashCode(getLocation()))
-             : "null") +
-        System.getProperties().getProperty("line.separator") + "  "
-        + "order = " +
-        (getOrder() != null
-             ? Integer.toHexString(System.identityHashCode(getOrder()))
-             : "null") +
-        System.getProperties().getProperty("line.separator") + "  "
-        + "cheECSEManager = " +
-        (getCheECSEManager() != null
-             ? Integer.toHexString(System.identityHashCode(getCheECSEManager()))
-             : "null") +
-        System.getProperties().getProperty("line.separator") + "  "
-        + "robot = " +
-        (getRobot() != null
-             ? Integer.toHexString(System.identityHashCode(getRobot()))
-             : "null");
+        + "="
+        + (getMonthsAged() != null ? !getMonthsAged().equals(this)
+                    ? getMonthsAged().toString().replaceAll("  ", "    ")
+                    : "this"
+                                   : "null")
+        + System.getProperties().getProperty("line.separator") + "  "
+        + "purchase = "
+        + (getPurchase() != null ? Integer.toHexString(System.identityHashCode(getPurchase()))
+                                 : "null")
+        + System.getProperties().getProperty("line.separator") + "  "
+        + "location = "
+        + (getLocation() != null ? Integer.toHexString(System.identityHashCode(getLocation()))
+                                 : "null")
+        + System.getProperties().getProperty("line.separator") + "  "
+        + "order = "
+        + (getOrder() != null ? Integer.toHexString(System.identityHashCode(getOrder())) : "null")
+        + System.getProperties().getProperty("line.separator") + "  "
+        + "cheECSEManager = "
+        + (getCheECSEManager() != null
+                ? Integer.toHexString(System.identityHashCode(getCheECSEManager()))
+                : "null")
+        + System.getProperties().getProperty("line.separator") + "  "
+        + "robot = "
+        + (getRobot() != null ? Integer.toHexString(System.identityHashCode(getRobot())) : "null");
   }
 }

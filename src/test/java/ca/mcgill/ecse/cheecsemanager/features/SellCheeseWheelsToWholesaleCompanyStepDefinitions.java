@@ -1,9 +1,10 @@
 package ca.mcgill.ecse.cheecsemanager.features;
 
-import java.util.List;
-import java.util.Map;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
+import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet5Controller;
 import ca.mcgill.ecse.cheecsemanager.model.CheECSEManager;
 import ca.mcgill.ecse.cheecsemanager.model.CheeseWheel;
 import ca.mcgill.ecse.cheecsemanager.model.Farmer;
@@ -14,27 +15,23 @@ import ca.mcgill.ecse.cheecsemanager.model.WholesaleCompany;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-
-import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet5Controller;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import java.sql.Date;
+import java.util.List;
+import java.util.Map;
 
 public class SellCheeseWheelsToWholesaleCompanyStepDefinitions {
-
   private String lastErrorMessage;
 
   /**
    * Creates wholesale companies from the provided data table and adds them to the singleton
    * instance of the CheECSEManager. Each row must contain a name and address.
-   * 
+   *
    * @param dataTable The DataTable containing wholesale company data
    * @author Yanni Klironomos
    */
   @Given("the following wholesale company exists in the system \\(p15)")
   public void the_following_wholesale_company_exists_in_the_system_p15(
       io.cucumber.datatable.DataTable dataTable) {
-
     List<Map<String, String>> rows = dataTable.asMaps(String.class, String.class);
 
     CheECSEManager manager = CheECSEManagerApplication.getCheecseManager();
@@ -51,7 +48,7 @@ public class SellCheeseWheelsToWholesaleCompanyStepDefinitions {
   /**
    * Marks the specified cheese wheels as spoiled based on IDs provided in the data table. Retrieves
    * all cheese wheels from the singleton instance of CheECSEManager and updates their status.
-   * 
+   *
    * @param dataTable The DataTable containing cheese wheel IDs to mark as spoiled (column "id")
    * @author Yanni Klironomos
    */
@@ -82,7 +79,7 @@ public class SellCheeseWheelsToWholesaleCompanyStepDefinitions {
   /**
    * Creates farmer accounts from the provided data table and adds them to the singleton instance of
    * the CheECSEManager. Each row must contain an email, password, and address.
-   * 
+   *
    * @param dataTable The DataTable containing farmer account data with columns "email", "password",
    *        and "address"
    * @author Yanni Klironomos
@@ -107,8 +104,6 @@ public class SellCheeseWheelsToWholesaleCompanyStepDefinitions {
     }
   }
 
-
-
   /**
    * @param dataTable The DataTable containing purchase data with columns "purchaseDate",
    *        "nrCheeseWheels", "monthsAged", and "farmerEmail"
@@ -117,7 +112,6 @@ public class SellCheeseWheelsToWholesaleCompanyStepDefinitions {
   @Given("the following purchase exists in the system \\(p15)")
   public void the_following_purchase_exists_in_the_system_p15(
       io.cucumber.datatable.DataTable dataTable) {
-
     CheECSEManager manager = CheECSEManagerApplication.getCheecseManager();
 
     List<Map<String, String>> rows = dataTable.asMaps();
@@ -163,7 +157,6 @@ public class SellCheeseWheelsToWholesaleCompanyStepDefinitions {
   @Given("the following order exists in the system \\(p15)")
   public void the_following_order_exists_in_the_system_p15(
       io.cucumber.datatable.DataTable dataTable) {
-
     CheECSEManager manager = CheECSEManagerApplication.getCheecseManager();
 
     List<Map<String, String>> rows = dataTable.asMaps(String.class, String.class);
@@ -189,8 +182,8 @@ public class SellCheeseWheelsToWholesaleCompanyStepDefinitions {
    * @author jane chattat
    */
   @Given("all non-spoiled cheese wheels from purchase {int} are added to order {int} \\(p15)")
-  public void all_non_spoiled_cheese_wheels_from_purchase_are_added_to_order_p15(Integer purchaseId,
-      Integer orderId) {
+  public void all_non_spoiled_cheese_wheels_from_purchase_are_added_to_order_p15(
+      Integer purchaseId, Integer orderId) {
     // Write code here that turns the phrase above into concrete actions
     CheECSEManager manager = CheECSEManagerApplication.getCheecseManager();
     Order anOrder = null;
@@ -215,19 +208,20 @@ public class SellCheeseWheelsToWholesaleCompanyStepDefinitions {
   /**
    * @author Mahad, Revised by Yanni
    */
-  @When("the facility manager attempts to add an order in the system with transaction date {string}, {int} cheese wheels, months aged {string}, delivery date {string}, and company {string} \\(p15)")
-  public void the_facility_manager_attempts_to_add_an_order_in_the_system_with_transaction_date_cheese_wheels_months_aged_delivery_date_and_company_p15(
+  @When("the facility manager attempts to add an order in the system with transaction date "
+        + "{string}, {int} cheese wheels, months aged {string}, delivery date {string}, and "
+        + "company {string} \\(p15)")
+  public void
+  the_facility_manager_attempts_to_add_an_order_in_the_system_with_transaction_date_cheese_wheels_months_aged_delivery_date_and_company_p15(
       String transactionDateStr, Integer nrCheeseWheels, String monthsAged, String deliveryDateStr,
       String companyName) {
-
     Date transactionDate = Date.valueOf(transactionDateStr);
     Date deliveryDate = Date.valueOf(deliveryDateStr);
 
     // now uses controller instead of model as above, required for @When
-    lastErrorMessage = CheECSEManagerFeatureSet5Controller.sellCheeseWheels(companyName,
-        transactionDate, nrCheeseWheels, monthsAged, deliveryDate);
+    lastErrorMessage = CheECSEManagerFeatureSet5Controller.sellCheeseWheels(
+        companyName, transactionDate, nrCheeseWheels, monthsAged, deliveryDate);
   }
-
 
   /**
    * @author Matthew, revised by Yanni
@@ -249,11 +243,13 @@ public class SellCheeseWheelsToWholesaleCompanyStepDefinitions {
   /**
    * @author Ben
    */
-  @Then("the order {int} with transaction date {string}, {int} cheese wheels, months aged {string}, delivery date {string}, and company {string} shall exist in the system \\(p15)")
-  public void the_order_with_transaction_date_cheese_wheels_months_aged_delivery_date_and_company_shall_exist_in_the_system_p15(
+  @Then(
+      "the order {int} with transaction date {string}, {int} cheese wheels, months aged {string}, "
+      + "delivery date {string}, and company {string} shall exist in the system \\(p15)")
+  public void
+  the_order_with_transaction_date_cheese_wheels_months_aged_delivery_date_and_company_shall_exist_in_the_system_p15(
       Integer orderId, String transactionDate, Integer cheeseWheels, String monthsAged,
       String deliveryDate, String companyName) {
-
     WholesaleCompany company = WholesaleCompany.getWithName(companyName);
 
     assertNotNull(company, "Company not found with name " + companyName);
@@ -273,21 +269,19 @@ public class SellCheeseWheelsToWholesaleCompanyStepDefinitions {
     assertEquals(companyName, order.getCompany().getName());
   }
 
-
   /**
    * Checks that a given number of cheese wheels from a specific purchase have been added to a
    * particular order in the system (p15).
-   * 
+   *
    * @param expectedCount the expected number of cheese wheels from the purchase
    * @param purchaseId the ID of the purchase
    * @param orderId the ID of the target order
-   * 
+   *
    * @author Yanni Klironomos
    */
   @Then("{int} cheese wheels from purchase {int} shall be added to the order {int} \\(p15)")
-  public void cheese_wheels_from_purchase_shall_be_added_to_the_order_p15(Integer expectedCount,
-      Integer purchaseId, Integer orderId) {
-
+  public void cheese_wheels_from_purchase_shall_be_added_to_the_order_p15(
+      Integer expectedCount, Integer purchaseId, Integer orderId) {
     CheECSEManager manager = CheECSEManagerApplication.getCheecseManager();
 
     // Find the target order by ID
@@ -301,7 +295,6 @@ public class SellCheeseWheelsToWholesaleCompanyStepDefinitions {
 
     // Fail if the order doesn't exist
     assertNotNull(targetOrder, "Order with ID " + orderId + " was not found.");
-
 
     // Count cheese wheels in the order that came from the target purchase
     int actualCount = 0;
@@ -319,17 +312,16 @@ public class SellCheeseWheelsToWholesaleCompanyStepDefinitions {
   /**
    * Verifies that all orders listed in the provided DataTable exist in the system with the correct
    * transaction date, number of cheese wheels, maturation period, delivery date, and company.
-   * 
+   *
    * The DataTable must contain columns: id, transactionDate, nrCheeseWheels, monthsAged,
    * deliveryDate, company
-   * 
+   *
    * @param dataTable The Cucumber DataTable containing expected order information
    * @author Yanni Klironomos
    */
   @Then("the following orders shall exist in the system \\(p15)")
   public void the_following_orders_shall_exist_in_the_system_p15(
       io.cucumber.datatable.DataTable dataTable) {
-
     List<Map<String, String>> rows = dataTable.asMaps(String.class, String.class);
 
     for (Map<String, String> row : rows) {
@@ -342,7 +334,6 @@ public class SellCheeseWheelsToWholesaleCompanyStepDefinitions {
 
       WholesaleCompany company = WholesaleCompany.getWithName(companyName);
       assertNotNull(company, "Company not found with name " + companyName);
-
 
       Order order = null;
       for (Order o : company.getOrders()) {
@@ -358,11 +349,10 @@ public class SellCheeseWheelsToWholesaleCompanyStepDefinitions {
     }
   }
 
-
   /**
    * Verifies that the specified error message is raised during the test scenario. This step checks
    * for the presence of the error string provided as input.
-   * 
+   *
    * @param errorMessage The expected error message to be raised
    * @throws io.cucumber.java.PendingException Indicates that the implementation is still pending
    * @author Yanni Klironomos
@@ -371,5 +361,4 @@ public class SellCheeseWheelsToWholesaleCompanyStepDefinitions {
   public void the_error_shall_be_raised_p15(String errorMessage) {
     assertEquals(errorMessage, lastErrorMessage);
   }
-
 }

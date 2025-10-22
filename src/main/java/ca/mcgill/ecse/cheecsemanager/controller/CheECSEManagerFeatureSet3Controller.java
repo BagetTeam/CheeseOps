@@ -10,8 +10,7 @@ import java.util.List;
  * @author David Tang
  * */
 public class CheECSEManagerFeatureSet3Controller {
-  private static CheECSEManager app =
-      CheECSEManagerApplication.getCheecseManager();
+  private static CheECSEManager app = CheECSEManagerApplication.getCheecseManager();
 
   /**
    * Registers a farmer to the system
@@ -21,8 +20,7 @@ public class CheECSEManagerFeatureSet3Controller {
    * @param address the farmer's address.
    * @return the error message. Empty string if there is no error.
    * */
-  public static String registerFarmer(String email, String password,
-                                      String name, String address) {
+  public static String registerFarmer(String email, String password, String name, String address) {
     // checks for existing farmer
     if (Farmer.hasWithEmail(email)) {
       return "The farmer email already exists.";
@@ -37,8 +35,7 @@ public class CheECSEManagerFeatureSet3Controller {
       return "Email must have characters before @.";
     else if (!email.substring(atLocation).contains("."))
       return "Email must contain a dot after @.";
-    else if (email.substring(atLocation).indexOf(".") + 1 >=
-             email.substring(atLocation).length())
+    else if (email.substring(atLocation).indexOf(".") + 1 >= email.substring(atLocation).length())
       return "Email must have characters after dot.";
     else if (email.contains(" "))
       return "Email must not contain spaces.";
@@ -59,16 +56,15 @@ public class CheECSEManagerFeatureSet3Controller {
     return "";
   }
 
-   /**
+  /**
    * Updates the months to age of an existing cheese wheel.
    * @param cheeseWheelID ID to identify the wheel in the system.
    * @param newMonthsAged new aging value.
    * @param newIsSpoiled bool value to determine if cheese is spoiled.
    * @return the error message. Empty string if there is no error.
    * */
-  public static String updateCheeseWheel(Integer cheeseWheelID,
-                                         String newMonthsAged,
-                                         Boolean newIsSpoiled) {
+  public static String updateCheeseWheel(
+      Integer cheeseWheelID, String newMonthsAged, Boolean newIsSpoiled) {
     var cheeseWheel = _getCheeseWheelFromId(cheeseWheelID.intValue());
 
     if (cheeseWheel == null) {
@@ -123,7 +119,8 @@ public class CheECSEManagerFeatureSet3Controller {
   /**
    * Get cheese wheel from cheese wheel ID.
    * @param cheeseWheelID ID to identify the wheel in the system.
-   * @return a TOCheeseWheel object of the desired cheese wheel. Null if there is no matching cheese wheel.
+   * @return a TOCheeseWheel object of the desired cheese wheel. Null if there is no matching cheese
+   *     wheel.
    * */
   public static TOCheeseWheel getCheeseWheel(Integer cheeseWheelID) {
     var app = CheECSEManagerApplication.getCheecseManager();
@@ -146,13 +143,11 @@ public class CheECSEManagerFeatureSet3Controller {
         */
         var location = cheeseWheel.getLocation();
 
-        return new TOCheeseWheel(
-            cheeseWheel.getId(), cheeseWheel.getMonthsAged().name(),
-            cheeseWheel.isIsSpoiled(),
-            cheeseWheel.getPurchase().getTransactionDate(),
+        return new TOCheeseWheel(cheeseWheel.getId(), cheeseWheel.getMonthsAged().name(),
+            cheeseWheel.isIsSpoiled(), cheeseWheel.getPurchase().getTransactionDate(),
             location == null ? null : location.getShelf().getId(),
-            location == null ? -1 : location.getColumn(),
-            location == null ? -1 : location.getRow(), cheeseWheel.hasOrder());
+            location == null ? -1 : location.getColumn(), location == null ? -1 : location.getRow(),
+            cheeseWheel.hasOrder());
       }
     }
     return null;
@@ -171,16 +166,12 @@ public class CheECSEManagerFeatureSet3Controller {
         .stream()
         .map(cheeseWheel -> {
           var location = cheeseWheel.getLocation();
-          return new TOCheeseWheel(
-              cheeseWheel.getId(), cheeseWheel.getMonthsAged().name(),
-              cheeseWheel.isIsSpoiled(),
-              cheeseWheel.getPurchase().getTransactionDate(),
+          return new TOCheeseWheel(cheeseWheel.getId(), cheeseWheel.getMonthsAged().name(),
+              cheeseWheel.isIsSpoiled(), cheeseWheel.getPurchase().getTransactionDate(),
               location == null ? null : location.getShelf().getId(),
               location == null ? -1 : location.getColumn(),
-              location == null ? -1 : location.getRow(),
-              cheeseWheel.hasOrder());
+              location == null ? -1 : location.getRow(), cheeseWheel.hasOrder());
         })
         .toList();
   }
 }
-

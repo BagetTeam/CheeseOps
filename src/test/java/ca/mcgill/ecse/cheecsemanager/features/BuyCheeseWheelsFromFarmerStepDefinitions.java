@@ -1,28 +1,25 @@
 package ca.mcgill.ecse.cheecsemanager.features;
 
-import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
-import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet4Controller;
-import ca.mcgill.ecse.cheecsemanager.model.CheeseWheel;
-import ca.mcgill.ecse.cheecsemanager.model.CheECSEManager;
-import ca.mcgill.ecse.cheecsemanager.model.Farmer;
-import ca.mcgill.ecse.cheecsemanager.model.Purchase;
-import ca.mcgill.ecse.cheecsemanager.model.Transaction;
-
-import io.cucumber.java.en.Given;
-import io.cucumber.java.en.Then;
-import io.cucumber.java.en.When;
-
-import java.sql.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-public class BuyCheeseWheelsFromFarmerStepDefinitions {
+import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
+import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet4Controller;
+import ca.mcgill.ecse.cheecsemanager.model.CheECSEManager;
+import ca.mcgill.ecse.cheecsemanager.model.CheeseWheel;
+import ca.mcgill.ecse.cheecsemanager.model.Farmer;
+import ca.mcgill.ecse.cheecsemanager.model.Purchase;
+import ca.mcgill.ecse.cheecsemanager.model.Transaction;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
+import java.sql.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+public class BuyCheeseWheelsFromFarmerStepDefinitions {
   private String error; // store error message
 
   // store purchase info for Given all cheese wheels from purchase <int> are created to use
@@ -38,7 +35,7 @@ public class BuyCheeseWheelsFromFarmerStepDefinitions {
    */
   @Given("the following farmer exists in the system \\(p8)")
   public void the_following_farmer_exists_in_the_system_p8(
-          io.cucumber.datatable.DataTable dataTable) {
+      io.cucumber.datatable.DataTable dataTable) {
     CheECSEManager cheecseManager = CheECSEManagerApplication.getCheecseManager();
     List<Map<String, String>> rows = dataTable.asMaps();
 
@@ -68,7 +65,7 @@ public class BuyCheeseWheelsFromFarmerStepDefinitions {
    */
   @Given("the following purchase exists in the system \\(p8)")
   public void the_following_purchase_exists_in_the_system_p8(
-          io.cucumber.datatable.DataTable dataTable) {
+      io.cucumber.datatable.DataTable dataTable) {
     CheECSEManager cheecseManager = CheECSEManagerApplication.getCheecseManager();
     List<Map<String, String>> rows = dataTable.asMaps();
 
@@ -77,7 +74,8 @@ public class BuyCheeseWheelsFromFarmerStepDefinitions {
       // get field values from datatable
       Date purchaseDate = Date.valueOf(row.get("purchaseDate"));
       int nrCheeseWheels = Integer.parseInt(row.get("nrCheeseWheels"));
-      CheeseWheel.MaturationPeriod maturationPeriod = CheeseWheel.MaturationPeriod.valueOf(row.get("monthsAged"));
+      CheeseWheel.MaturationPeriod maturationPeriod =
+          CheeseWheel.MaturationPeriod.valueOf(row.get("monthsAged"));
       String farmerEmail = row.get("farmerEmail");
       Farmer farmer = (Farmer) Farmer.getWithEmail(farmerEmail);
 
@@ -103,11 +101,13 @@ public class BuyCheeseWheelsFromFarmerStepDefinitions {
     List<Transaction> transactions = cheecseManager.getTransactions();
 
     for (Transaction transaction : transactions) {
-      if (transaction instanceof Purchase && transaction.getId() == purchaseId) { // find purchase by ID
+      if (transaction instanceof Purchase
+          && transaction.getId() == purchaseId) { // find purchase by ID
         Purchase purchase = (Purchase) transaction;
         // create cheese wheels
         for (int i = 0; i < nrCheeseWheelsPurchase.get(purchaseId); i++) {
-          new CheeseWheel(maturationPeriodPurchase.get(purchaseId), false, purchase, cheecseManager);
+          new CheeseWheel(
+              maturationPeriodPurchase.get(purchaseId), false, purchase, cheecseManager);
         }
       }
     }
@@ -123,12 +123,15 @@ public class BuyCheeseWheelsFromFarmerStepDefinitions {
    * @param monthsAged     maturation period of cheese wheel(s)
    * @param email          email of the farmer
    */
-  @When("the facility manager attempts to add a purchase in the system with purchaseDate {string}, {int} cheese wheels, monthsAged {string}, and farmerEmail {string} \\(p8)")
-  public void the_facility_manager_attempts_to_add_a_purchase_in_the_system_with_purchase_date_cheese_wheels_months_aged_and_farmer_email_p8(
-          String date, Integer nrCheeseWheels, String monthsAged, String email) {
+  @When("the facility manager attempts to add a purchase in the system with purchaseDate {string}, "
+        + "{int} cheese wheels, monthsAged {string}, and farmerEmail {string} \\(p8)")
+  public void
+  the_facility_manager_attempts_to_add_a_purchase_in_the_system_with_purchase_date_cheese_wheels_months_aged_and_farmer_email_p8(
+      String date, Integer nrCheeseWheels, String monthsAged, String email) {
     Date purchaseDate = Date.valueOf(date);
     // call controller and save return message
-    error = CheECSEManagerFeatureSet4Controller.buyCheeseWheels(email, purchaseDate, nrCheeseWheels, monthsAged);
+    error = CheECSEManagerFeatureSet4Controller.buyCheeseWheels(
+        email, purchaseDate, nrCheeseWheels, monthsAged);
   }
 
   /**
@@ -164,9 +167,11 @@ public class BuyCheeseWheelsFromFarmerStepDefinitions {
    * @param date  date of the purchase
    * @param email email address of the farmer who is being purchased from.
    */
-  @Then("the purchase {int} with purchaseDate {string} and farmerEmail {string} shall exist in the system \\(p8)")
-  public void the_purchase_with_purchase_date_and_farmer_email_shall_exist_in_the_system_p8(
-          Integer id, String date, String email) {
+  @Then("the purchase {int} with purchaseDate {string} and farmerEmail {string} shall exist in the "
+        + "system \\(p8)")
+  public void
+  the_purchase_with_purchase_date_and_farmer_email_shall_exist_in_the_system_p8(
+      Integer id, String date, String email) {
     CheECSEManager cheecseManager = CheECSEManagerApplication.getCheecseManager();
     List<Transaction> transactions = cheecseManager.getTransactions();
     Purchase purchase = null;
@@ -178,7 +183,8 @@ public class BuyCheeseWheelsFromFarmerStepDefinitions {
       }
     }
 
-    assertNotNull(purchase, "Purchase with id " + id + " was not found."); // check that the purchase was found
+    assertNotNull(purchase,
+        "Purchase with id " + id + " was not found."); // check that the purchase was found
 
     Date actualDate = Date.valueOf(date); // convert String date into a Date type
     Date purchaseDate = purchase.getTransactionDate();
@@ -222,8 +228,8 @@ public class BuyCheeseWheelsFromFarmerStepDefinitions {
    */
 
   @Then("all cheese wheels for purchase {int} shall have monthsAged {string} \\(p8)")
-  public void all_cheese_wheels_for_purchase_shall_have_months_aged_p8(Integer id,
-                                                                       String expectedMonthsAged) {
+  public void all_cheese_wheels_for_purchase_shall_have_months_aged_p8(
+      Integer id, String expectedMonthsAged) {
     CheECSEManager cheecseManager = CheECSEManagerApplication.getCheecseManager();
 
     List<Transaction> transactions = cheecseManager.getTransactions();
@@ -235,7 +241,8 @@ public class BuyCheeseWheelsFromFarmerStepDefinitions {
       }
     }
     assertNotNull(purchase, "Purchase with id " + id + " was not found.");
-    CheeseWheel.MaturationPeriod expectedMaturationPeriod = CheeseWheel.MaturationPeriod.valueOf(expectedMonthsAged);
+    CheeseWheel.MaturationPeriod expectedMaturationPeriod =
+        CheeseWheel.MaturationPeriod.valueOf(expectedMonthsAged);
     for (CheeseWheel cheeseWheel : purchase.getCheeseWheels()) {
       assertEquals(expectedMaturationPeriod, cheeseWheel.getMonthsAged());
     }
@@ -264,7 +271,7 @@ public class BuyCheeseWheelsFromFarmerStepDefinitions {
    */
   @Then("the following purchases shall exist in the system \\(p8)")
   public void the_following_purchases_shall_exist_in_the_system_p8(
-          io.cucumber.datatable.DataTable dataTable) {
+      io.cucumber.datatable.DataTable dataTable) {
     CheECSEManager cheecseManager = CheECSEManagerApplication.getCheecseManager();
     List<Transaction> transactions = cheecseManager.getTransactions();
     List<Map<String, String>> rows = dataTable.asMaps();
@@ -272,7 +279,8 @@ public class BuyCheeseWheelsFromFarmerStepDefinitions {
     for (var row : rows) {
       Date purchaseDate = Date.valueOf(row.get("purchaseDate"));
       int nrCheeseWheels = Integer.parseInt(row.get("nrCheeseWheels"));
-      CheeseWheel.MaturationPeriod monthsAged = CheeseWheel.MaturationPeriod.valueOf(row.get("monthsAged"));
+      CheeseWheel.MaturationPeriod monthsAged =
+          CheeseWheel.MaturationPeriod.valueOf(row.get("monthsAged"));
       String farmerEmail = row.get("farmerEmail");
 
       Purchase purchase = null;
@@ -285,18 +293,19 @@ public class BuyCheeseWheelsFromFarmerStepDefinitions {
           Date transactionDate = p.getTransactionDate();
 
           // transaction found
-          if (transactionDate.equals(purchaseDate)
-                  && p.numberOfCheeseWheels() == nrCheeseWheels
-                  && p.getCheeseWheels().get(0).getMonthsAged() == monthsAged
-                  && transactionEmail.equals(farmerEmail)) {
+          if (transactionDate.equals(purchaseDate) && p.numberOfCheeseWheels() == nrCheeseWheels
+              && p.getCheeseWheels().get(0).getMonthsAged() == monthsAged
+              && transactionEmail.equals(farmerEmail)) {
             purchase = (Purchase) transaction;
             break;
           }
         }
       }
-      assertNotNull(purchase, "Purchase with purchase date " + purchaseDate.toString() + ", nrCheeseWheels " +
-              nrCheeseWheels + ", maturation period " + monthsAged.toString() + " and farmer email " +
-              farmerEmail + " was not found."); // check transaction found
+      assertNotNull(purchase,
+          "Purchase with purchase date " + purchaseDate.toString() + ", nrCheeseWheels "
+              + nrCheeseWheels + ", maturation period " + monthsAged.toString()
+              + " and farmer email " + farmerEmail
+              + " was not found."); // check transaction found
     }
   }
 
