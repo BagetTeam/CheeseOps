@@ -1,65 +1,86 @@
 package ca.mcgill.ecse.cheecsemanager.controller;
 
 import java.util.List;
+import java.util.Optional;
 import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
 import ca.mcgill.ecse.cheecsemanager.model.Farmer;
 import ca.mcgill.ecse.cheecsemanager.model.Purchase;
 
 public class CheECSEManagerFeatureSet7Controller {
-
+  
+  /**
+     * Updates the details of a farmer identified by email.
+     *
+     * @param email       The email of the farmer to update.
+     * @param newPassword The new password to set.
+     * @param newName     The new name to set.
+     * @param newAddress  The new address to set.
+     * @return An empty string on success, or an error message otherwise.
+     */
   public static String updateFarmer(String email, String newPassword, String newName,String newAddress) {
-    if (newPassword.isEmpty()) {
+    if (isNullOrEmpty(newPassword)) {
       return "Password must not be empty.";
     }
-    if (newAddress.isEmpty()) {
+    if (isNullOrEmpty(newName)) {
       return "Address must not be empty.";
     }
     
-    var app = CheECSEManagerApplication.getCheecseManager();
-    List<Farmer> farmers = app.getFarmers();
-    for (Farmer farmer : farmers) {
-      if (email.equals(farmer.getEmail())) {
-        farmer.setPassword(newPassword);
-        farmer.setName(newName);
-        farmer.setAddress(newAddress);
-        return "";
-      }
+    Optional<Farmer> farmerOpt = findFarmerWithEmail(email);
+    if (farmerOpt.isEmpty()) {
+      return "The farmer with email " + email + " does not exist.";
     }
-    return "The farmer with email " + email + " does not exist.";
+
+    Farmer farmer = farmerOpt.get();
+    farmer.setPassword(newPassword);
+    farmer.setName(newName);
+    farmer.setAddress(newAddress);
+    return "";    
   }
 
+  /**
+     * Delete a farmer by email.
+     *
+     * @param email       The email of the farmer to delete.
+     * @return An empty string on success, or an error message otherwise.
+     */
   public static String deleteFarmer(String email) {
-    var app = CheECSEManagerApplication.getCheecseManager();
-    List<Farmer> farmers = app.getFarmers();
-    for (Farmer farmer : farmers) {
-      if (email.equals(farmer.getEmail())) {
-        List<Purchase> purchases = farmer.getPurchases();
+    Optional<Farmer> farmerOpt = findFarmerWithEmail(email);
+    if (farmerOpt.isEmpty()) {
+      return "The farmer with email " + email + " does not exist.";
+    }
 
-        for (Purchase purchase : purchases) {
-          if (purchase.hasCheeseWheels()) {
-            return "Cannot delete farmer who has supplied cheese.";
-          }
-        }
+    Farmer farmer = farmerOpt.get();
+    List<Purchase> purchases = farmer.getPurchases();
 
-        farmer.delete();
-        return "";
+    for (Purchase purchase : purchases) {
+      if (purchase.hasCheeseWheels()) {
+        return "Cannot delete farmer who has supplied cheese.";
       }
     }
-    return "The farmer with email " + email +" does not exist.";
+
+    farmer.delete();
+    return "";
   }
 
+  /**
+     * Retrieve a farmer's data transfer object by email for display.
+     *
+     * @param email       The email of the farmer.
+     * @return A TOFarmer instance if found, otherwise null.
+     */
   public static TOFarmer getFarmer(String email) {
-    var app = CheECSEManagerApplication.getCheecseManager();
-    List<Farmer> farmers = app.getFarmers();
-    for (Farmer farmer : farmers) {
-      if (email.equals(farmer.getEmail())) {
-        return new TOFarmer(farmer.getEmail(), farmer.getPassword(), farmer.getName(), farmer.getAddress());
-      }
+    Optional<Farmer> farmer = findFarmerWithEmail(email);
+    if (farmer.isPresent()) {
+      return new TOFarmer(farmer.get().getEmail(), farmer.get().getPassword(), farmer.get().getName(), farmer.get().getAddress());
     }
     return null;
   }
   
-  // returns all farmers
+  /**
+     * Retrieve all farmers as data transfer object for display.
+     *
+     * @return A list of all farmers as TOFarmer instances.
+     */
   public static List<TOFarmer> getFarmers() {
     var app = CheECSEManagerApplication.getCheecseManager();
     List<Farmer> farmers = app.getFarmers();
@@ -67,4 +88,32 @@ public class CheECSEManagerFeatureSet7Controller {
     
     return toFarmers;
   }
+
+  /**
+     * Helper method to find a farmer by email.
+     *
+     * @param email The email to search for.
+     * @return An Optional containing the farmer if found, or empty otherwise.
+     */
+  private static Optional<Farmer> findFarmerWithEmail(String email) {
+    var app = CheECSEManagerApplication.getCheecseManager();
+    List<Farmer> farmers = app.getFarmers();
+    for (Farmer farmer : farmers) {
+      if (email.equals(farmer.getEmail())) {
+        return Optional.of(farmer);
+      }
+    }
+    Optional<Farmer> empty = Optional.empty();
+    return empty;
+  }
+
+  /**
+     * Utility method to check if a string is null or empty.
+     *
+     * @param str The string to check.
+     * @return true if the string is null or empty; false otherwise.
+     */
+  private static boolean isNullOrEmpty(String str) {
+        return str == null || str.isEmpty();
+    }
 }
