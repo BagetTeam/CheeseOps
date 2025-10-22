@@ -98,8 +98,7 @@ public class CheECSEManagerFeatureSet6Controller {
       ret.addMonthsAged(order.getMonthsAged().toString());
       ret.addNrCheeseWheelsOrdered(order.getNrCheeseWheels());
       // Calculate the number of missing cheese wheels for the order
-      ret.addNrCheeseWheelsMissing(order.getNrCheeseWheels() -
-                                   order.getCheeseWheels().size());
+      ret.addNrCheeseWheelsMissing(order.getNrCheeseWheels() - order.getCheeseWheels().size());
       ret.addDeliveryDate(order.getDeliveryDate());
     }
     // Return the fully populated transfer object

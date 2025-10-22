@@ -50,9 +50,8 @@ public class CheECSEManagerFeatureSet5Controller {
    *     and maturation date)
    * @return Empty string if successful, error message if validation fails
    */
-  public static String sellCheeseWheels(String nameCompany, Date orderDate,
-                                        Integer nrCheeseWheels,
-                                        String monthsAged, Date deliveryDate) {
+  public static String sellCheeseWheels(String nameCompany, Date orderDate, Integer nrCheeseWheels,
+      String monthsAged, Date deliveryDate) {
     var app = CheECSEManagerApplication.getCheecseManager();
 
     // nrCheeseWheels > 0
@@ -60,9 +59,8 @@ public class CheECSEManagerFeatureSet5Controller {
       return "nrCheeseWheels must be greater than zero.";
     } else if (deliveryDate == null) {
       return "Delivery date cannot be null";
-    } else if (orderDate != null &&
-               deliveryDate.before(
-                   orderDate)) { // delivery date after transaction date
+    } else if (orderDate != null
+        && deliveryDate.before(orderDate)) { // delivery date after transaction date
       return "The delivery date must be on or after the transaction date.";
     }
 
@@ -82,27 +80,27 @@ public class CheECSEManagerFeatureSet5Controller {
     // convert string monthsAged to MaturationPeriod enum
     MaturationPeriod maturationPeriod;
     switch (monthsAged) {
-    case "Six":
-      maturationPeriod = MaturationPeriod.Six;
-      break;
-    case "Twelve":
-      maturationPeriod = MaturationPeriod.Twelve;
-      break;
-    case "TwentyFour":
-      maturationPeriod = MaturationPeriod.TwentyFour;
-      break;
-    case "ThirtySix":
-      maturationPeriod = MaturationPeriod.ThirtySix;
-      break;
-    default:
-      return "The monthsAged must be Six, Twelve, TwentyFour, or ThirtySix.";
+      case "Six":
+        maturationPeriod = MaturationPeriod.Six;
+        break;
+      case "Twelve":
+        maturationPeriod = MaturationPeriod.Twelve;
+        break;
+      case "TwentyFour":
+        maturationPeriod = MaturationPeriod.TwentyFour;
+        break;
+      case "ThirtySix":
+        maturationPeriod = MaturationPeriod.ThirtySix;
+        break;
+      default:
+        return "The monthsAged must be Six, Twelve, TwentyFour, or ThirtySix.";
     }
     // Find cheese wheels that match monthsAged and maturation constraints
     List<CheeseWheel> availableWheels = new ArrayList<>();
     for (CheeseWheel wheel : app.getCheeseWheels()) {
       // all cheeseWheels must mature at monthsAged
-      if (wheel.getMonthsAged().equals(maturationPeriod) &&
-          !wheel.getIsSpoiled() && wheel.getOrder() == null) {
+      if (wheel.getMonthsAged().equals(maturationPeriod) && !wheel.getIsSpoiled()
+          && wheel.getOrder() == null) {
         // delivery date must be after maturation date
         Purchase purchase = wheel.getPurchase();
 
@@ -113,8 +111,7 @@ public class CheECSEManagerFeatureSet5Controller {
         Date maturationDate = new Date(calendar.getTimeInMillis());
 
         // check if delivery date is on or after maturation date
-        if (deliveryDate.after(maturationDate) ||
-            deliveryDate.equals(maturationDate)) {
+        if (deliveryDate.after(maturationDate) || deliveryDate.equals(maturationDate)) {
           availableWheels.add(wheel);
         }
       }
@@ -122,8 +119,8 @@ public class CheECSEManagerFeatureSet5Controller {
 
     try {
       // create order and add to transactions
-      Order order = new Order(orderDate, app, nrCheeseWheels, maturationPeriod,
-                              deliveryDate, company);
+      Order order =
+          new Order(orderDate, app, nrCheeseWheels, maturationPeriod, deliveryDate, company);
 
       app.addTransaction(order);
 
@@ -191,8 +188,7 @@ public class CheECSEManagerFeatureSet5Controller {
    *     null or empty)
    * @return Empty string if successful, error message if validation fails
    */
-  public static String updateWholesaleCompany(String name, String newName,
-                                              String newAddress) {
+  public static String updateWholesaleCompany(String name, String newName, String newAddress) {
     var app = CheECSEManagerApplication.getCheecseManager();
 
     // Constraint: newName <> "" and newName <> null
