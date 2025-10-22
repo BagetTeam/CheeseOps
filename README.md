@@ -15,26 +15,30 @@ Make sure to have Java 21. The TA uses an old verison of Gradle (8.6) which only
 
 ## Building the app
 
-Install gradle and run `gradle build`
+Install gradle and run `gradle build` or `./gradlew build` or `gradlew.bat build` on Windows
 
 ## Running tests
 
-Install gradle and run `gradle test -t`
+Install gradle and run `gradle test -t` or `./gradlew test -t` or `gradlew.bat test -t` on Windows
+
+## Formatting your code
+
+Install `clang-format` and run `clang-format --style=Google -i <filename>` or `clang-format --style=Google -i src/**/*.java` for all files in the `src` directory.
 
 ## Project Overview
 
-_Provide a one-sentence overview of your project here._
+CheecseManager is an innovative application that allows businesses to effectively manage the flow of local cheese products from the production line all the way to the clients!
 
 For more information about the CheECSEManager application, please consult the [wiki](../../wiki). there is nothing
 
 ## Team Members
 
-| Name          | GitHub username |
-| ------------- | --------------- |
-| Ming Li Liu   | mingli202       |
-| Olivier Mao   | OlivierMao19    |
-| Eun-Jun Chang | 1313eunjun      |
-| Team Member D | ...             |
-| Team Member E | ...             |
-| Team Member F | ...             |
-| Team Member G | ...             |
+| Name                    | GitHub username |
+|-------------------------|-----------------|
+| Ming Li Liu             | mingli202       |
+| Olivier Mao             | OlivierMao19    |
+| Eun-Jun Chang           | 1313eunjun      |
+| Ayush Patel             | 4yushP4tel      |
+| Benjamin Curis-Friedman | Benjamincf0     |
+| Ewen Gueguen            | BagetTeam       |
+| David Tang              | Tangdavid1      |

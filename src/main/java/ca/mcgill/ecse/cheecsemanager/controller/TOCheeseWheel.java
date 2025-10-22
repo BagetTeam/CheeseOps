@@ -5,14 +5,12 @@ package ca.mcgill.ecse.cheecsemanager.controller;
 import java.sql.Date;
 
 // line 34 "../../../../../CheECSEManagerTransferObjects.ump"
-public class TOCheeseWheel
-{
-
+public class TOCheeseWheel {
   //------------------------
   // MEMBER VARIABLES
   //------------------------
 
-  //TOCheeseWheel Attributes
+  // TOCheeseWheel Attributes
   private int id;
   private String monthsAged;
   private boolean isSpoiled;
@@ -26,8 +24,8 @@ public class TOCheeseWheel
   // CONSTRUCTOR
   //------------------------
 
-  public TOCheeseWheel(int aId, String aMonthsAged, boolean aIsSpoiled, Date aPurchaseDate, String aShelfID, int aColumn, int aRow, boolean aIsOrdered)
-  {
+  public TOCheeseWheel(int aId, String aMonthsAged, boolean aIsSpoiled, Date aPurchaseDate,
+      String aShelfID, int aColumn, int aRow, boolean aIsOrdered) {
     id = aId;
     monthsAged = aMonthsAged;
     isSpoiled = aIsSpoiled;
@@ -42,140 +40,131 @@ public class TOCheeseWheel
   // INTERFACE
   //------------------------
 
-  public boolean setId(int aId)
-  {
+  public boolean setId(int aId) {
     boolean wasSet = false;
     id = aId;
     wasSet = true;
     return wasSet;
   }
 
-  public boolean setMonthsAged(String aMonthsAged)
-  {
+  public boolean setMonthsAged(String aMonthsAged) {
     boolean wasSet = false;
     monthsAged = aMonthsAged;
     wasSet = true;
     return wasSet;
   }
 
-  public boolean setIsSpoiled(boolean aIsSpoiled)
-  {
+  public boolean setIsSpoiled(boolean aIsSpoiled) {
     boolean wasSet = false;
     isSpoiled = aIsSpoiled;
     wasSet = true;
     return wasSet;
   }
 
-  public boolean setPurchaseDate(Date aPurchaseDate)
-  {
+  public boolean setPurchaseDate(Date aPurchaseDate) {
     boolean wasSet = false;
     purchaseDate = aPurchaseDate;
     wasSet = true;
     return wasSet;
   }
 
-  public boolean setShelfID(String aShelfID)
-  {
+  public boolean setShelfID(String aShelfID) {
     boolean wasSet = false;
     shelfID = aShelfID;
     wasSet = true;
     return wasSet;
   }
 
-  public boolean setColumn(int aColumn)
-  {
+  public boolean setColumn(int aColumn) {
     boolean wasSet = false;
     column = aColumn;
     wasSet = true;
     return wasSet;
   }
 
-  public boolean setRow(int aRow)
-  {
+  public boolean setRow(int aRow) {
     boolean wasSet = false;
     row = aRow;
     wasSet = true;
     return wasSet;
   }
 
-  public boolean setIsOrdered(boolean aIsOrdered)
-  {
+  public boolean setIsOrdered(boolean aIsOrdered) {
     boolean wasSet = false;
     isOrdered = aIsOrdered;
     wasSet = true;
     return wasSet;
   }
 
-  public int getId()
-  {
+  public int getId() {
     return id;
   }
 
-  public String getMonthsAged()
-  {
+  public String getMonthsAged() {
     return monthsAged;
   }
 
-  public boolean getIsSpoiled()
-  {
+  public boolean getIsSpoiled() {
     return isSpoiled;
   }
 
-  public Date getPurchaseDate()
-  {
+  public Date getPurchaseDate() {
     return purchaseDate;
   }
 
-  public String getShelfID()
-  {
+  public String getShelfID() {
     return shelfID;
   }
 
   /**
    * -1 if cheese wheel is not assigned to shelf
    */
-  public int getColumn()
-  {
+  public int getColumn() {
     return column;
   }
 
   /**
    * -1 if cheese wheel is not assigned to shelf
    */
-  public int getRow()
-  {
+  public int getRow() {
     return row;
   }
 
-  public boolean getIsOrdered()
-  {
+  public boolean getIsOrdered() {
     return isOrdered;
   }
   /* Code from template attribute_IsBoolean */
-  public boolean isIsSpoiled()
-  {
+  public boolean isIsSpoiled() {
     return isSpoiled;
   }
   /* Code from template attribute_IsBoolean */
-  public boolean isIsOrdered()
-  {
+  public boolean isIsOrdered() {
     return isOrdered;
   }
 
-  public void delete()
-  {}
+  public void delete() {}
 
-
-  public String toString()
-  {
-    return super.toString() + "["+
-            "id" + ":" + getId()+ "," +
-            "monthsAged" + ":" + getMonthsAged()+ "," +
-            "isSpoiled" + ":" + getIsSpoiled()+ "," +
-            "shelfID" + ":" + getShelfID()+ "," +
-            "column" + ":" + getColumn()+ "," +
-            "row" + ":" + getRow()+ "," +
-            "isOrdered" + ":" + getIsOrdered()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "purchaseDate" + "=" + (getPurchaseDate() != null ? !getPurchaseDate().equals(this)  ? getPurchaseDate().toString().replaceAll("  ","    ") : "this" : "null");
+  public String toString() {
+    return super.toString() + "["
+        + "id"
+        + ":" + getId() + ","
+        + "monthsAged"
+        + ":" + getMonthsAged() + ","
+        + "isSpoiled"
+        + ":" + getIsSpoiled() + ","
+        + "shelfID"
+        + ":" + getShelfID() + ","
+        + "column"
+        + ":" + getColumn() + ","
+        + "row"
+        + ":" + getRow() + ","
+        + "isOrdered"
+        + ":" + getIsOrdered() + "]" + System.getProperties().getProperty("line.separator") + "  "
+        + "purchaseDate"
+        + "="
+        + (getPurchaseDate() != null ? !getPurchaseDate().equals(this)
+                    ? getPurchaseDate().toString().replaceAll("  ", "    ")
+                    : "this"
+                                     : "null");
   }
 }
