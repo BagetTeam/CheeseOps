@@ -2,6 +2,7 @@ package ca.mcgill.ecse.cheecsemanager.controller;
 
 import java.util.List;
 import java.util.Optional;
+
 import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
 import ca.mcgill.ecse.cheecsemanager.model.Farmer;
 import ca.mcgill.ecse.cheecsemanager.model.Purchase;
