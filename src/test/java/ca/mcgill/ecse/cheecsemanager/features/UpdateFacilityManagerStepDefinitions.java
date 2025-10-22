@@ -43,20 +43,18 @@ public class UpdateFacilityManagerStepDefinitions {
    * @author Ming Li Liu
    * */
   @When("the facility manager attempts to update the facility manager "
-        + "password to {string} \\(p2)")
+      + "password to {string} \\(p2)")
   public void
   the_facility_manager_attempts_to_update_the_facility_manager_password_to_p2(
       String updatedPassword) {
-    error = CheECSEManagerFeatureSet1Controller.updateFacilityManager(
-        updatedPassword);
+    error = CheECSEManagerFeatureSet1Controller.updateFacilityManager(updatedPassword);
   }
 
   /**
    * @author Ming Li Liu, Olivier Mao
    * */
   @Then("the number of facility managers in the system shall be {int} \\(p2)")
-  public void
-  the_number_of_facility_managers_in_the_system_shall_be_p2(Integer int1) {
+  public void the_number_of_facility_managers_in_the_system_shall_be_p2(Integer int1) {
     var manager = CheECSEManagerApplication.getCheecseManager().getManager();
     assertNotNull(manager, "Expected 1 facility manager, but found none");
   }
@@ -65,10 +63,9 @@ public class UpdateFacilityManagerStepDefinitions {
    * @author Ming Li Liu, Olivier Mao
    * */
   @Then("the facility manager with password {string} shall exist in the "
-        + "system \\(p2)")
+      + "system \\(p2)")
   public void
-  the_facility_manager_with_password_shall_exist_in_the_system_p2(
-      String updatedPassword) {
+  the_facility_manager_with_password_shall_exist_in_the_system_p2(String updatedPassword) {
     var manager = CheECSEManagerApplication.getCheecseManager().getManager();
     assertEquals(updatedPassword, manager.getPassword());
   }

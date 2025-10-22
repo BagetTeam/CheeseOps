@@ -90,8 +90,11 @@ public class CheECSEManagerFeatureSet7Controller {
   public static List<TOFarmer> getFarmers() {
     var app = CheECSEManagerApplication.getCheecseManager();
     List<Farmer> farmers = app.getFarmers();
-    List<TOFarmer> toFarmers = farmers.stream().map(farmer -> new TOFarmer(farmer.getEmail(), farmer.getPassword(), farmer.getName(), farmer.getAddress())).toList();
-    
+    List<TOFarmer> toFarmers = farmers.stream()
+                                   .map(farmer
+                                       -> new TOFarmer(farmer.getEmail(), farmer.getPassword(),
+                                           farmer.getName(), farmer.getAddress()))
+                                   .toList();
     return toFarmers;
   }
 
@@ -123,3 +126,4 @@ public class CheECSEManagerFeatureSet7Controller {
         return str == null || str.isEmpty();
     }
 }
+

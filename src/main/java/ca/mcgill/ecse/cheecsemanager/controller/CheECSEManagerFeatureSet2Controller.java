@@ -4,7 +4,6 @@ import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
 import ca.mcgill.ecse.cheecsemanager.model.CheeseWheel;
 import ca.mcgill.ecse.cheecsemanager.model.Shelf;
 import ca.mcgill.ecse.cheecsemanager.model.ShelfLocation;
-
 import java.util.Optional;
 
 /**
@@ -17,22 +16,24 @@ public class CheECSEManagerFeatureSet2Controller {
    * @param nrColumns nr Columns in the shelf
    * @param nrRows nr rows in the shelf
    *
-   * **/
+   * *
+   */
   public static String addShelf(String id, Integer nrColumns, Integer nrRows) {
     // check the validity of the id
     Optional<String> errorMessageWithId = Optional.ofNullable(checkErrorMessageWithId(id));
-    if(errorMessageWithId.isPresent()) {
+    if (errorMessageWithId.isPresent()) {
       return errorMessageWithId.get();
     }
 
-    Optional<String> colsRowsErrorMessage = Optional.ofNullable(checkErrorMessageWithRowsCols(nrRows, nrColumns));
-    if(colsRowsErrorMessage.isPresent()) {
+    Optional<String> colsRowsErrorMessage =
+        Optional.ofNullable(checkErrorMessageWithRowsCols(nrRows, nrColumns));
+    if (colsRowsErrorMessage.isPresent()) {
       return colsRowsErrorMessage.get();
     }
 
     Optional<Shelf> existingShelf = Optional.ofNullable(Shelf.getWithId(id));
 
-    if(existingShelf.isPresent()){
+    if (existingShelf.isPresent()) {
       return String.format("The shelf %s already exists.", id);
     }
 
@@ -44,7 +45,7 @@ public class CheECSEManagerFeatureSet2Controller {
   }
 
   private static String checkErrorMessageWithId(String id) {
-    if (id.length() != 3){
+    if (id.length() != 3) {
       return "The id must be three characters long.";
     }
     if (!Character.isLetter(id.charAt(0))) {
@@ -57,7 +58,7 @@ public class CheECSEManagerFeatureSet2Controller {
   }
 
   private static String checkErrorMessageWithRowsCols(Integer nrRows, Integer nrColumns) {
-    if(nrRows > 10) {
+    if (nrRows > 10) {
       return "Number of rows must be at the most ten.";
     }
 
@@ -77,11 +78,12 @@ public class CheECSEManagerFeatureSet2Controller {
    * @param nrColumns nr Columns in the shelf
    * @param nrRows nr rows in the shelf
    *
-   * **/
+   * *
+   */
   private static void addShelfLocations(Shelf aShelf, Integer nrColumns, Integer nrRows) {
-    for(int i=1; i<=nrColumns; i++) {
-      for(int j=1; j<=nrRows; j++) {
-        ShelfLocation newShelfLocation = new ShelfLocation(i, j, aShelf);
+    for (int i = 1; i <= nrColumns; i++) {
+      for (int j = 1; j <= nrRows; j++) {
+        new ShelfLocation(i, j, aShelf);
       }
     }
   }
@@ -89,17 +91,19 @@ public class CheECSEManagerFeatureSet2Controller {
   /**
    * Delete some shelf and all the locations linked to it
    * @param id id of shelf
-   * **/
-  public static String deleteShelf(String id){
+   * *
+   */
+  public static String deleteShelf(String id) {
     var app = CheECSEManagerApplication.getCheecseManager();
-    Optional<Shelf> shelfToDelete = app.getShelves().stream().filter(s -> id.equals(s.getId())).findFirst();
-    if(shelfToDelete.isPresent()) {
-        if(checkIsEmpty(shelfToDelete.get())){
-          shelfToDelete.get().delete(); // this method takes care of deleting all locations as well
-          return null;
+    Optional<Shelf> shelfToDelete =
+        app.getShelves().stream().filter(s -> id.equals(s.getId())).findFirst();
+    if (shelfToDelete.isPresent()) {
+      if (checkIsEmpty(shelfToDelete.get())) {
+        shelfToDelete.get().delete(); // this method takes care of deleting all locations as well
+        return null;
       } else {
-          return "Cannot delete a shelf that contains cheese wheels.";
-        }
+        return "Cannot delete a shelf that contains cheese wheels.";
+      }
     } else {
       return String.format("The shelf %s does not exist.", id);
     }
@@ -107,9 +111,10 @@ public class CheECSEManagerFeatureSet2Controller {
   /**
    * when deleting a shelf, need to check if the shelf is empty first
    * @param aShelf shelf from which we want to remove the locations
-   * **/
-  private static boolean checkIsEmpty(Shelf aShelf){
-    for(ShelfLocation shelfLocation : aShelf.getLocations()) {
+   * *
+   */
+  private static boolean checkIsEmpty(Shelf aShelf) {
+    for (ShelfLocation shelfLocation : aShelf.getLocations()) {
       Optional<CheeseWheel> cheeseWheel = Optional.ofNullable(shelfLocation.getCheeseWheel());
       if (cheeseWheel.isPresent()) {
         return false;
