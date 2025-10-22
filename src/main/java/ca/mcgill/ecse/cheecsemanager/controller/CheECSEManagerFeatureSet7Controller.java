@@ -18,6 +18,7 @@ public class CheECSEManagerFeatureSet7Controller {
      * @return An empty string on success, or an error message otherwise.
      */
   public static String updateFarmer(String email, String newPassword, String newName,String newAddress) {
+    // make sure the new password and name is not empty
     if (isNullOrEmpty(newPassword)) {
       return "Password must not be empty.";
     }
@@ -25,11 +26,13 @@ public class CheECSEManagerFeatureSet7Controller {
       return "Address must not be empty.";
     }
     
+    // make sure farmer with email exists
     Optional<Farmer> farmerOpt = findFarmerWithEmail(email);
     if (farmerOpt.isEmpty()) {
       return "The farmer with email " + email + " does not exist.";
     }
 
+    // update farmer
     Farmer farmer = farmerOpt.get();
     farmer.setPassword(newPassword);
     farmer.setName(newName);
@@ -44,14 +47,16 @@ public class CheECSEManagerFeatureSet7Controller {
      * @return An empty string on success, or an error message otherwise.
      */
   public static String deleteFarmer(String email) {
+    // make sure farmer with email exists
     Optional<Farmer> farmerOpt = findFarmerWithEmail(email);
     if (farmerOpt.isEmpty()) {
       return "The farmer with email " + email + " does not exist.";
     }
 
     Farmer farmer = farmerOpt.get();
+    
+    // make sure farmer has no purchases
     List<Purchase> purchases = farmer.getPurchases();
-
     for (Purchase purchase : purchases) {
       if (purchase.hasCheeseWheels()) {
         return "Cannot delete farmer who has supplied cheese.";
