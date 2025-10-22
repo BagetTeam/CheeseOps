@@ -1,12 +1,11 @@
 package ca.mcgill.ecse.cheecsemanager.controller;
 
-
+import java.util.List;
 import java.util.Optional;
 
 import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
 import ca.mcgill.ecse.cheecsemanager.model.Farmer;
 import ca.mcgill.ecse.cheecsemanager.model.Purchase;
-import java.util.List;
 
 public class CheECSEManagerFeatureSet7Controller {
   
@@ -22,7 +21,6 @@ public class CheECSEManagerFeatureSet7Controller {
   public static String updateFarmer(String email, String newPassword, String newName,String newAddress) {
     // make sure the new password and address is not empty
     if (isNullOrEmpty(newPassword)) {
-
       return "Password must not be empty.";
     }
     if (isNullOrEmpty(newAddress)) {
@@ -84,6 +82,11 @@ public class CheECSEManagerFeatureSet7Controller {
     return null;
   }
   
+  /**
+     * Retrieve all farmers as data transfer object for display.
+     *
+     * @return A list of all farmers as TOFarmer instances.
+     */
   public static List<TOFarmer> getFarmers() {
     var app = CheECSEManagerApplication.getCheecseManager();
     List<Farmer> farmers = app.getFarmers();
@@ -92,7 +95,6 @@ public class CheECSEManagerFeatureSet7Controller {
                                        -> new TOFarmer(farmer.getEmail(), farmer.getPassword(),
                                            farmer.getName(), farmer.getAddress()))
                                    .toList();
-
     return toFarmers;
   }
 
@@ -124,3 +126,4 @@ public class CheECSEManagerFeatureSet7Controller {
         return str == null || str.isEmpty();
     }
 }
+
