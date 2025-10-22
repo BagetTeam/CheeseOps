@@ -5,7 +5,7 @@
 1. Clone the repository.
 2. Make a branch with a your name and what you are working on (e.g. git branch "mingli/the-feature-you-are-working-on").
 3. Make changes, commit, and push.
-4. When you are done, make a Pull Request into main. You can request reviewers to review your code if you want to confirm your changes.
+4. When you are done, make a Pull Request with proper description into main. You can request reviewers to review your code if you want to confirm your changes.
 5. If there is any conflicts, ask the person who worked on the file before you to make sure you are not overridding important stuff, then resolve it.
 6. Merge the PR
 
