@@ -14,7 +14,7 @@ public class CheECSEManagerFeatureSet6Controller {
   /**
    * Deletes a wholesale company from the system by its name. The company cannot be
    * deleted if it has existing orders.
-   * 
+   *
    * @param name The name of the wholesale company to delete.
    * @return An empty string on successful deletion, or an error message if the
    *         company does not exist or has orders.
@@ -38,7 +38,7 @@ public class CheECSEManagerFeatureSet6Controller {
   /**
    * Retrieves a specific wholesale company by its name and returns it as a
    * transfer object.
-   * 
+   *
    * @param name The name of the company to retrieve.
    * @return A {@link TOWholesaleCompany} transfer object containing the company's
    *         details, or null if no company with that name is found.
@@ -57,7 +57,7 @@ public class CheECSEManagerFeatureSet6Controller {
 
   /**
    * Retrieves a list of all wholesale companies currently in the system.
-   * 
+   *
    * @return A list of {@link TOWholesaleCompany} objects, with each object
    *         representing a wholesale company.
    */
@@ -78,7 +78,7 @@ public class CheECSEManagerFeatureSet6Controller {
   /**
    * A private helper method to convert a {@link WholesaleCompany} model object
    * into a {@link TOWholesaleCompany} transfer object.
-   * 
+   *
    * @param company The {@link WholesaleCompany} model object to convert.
    * @return The corresponding {@link TOWholesaleCompany} transfer object.
    */
