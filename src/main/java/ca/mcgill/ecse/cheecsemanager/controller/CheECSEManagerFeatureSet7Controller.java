@@ -18,11 +18,11 @@ public class CheECSEManagerFeatureSet7Controller {
      * @return An empty string on success, or an error message otherwise.
      */
   public static String updateFarmer(String email, String newPassword, String newName,String newAddress) {
-    // make sure the new password and name is not empty
+    // make sure the new password and address is not empty
     if (isNullOrEmpty(newPassword)) {
       return "Password must not be empty.";
     }
-    if (isNullOrEmpty(newName)) {
+    if (isNullOrEmpty(newAddress)) {
       return "Address must not be empty.";
     }
     
