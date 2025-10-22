@@ -10,14 +10,16 @@ import java.sql.Date;
 public class CheECSEManagerFeatureSet4Controller {
   /**
    * Buys multiple cheese wheels from a farmer and register in the system.
+   * @author Eun-jun Chang
    * @param emailFarmer Email of the farmer selling the cheese.
    * @param purchaseDate Date of the purchase.
    * @param nrCheeseWheels Number of cheese wheels to buy.
    * @param monthsAged monthsAged maturation period.
    * @return error message, empty string if successful.
    */
-  public static String buyCheeseWheels(
-      String emailFarmer, Date purchaseDate, Integer nrCheeseWheels, String monthsAged) {
+  public static String buyCheeseWheels(String emailFarmer, Date purchaseDate,
+                                       Integer nrCheeseWheels,
+                                       String monthsAged) {
     var manager = CheECSEManagerApplication.getCheecseManager();
 
     if (emailFarmer == null || emailFarmer.trim().isEmpty()) {
@@ -52,7 +54,8 @@ public class CheECSEManagerFeatureSet4Controller {
       } catch (IllegalArgumentException e) {
         return "The monthsAged must be Six, Twelve, TwentyFour, or ThirtySix.";
       }
-      var purchase = new Purchase(purchaseDate, manager, farmer); // Create purchase
+      var purchase =
+          new Purchase(purchaseDate, manager, farmer); // Create purchase
 
       for (int i = 0; i < nrCheeseWheels; i++) { // Add cheese wheels to
                                                  // purchase
@@ -66,14 +69,17 @@ public class CheECSEManagerFeatureSet4Controller {
 
   /**
    * Assigns cheese wheel to a specific shelf and position.
+   * @author Eun-jun Chang
    * @param cheeseWheelID ID of the cheese wheel.
    * @param shelfID ID of the shelf.
    * @param columnNr Column number of the shelf.
    * @param rowNr Row number of the shelf.
    * @return error message, empty string if successful.
    */
-  public static String assignCheeseWheelToShelf(
-      Integer cheeseWheelID, String shelfID, Integer columnNr, Integer rowNr) {
+  public static String assignCheeseWheelToShelf(Integer cheeseWheelID,
+                                                String shelfID,
+                                                Integer columnNr,
+                                                Integer rowNr) {
     var manager = CheECSEManagerApplication.getCheecseManager();
 
     if (cheeseWheelID == null) {
@@ -143,6 +149,7 @@ public class CheECSEManagerFeatureSet4Controller {
 
   /**
    * Removes a cheese wheel from its assigned shelf location.
+   * @author Eun-jun Chang
    * @param cheeseWheelID ID of the cheese wheel to remove.
    * @return error message, empty string if successful.
    */
