@@ -7,6 +7,13 @@ import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
 import ca.mcgill.ecse.cheecsemanager.model.Farmer;
 import ca.mcgill.ecse.cheecsemanager.model.Purchase;
 
+/**
+ * Controller class for managing FeatureSet7 operations including updating farmer, 
+ * deleting farmer, displaying farmer, and displaying all farmers.
+ * 
+ * @author Ewen Gueguen
+ * */
+
 public class CheECSEManagerFeatureSet7Controller {
   
   /**
