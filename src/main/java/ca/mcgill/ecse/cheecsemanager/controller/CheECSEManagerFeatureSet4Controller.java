@@ -10,12 +10,12 @@ import java.sql.Date;
 public class CheECSEManagerFeatureSet4Controller {
   /**
    * Buys multiple cheese wheels from a farmer and register in the system.
-   * @author Eun-jun Chang
    * @param emailFarmer Email of the farmer selling the cheese.
    * @param purchaseDate Date of the purchase.
    * @param nrCheeseWheels Number of cheese wheels to buy.
    * @param monthsAged monthsAged maturation period.
    * @return error message, empty string if successful.
+   * @author Eun-jun Chang
    */
   public static String buyCheeseWheels(
       String emailFarmer, Date purchaseDate, Integer nrCheeseWheels, String monthsAged) {
@@ -67,12 +67,12 @@ public class CheECSEManagerFeatureSet4Controller {
 
   /**
    * Assigns cheese wheel to a specific shelf and position.
-   * @author Eun-jun Chang
    * @param cheeseWheelID ID of the cheese wheel.
    * @param shelfID ID of the shelf.
    * @param columnNr Column number of the shelf.
    * @param rowNr Row number of the shelf.
    * @return error message, empty string if successful.
+   * @author Eun-jun Chang
    */
   public static String assignCheeseWheelToShelf(
       Integer cheeseWheelID, String shelfID, Integer columnNr, Integer rowNr) {
@@ -145,9 +145,9 @@ public class CheECSEManagerFeatureSet4Controller {
 
   /**
    * Removes a cheese wheel from its assigned shelf location.
-   * @author Eun-jun Chang
    * @param cheeseWheelID ID of the cheese wheel to remove.
    * @return error message, empty string if successful.
+   * @author Eun-jun Chang
    */
   public static String removeCheeseWheelFromShelf(Integer cheeseWheelID) {
     var manager = CheECSEManagerApplication.getCheecseManager();

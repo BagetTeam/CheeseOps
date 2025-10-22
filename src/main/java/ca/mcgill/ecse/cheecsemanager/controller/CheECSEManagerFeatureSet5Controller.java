@@ -21,9 +21,9 @@ public class CheECSEManagerFeatureSet5Controller {
   /**
    * Helper method to convert MaturationPeriod enum to integer months.
    *
-   * @author Olivier Mao
    * @param period The MaturationPeriod enum value
    * @return The corresponding number of months as an integer
+   * @author Olivier Mao
    */
   private static int monthsToInt(MaturationPeriod period) {
     return switch (period) {
@@ -39,7 +39,6 @@ public class CheECSEManagerFeatureSet5Controller {
    * Validates input parameters, finds available cheese wheels that match the
    * maturation period, and creates an order with the specified delivery date.
    *
-   * @author Olivier Mao
    * @param nameCompany The name of the wholesale company placing the order
    * @param orderDate The date when the order is placed
    * @param nrCheeseWheels The number of cheese wheels to sell (must be greater
@@ -49,6 +48,7 @@ public class CheECSEManagerFeatureSet5Controller {
    * @param deliveryDate The requested delivery date (must be after order date
    *     and maturation date)
    * @return Empty string if successful, error message if validation fails
+   * @author Olivier Mao
    */
   public static String sellCheeseWheels(String nameCompany, Date orderDate, Integer nrCheeseWheels,
       String monthsAged, Date deliveryDate) {
@@ -146,11 +146,11 @@ public class CheECSEManagerFeatureSet5Controller {
    * Validates that the name and address are not empty and that a company with
    * the same name doesn't already exist.
    *
-   * @author Olivier Mao
    * @param name The name of the wholesale company (must not be null or empty)
    * @param address The address of the wholesale company (must not be null or
    *     empty)
    * @return Empty string if successful, error message if validation fails
+   * @author Olivier Mao
    */
   public static String addWholesaleCompany(String name, String address) {
     var app = CheECSEManagerApplication.getCheecseManager();
@@ -180,13 +180,13 @@ public class CheECSEManagerFeatureSet5Controller {
    * Validates that the new name and address are not empty, that the company
    * exists, and that no other company already has the new name.
    *
-   * @author Olivier Mao
    * @param name The current name of the wholesale company to update
    * @param newName The new name for the wholesale company (must not be null or
    *     empty)
    * @param newAddress The new address for the wholesale company (must not be
    *     null or empty)
    * @return Empty string if successful, error message if validation fails
+   * @author Olivier Mao
    */
   public static String updateWholesaleCompany(String name, String newName, String newAddress) {
     var app = CheECSEManagerApplication.getCheecseManager();

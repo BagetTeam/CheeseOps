@@ -15,10 +15,10 @@ public class CheECSEManagerFeatureSet6Controller {
    * Deletes a wholesale company from the system by its name. The company cannot
    * be deleted if it has existing orders.
    *
-   * @author Benjamin Curis-Friedman
    * @param name The name of the wholesale company to delete.
    * @return An empty string on successful deletion, or an error message if the
    *         company does not exist or has orders.
+   * @author Benjamin Curis-Friedman
    */
   public static String deleteWholesaleCompany(String name) {
     WholesaleCompany company = WholesaleCompany.getWithName(name);
@@ -40,11 +40,11 @@ public class CheECSEManagerFeatureSet6Controller {
    * Retrieves a specific wholesale company by its name and returns it as a
    * transfer object.
    *
-   * @author Benjamin Curis-Friedman
    * @param name The name of the company to retrieve.
    * @return A {@link TOWholesaleCompany} transfer object containing the
    *     company's
    *         details, or null if no company with that name is found.
+   * @author Benjamin Curis-Friedman
    */
   public static TOWholesaleCompany getWholesaleCompany(String name) {
     // throw new UnsupportedOperationException("Implement me!");
@@ -61,9 +61,9 @@ public class CheECSEManagerFeatureSet6Controller {
   /**
    * Retrieves a list of all wholesale companies currently in the system.
    *
-   * @author Benjamin Curis-Friedman
    * @return A list of {@link TOWholesaleCompany} objects, with each object
    *         representing a wholesale company.
+   * @author Benjamin Curis-Friedman
    */
   public static List<TOWholesaleCompany> getWholesaleCompanies() {
     var app = CheECSEManagerApplication.getCheecseManager();
@@ -83,9 +83,9 @@ public class CheECSEManagerFeatureSet6Controller {
    * A private helper method to convert a {@link WholesaleCompany} model object
    * into a {@link TOWholesaleCompany} transfer object.
    *
-   * @author Benjamin Curis-Friedman
    * @param company The {@link WholesaleCompany} model object to convert.
    * @return The corresponding {@link TOWholesaleCompany} transfer object.
+   * @author Benjamin Curis-Friedman
    */
   private static TOWholesaleCompany _toCompany(WholesaleCompany company) {
     // Create a new transfer object with company details

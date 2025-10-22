@@ -10,9 +10,9 @@ import java.util.List;
 public class CheECSEManagerFeatureSet1Controller {
   /**
    * Updates the manager's password.
-   * @author Ming Li Liu
    * @param password the new password.
    * @return the error message. Empty string if there is no error.
+   * @author Ming Li Liu
    * */
   public static String updateFacilityManager(String password) {
     if (password.length() < 4) {
@@ -34,9 +34,9 @@ public class CheECSEManagerFeatureSet1Controller {
 
   /**
    * Get the shelf from shelf Id
-   * @author Ming Li Liu
    * @param id shelf Id
    * @return instance of {@link TOShelf} associated with the shelf Id
+   * @author Ming Li Liu
    * */
   public static TOShelf getShelf(String id) {
     var shelf = Shelf.getWithId(id);
@@ -50,8 +50,8 @@ public class CheECSEManagerFeatureSet1Controller {
 
   /**
    * Get all the shelves in the system
-   * @author Ming Li Liu
    * @return list of {@link TOShelf}
+   * @author Ming Li Liu
    * */
   public static List<TOShelf> getShelves() {
     var app = CheECSEManagerApplication.getCheecseManager();
@@ -61,9 +61,9 @@ public class CheECSEManagerFeatureSet1Controller {
 
   /**
    * helper function to convert {@link Shelf} to {@link TOShelf}
-   * @author Ming Li Liu
    * @param shelf {@link Shelf} to convert
    * @return {@link TOShelf} converted from {@link Shelf}
+   * @author Ming Li Liu
    * */
   private static TOShelf _toShelf(Shelf shelf) {
     var toShelf = new TOShelf(shelf.getId(), 0, 0);
