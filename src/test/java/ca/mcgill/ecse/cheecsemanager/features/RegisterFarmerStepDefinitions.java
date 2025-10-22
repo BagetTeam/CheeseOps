@@ -64,7 +64,7 @@ public class RegisterFarmerStepDefinitions {
    * @author Lina Guezi
    */
   @When("the facility manager attempts to register a farmer in the system with email {string}, "
-        + "password {string}, address {string}, and name {string} \\(p9)")
+      + "password {string}, address {string}, and name {string} \\(p9)")
   public void
   the_facility_manager_attempts_to_register_a_farmer_in_the_system_with_email_password_address_and_name_p9(
       String email, String password, String address, String name) {
@@ -93,7 +93,7 @@ public class RegisterFarmerStepDefinitions {
    * @author Lina Guezi
    */
   @Then("the farmer {string} with password {string}, address {string}, and name {string} shall "
-        + "exist in the system \\(p9)")
+      + "exist in the system \\(p9)")
   public void
   the_farmer_with_password_address_and_name_shall_exist_in_the_system_p9(
       String email, String password, String address, String name) {

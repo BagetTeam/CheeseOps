@@ -84,7 +84,7 @@ public class DeleteWholesaleCompanyStepDefinitions {
    * @param companyName , the name of a Wholesale Company
    */
   @When("the facility manager attempts to delete the wholesale company with name {string} from the "
-        + "system \\(p16)")
+      + "system \\(p16)")
   public void
   the_facility_manager_attempts_to_delete_the_wholesale_company_with_name_from_the_system_p16(
       String companyName) {

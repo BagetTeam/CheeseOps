@@ -35,13 +35,12 @@ public class WholesaleCompany {
     address = aAddress;
     if (!setName(aName)) {
       throw new RuntimeException("Cannot create due to duplicate name. See "
-                                 + "https://manual.umple.org?RE003ViolationofUniqueness.html");
+          + "https://manual.umple.org?RE003ViolationofUniqueness.html");
     }
     orders = new ArrayList<Order>();
     boolean didAddCheECSEManager = setCheECSEManager(aCheECSEManager);
     if (!didAddCheECSEManager) {
-      throw new RuntimeException(
-          "Unable to create company due to cheECSEManager. See "
+      throw new RuntimeException("Unable to create company due to cheECSEManager. See "
           + "https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
   }

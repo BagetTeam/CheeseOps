@@ -56,7 +56,7 @@ public class UpdateFarmerStepDefinitions {
    * @param name String containing the name of the farmer entered by the user
    */
   @When("the facility manager attempts to update farmer {string} in the system with password "
-        + "{string}, address {string}, and name {string} \\(p3)")
+      + "{string}, address {string}, and name {string} \\(p3)")
   public void
   the_facility_manager_attempts_to_update_farmer_in_the_system_with_password_address_and_name_p3(
       String email, String password, String address, String name) {
@@ -91,7 +91,7 @@ public class UpdateFarmerStepDefinitions {
    * @param name String containing the expected name of the farmer
    */
   @Then("the farmer {string} with password {string}, address {string}, and name {string} shall "
-        + "exist in the system \\(p3)")
+      + "exist in the system \\(p3)")
   public void
   the_farmer_with_password_address_and_name_shall_exist_in_the_system_p3(
       String email, String password, String address, String name) {
@@ -115,7 +115,7 @@ public class UpdateFarmerStepDefinitions {
    * @param name String containing the name of the farmer
    */
   @Then("the farmer {string} with password {string}, address {string}, and name {string} shall not "
-        + "exist in the system \\(p3)")
+      + "exist in the system \\(p3)")
   public void
   the_farmer_with_password_address_and_name_shall_not_exist_in_the_system_p3(
       String email, String password, String address, String name) {

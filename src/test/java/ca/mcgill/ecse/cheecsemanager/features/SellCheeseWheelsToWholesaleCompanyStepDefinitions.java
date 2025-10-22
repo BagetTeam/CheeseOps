@@ -209,8 +209,8 @@ public class SellCheeseWheelsToWholesaleCompanyStepDefinitions {
    * @author Mahad, Revised by Yanni
    */
   @When("the facility manager attempts to add an order in the system with transaction date "
-        + "{string}, {int} cheese wheels, months aged {string}, delivery date {string}, and "
-        + "company {string} \\(p15)")
+      + "{string}, {int} cheese wheels, months aged {string}, delivery date {string}, and "
+      + "company {string} \\(p15)")
   public void
   the_facility_manager_attempts_to_add_an_order_in_the_system_with_transaction_date_cheese_wheels_months_aged_delivery_date_and_company_p15(
       String transactionDateStr, Integer nrCheeseWheels, String monthsAged, String deliveryDateStr,

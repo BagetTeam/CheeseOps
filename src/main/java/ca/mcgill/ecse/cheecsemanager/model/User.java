@@ -32,7 +32,7 @@ public abstract class User {
     password = aPassword;
     if (!setEmail(aEmail)) {
       throw new RuntimeException("Cannot create due to duplicate email. See "
-                                 + "https://manual.umple.org?RE003ViolationofUniqueness.html");
+          + "https://manual.umple.org?RE003ViolationofUniqueness.html");
     }
   }
 

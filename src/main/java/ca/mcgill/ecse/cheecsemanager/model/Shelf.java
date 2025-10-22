@@ -31,13 +31,12 @@ public class Shelf {
   public Shelf(String aId, CheECSEManager aCheECSEManager) {
     if (!setId(aId)) {
       throw new RuntimeException("Cannot create due to duplicate id. See "
-                                 + "https://manual.umple.org?RE003ViolationofUniqueness.html");
+          + "https://manual.umple.org?RE003ViolationofUniqueness.html");
     }
     locations = new ArrayList<ShelfLocation>();
     boolean didAddCheECSEManager = setCheECSEManager(aCheECSEManager);
     if (!didAddCheECSEManager) {
-      throw new RuntimeException(
-          "Unable to create shelve due to cheECSEManager. See "
+      throw new RuntimeException("Unable to create shelve due to cheECSEManager. See "
           + "https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
   }

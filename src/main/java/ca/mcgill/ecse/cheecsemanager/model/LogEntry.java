@@ -23,8 +23,7 @@ public class LogEntry {
     description = aDescription;
     boolean didAddRobot = setRobot(aRobot);
     if (!didAddRobot) {
-      throw new RuntimeException(
-          "Unable to create log due to robot. See "
+      throw new RuntimeException("Unable to create log due to robot. See "
           + "https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
   }

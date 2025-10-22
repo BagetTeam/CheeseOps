@@ -71,7 +71,7 @@ public class AssignAndRemoveCheeseWheelStepDefinitions {
    * @param shelfID The ID of the shelf
    */
   @Given("cheese wheel {int} is at shelf location with column {int} and row {int} of shelf "
-         + "{string} \\(p7)")
+      + "{string} \\(p7)")
   public void
   cheese_wheel_is_at_shelf_location_with_column_and_row_of_shelf_p7(
       Integer cheeseWheelIndex, Integer column, Integer row, String shelfID) {
@@ -224,7 +224,7 @@ public class AssignAndRemoveCheeseWheelStepDefinitions {
    * @param shelfId The Id of the shelf
    */
   @When("the facility manager attempts to assign cheese wheel {int} to shelf location with column "
-        + "{int} and row {int} of shelf {string} \\(p7)")
+      + "{int} and row {int} of shelf {string} \\(p7)")
   public void
   the_facility_manager_attempts_to_assign_cheese_wheel_to_shelf_location_with_column_and_row_of_shelf_p7(
       Integer cheeseWheelId, Integer columnNr, Integer rowNr, String shelfId) {
@@ -255,7 +255,7 @@ public class AssignAndRemoveCheeseWheelStepDefinitions {
    * @param shelfId The Id of the shelf
    */
   @Then("the cheese wheel {int} shall be at shelf location with column {int} and row {int} of "
-        + "shelf {string} \\(p7)")
+      + "shelf {string} \\(p7)")
   public void
   the_cheese_wheel_shall_be_at_shelf_location_with_column_and_row_of_shelf_p7(
       Integer cheeseWheelId, Integer columnNr, Integer rowNr, String shelfId) {

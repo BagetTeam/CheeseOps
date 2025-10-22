@@ -124,7 +124,7 @@ public class BuyCheeseWheelsFromFarmerStepDefinitions {
    * @param email          email of the farmer
    */
   @When("the facility manager attempts to add a purchase in the system with purchaseDate {string}, "
-        + "{int} cheese wheels, monthsAged {string}, and farmerEmail {string} \\(p8)")
+      + "{int} cheese wheels, monthsAged {string}, and farmerEmail {string} \\(p8)")
   public void
   the_facility_manager_attempts_to_add_a_purchase_in_the_system_with_purchase_date_cheese_wheels_months_aged_and_farmer_email_p8(
       String date, Integer nrCheeseWheels, String monthsAged, String email) {
@@ -168,7 +168,7 @@ public class BuyCheeseWheelsFromFarmerStepDefinitions {
    * @param email email address of the farmer who is being purchased from.
    */
   @Then("the purchase {int} with purchaseDate {string} and farmerEmail {string} shall exist in the "
-        + "system \\(p8)")
+      + "system \\(p8)")
   public void
   the_purchase_with_purchase_date_and_farmer_email_shall_exist_in_the_system_p8(
       Integer id, String date, String email) {

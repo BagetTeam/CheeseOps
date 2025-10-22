@@ -156,7 +156,7 @@ public class DisplayFarmerStepDefinitions {
    * @author: Kaiyan Chu
    */
   @When("the facility manager attempts to display from the system the farmer with email {string} "
-        + "\\(p5)")
+      + "\\(p5)")
   public void
   the_facility_manager_attempts_to_display_from_the_system_the_farmer_with_email_p5(String email) {
     displayedFarmers.add(CheECSEManagerFeatureSet7Controller.getFarmer(email));

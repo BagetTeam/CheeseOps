@@ -45,7 +45,7 @@ public class UpdateWholesaleCompanyStepDefinitions {
    * @author Minh Vo
    */
   @When("the facility manager attempts to update wholesale company {string} in the system with "
-        + "name {string} and address {string} \\(p14)")
+      + "name {string} and address {string} \\(p14)")
   public void
   the_facility_manager_attempts_to_update_wholesale_company_in_the_system_with_name_and_address_p14(
       String companyName, String updateName, String updateAddress) {
@@ -65,7 +65,7 @@ public class UpdateWholesaleCompanyStepDefinitions {
    * @author Minh Vo
    */
   @Then("the wholesale company with name {string} and address {string} shall exist in the system "
-        + "\\(p14)")
+      + "\\(p14)")
   public void
   the_wholesale_company_with_name_and_address_shall_exist_in_the_system_p14(
       String name, String address) {
@@ -80,7 +80,7 @@ public class UpdateWholesaleCompanyStepDefinitions {
    * @author Harry Yang
    */
   @Then("the wholesale company with name {string} and address {string} shall not exist in the "
-        + "system \\(p14)")
+      + "system \\(p14)")
   public void
   the_wholesale_company_with_name_and_address_shall_not_exist_in_the_system_p14(
       String name, String address) {

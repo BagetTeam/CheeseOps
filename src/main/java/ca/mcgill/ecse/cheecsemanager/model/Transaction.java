@@ -34,8 +34,7 @@ public abstract class Transaction {
     id = nextId++;
     boolean didAddCheECSEManager = setCheECSEManager(aCheECSEManager);
     if (!didAddCheECSEManager) {
-      throw new RuntimeException(
-          "Unable to create transaction due to cheECSEManager. See "
+      throw new RuntimeException("Unable to create transaction due to cheECSEManager. See "
           + "https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
   }

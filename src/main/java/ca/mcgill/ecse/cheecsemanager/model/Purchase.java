@@ -24,8 +24,7 @@ public class Purchase extends Transaction {
     super(aTransactionDate, aCheECSEManager);
     boolean didAddFarmer = setFarmer(aFarmer);
     if (!didAddFarmer) {
-      throw new RuntimeException(
-          "Unable to create purchase due to farmer. See "
+      throw new RuntimeException("Unable to create purchase due to farmer. See "
           + "https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
     cheeseWheels = new ArrayList<CheeseWheel>();

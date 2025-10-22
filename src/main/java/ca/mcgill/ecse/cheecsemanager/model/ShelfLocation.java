@@ -36,8 +36,7 @@ public class ShelfLocation {
     id = nextId++;
     boolean didAddShelf = setShelf(aShelf);
     if (!didAddShelf) {
-      throw new RuntimeException(
-          "Unable to create location due to shelf. See "
+      throw new RuntimeException("Unable to create location due to shelf. See "
           + "https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
   }

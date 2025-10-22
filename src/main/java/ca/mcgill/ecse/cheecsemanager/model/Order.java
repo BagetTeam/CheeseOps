@@ -33,8 +33,7 @@ public class Order extends Transaction {
     deliveryDate = aDeliveryDate;
     boolean didAddCompany = setCompany(aCompany);
     if (!didAddCompany) {
-      throw new RuntimeException(
-          "Unable to create order due to company. See "
+      throw new RuntimeException("Unable to create order due to company. See "
           + "https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
     cheeseWheels = new ArrayList<CheeseWheel>();

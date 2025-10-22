@@ -46,7 +46,7 @@ public class AddWholesaleCompanyStepDefinitions {
    * @param address The address of the company to be added to the system.
    */
   @When("the facility manager attempts to add a wholesale company in the system with name {string} "
-        + "and address {string} \\(p13)")
+      + "and address {string} \\(p13)")
   public void
   the_facility_manager_attempts_to_add_a_wholesale_company_in_the_system_with_name_and_address_p13(
       String name, String address) {

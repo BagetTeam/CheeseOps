@@ -151,7 +151,7 @@ public class DisplayWholesaleCompanyStepDefinitions {
    * @param name
    */
   @When("the facility manager attempts to display from the system the wholesale company with name "
-        + "{string} \\(p4)")
+      + "{string} \\(p4)")
   public void
   the_facility_manager_attempts_to_display_from_the_system_the_wholesale_company_with_name_p4(
       String name) {
