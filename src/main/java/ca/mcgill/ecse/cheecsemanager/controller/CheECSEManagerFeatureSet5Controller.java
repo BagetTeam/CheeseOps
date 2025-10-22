@@ -13,10 +13,19 @@ import ca.mcgill.ecse.cheecsemanager.model.WholesaleCompany;
 
 
 /**
+ * Controller class for managing FeatureSet5 operations including selling cheese wheels,
+ * managing wholesale companies, and managing cheese types.
+ * 
  * @author Olivier Mao
- * */
+ */
 public class CheECSEManagerFeatureSet5Controller {
   
+    /**
+   * Helper method to convert MaturationPeriod enum to integer months.
+   * 
+   * @param period The MaturationPeriod enum value
+   * @return The corresponding number of months as an integer
+   */
   private static int monthsToInt(MaturationPeriod period) {
       return switch (period) {
           case Six -> 6;
@@ -26,6 +35,18 @@ public class CheECSEManagerFeatureSet5Controller {
           default -> 0;
       };
 }
+  /**
+   * Sells cheese wheels to a wholesale company by creating an order.
+   * Validates input parameters, finds available cheese wheels that match the maturation period,
+   * and creates an order with the specified delivery date.
+   * 
+   * @param nameCompany The name of the wholesale company placing the order
+   * @param orderDate The date when the order is placed
+   * @param nrCheeseWheels The number of cheese wheels to sell (must be greater than 0)
+   * @param monthsAged The maturation period required ("Six", "Twelve", "TwentyFour", or "ThirtySix")
+   * @param deliveryDate The requested delivery date (must be after order date and maturation date)
+   * @return Empty string if successful, error message if validation fails
+   */
   public static String sellCheeseWheels(String nameCompany, Date orderDate, Integer nrCheeseWheels,
       String monthsAged, Date deliveryDate) {
     var app = CheECSEManagerApplication.getCheecseManager();
@@ -117,6 +138,14 @@ public class CheECSEManagerFeatureSet5Controller {
 
   }
   
+  /**
+   * Adds a new wholesale company to the system.
+   * Validates that the name and address are not empty and that a company with the same name doesn't already exist.
+   * 
+   * @param name The name of the wholesale company (must not be null or empty)
+   * @param address The address of the wholesale company (must not be null or empty)
+   * @return Empty string if successful, error message if validation fails
+   */
   public static String addWholesaleCompany(String name, String address) {
     var app = CheECSEManagerApplication.getCheecseManager();
 
@@ -140,6 +169,16 @@ public class CheECSEManagerFeatureSet5Controller {
     }
   }
 
+  /**
+   * Updates an existing wholesale company's name and address.
+   * Validates that the new name and address are not empty, that the company exists,
+   * and that no other company already has the new name.
+   * 
+   * @param name The current name of the wholesale company to update
+   * @param newName The new name for the wholesale company (must not be null or empty)
+   * @param newAddress The new address for the wholesale company (must not be null or empty)
+   * @return Empty string if successful, error message if validation fails
+   */
   public static String updateWholesaleCompany(String name, String newName, String newAddress) {
     var app = CheECSEManagerApplication.getCheecseManager();
 
