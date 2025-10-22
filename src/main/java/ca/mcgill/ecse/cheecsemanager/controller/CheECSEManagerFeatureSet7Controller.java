@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Controller class for managing FeatureSet7 operations including updating farmer,
- * deleting farmer, displaying farmer, and displaying all farmers.
+ * Controller class for managing FeatureSet7 operations including updating
+ * farmer, deleting farmer, displaying farmer, and displaying all farmers.
  *
  * @author Ewen Gueguen
  * */
@@ -25,8 +25,8 @@ public class CheECSEManagerFeatureSet7Controller {
    *
    * @author Ewen Gueguen
    */
-  public static String updateFarmer(
-      String email, String newPassword, String newName, String newAddress) {
+  public static String updateFarmer(String email, String newPassword,
+                                    String newName, String newAddress) {
     // make sure the new password and address is not empty
     if (isNullOrEmpty(newPassword)) {
       return "Password must not be empty.";
@@ -90,7 +90,7 @@ public class CheECSEManagerFeatureSet7Controller {
     Optional<Farmer> farmer = findFarmerWithEmail(email);
     if (farmer.isPresent()) {
       return new TOFarmer(farmer.get().getEmail(), farmer.get().getPassword(),
-          farmer.get().getName(), farmer.get().getAddress());
+                          farmer.get().getName(), farmer.get().getAddress());
     }
     return null;
   }
@@ -105,11 +105,12 @@ public class CheECSEManagerFeatureSet7Controller {
   public static List<TOFarmer> getFarmers() {
     var app = CheECSEManagerApplication.getCheecseManager();
     List<Farmer> farmers = app.getFarmers();
-    List<TOFarmer> toFarmers = farmers.stream()
-                                   .map(farmer
-                                       -> new TOFarmer(farmer.getEmail(), farmer.getPassword(),
-                                           farmer.getName(), farmer.getAddress()))
-                                   .toList();
+    List<TOFarmer> toFarmers =
+        farmers.stream()
+            .map(farmer
+                 -> new TOFarmer(farmer.getEmail(), farmer.getPassword(),
+                                 farmer.getName(), farmer.getAddress()))
+            .toList();
     return toFarmers;
   }
 
