@@ -27,13 +27,13 @@ public class CheECSEManagerFeatureSet5Controller {
    * @return The corresponding number of months as an integer
    */
   private static int monthsToInt(MaturationPeriod period) {
-      return switch (period) {
-          case Six -> 6;
-          case Twelve -> 12;
-          case TwentyFour -> 24;
-          case ThirtySix -> 36;
-          default -> 0;
-      };
+    return switch (period) {
+        case Six -> 6;
+        case Twelve -> 12;
+        case TwentyFour -> 24;
+        case ThirtySix -> 36;
+        default -> 0;
+    };
 }
   /**
    * Sells cheese wheels to a wholesale company by creating an order.
