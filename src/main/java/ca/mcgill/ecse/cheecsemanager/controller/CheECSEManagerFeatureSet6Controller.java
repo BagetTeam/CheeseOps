@@ -12,9 +12,10 @@ import java.util.List;
  * */
 public class CheECSEManagerFeatureSet6Controller {
   /**
-   * Deletes a wholesale company from the system by its name. The company cannot be
-   * deleted if it has existing orders.
+   * Deletes a wholesale company from the system by its name. The company cannot
+   * be deleted if it has existing orders.
    *
+   * @author Benjamin Curis-Friedman
    * @param name The name of the wholesale company to delete.
    * @return An empty string on successful deletion, or an error message if the
    *         company does not exist or has orders.
@@ -39,8 +40,10 @@ public class CheECSEManagerFeatureSet6Controller {
    * Retrieves a specific wholesale company by its name and returns it as a
    * transfer object.
    *
+   * @author Benjamin Curis-Friedman
    * @param name The name of the company to retrieve.
-   * @return A {@link TOWholesaleCompany} transfer object containing the company's
+   * @return A {@link TOWholesaleCompany} transfer object containing the
+   *     company's
    *         details, or null if no company with that name is found.
    */
   public static TOWholesaleCompany getWholesaleCompany(String name) {
@@ -58,6 +61,7 @@ public class CheECSEManagerFeatureSet6Controller {
   /**
    * Retrieves a list of all wholesale companies currently in the system.
    *
+   * @author Benjamin Curis-Friedman
    * @return A list of {@link TOWholesaleCompany} objects, with each object
    *         representing a wholesale company.
    */
@@ -79,6 +83,7 @@ public class CheECSEManagerFeatureSet6Controller {
    * A private helper method to convert a {@link WholesaleCompany} model object
    * into a {@link TOWholesaleCompany} transfer object.
    *
+   * @author Benjamin Curis-Friedman
    * @param company The {@link WholesaleCompany} model object to convert.
    * @return The corresponding {@link TOWholesaleCompany} transfer object.
    */
@@ -93,7 +98,8 @@ public class CheECSEManagerFeatureSet6Controller {
       ret.addMonthsAged(order.getMonthsAged().toString());
       ret.addNrCheeseWheelsOrdered(order.getNrCheeseWheels());
       // Calculate the number of missing cheese wheels for the order
-      ret.addNrCheeseWheelsMissing(order.getNrCheeseWheels() - order.getCheeseWheels().size());
+      ret.addNrCheeseWheelsMissing(order.getNrCheeseWheels() -
+                                   order.getCheeseWheels().size());
       ret.addDeliveryDate(order.getDeliveryDate());
     }
     // Return the fully populated transfer object
