@@ -81,9 +81,9 @@ public class CheECSEManagerFeatureSet2Controller {
    * *
    */
   private static void addShelfLocations(Shelf aShelf, Integer nrColumns, Integer nrRows) {
-    for (int i = 1; i <= nrColumns; i++) {
-      for (int j = 1; j <= nrRows; j++) {
-        ShelfLocation newShelfLocation = new ShelfLocation(i, j, aShelf);
+    for(int i=1; i<=nrColumns; i++) {
+      for(int j=1; j<=nrRows; j++) {
+        new ShelfLocation(i, j, aShelf);
       }
     }
   }
