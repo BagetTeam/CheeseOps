@@ -12,12 +12,12 @@ import java.util.Optional;
 public class CheECSEManagerFeatureSet2Controller {
   /**
    * Add a new shelf
+   * @author Ayush Patel
    * @param id new shelf
    * @param nrColumns nr Columns in the shelf
    * @param nrRows nr rows in the shelf
-   *
-   * *
-   */
+   * @return the error message. Null if there is no error.
+   * */
   public static String addShelf(String id, Integer nrColumns, Integer nrRows) {
     // check the validity of the id
     Optional<String> errorMessageWithId = Optional.ofNullable(checkErrorMessageWithId(id));
@@ -44,6 +44,12 @@ public class CheECSEManagerFeatureSet2Controller {
     return null;
   }
 
+  /**
+   * helper function to check the validity of the id
+   * @author Ayush Patel
+   * @param id the id to check
+   * @return the error message. Null if there is no error.
+   * */
   private static String checkErrorMessageWithId(String id) {
     if (id.length() != 3) {
       return "The id must be three characters long.";
@@ -57,6 +63,13 @@ public class CheECSEManagerFeatureSet2Controller {
     return null;
   }
 
+  /**
+   * helper function to check the validity of the number of rows and columns
+   * @author Ayush Patel
+   * @param nrRows the number of rows
+   * @param nrColumns the number of columns
+   * @return the error message. Null if there is no error.
+   * */
   private static String checkErrorMessageWithRowsCols(Integer nrRows, Integer nrColumns) {
     if (nrRows > 10) {
       return "Number of rows must be at the most ten.";
@@ -99,7 +112,8 @@ public class CheECSEManagerFeatureSet2Controller {
         app.getShelves().stream().filter(s -> id.equals(s.getId())).findFirst();
     if (shelfToDelete.isPresent()) {
       if (checkIsEmpty(shelfToDelete.get())) {
-        shelfToDelete.get().delete(); // this method takes care of deleting all locations as well
+        shelfToDelete.get().delete(); // this method takes care of deleting all
+                                      // locations as well
         return null;
       } else {
         return "Cannot delete a shelf that contains cheese wheels.";

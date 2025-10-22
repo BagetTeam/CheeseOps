@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Controller class for managing FeatureSet7 operations including updating farmer, 
+ * Controller class for managing FeatureSet7 operations including updating farmer,
  * deleting farmer, displaying farmer, and displaying all farmers.
- * 
+ *
  * @author Ewen Gueguen
  * */
 

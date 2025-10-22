@@ -12,13 +12,12 @@ public class CheECSEManagerFeatureSet1Controller {
    * Updates the manager's password.
    * @author Ming Li Liu
    * @param password the new password.
-   * @return the error message. Empty string if there is no error.
+   * @return the error message. Null if there is no error.
    * */
   public static String updateFacilityManager(String password) {
     if (password.length() < 4) {
       return "Password must be at least 4 characters long.";
-    } else if (!password.contains("!") && !password.contains("#") &&
-               !password.contains("$")) {
+    } else if (!password.contains("!") && !password.contains("#") && !password.contains("$")) {
       return "Password must contain a special character from !, #, or $.";
     } else if (!password.chars().anyMatch((c) -> (c >= 'A' && c <= 'Z'))) {
       return "Password must contain an uppercase character.";
@@ -30,7 +29,7 @@ public class CheECSEManagerFeatureSet1Controller {
     var manager = app.getManager();
     manager.setPassword(password);
 
-    return "";
+    return null;
   }
 
   /**
