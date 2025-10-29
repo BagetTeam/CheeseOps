@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" 
+	  fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controller.cheecsemanager.CheECSEManagerTabController">
+	<TabPane tabClosingPolicy="UNAVAILABLE" fx:id="tabPane" VBox.vgrow="ALWAYS">
+		<tabs>
+			<Tab text="FacilityManager">
+				<fx:include source="../facilitymanager/FacilityManager.fxml" fx:id="FacilityManager"/>
+			</Tab>
+			<Tab text="Farmer">
+				<fx:include source="../farmer/Farmer.fxml" fx:id="Farmer"/>
+			</Tab>
+			<Tab text="Shelf">
+				<fx:include source="../shelf/Shelf.fxml" fx:id="Shelf"/>
+			</Tab>
+			<Tab text="CheeseWheel">
+				<fx:include source="../cheesewheel/CheeseWheel.fxml" fx:id="CheeseWheel"/>
+			</Tab>
+			<Tab text="Purchase">
+				<fx:include source="../purchase/Purchase.fxml" fx:id="Purchase"/>
+			</Tab>
+			<Tab text="Order">
+				<fx:include source="../order/Order.fxml" fx:id="Order"/>
+			</Tab>
+			<Tab text="WholesaleCompany">
+				<fx:include source="../wholesalecompany/WholesaleCompany.fxml" fx:id="WholesaleCompany"/>
+			</Tab>
+		</tabs>
+	</TabPane>
+</VBox>

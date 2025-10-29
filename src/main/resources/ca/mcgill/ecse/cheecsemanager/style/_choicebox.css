@@ -1,0 +1,51 @@
+/* primer-style.css */
+
+/* Base styling for ChoiceBox */
+.choice-box {
+    -fx-background-color: #fff;
+    -fx-border-color: #d0d7de;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+    -fx-padding: 4 12;
+    -fx-font-size: 13px;
+    -fx-font-family: "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    -fx-text-fill: #1f2328;
+}
+
+/* When hovered */
+.choice-box:hover {
+    -fx-border-color: #b6bfc8;
+    -fx-cursor: hand;
+}
+
+/* Drop-down arrow button */
+.choice-box > .arrow-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0 6;
+}
+
+/* The down arrow itself */
+.choice-box > .arrow-button > .arrow {
+    -fx-shape: "M 0 0 L 4 4 L 8 0 Z"; /* triangle shape */
+    -fx-background-color: #57606a;
+}
+
+/* Popup list items */
+.choice-box .context-menu {
+    -fx-background-color: #f6f8fa;
+    -fx-border-color: #d0d7de;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+}
+
+.choice-box .menu-item {
+    -fx-padding: 6 12;
+    -fx-font-size: 13px;
+    -fx-cursor: hand;
+}
+
+.choice-box .menu-item:hover,
+.choice-box .menu-item:focused{
+    -fx-background-color: #0969da;
+}
+

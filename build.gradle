@@ -39,6 +39,8 @@ dependencies {
     implementation 'com.thoughtworks.xstream:xstream:1.4.19'
     implementation 'org.codehaus.jettison:jettison:1.4.1'
 
+    implementation 'org.controlsfx:controlsfx:11.2.1'
+
 	// cucumber.io dependencies
     testImplementation "io.cucumber:cucumber-java:6.6.0"
     testImplementation "io.cucumber:cucumber-junit:6.6.0"
@@ -63,7 +65,6 @@ java {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
 }
-
 
 tasks.named('test') {
     // Use junit platform for unit tests.

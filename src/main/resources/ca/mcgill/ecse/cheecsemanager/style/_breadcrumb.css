@@ -1,0 +1,19 @@
+.breadcrumb {
+    -fx-background-color: transparent;
+}
+
+.breadcrumb .button {
+    -fx-background-color: #ecf0f3;
+    -fx-border-color: #d0d7de;
+    -fx-text-fill: #0969da;
+    -fx-font-size: 12px;
+    -fx-padding: 8 16 8 16;
+    -fx-font-weight: 600;
+}
+
+.breadcrumb .button:hover {
+    -fx-background-color: #d0d7de;
+    -fx-border-color: #d0d7de;
+    -fx-underline: true;
+}
+
