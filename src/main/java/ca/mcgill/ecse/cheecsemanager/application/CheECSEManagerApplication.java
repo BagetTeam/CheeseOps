@@ -10,6 +10,7 @@ import java.io.IOException;
 
 public class CheECSEManagerApplication extends Application {
 
+
     private static CheECSEManager cheecsemanager;
     public static final String PACKAGE_ID = "/ca/mcgill/ecse/cheecsemanager/";
 
@@ -34,5 +35,4 @@ public class CheECSEManagerApplication extends Application {
         }
         return cheecsemanager;
     }
-
 }
