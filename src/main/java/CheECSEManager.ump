@@ -1,3 +1,5 @@
+use Robot.ump;
+
 namespace ca.mcgill.ecse.cheecsemanager.model;
 
 class CheECSEManager {
@@ -91,76 +93,7 @@ class Robot {
   Boolean isFacingAisle;
   0..1 -- 0..1 Shelf currentShelf;
   0..1 -- 0..1 CheeseWheel currentCheeseWheel;
-  Integer row = 1;
-  Integer column = 1;
   1 <@>- * LogEntry log;
-
-  status {
-    Idle {
-      activate / {
-        activateRobot();
-      } -> AtEntranceNotFacingAisle;
-    }
-
-    AtEntranceNotFacingAisle {
-      turnLeft / {
-        turnLeft();
-      } -> AtEntranceFacingAisle;
-
-      moveToShelf(Shelf aShelf) [canMoveToShelf(aShelf)] / {
-        goToShelf(aShelf);
-      } -> AtEntranceNotFacingAisle;
-
-      deactivate / {
-        deactivateRobot();
-      } -> Idle;
-    }
-
-    AtEntranceFacingAisle {
-      turnRight / {
-        turnRight();
-      } -> AtEntranceNotFacingAisle;
-
-      moveToCheeseWheel(CheeseWheel aWheel) [canMoveToCheeseWheel(aWheel)] / {
-        goToCheeseWheel(aWheel);
-      } -> AtCheeseWheel;
-
-      deactivate / {
-        deactivateRobot();
-      } -> Idle;
-    }
-
-    AtCheeseWheel {
-      triggerTreatment [canTreatCurrentWheel()] / {
-        treatCurrentWheel();
-      } -> AtCheeseWheel;
-
-      moveToEntrance / {
-        returnToEntrance();
-      } -> AtEntranceFacingAisle;
-
-      moveToCheeseWheel(CheeseWheel aWheel) [canMoveToCheeseWheel(aWheel)] / {
-        goToCheeseWheel(aWheel);
-      } -> AtCheeseWheel;
-
-      deactivate / {
-        deactivateRobot();
-      } -> Idle;
-    }
-  }
-
-  Boolean canMoveToShelf(Shelf aShelf);
-  Boolean canMoveToCheeseWheel(CheeseWheel aWheel);
-  Boolean canTreatCurrentWheel();
-  void activateRobot();
-  void deactivateRobot();
-  void turnLeft();
-  void turnRight();
-  void goToShelf(Shelf aShelf);
-  void goToCheeseWheel(CheeseWheel aWheel);
-  void adjustHeight(Integer targetRow);
-  void treatCurrentWheel();
-  void returnToEntrance();
 }
 
 class LogEntry {
