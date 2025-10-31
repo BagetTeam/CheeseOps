@@ -1,20 +1,34 @@
 package ca.mcgill.ecse.cheecsemanager.features;
 
+import java.util.List;
+import java.util.Map;
+import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
+import ca.mcgill.ecse.cheecsemanager.model.CheECSEManager;
+import ca.mcgill.ecse.cheecsemanager.model.Farmer;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
 public class RobotStepDefinitions {
+  private CheECSEManager cheecsemanager = CheECSEManagerApplication.getCheecseManager();
+
+  /**
+   * Create shelves from the provided datatable.
+   * Table columns expected: id
+   * Uses CheECSEManager.addShelve(id).
+   *
+   * @param dataTable Cucumber datatable with a column "id"
+   * @author Olivier Mao
+   */
   @Given("the following shelf exists in the system")
   public void the_following_shelf_exists_in_the_system(io.cucumber.datatable.DataTable dataTable) {
-    // Write code here that turns the phrase above into concrete actions
-    // For automatic transformation, change DataTable to one of
-    // E, List[E], List[List[E]], List[Map[K,V]], Map[K,V] or
-    // Map[K, List[V]]. E,K,V must be a String, Integer, Float,
-    // Double, Byte, Short, Long, BigInteger or BigDecimal.
-    //
-    // For other transformations you can register a DataTableType.
-    throw new io.cucumber.java.PendingException();
+    List<Map<String, String>> rows = dataTable.asMaps();
+    for (var row : rows) {
+      String id = row.get("id");
+      if (id != null && !id.isEmpty()) {
+        cheecsemanager.addShelve(id);
+      }
+    }
   }
 
   @Given("all locations are created for shelf {string}")
@@ -23,16 +37,26 @@ public class RobotStepDefinitions {
     throw new io.cucumber.java.PendingException();
   }
 
+  /**
+   * Create farmers from the provided datatable.
+   * Table columns expected: email,password,address,name (name optional)
+   *
+   * @param dataTable Cucumber datatable with farmer rows
+   * @author Olivier Mao
+   */
   @Given("the following farmer exists in the system")
   public void the_following_farmer_exists_in_the_system(io.cucumber.datatable.DataTable dataTable) {
-    // Write code here that turns the phrase above into concrete actions
-    // For automatic transformation, change DataTable to one of
-    // E, List[E], List[List[E]], List[Map[K,V]], Map[K,V] or
-    // Map[K, List[V]]. E,K,V must be a String, Integer, Float,
-    // Double, Byte, Short, Long, BigInteger or BigDecimal.
-    //
-    // For other transformations you can register a DataTableType.
-    throw new io.cucumber.java.PendingException();
+    List<Map<String, String>> rows = dataTable.asMaps();
+    for (var row : rows) {
+      String email = row.get("email");
+      String password = row.get("password");
+      String address = row.get("address");
+      String name = row.get("name");
+      Farmer f = cheecsemanager.addFarmer(email, password, address);
+      if (name != null && !name.isEmpty()) {
+        f.setName(name);
+      }
+    }
   }
 
   @Given("the following purchase exists in the system")
@@ -106,17 +130,22 @@ public class RobotStepDefinitions {
     throw new io.cucumber.java.PendingException();
   }
 
+    /**
+   * Ensures the wholesale companies from the provided datatable exist in the system.
+   * Each row must contain "name" and "address" columns. Uses the model API to add companies.
+   *
+   * @param dataTable the Cucumber datatable with company rows (name, address)
+   * @author Olivier Mao
+   */
   @Given("the following wholesale company exists in the system")
   public void the_following_wholesale_company_exists_in_the_system(
       io.cucumber.datatable.DataTable dataTable) {
-    // Write code here that turns the phrase above into concrete actions
-    // For automatic transformation, change DataTable to one of
-    // E, List[E], List[List[E]], List[Map[K,V]], Map[K,V] or
-    // Map[K, List[V]]. E,K,V must be a String, Integer, Float,
-    // Double, Byte, Short, Long, BigInteger or BigDecimal.
-    //
-    // For other transformations you can register a DataTableType.
-    throw new io.cucumber.java.PendingException();
+    List<Map<String, String>> companies = dataTable.asMaps();
+    for (var row : companies) {
+      String name = row.get("name");
+      String address = row.get("address");
+      cheecsemanager.addCompany(name, address);
+    }
   }
 
   @Given("the following order exists in the system")
