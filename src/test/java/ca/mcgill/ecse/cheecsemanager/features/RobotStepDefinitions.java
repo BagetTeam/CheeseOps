@@ -117,21 +117,20 @@ public class RobotStepDefinitions {
   public void cheese_wheel_is_at_shelf_location_with_column_and_row_of_shelf(Integer int1,
       Integer int2, Integer int3, String string) {
     // Write code here that turns the phrase above into concrete actions
+
     throw new io.cucumber.java.PendingException();
   }
 
   @Given("the following cheese wheels are spoiled")
   public void the_following_cheese_wheels_are_spoiled(io.cucumber.datatable.DataTable dataTable) {
-    // Write code here that turns the phrase above into concrete actions
-    // For automatic transformation, change DataTable to one of
-    // E, List[E], List[List[E]], List[Map[K,V]], Map[K,V] or
-    // Map[K, List[V]]. E,K,V must be a String, Integer, Float,
-    // Double, Byte, Short, Long, BigInteger or BigDecimal.
-    //
-    // For other transformations you can register a DataTableType.
-    throw new io.cucumber.java.PendingException();
+    List<Map<String, String>> cheeseWheels = dataTable.asMaps();
+    for (var cheeseWheel : cheeseWheels) {
+      int id = Integer.parseInt(cheeseWheel.get("id"));
+      cheecsemanager.getCheeseWheel(id).setIsSpoiled(true);
+    }
   }
 
+  // TODO Need controller method
   @Given("the robot is marked as {string} and at shelf {string} with action log {string}")
   public void the_robot_is_marked_as_and_at_shelf_with_action_log(String string, String string2,
       String string3) {
@@ -194,6 +193,7 @@ public class RobotStepDefinitions {
     throw new io.cucumber.java.PendingException();
   }
 
+  
   @Given("the robot is marked as {string} and at cheese wheel {int} on shelf {string} with action log {string}")
   public void the_robot_is_marked_as_and_at_cheese_wheel_on_shelf_with_action_log(String string,
       Integer int1, String string2, String string3) {
