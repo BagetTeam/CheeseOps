@@ -1,11 +1,14 @@
 package ca.mcgill.ecse.cheecsemanager.features;
 
+import java.sql.Date;
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
 import ca.mcgill.ecse.cheecsemanager.model.CheECSEManager;
 import ca.mcgill.ecse.cheecsemanager.model.CheeseWheel.MaturationPeriod;
 import ca.mcgill.ecse.cheecsemanager.model.Farmer;
+import ca.mcgill.ecse.cheecsemanager.model.Shelf;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -32,10 +35,23 @@ public class RobotStepDefinitions {
     }
   }
 
+  /**
+   * Create all locations for a specific shelf.
+   * 
+   * @param String shelfId: The id of the shelf to create locations for
+   * @author Ewen Gueguen
+   */
   @Given("all locations are created for shelf {string}")
-  public void all_locations_are_created_for_shelf(String string) {
-    // Write code here that turns the phrase above into concrete actions
-    throw new io.cucumber.java.PendingException();
+  public void all_locations_are_created_for_shelf(String shelfId) {
+    var shelves = cheecsemanager.getShelves();
+    for (var shelf : shelves) {
+      if (shelfId.equals(shelf.getId())) {
+        // TODO TS IS NOT IT
+        for (var location : shelf.getLocations()) {
+          shelf.addLocation(location);
+        }
+      }
+    }
   }
 
   /**
@@ -60,17 +76,27 @@ public class RobotStepDefinitions {
     }
   }
 
+  /**
+   * Table columns expected: purchaseDate, nrCheeseWheels, monthsAged, farmerEmail
+   * 
+   * @param dataTable Cucumber datatable with purchase rows
+   * @author Ewen Gueguen
+   */
   @Given("the following purchase exists in the system")
   public void the_following_purchase_exists_in_the_system(
       io.cucumber.datatable.DataTable dataTable) {
-    // Write code here that turns the phrase above into concrete actions
-    // For automatic transformation, change DataTable to one of
-    // E, List[E], List[List[E]], List[Map[K,V]], Map[K,V] or
-    // Map[K, List[V]]. E,K,V must be a String, Integer, Float,
-    // Double, Byte, Short, Long, BigInteger or BigDecimal.
-    //
-    // For other transformations you can register a DataTableType.
-    throw new io.cucumber.java.PendingException();
+    List<Map<String, String>> purchases = dataTable.asMaps();
+    for (var purchase : purchases) {
+      Date transactionDate = Date.valueOf(purchase.get("transactionDate"));
+      int nrCheeseWheels = Integer.parseInt(purchase.get("nrCheeseWheels"));
+      MaturationPeriod monthsAged = MaturationPeriod.valueOf(purchase.get("monthsAged"));
+      String farmerEmail = purchase.get("farmerEmail");
+      var farmer = (Farmer) Farmer.getWithEmail(farmerEmail);
+      var addedPurchase = farmer.addPurchase(transactionDate, cheecsemanager);
+      for (int i = 0; i < nrCheeseWheels; i++) {
+        addedPurchase.addCheeseWheel(monthsAged, false, cheecsemanager);
+      }
+    }
   }
 
   @Given("all cheese wheels for the following purchases are created")
@@ -130,8 +156,9 @@ public class RobotStepDefinitions {
     }
   }
 
+  // TODO Need controller method
   @Given("the robot is marked as {string}")
-  public void the_robot_is_marked_as(String string) {
+  public void the_robot_is_marked_as(String state) {
     // Write code here that turns the phrase above into concrete actions
     throw new io.cucumber.java.PendingException();
   }
