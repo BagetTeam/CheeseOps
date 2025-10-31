@@ -1,0 +1,34 @@
+.notification {
+    -fx-padding: 12 12 12 12;
+    -fx-background-color: #f6f8fa;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 8, 0.0, 0, 4);
+    -fx-spacing: 6px;
+    -fx-border-color: #d0d7de;
+    -fx-border-width: 1px;
+}
+
+.notification.success {
+    -fx-border-color: #2da44e;
+}
+
+.notification.error {
+    -fx-border-color: #cf222e;
+}
+
+.notification.confirmation {
+    -fx-border-color: #0969da;
+}
+
+.notification .title {
+    -fx-font-size: 14px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #24292e;
+}
+
+.notification .text {
+    -fx-font-size: 13px;
+    -fx-text-fill: #57606a;
+}
+

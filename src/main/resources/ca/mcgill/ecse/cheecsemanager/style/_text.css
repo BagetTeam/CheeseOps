@@ -1,0 +1,30 @@
+/* StackPane is used because there is no selectable class available for SpackPane */
+/* Adding manual classes adds too much boilerplate code */
+/* Style for the Text node */
+
+/* Make the StackPane look like a text field */
+.grid-pane StackPane {
+    -fx-border-color: #d0d7de;
+    -fx-border-width: 1;
+    -fx-border-radius: 6;
+    -fx-background-color: #f6f8fa;
+    -fx-background-radius: 6;
+    -fx-padding: 6 10 6 10; /* Top, Right, Bottom, Left */
+    -fx-alignment: center-left;
+}
+
+/* Inherits default Stackpane style */
+/* Style Hyperlinks */
+.grid-pane .hyperlink-container {
+    -fx-border-style: dashed;
+    -fx-border-color: #0969da;
+}
+
+.grid-pane .hyperlink-container .hyperlink {
+    -fx-text-fill: #0969da;
+}
+
+.grid-pane .hyperlink-container .hyperlink:focused {
+    -fx-border-color: transparent;
+}
+

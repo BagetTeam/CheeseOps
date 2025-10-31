@@ -1,0 +1,8 @@
+.hyperlink {
+    -fx-text-fill: #0a66c2;
+}
+
+.hyperlink:hover {
+    -fx-text-fill: #004182;
+}
+

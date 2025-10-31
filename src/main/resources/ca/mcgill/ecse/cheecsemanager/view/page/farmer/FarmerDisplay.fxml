@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:id="parentContainer"
+      fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controller.farmer.FarmerDisplayController" spacing="16"
+      VBox.vgrow="ALWAYS">
+
+    <Button fx:id="buttonAdd" text="Add Farmer" onAction="#onAdd" styleClass="add-button">
+       <graphic>
+           <ImageView fitHeight="16" fitWidth="16" preserveRatio="true">
+              <Image url="@../../../image/add.png"/>
+           </ImageView>
+       </graphic>
+	</Button>
+    <VBox fx:id="childContainer" VBox.vgrow="ALWAYS" />
+</VBox>
