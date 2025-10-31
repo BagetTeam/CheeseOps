@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
 import ca.mcgill.ecse.cheecsemanager.model.CheECSEManager;
+import ca.mcgill.ecse.cheecsemanager.model.CheeseWheel.MaturationPeriod;
 import ca.mcgill.ecse.cheecsemanager.model.Farmer;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -111,17 +112,22 @@ public class RobotStepDefinitions {
     throw new io.cucumber.java.PendingException();
   }
 
+   /**
+   * Increase the months aged value of cheese wheels.
+   * Each row must contain "id" and "newMonthsAged" columns. Uses the model API to set the months aged value.
+   *
+   * @param dataTable the Cucumber datatable with cheese wheel rows (id, newMonthsAged)
+   * @author Ewen Gueguen
+   */
   @Given("the months aged value of the following cheese wheels is increased")
   public void the_months_aged_value_of_the_following_cheese_wheels_is_increased(
       io.cucumber.datatable.DataTable dataTable) {
-    // Write code here that turns the phrase above into concrete actions
-    // For automatic transformation, change DataTable to one of
-    // E, List[E], List[List[E]], List[Map[K,V]], Map[K,V] or
-    // Map[K, List[V]]. E,K,V must be a String, Integer, Float,
-    // Double, Byte, Short, Long, BigInteger or BigDecimal.
-    //
-    // For other transformations you can register a DataTableType.
-    throw new io.cucumber.java.PendingException();
+    List<Map<String, String>> cheeseWheels = dataTable.asMaps();
+    for (var row : cheeseWheels) {
+      int id = Integer.parseInt(row.get("id"));
+      MaturationPeriod months = MaturationPeriod.valueOf(row.get("newMonthsAged"));
+      cheecsemanager.getCheeseWheel(id).setMonthsAged(months);
+    }
   }
 
   @Given("the robot is marked as {string}")
