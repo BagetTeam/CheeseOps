@@ -6,9 +6,14 @@ import java.util.List;
 import java.util.Map;
 import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
 import ca.mcgill.ecse.cheecsemanager.model.CheECSEManager;
+import ca.mcgill.ecse.cheecsemanager.model.CheeseWheel;
 import ca.mcgill.ecse.cheecsemanager.model.CheeseWheel.MaturationPeriod;
 import ca.mcgill.ecse.cheecsemanager.model.Farmer;
+import ca.mcgill.ecse.cheecsemanager.model.Order;
+import ca.mcgill.ecse.cheecsemanager.model.Purchase;
 import ca.mcgill.ecse.cheecsemanager.model.Shelf;
+import ca.mcgill.ecse.cheecsemanager.model.Transaction;
+import ca.mcgill.ecse.cheecsemanager.model.WholesaleCompany;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -187,16 +192,40 @@ public class RobotStepDefinitions {
     }
   }
 
+  /**
+   * Creates orders from the provided datatable.
+   * Each row must contain the columns: "transactionDate", "nrCheeseWheels", "monthsAged", "deliveryDate", "company".
+   * Corresponding wholesale company already exist in the system.
+   * Uses model API to create Order objects
+   * 
+   * @param dataTable the Cucumber datatable containing order information
+   * @throws IllegalArgumentException if the referenced wholesale company does not exist in the system
+   * @author Eun-jun Chang
+   */
   @Given("the following order exists in the system")
   public void the_following_order_exists_in_the_system(io.cucumber.datatable.DataTable dataTable) {
-    // Write code here that turns the phrase above into concrete actions
-    // For automatic transformation, change DataTable to one of
-    // E, List[E], List[List[E]], List[Map[K,V]], Map[K,V] or
-    // Map[K, List[V]]. E,K,V must be a String, Integer, Float,
-    // Double, Byte, Short, Long, BigInteger or BigDecimal.
-    //
-    // For other transformations you can register a DataTableType.
-    throw new io.cucumber.java.PendingException();
+    List<Map<String, String>> rows = dataTable.asMaps();
+    for(var row : rows) {
+    	Date transactionDate = Date.valueOf(row.get("transactionDate"));
+    	int nrCheeseWheels = Integer.parseInt(row.get("nrCheeseWheels"));
+    	CheeseWheel.MaturationPeriod monthsAged = CheeseWheel.MaturationPeriod.valueOf(row.get("monthsAged"));
+    	Date deliveryDate = Date.valueOf(row.get("deliveryDate"));
+    	String companyName = row.get("company");
+    	
+    	var manager = CheECSEManagerApplication.getCheecseManager();
+    	WholesaleCompany company = null;
+    	for(WholesaleCompany wc : manager.getCompanies()) {
+    		if(wc.getName().equalsIgnoreCase(companyName)) {
+    			company = wc;
+    			break;
+    		}
+    	}
+    	if(company == null) {
+    		throw new IllegalArgumentException("Company " + companyName + " does not exist.");
+    	}
+    	company.addOrder(transactionDate, manager, nrCheeseWheels, monthsAged, deliveryDate);
+    	//the cheese wheels will be added later in the all non-spoiled cheese wheels from purchase
+    }
   }
 
   
@@ -207,11 +236,52 @@ public class RobotStepDefinitions {
     throw new io.cucumber.java.PendingException();
   }
 
+  /**
+   * Adds all non-spoiled cheese wheels from a given purchase to a given order. 
+   * Uses model API to get Purchase and Order objects
+   * 
+   * @param int1 index of the purchase to take cheese wheels from 
+   * @param int2 index of the order to which the cheese wheels will be added
+   * @throws IlegalArgumentException if either the purchase or the order does not exist
+   * @author Eun-jun Chang
+   */
   @Given("all non-spoiled cheese wheels from purchase {int} are added to order {int}")
   public void all_non_spoiled_cheese_wheels_from_purchase_are_added_to_order(Integer int1,
       Integer int2) {
-    // Write code here that turns the phrase above into concrete actions
-    throw new io.cucumber.java.PendingException();
+    var manager = CheECSEManagerApplication.getCheecseManager();
+    Purchase purchase = null;
+    int purchaseIndex = 1;
+    for(Transaction t : manager.getTransactions()) {
+    	if(t instanceof Purchase) {
+    		if(purchaseIndex == int1) {
+    			purchase = (Purchase) t;
+    			break;
+    		}
+    		purchaseIndex++;
+    	}
+    }
+    Order order = null;
+    int orderIndex = 1;
+    for(Transaction t : manager.getTransactions()) {
+    	if(t instanceof Order) {
+    		if(orderIndex == int2) {
+    			order = (Order) t;
+    			break;
+    		}
+    		orderIndex++;
+    	}
+    }
+    if(purchase == null) {
+    	throw new IllegalArgumentException("The purchase " + int1 + " does not exist.");
+    }
+    if(order == null) {
+    	throw new IllegalArgumentException("The order " + int2 + " does not exist."); 
+    }
+    for(CheeseWheel cheese : purchase.getCheeseWheels()) {
+    	if(!cheese.isIsSpoiled()) {
+    		order.addCheeseWheel(cheese);
+    	}
+    }
   }
 
   @When("the facility manager attempts to activate the robot")
