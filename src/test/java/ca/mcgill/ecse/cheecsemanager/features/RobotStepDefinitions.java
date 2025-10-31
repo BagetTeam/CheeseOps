@@ -121,6 +121,12 @@ public class RobotStepDefinitions {
     throw new io.cucumber.java.PendingException();
   }
 
+  /**
+   * Table columns expected: id
+   * 
+   * @param dataTable Cucumber datatable with cheese wheel rows (id)
+   * @author Ewen Gueguen
+   */
   @Given("the following cheese wheels are spoiled")
   public void the_following_cheese_wheels_are_spoiled(io.cucumber.datatable.DataTable dataTable) {
     List<Map<String, String>> cheeseWheels = dataTable.asMaps();
