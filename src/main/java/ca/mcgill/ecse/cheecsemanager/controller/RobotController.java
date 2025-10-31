@@ -9,6 +9,7 @@ import ca.mcgill.ecse.cheecsemanager.model.Shelf;
 
 public class RobotController {
   static CheECSEManager manager = CheECSEManagerApplication.getCheecseManager();
+  static Robot robot = manager.getRobot();
   /**
    *The employees place the robot at the entrance of the aisle of a shelf but
    * not facing the aisle.
