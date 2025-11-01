@@ -8,7 +8,7 @@ import java.util.*;
 // line 92 "../../../../../../CheECSEManager.ump"
 // line 161 "../../../../../../CheECSEManager.ump"
 // line 4 "../../../../../../model.ump"
-// line 106 "../../../../../../model.ump"
+// line 100 "../../../../../../model.ump"
 public class Robot {
 
   //------------------------
@@ -156,7 +156,7 @@ public class Robot {
     switch (aStatus) {
     case AtEntranceNotFacingAisle:
       // line 19 "../../../../../../model.ump"
-      turnLeft();
+      setDirectionInDegrees((getDirectionInDegrees() + 90) % 360);
       setStatus(Status.AtEntranceFacingAisle);
       wasEventProcessed = true;
       break;
@@ -173,8 +173,8 @@ public class Robot {
     Status aStatus = status;
     switch (aStatus) {
     case AtEntranceFacingAisle:
-      // line 32 "../../../../../../model.ump"
-      turnRight();
+      // line 34 "../../../../../../model.ump"
+      setDirectionInDegrees((getDirectionInDegrees() - 90) % 360);
       setStatus(Status.AtEntranceNotFacingAisle);
       wasEventProcessed = true;
       break;
@@ -192,7 +192,7 @@ public class Robot {
     switch (aStatus) {
     case AtEntranceFacingAisle:
       if (cheeseWheelExists(aWheel)) {
-        // line 37 "../../../../../../model.ump"
+        // line 39 "../../../../../../model.ump"
         setCurrentCheeseWheel(aWheel);
         setStatus(Status.AtCheeseWheel);
         wasEventProcessed = true;
@@ -201,7 +201,7 @@ public class Robot {
       break;
     case AtCheeseWheel:
       if (cheeseWheelExists(aWheel)) {
-        // line 56 "../../../../../../model.ump"
+        // line 58 "../../../../../../model.ump"
         setCurrentCheeseWheel(aWheel);
         setStatus(Status.AtCheeseWheel);
         wasEventProcessed = true;
@@ -221,13 +221,13 @@ public class Robot {
     Status aStatus = status;
     switch (aStatus) {
     case AtEntranceFacingAisle:
-      // line 42 "../../../../../../model.ump"
+      // line 44 "../../../../../../model.ump"
       deactivateRobot();
       setStatus(Status.Idle);
       wasEventProcessed = true;
       break;
     case AtCheeseWheel:
-      // line 61 "../../../../../../model.ump"
+      // line 63 "../../../../../../model.ump"
       deactivateRobot();
       setStatus(Status.Idle);
       wasEventProcessed = true;
@@ -264,7 +264,7 @@ public class Robot {
     Status aStatus = status;
     switch (aStatus) {
     case AtCheeseWheel:
-      // line 51 "../../../../../../model.ump"
+      // line 53 "../../../../../../model.ump"
       setRow(1);
       setStatus(Status.AtEntranceFacingAisle);
       wasEventProcessed = true;
@@ -491,22 +491,16 @@ public class Robot {
     }
   }
 
-  // line 69 "../../../../../../model.ump"
+  // line 71 "../../../../../../model.ump"
   public void activateRobot() { setIsActivated(true); }
 
-  // line 73 "../../../../../../model.ump"
+  // line 75 "../../../../../../model.ump"
   public void deactivateRobot() { setIsActivated(false); }
 
-  // line 77 "../../../../../../model.ump"
-  public void turnLeft() { setDirection((getDirection() + 90) % 360); }
-
-  // line 81 "../../../../../../model.ump"
-  public void turnRight() { setDirection((getDirection() - 90) % 360); }
-
-  // line 85 "../../../../../../model.ump"
+  // line 79 "../../../../../../model.ump"
   public Boolean shelfExists(String aId) { return Shelf.hasWithId(aId); }
 
-  // line 89 "../../../../../../model.ump"
+  // line 83 "../../../../../../model.ump"
   public Boolean cheeseWheelExists(CheeseWheel wheel) {
     var shelf = getCurrentShelf();
     var location = wheel.getLocation();
@@ -518,7 +512,7 @@ public class Robot {
     return candidateShelf != null && candidateShelf.equals(shelf);
   }
 
-  // line 99 "../../../../../../model.ump"
+  // line 93 "../../../../../../model.ump"
   public Boolean canTreatCurrentWheel() {
     return getCurrentPurchaseTreated().indexOfCheeseWheel(
                getCurrentCheeseWheel()) != -1;

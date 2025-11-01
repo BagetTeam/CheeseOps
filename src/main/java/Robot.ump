@@ -1,73 +1,94 @@
 use CheECSEManager.ump;
 
 class Robot {
-  Integer row = 1;
-  Integer column = 1;
+  Boolean isActivated = false;
 
+  Integer directionInDegrees;
+  Integer row;
+  Integer column;
+  Purchase currentPurchaseTreated;
+  
   status {
     Idle {
-      activate / {
-        activateRobot();
-      } -> AtEntranceNotFacingAisle;
+      activate / { activateRobot(); }
+      -> AtEntranceNotFacingAisle;
     }
-
+    
     AtEntranceNotFacingAisle {
       turnLeft / {
-        turnLeft();
+        setDirectionInDegrees((getDirectionInDegrees() + 90) % 360);
       } -> AtEntranceFacingAisle;
-
-      moveToShelf(Shelf aShelf) [canMoveToShelf(aShelf)] / {
-        goToShelf(aShelf);
+      
+      moveToShelf(String aId) [shelfExists(aId)] {
+          setCurrentShelf(Shelf.getWithId(aId));
       } -> AtEntranceNotFacingAisle;
-
+      
       deactivate / {
         deactivateRobot();
-      } -> Idle;
+      }
+      -> Idle;
     }
-
+    
     AtEntranceFacingAisle {
       turnRight / {
-        turnRight();
-      } -> AtEntranceNotFacingAisle;
-
-      moveToCheeseWheel(CheeseWheel aWheel) [canMoveToCheeseWheel(aWheel)] / {
-        goToCheeseWheel(aWheel);
-      } -> AtCheeseWheel;
-
+        setDirectionInDegrees((getDirectionInDegrees() - 90) % 360);
+      }
+      -> AtEntranceNotFacingAisle;
+      
+      moveToCheeseWheel(CheeseWheel aWheel) [cheeseWheelExists(aWheel)] / {
+        setCurrentCheeseWheel(aWheel);
+      }
+      -> AtCheeseWheel;
+      
       deactivate / {
         deactivateRobot();
-      } -> Idle;
+      }
+      -> Idle;
     }
-
+    
     AtCheeseWheel {
-      triggerTreatment [canTreatCurrentWheel()] / {
-        treatCurrentWheel();
-      } -> AtCheeseWheel;
-
+      triggerTreatment [canTreatCurrentWheel()] -> AtCheeseWheel;
+      
       moveToEntrance / {
-        returnToEntrance();
-      } -> AtEntranceFacingAisle;
-
-      moveToCheeseWheel(CheeseWheel aWheel) [canMoveToCheeseWheel(aWheel)] / {
-        goToCheeseWheel(aWheel);
-      } -> AtCheeseWheel;
-
+        setRow(1);
+      }
+      -> AtEntranceFacingAisle;
+      
+      moveToCheeseWheel(CheeseWheel aWheel) [cheeseWheelExists(aWheel)] / {
+        setCurrentCheeseWheel(aWheel);
+      }
+      -> AtCheeseWheel;
+      
       deactivate / {
         deactivateRobot();
-      } -> Idle;
+      }
+      -> Idle;
     }
   }
+  
+  void activateRobot() Java {
+    setIsActivated(true);
+  }
+  
+  void deactivateRobot() Java {
+    setIsActivated(false);
+  }
 
-  Boolean canMoveToShelf(Shelf aShelf);
-  Boolean canMoveToCheeseWheel(CheeseWheel aWheel);
-  Boolean canTreatCurrentWheel();
-  void activateRobot();
-  void deactivateRobot();
-  void turnLeft();
-  void turnRight();
-  void goToShelf(Shelf aShelf);
-  void goToCheeseWheel(CheeseWheel aWheel);
-  void adjustHeight(Integer targetRow);
-  void treatCurrentWheel();
-  void returnToEntrance();
+  Boolean shelfExists(String aId) Java {
+    return Shelf.hasWithId(aId);
+  }
+
+  Boolean cheeseWheelExists(CheeseWheel wheel) Java {
+    var shelf = getCurrentShelf();
+    var location = wheel.getLocation();
+
+    if (location == null) return false;
+    var candidateShelf = location.getShelf();
+
+    return candidateShelf != null && candidateShelf.equals(shelf);
+  }
+
+  Boolean canTreatCurrentWheel() Java {
+    return getCurrentPurchaseTreated().indexOfCheeseWheel(getCurrentCheeseWheel()) != -1;
+  }
 }
