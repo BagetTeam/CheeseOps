@@ -246,8 +246,8 @@ public class RobotStepDefinitions {
    * @author Eun-jun Chang
    */
   @Given("all non-spoiled cheese wheels from purchase {int} are added to order {int}")
-  public void all_non_spoiled_cheese_wheels_from_purchase_are_added_to_order(Integer int1,
-      Integer int2) {
+  public void all_non_spoiled_cheese_wheels_from_purchase_are_added_to_order(Integer purchaseId,
+      Integer orderId) {
     var manager = CheECSEManagerApplication.getCheecseManager();
     Purchase purchase = null;
     int purchaseIndex = 1;
