@@ -10,7 +10,6 @@ import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet4Control
 import ca.mcgill.ecse.cheecsemanager.model.CheECSEManager;
 import ca.mcgill.ecse.cheecsemanager.model.CheeseWheel;
 import ca.mcgill.ecse.cheecsemanager.model.CheeseWheel.MaturationPeriod;
-;
 import ca.mcgill.ecse.cheecsemanager.model.Farmer;
 import ca.mcgill.ecse.cheecsemanager.model.Purchase;
 import ca.mcgill.ecse.cheecsemanager.model.Shelf;
