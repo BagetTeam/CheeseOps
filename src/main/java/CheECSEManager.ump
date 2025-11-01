@@ -1,4 +1,5 @@
 use Robot.ump;
+use CheECSEManagerPersistence.ump;
 
 namespace ca.mcgill.ecse.cheecsemanager.model;
 
