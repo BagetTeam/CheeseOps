@@ -250,25 +250,15 @@ public class RobotStepDefinitions {
       Integer orderId) {
     var manager = CheECSEManagerApplication.getCheecseManager();
     Purchase purchase = null;
-    int purchaseIndex = 1;
-    for(Transaction t : manager.getTransactions()) {
-    	if(t instanceof Purchase) {
-    		if(purchaseIndex == int1) {
-    			purchase = (Purchase) t;
-    			break;
-    		}
-    		purchaseIndex++;
-    	}
-    }
     Order order = null;
-    int orderIndex = 1;
+
     for(Transaction t : manager.getTransactions()) {
-    	if(t instanceof Order) {
-    		if(orderIndex == int2) {
-    			order = (Order) t;
-    			break;
-    		}
-    		orderIndex++;
+    	if (t instanceof Order && t.getId() == orderId) {
+    	    order = (Order) t;
+    	    break;
+    	} else if (t instanceof Purchase && t.getId() == purchaseId) {
+    	    purchase = (Purchase) t;
+    	    break;
     	}
     }
     if(purchase == null) {
