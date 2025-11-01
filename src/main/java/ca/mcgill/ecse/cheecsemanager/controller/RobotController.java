@@ -10,6 +10,9 @@ import ca.mcgill.ecse.cheecsemanager.model.Shelf;
 public class RobotController {
   static CheECSEManager manager = CheECSEManagerApplication.getCheecseManager();
   static Robot robot = manager.getRobot();
+
+  /* =================================================== */
+
   /**
    *The employees place the robot at the entrance of the aisle of a shelf but
    * not facing the aisle.
@@ -40,6 +43,12 @@ public class RobotController {
     // TODO: implement this method
   }
 
+  /* =================================================== */
+
+  /**
+   * @author Ming Li Liu
+   * @param purchaseId
+   */
   public static void initializeTreatment(int purchaseId) {
     var purchase = (Purchase)manager.getTransaction(purchaseId);
 
@@ -50,6 +59,7 @@ public class RobotController {
     });
   }
 
+  /* =================================================== */
   /**
    * Turn 90 degrees left or right when the robot is at a shelf not facing the
   aisle or facing the aisle, respectively
@@ -74,7 +84,7 @@ public class RobotController {
    * column.
    * The distance from the robot’s position at the entrance of an aisle to its
    * first column is also one meter.
-   * @return
+   * @return whether action was successful
    */
   public static boolean moveForward() {
     // TODO: implement this method
@@ -82,11 +92,6 @@ public class RobotController {
   }
 
   public static boolean moveBackward() {
-    // TODO: implement this method
-    return false;
-  }
-
-  public static boolean adjustHeight(int height) {
     // TODO: implement this method
     return false;
   }
@@ -102,6 +107,7 @@ public class RobotController {
     return false;
   }
 
+  /* =================================================== */
   /**
    * Go to a cheese wheel when the robot is facing an aisle or is already at a
    * cheese wheel (i.e., the robot determines how much to move straight forward
@@ -114,6 +120,20 @@ public class RobotController {
     return false;
   }
 
+  /**
+   * Two adjacent rows of a shelf are spaced 40 centimeters apart. Row 1 is at
+   * the bottom of the shelf. To move between rows of a shelf, the robot needs
+   * to move 40 centimeters up to go the next row and 40 centimeters down to go
+   * to the previous row.
+   * @param height
+   * @return
+   */
+  public static boolean adjustHeight(int height) {
+    // TODO: implement this method
+    return false;
+  }
+
+  /* =================================================== */
   /**
    * Treat a cheese wheel when the robot is at a cheese wheel (i.e., upon being
    * asked to treat a cheese wheel, the robot picks up the cheese wheel, washes
@@ -137,9 +157,11 @@ public class RobotController {
     // TODO: implement this method
     return false;
   }
+  /* =================================================== */
 
   /**
-   *At any point, the facility manager can review the robot’s action log. The
+   *
+   * At any point, the facility manager can review the robot’s action log. The
    * robot logs all of its actions as follows in separate log entries:
    *
    * • At shelf #<id>;
@@ -154,6 +176,7 @@ public class RobotController {
    *
    * • Treat cheese wheel #<id> (wash & turn);
    *
+   * @author Ming Li Liu
    */
   public static void logAction(LogAction action) {
     manager.getRobot().addLog(action.toString());
