@@ -5,29 +5,31 @@ public class LogAction {
 
   public LogAction(String description) { this.description = description; }
 
-  public LogAction LogAtShelf(String shelfId) {
+  static public LogAction logAtShelf(String shelfId) {
     return new LogAction("At shelf #" + shelfId + ";");
   }
 
-  public LogAction LogAtCheeseWheel(String wheelId) {
+  static public LogAction logAtCheeseWheel(String wheelId) {
     return new LogAction("At cheese wheel #" + wheelId + ";");
   }
 
-  public LogAction LogStraight(int meters) {
+  static public LogAction logStraight(int meters) {
     return new LogAction("Straight " + (meters < 0 ? "- " : "+ ") + meters +
                          " meters;");
   }
 
-  public LogAction LogAdjustHeight(int centimeters) {
+  static public LogAction logAdjustHeight(int centimeters) {
     return new LogAction("Adjust height " + (centimeters < 0 ? "- " : "+ ") +
                          centimeters + " centimeters;");
   }
 
-  public LogAction LogTurnLeft() { return new LogAction("Turn left;"); }
+  static public LogAction logTurnLeft() { return new LogAction("Turn left;"); }
 
-  public LogAction LogTurnRight() { return new LogAction("Turn right;"); }
+  static public LogAction LogTurnRight() {
+    return new LogAction("Turn right;");
+  }
 
-  public LogAction LogTreatCheeseWheel(int cheeseWheelId) {
+  static public LogAction logTreatCheeseWheel(int cheeseWheelId) {
     return new LogAction("Treat cheese wheel #" + cheeseWheelId +
                          " (wash & turn);");
   }
