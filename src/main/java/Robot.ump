@@ -1,0 +1,94 @@
+use CheECSEManager.ump;
+
+class Robot {
+  Boolean isActivated = false;
+
+  Integer directionInDegrees;
+  Integer row;
+  Integer column;
+  Purchase currentPurchaseTreated;
+  
+  status {
+    Idle {
+      activate / { activateRobot(); }
+      -> AtEntranceNotFacingAisle;
+    }
+    
+    AtEntranceNotFacingAisle {
+      turnLeft / {
+        setDirectionInDegrees((getDirectionInDegrees() + 90) % 360);
+      } -> AtEntranceFacingAisle;
+      
+      moveToShelf(String aId) [shelfExists(aId)] {
+          setCurrentShelf(Shelf.getWithId(aId));
+      } -> AtEntranceNotFacingAisle;
+      
+      deactivate / {
+        deactivateRobot();
+      }
+      -> Idle;
+    }
+    
+    AtEntranceFacingAisle {
+      turnRight / {
+        setDirectionInDegrees((getDirectionInDegrees() - 90) % 360);
+      }
+      -> AtEntranceNotFacingAisle;
+      
+      moveToCheeseWheel(CheeseWheel aWheel) [cheeseWheelExists(aWheel)] / {
+        setCurrentCheeseWheel(aWheel);
+      }
+      -> AtCheeseWheel;
+      
+      deactivate / {
+        deactivateRobot();
+      }
+      -> Idle;
+    }
+    
+    AtCheeseWheel {
+      triggerTreatment [canTreatCurrentWheel()] -> AtCheeseWheel;
+      
+      moveToEntrance / {
+        setRow(1);
+      }
+      -> AtEntranceFacingAisle;
+      
+      moveToCheeseWheel(CheeseWheel aWheel) [cheeseWheelExists(aWheel)] / {
+        setCurrentCheeseWheel(aWheel);
+      }
+      -> AtCheeseWheel;
+      
+      deactivate / {
+        deactivateRobot();
+      }
+      -> Idle;
+    }
+  }
+  
+  void activateRobot() Java {
+    setIsActivated(true);
+  }
+  
+  void deactivateRobot() Java {
+    setIsActivated(false);
+  }
+
+  Boolean shelfExists(String aId) Java {
+    return Shelf.hasWithId(aId);
+  }
+
+  Boolean cheeseWheelExists(CheeseWheel wheel) Java {
+    var shelf = getCurrentShelf();
+    var location = wheel.getLocation();
+
+    if (location == null) return false;
+    var candidateShelf = location.getShelf();
+
+    return candidateShelf != null && candidateShelf.equals(shelf);
+  }
+
+  Boolean canTreatCurrentWheel() Java {
+    return getCurrentPurchaseTreated().indexOfCheeseWheel(getCurrentCheeseWheel()) != -1;
+  }
+}

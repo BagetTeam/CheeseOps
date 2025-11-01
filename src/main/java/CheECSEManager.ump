@@ -1,3 +1,5 @@
+use Robot.ump;
+
 namespace ca.mcgill.ecse.cheecsemanager.model;
 
 class CheECSEManager {
