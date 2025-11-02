@@ -14,13 +14,14 @@ import ca.mcgill.ecse.cheecsemanager.model.WholesaleCompany;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.junit.jupiter.api.Assertions;
 import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.junit.jupiter.api.Assertions;
 
 public class UpdateCheeseWheelStepDefinitions {
+
   CheECSEManager ecseManager = CheECSEManagerApplication.getCheecseManager();
   private Map<String, int[]> shelfMetaData = new HashMap<>();
   private String monthsAgedPurchase;
@@ -33,6 +34,7 @@ public class UpdateCheeseWheelStepDefinitions {
   @Given("the following farmer exists in the system \\(p6)")
   public void the_following_farmer_exists_in_the_system_p6(
       io.cucumber.datatable.DataTable farmerDataTable) {
+
     // convert the data table from the feature file into a list of maps
     List<Map<String, String>> rows = farmerDataTable.asMaps(String.class, String.class);
 
@@ -54,6 +56,7 @@ public class UpdateCheeseWheelStepDefinitions {
   @Given("the following order exists in the system \\(p6)")
   public void the_following_order_exists_in_the_system_p6(
       io.cucumber.datatable.DataTable orderDataTable) {
+
     List<Map<String, String>> orders = orderDataTable.asMaps(String.class, String.class);
 
     for (Map<String, String> orderData : orders) {
@@ -80,11 +83,10 @@ public class UpdateCheeseWheelStepDefinitions {
   /**
    * @author Zhi Heng Che
    */
-  @Given("all non-spoiled cheese wheels from purchase {int} are added to "
-      + "order {int} \\(p6)")
-  public void
-  all_non_spoiled_cheese_wheels_from_purchase_are_added_to_order_p6(
+  @Given("all non-spoiled cheese wheels from purchase {int} are added to order {int} \\(p6)")
+  public void all_non_spoiled_cheese_wheels_from_purchase_are_added_to_order_p6(
       Integer purchaseID, Integer orderID) {
+
     Order targetOrder = null;
     Purchase targetPurchase = null;
 
@@ -131,6 +133,7 @@ public class UpdateCheeseWheelStepDefinitions {
    */
   @Given("all locations are created for shelf {string} \\(p6)")
   public void all_locations_are_created_for_shelf_p6(String shelfId) {
+
     Shelf shelf = Shelf.getWithId(shelfId);
 
     // Get the shelf dimensions from the metadata map that was populated
@@ -149,11 +152,11 @@ public class UpdateCheeseWheelStepDefinitions {
   /**
    * @author Zhi Heng Che
    */
-  @Given("cheese wheel {int} is at shelf location with column {int} and row "
-      + "{int} of shelf {string} \\(p6)")
-  public void
-  cheese_wheel_is_at_shelf_location_with_column_and_row_of_shelf_p6(
+  @Given(
+      "cheese wheel {int} is at shelf location with column {int} and row {int} of shelf {string} \\(p6)")
+  public void cheese_wheel_is_at_shelf_location_with_column_and_row_of_shelf_p6(
       Integer cheeseWheelID, Integer shelfColumn, Integer shelfRow, String shelfID) {
+
     CheeseWheel targetCheeseWheel = null;
     Shelf targetShelf = null;
 
@@ -185,6 +188,7 @@ public class UpdateCheeseWheelStepDefinitions {
   @Given("the following purchase exists in the system \\(p6)")
   public void the_following_purchase_exists_in_the_system_p6(
       io.cucumber.datatable.DataTable purchaseDataTable) {
+
     List<Map<String, String>> rows = purchaseDataTable.asMaps(String.class, String.class);
 
     for (Map<String, String> row : rows) {
@@ -204,8 +208,7 @@ public class UpdateCheeseWheelStepDefinitions {
    */
   @Given("all cheese wheels from purchase {int} are created \\(p6)")
   public void all_cheese_wheels_from_purchase_are_created_p6(Integer purchaseID) {
-    // Cheese wheels parameters are assigned in previous method creating the
-    // purchases
+    // Cheese wheels parameters are assigned in previous method creating the purchases
     Purchase purchase = null;
     for (Transaction t : ecseManager.getTransactions()) {
       if (t instanceof Purchase && t.getId() == purchaseID) {
@@ -240,15 +243,17 @@ public class UpdateCheeseWheelStepDefinitions {
   /**
    * @author Yohan Le Morhedec
    */
-  @When("the facility manager attempts to update cheese wheel {int} in the "
-      + "system with isSpoiled {string} and monthsAged {string} \\(p6)")
+  @When(
+      "the facility manager attempts to update cheese wheel {int} in the system with isSpoiled {string} and monthsAged {string} \\(p6)")
   public void
-  the_facility_manager_attempts_to_update_cheese_wheel_in_the_system_with_is_spoiled_and_months_aged_p6(
-      Integer cheeseWheelID, String isSpoiledStr, String monthsAgedStr) {
+      the_facility_manager_attempts_to_update_cheese_wheel_in_the_system_with_is_spoiled_and_months_aged_p6(
+          Integer cheeseWheelID, String isSpoiledStr, String monthsAgedStr) {
+
     Boolean isSpoiled = Boolean.valueOf(isSpoiledStr);
 
-    capturedError = CheECSEManagerFeatureSet3Controller.updateCheeseWheel(
-        cheeseWheelID, monthsAgedStr, isSpoiled);
+    capturedError =
+        CheECSEManagerFeatureSet3Controller.updateCheeseWheel(
+            cheeseWheelID, monthsAgedStr, isSpoiled);
   }
 
   /**
@@ -257,7 +262,9 @@ public class UpdateCheeseWheelStepDefinitions {
   @Then("the number of cheese wheels in the system shall be {int} \\(p6)")
   public void the_number_of_cheese_wheels_in_the_system_shall_be_p6(Integer nrCheeseWheels) {
     List<CheeseWheel> cheeseWheels = ecseManager.getCheeseWheels();
-    Assertions.assertEquals(nrCheeseWheels.intValue(), cheeseWheels.size(),
+    Assertions.assertEquals(
+        nrCheeseWheels.intValue(),
+        cheeseWheels.size(),
         "Unexpected number of cheese wheels in the system.");
   }
 
@@ -266,6 +273,7 @@ public class UpdateCheeseWheelStepDefinitions {
    */
   @Then("the purchase {int} shall have {int} cheese wheels \\(p6)")
   public void the_purchase_shall_have_cheese_wheels_p6(Integer purchaseId, Integer expectedCount) {
+
     Purchase targetPurchase = null;
     for (Transaction transaction : ecseManager.getTransactions()) {
       if (transaction instanceof Purchase && transaction.getId() == purchaseId) {
@@ -276,18 +284,21 @@ public class UpdateCheeseWheelStepDefinitions {
 
     Assertions.assertNotNull(targetPurchase, "Purchase " + purchaseId + " should exist");
     int actualCount = targetPurchase.numberOfCheeseWheels();
-    Assertions.assertEquals(expectedCount.intValue(), actualCount,
+    Assertions.assertEquals(
+        expectedCount.intValue(),
+        actualCount,
         "Purchase " + purchaseId + " has unexpected cheese-wheel count.");
   }
 
   /**
    * @author Maxime Robatche-Claive
    */
-  @Then("the cheese wheel {int} with monthsAged {string}, isSpoiled "
-      + "{string}, and purchaseId {int} shall exist in the system \\(p6)")
+  @Then(
+      "the cheese wheel {int} with monthsAged {string}, isSpoiled {string}, and purchaseId {int} shall exist in the system \\(p6)")
   public void
-  the_cheese_wheel_with_months_aged_is_spoiled_and_purchase_id_shall_exist_in_the_system_p6(
-      Integer cheeseWheelID, String monthsAgedStr, String isSpoiledStr, Integer purchaseID) {
+      the_cheese_wheel_with_months_aged_is_spoiled_and_purchase_id_shall_exist_in_the_system_p6(
+          Integer cheeseWheelID, String monthsAgedStr, String isSpoiledStr, Integer purchaseID) {
+
     // Find cheese wheel by ID, not by index
     CheeseWheel cw = null;
     for (CheeseWheel wheel : ecseManager.getCheeseWheels()) {
@@ -302,7 +313,9 @@ public class UpdateCheeseWheelStepDefinitions {
     // monthsAged
     CheeseWheel.MaturationPeriod expectedPeriod =
         CheeseWheel.MaturationPeriod.valueOf(monthsAgedStr);
-    Assertions.assertEquals(expectedPeriod, cw.getMonthsAged(),
+    Assertions.assertEquals(
+        expectedPeriod,
+        cw.getMonthsAged(),
         "monthsAged mismatch for cheese wheel " + cheeseWheelID);
 
     // isSpoiled
@@ -313,7 +326,9 @@ public class UpdateCheeseWheelStepDefinitions {
     // purchaseId
     Assertions.assertNotNull(
         cw.getPurchase(), "Cheese wheel " + cheeseWheelID + " has no purchase");
-    Assertions.assertEquals(purchaseID.intValue(), cw.getPurchase().getId(),
+    Assertions.assertEquals(
+        purchaseID.intValue(),
+        cw.getPurchase().getId(),
         "purchaseId mismatch for cheese wheel " + cheeseWheelID);
   }
 
@@ -337,8 +352,10 @@ public class UpdateCheeseWheelStepDefinitions {
 
     // Check that it has no location
     ShelfLocation location = cheeseWheel.getLocation();
-    Assertions.assertNull(location,
-        "Expected cheese wheel " + cheeseWheelID
+    Assertions.assertNull(
+        location,
+        "Expected cheese wheel "
+            + cheeseWheelID
             + " to not be on any shelf, but it has a location");
   }
 
@@ -360,8 +377,14 @@ public class UpdateCheeseWheelStepDefinitions {
         actualCount++;
       }
     }
-    Assertions.assertEquals(expectedCount.intValue(), actualCount,
-        "Expected " + expectedCount + " cheese wheels on shelf " + shelfID + " but found "
+    Assertions.assertEquals(
+        expectedCount.intValue(),
+        actualCount,
+        "Expected "
+            + expectedCount
+            + " cheese wheels on shelf "
+            + shelfID
+            + " but found "
             + actualCount);
   }
 
@@ -397,14 +420,16 @@ public class UpdateCheeseWheelStepDefinitions {
    */
   @Then("the order {int} shall have {int} cheese wheels \\(p6)")
   public void the_order_shall_have_cheese_wheels_p6(Integer orderID, Integer expectedCount) {
-    Order orderInline = ecseManager.getTransactions()
-                            .stream()
-                            .filter(t -> t instanceof Order && t.getId() == orderID)
-                            .map(t -> (Order) t)
-                            .findFirst()
-                            .orElse(null);
+    Order orderInline =
+        ecseManager.getTransactions().stream()
+            .filter(t -> t instanceof Order && t.getId() == orderID)
+            .map(t -> (Order) t)
+            .findFirst()
+            .orElse(null);
     Assertions.assertNotNull(orderInline, "Order with id " + orderID + " should exist");
-    Assertions.assertEquals(expectedCount.intValue(), orderInline.getCheeseWheels().size(),
+    Assertions.assertEquals(
+        expectedCount.intValue(),
+        orderInline.getCheeseWheels().size(),
         "Unexpected number of cheese wheels in the order.");
   }
 
@@ -423,6 +448,7 @@ public class UpdateCheeseWheelStepDefinitions {
    */
   @Then("the cheese wheel {int} shall not exist in the system \\(p6)")
   public void the_cheese_wheel_shall_not_exist_in_the_system_p6(Integer cheeseWheelID) {
+
     boolean exists = false;
 
     for (CheeseWheel wheel : ecseManager.getCheeseWheels()) {

@@ -1,10 +1,5 @@
 package ca.mcgill.ecse.cheecsemanager.features;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
 import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet5Controller;
 import ca.mcgill.ecse.cheecsemanager.model.CheECSEManager;
@@ -12,10 +7,17 @@ import ca.mcgill.ecse.cheecsemanager.model.WholesaleCompany;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+
 import java.util.List;
 import java.util.Map;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 public class UpdateWholesaleCompanyStepDefinitions {
+
   private CheECSEManager cheecsemanager = CheECSEManagerApplication.getCheecseManager();
   private String error = "";
 
@@ -24,7 +26,7 @@ public class UpdateWholesaleCompanyStepDefinitions {
    */
   @Given("the following wholesale company exists in the system \\(p14)")
   public void the_following_wholesale_company_exists_in_the_system_p14(
-      io.cucumber.datatable.DataTable dataTable) {
+          io.cucumber.datatable.DataTable dataTable) {
     // Write code here that turns the phrase above into concrete actions
     // For automatic transformation, change DataTable to one of
     // E, List[E], List[List[E]], List[Map[K,V]], Map[K,V] or
@@ -44,13 +46,10 @@ public class UpdateWholesaleCompanyStepDefinitions {
   /**
    * @author Minh Vo
    */
-  @When("the facility manager attempts to update wholesale company {string} in the system with "
-      + "name {string} and address {string} \\(p14)")
-  public void
-  the_facility_manager_attempts_to_update_wholesale_company_in_the_system_with_name_and_address_p14(
-      String companyName, String updateName, String updateAddress) {
-    callController(CheECSEManagerFeatureSet5Controller.updateWholesaleCompany(
-        companyName, updateName, updateAddress));
+  @When("the facility manager attempts to update wholesale company {string} in the system with name {string} and address {string} \\(p14)")
+  public void the_facility_manager_attempts_to_update_wholesale_company_in_the_system_with_name_and_address_p14(
+          String companyName, String updateName, String updateAddress) {
+    callController(CheECSEManagerFeatureSet5Controller.updateWholesaleCompany(companyName, updateName, updateAddress));
   }
 
   /**
@@ -64,26 +63,21 @@ public class UpdateWholesaleCompanyStepDefinitions {
   /**
    * @author Minh Vo
    */
-  @Then("the wholesale company with name {string} and address {string} shall exist in the system "
-      + "\\(p14)")
-  public void
-  the_wholesale_company_with_name_and_address_shall_exist_in_the_system_p14(
-      String name, String address) {
+  @Then("the wholesale company with name {string} and address {string} shall exist in the system \\(p14)")
+  public void the_wholesale_company_with_name_and_address_shall_exist_in_the_system_p14(
+          String name, String address) {
     // Write code here that turns the phrase above into concrete actions
     WholesaleCompany existCompany = WholesaleCompany.getWithName(name);
-    assertNotNull(
-        existCompany, "Wholesale company with name " + name + " does not exist in the system. ");
+    assertNotNull(existCompany, "Wholesale company with name " + name + " does not exist in the system. ");
     assertEquals(address, existCompany.getAddress());
   }
 
   /**
    * @author Harry Yang
    */
-  @Then("the wholesale company with name {string} and address {string} shall not exist in the "
-      + "system \\(p14)")
-  public void
-  the_wholesale_company_with_name_and_address_shall_not_exist_in_the_system_p14(
-      String name, String address) {
+  @Then("the wholesale company with name {string} and address {string} shall not exist in the system \\(p14)")
+  public void the_wholesale_company_with_name_and_address_shall_not_exist_in_the_system_p14(
+          String name, String address) {
     // Write code here that turns the phrase above into concrete actions
     WholesaleCompany wholesaleCompany = WholesaleCompany.getWithName(name);
     if (wholesaleCompany != null) {
@@ -96,7 +90,7 @@ public class UpdateWholesaleCompanyStepDefinitions {
    */
   @Then("the following wholesale companies shall exist in the system \\(p14)")
   public void the_following_wholesale_companies_shall_exist_in_the_system_p14(
-      io.cucumber.datatable.DataTable dataTable) {
+          io.cucumber.datatable.DataTable dataTable) {
     // Write code here that turns the phrase above into concrete actions
     // For automatic transformation, change DataTable to one of
     // E, List[E], List[List[E]], List[Map[K,V]], Map[K,V] or
@@ -110,8 +104,7 @@ public class UpdateWholesaleCompanyStepDefinitions {
       String name = row.get("name");
       String address = row.get("address");
       WholesaleCompany company = WholesaleCompany.getWithName(name);
-      assertNotNull(
-          company, "Wholesale company with name " + name + " does not exist in the system. ");
+      assertNotNull(company, "Wholesale company with name " + name + " does not exist in the system. ");
       assertEquals(address, company.getAddress());
     }
   }

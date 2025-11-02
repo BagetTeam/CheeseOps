@@ -12,6 +12,7 @@ import ca.mcgill.ecse.cheecsemanager.model.ShelfLocation;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -85,11 +86,12 @@ public class AddShelfStepDefinitions {
    * @param nrRows The number of rows
    * @author Aly Gaber
    */
-  @When("the facility manager attempts to add a shelf in the system with id "
-      + "{string}, {int} columns, and {int} rows \\(p17)")
+  @When(
+      "the facility manager attempts to add a shelf in the system with id "
+          + "{string}, {int} columns, and {int} rows \\(p17)")
   public void
-  the_facility_manager_attempts_to_add_a_shelf_in_the_system_with_id_columns_and_rows_p17(
-      String id, Integer nrColumns, Integer nrRows) {
+      the_facility_manager_attempts_to_add_a_shelf_in_the_system_with_id_columns_and_rows_p17(
+          String id, Integer nrColumns, Integer nrRows) {
     error = CheECSEManagerFeatureSet2Controller.addShelf(id, nrColumns, nrRows);
   }
 
@@ -115,11 +117,12 @@ public class AddShelfStepDefinitions {
    * @param locationsSize The total number of locations
    * @author Nicolas Younan
    */
-  @Then("the shelf {string} with {int} columns and {int} rows and a total of "
-      + "{int} locations shall exist in the system \\(p17)")
+  @Then(
+      "the shelf {string} with {int} columns and {int} rows and a total of "
+          + "{int} locations shall exist in the system \\(p17)")
   public void
-  the_shelf_with_columns_and_rows_and_a_total_of_locations_shall_exist_in_the_system_p17(
-      String id, Integer nrColumns, Integer nrRows, Integer locationsSize) {
+      the_shelf_with_columns_and_rows_and_a_total_of_locations_shall_exist_in_the_system_p17(
+          String id, Integer nrColumns, Integer nrRows, Integer locationsSize) {
     // Use Shelf's static lookup method
     Shelf shelf = Shelf.getWithId(id);
     assertNotNull(shelf, "Shelf " + id + " should exist");
@@ -144,11 +147,12 @@ public class AddShelfStepDefinitions {
    * @param id The shelf id
    * @author Abdelmalek Zerhouni
    */
-  @Then("for each row and column of the shelf {string}, there is exactly one "
-      + "location in the system associated with that row and column \\(p17)")
+  @Then(
+      "for each row and column of the shelf {string}, there is exactly one "
+          + "location in the system associated with that row and column \\(p17)")
   public void
-  for_each_row_and_column_of_the_shelf_there_is_exactly_one_location_in_the_system_associated_with_that_row_and_column_p17(
-      String id) {
+      for_each_row_and_column_of_the_shelf_there_is_exactly_one_location_in_the_system_associated_with_that_row_and_column_p17(
+          String id) {
     Shelf shelf = Shelf.getWithId(id);
     assertNotNull(shelf, "Shelf " + id + " should exist");
 
@@ -161,7 +165,9 @@ public class AddShelfStepDefinitions {
 
     // Verify each combination appears exactly once
     for (Map.Entry<String, Integer> entry : locationMap.entrySet()) {
-      assertEquals(1, entry.getValue().intValue(),
+      assertEquals(
+          1,
+          entry.getValue().intValue(),
           "Location " + entry.getKey() + " should appear exactly once");
     }
   }
@@ -203,7 +209,8 @@ public class AddShelfStepDefinitions {
   @Then("the error {string} shall be raised \\(p17)")
   public void the_error_shall_be_raised_p17(String expectedError) {
     assertNotNull(error, "An error should have been raised");
-    assertTrue(error.contains(expectedError) || error.equals(expectedError),
+    assertTrue(
+        error.contains(expectedError) || error.equals(expectedError),
         "Expected error to contain: '" + expectedError + "' but got: '" + error + "'");
   }
 }
