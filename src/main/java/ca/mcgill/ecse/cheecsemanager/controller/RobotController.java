@@ -139,10 +139,17 @@ public class RobotController {
    * asked to treat a cheese wheel, the robot picks up the cheese wheel, washes
    * it, turns it, and places it back on the shelf)
    * @return whether action was successful
+   * @author Benjamin Curis-Friedman
    */
   public static boolean treatCurrentWheel() {
-    // TODO: implement this method
-    return false;
+    boolean success = robot.triggerTreatment();
+
+    if (success) { // log if its true
+      int wheelID = robot.getCurrentCheeseWheel().getId();
+      logAction(new LogAction("Treat cheese wheel #" + wheelID + " (wash & turn)"));
+    }
+
+    return success;
   }
 
   /**
