@@ -154,7 +154,7 @@ public class RobotStepDefinitions {
 
   }
 
-  /**
+  /** Set all cheese wheels given in to spoiled.
    * Table columns expected: id
    * 
    * @param dataTable Cucumber datatable with cheese wheel rows (id)
