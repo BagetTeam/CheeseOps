@@ -1,7 +1,6 @@
 package ca.mcgill.ecse.cheecsemanager.features;
 
 import java.sql.Date;
-import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
@@ -12,6 +11,7 @@ import ca.mcgill.ecse.cheecsemanager.model.Farmer;
 import ca.mcgill.ecse.cheecsemanager.model.Order;
 import ca.mcgill.ecse.cheecsemanager.model.Purchase;
 import ca.mcgill.ecse.cheecsemanager.model.Shelf;
+import ca.mcgill.ecse.cheecsemanager.model.ShelfLocation;
 import ca.mcgill.ecse.cheecsemanager.model.Transaction;
 import ca.mcgill.ecse.cheecsemanager.model.WholesaleCompany;
 import io.cucumber.java.en.Given;
@@ -105,25 +105,53 @@ public class RobotStepDefinitions {
     }
   }
 
+   /**
+   * No-op GIVEN: purchases are created (and their wheels added) by the "the following purchase exists in the system"
+   * step(s). Keep this step blank and idempotent so features that include it still run.
+   *
+   * @author Olivier Mao
+   */
   @Given("all cheese wheels for the following purchases are created")
   public void all_cheese_wheels_for_the_following_purchases_are_created(
       io.cucumber.datatable.DataTable dataTable) {
-    // Write code here that turns the phrase above into concrete actions
-    // For automatic transformation, change DataTable to one of
-    // E, List[E], List[List[E]], List[Map[K,V]], Map[K,V] or
-    // Map[K, List[V]]. E,K,V must be a String, Integer, Float,
-    // Double, Byte, Short, Long, BigInteger or BigDecimal.
-    //
-    // For other transformations you can register a DataTableType.
-    throw new io.cucumber.java.PendingException();
+    // Intentionally left blank: purchase creation steps already create cheese wheels.
   }
 
+  /**
+   * This step definition ensures that the cheese wheel is at a shelf location with a given column
+   * and row
+   *
+   * @param cheeseWheelIndex The index of the cheese wheel
+   * @param column The column number on the shelf
+   * @param row The row number on the shelf
+   * @param shelfID The ID of the shelf
+   * @author Olivier Mao
+   */
   @Given("cheese wheel {int} is at shelf location with column {int} and row {int} of shelf {string}")
-  public void cheese_wheel_is_at_shelf_location_with_column_and_row_of_shelf(Integer int1,
-      Integer int2, Integer int3, String string) {
-    // Write code here that turns the phrase above into concrete actions
+  public void cheese_wheel_is_at_shelf_location_with_column_and_row_of_shelf(Integer cheeseWheelIndex,
+      Integer column, Integer row, String shelfId) {
+    CheeseWheel cw = cheecsemanager.getCheeseWheel(cheeseWheelIndex - 1);
+    Shelf shelf = Shelf.getWithId(shelfId);
+    if (shelf == null || cw == null) {
+      return;
+    }
+    
+    ShelfLocation location = null;
+    for (ShelfLocation loc : shelf.getLocations()) {
+      if (loc.getColumn() == column && loc.getRow() == row) {
+        location = loc;
+        break;
+      }
+    }
 
-    throw new io.cucumber.java.PendingException();
+    if (location == null) {
+      location = shelf.addLocation(column, row);
+    }
+    
+    if (!location.hasCheeseWheel()) {
+      cw.setLocation(location);
+    }
+
   }
 
   /**
@@ -228,7 +256,7 @@ public class RobotStepDefinitions {
     }
   }
 
-  
+  // To do once controller has been implemented
   @Given("the robot is marked as {string} and at cheese wheel {int} on shelf {string} with action log {string}")
   public void the_robot_is_marked_as_and_at_cheese_wheel_on_shelf_with_action_log(String string,
       Integer int1, String string2, String string3) {
@@ -262,10 +290,10 @@ public class RobotStepDefinitions {
     	}
     }
     if(purchase == null) {
-    	throw new IllegalArgumentException("The purchase " + int1 + " does not exist.");
+    	throw new IllegalArgumentException("The purchase " + purchaseId + " does not exist.");
     }
     if(order == null) {
-    	throw new IllegalArgumentException("The order " + int2 + " does not exist."); 
+    	throw new IllegalArgumentException("The order " + orderId + " does not exist."); 
     }
     for(CheeseWheel cheese : purchase.getCheeseWheels()) {
     	if(!cheese.isIsSpoiled()) {
