@@ -2,6 +2,8 @@ package ca.mcgill.ecse.cheecsemanager.controller;
 
 import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
 import ca.mcgill.ecse.cheecsemanager.model.*;
+import ca.mcgill.ecse.cheecsemanager.persistence.CheECSEManagerPersistence;
+
 import java.sql.Date;
 
 /**
@@ -58,6 +60,12 @@ public class CheECSEManagerFeatureSet4Controller {
       for (int i = 0; i < nrCheeseWheels; i++) { // Add cheese wheels to
                                                  // purchase
         purchase.addCheeseWheel(period, false, manager);
+      }
+      // save changes
+      try {
+        CheECSEManagerPersistence.save();
+      } catch (RuntimeException e) {
+        return e.getMessage();
       }
     } catch (Exception e) {
       return "Error while purchasing: " + e.getMessage();
@@ -140,6 +148,12 @@ public class CheECSEManagerFeatureSet4Controller {
     Location.setCheeseWheel(cheese);
     cheese.setLocation(Location);
 
+    try {
+      CheECSEManagerPersistence.save();
+    } catch (RuntimeException e) {
+      return e.getMessage();
+    }
+
     return "";
   }
 
@@ -178,6 +192,12 @@ public class CheECSEManagerFeatureSet4Controller {
     boolean removed = location.setCheeseWheel(null);
     if (!removed) {
       return "Failed to remove cheese wheel from the shelf.";
+    }
+
+    try {
+      CheECSEManagerPersistence.save();
+    } catch (RuntimeException e) {
+      return e.getMessage();
     }
 
     return "";

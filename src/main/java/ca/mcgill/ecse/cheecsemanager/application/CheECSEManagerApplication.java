@@ -1,6 +1,7 @@
 package ca.mcgill.ecse.cheecsemanager.application;
 
 import ca.mcgill.ecse.cheecsemanager.model.CheECSEManager;
+import ca.mcgill.ecse.cheecsemanager.persistence.CheECSEManagerPersistence;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -30,8 +31,8 @@ public class CheECSEManagerApplication extends Application {
 
     public static CheECSEManager getCheecseManager() {
         if (cheecsemanager == null) {
-            // these attributes are default, you should set them later with the setters
-            cheecsemanager = new CheECSEManager();
+            // load model from saved file
+            cheecsemanager = CheECSEManagerPersistence.load();
         }
         return cheecsemanager;
     }

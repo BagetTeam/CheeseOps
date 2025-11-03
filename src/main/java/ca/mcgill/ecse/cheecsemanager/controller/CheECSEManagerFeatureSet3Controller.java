@@ -4,6 +4,8 @@ import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
 import ca.mcgill.ecse.cheecsemanager.model.CheECSEManager;
 import ca.mcgill.ecse.cheecsemanager.model.CheeseWheel;
 import ca.mcgill.ecse.cheecsemanager.model.Farmer;
+import ca.mcgill.ecse.cheecsemanager.persistence.CheECSEManagerPersistence;
+
 import java.util.List;
 
 /**
@@ -52,6 +54,12 @@ public class CheECSEManagerFeatureSet3Controller {
     farmer.setName(name);
     app.addFarmer(farmer);
 
+    // save the updated state
+    try {
+      CheECSEManagerPersistence.save();
+    } catch (RuntimeException e) {
+      return e.getMessage();
+    }
     // return no error message
     return "";
   }
@@ -97,6 +105,13 @@ public class CheECSEManagerFeatureSet3Controller {
 
     if (order != null && !order.getMonthsAged().equals(updatedPeriod)) {
       cheeseWheel.setOrder(null);
+    }
+
+    // --- Save the updated model ---
+    try {
+      CheECSEManagerPersistence.save();
+    } catch (RuntimeException e) {
+      return e.getMessage();
     }
 
     return "";
