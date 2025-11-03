@@ -14,6 +14,9 @@ import com.thoughtworks.xstream.io.xml.XppDriver;
 /**
  * Serializes model elements to/from XML.
  */
+/**
+ * @author David Tang
+ * */
 public class XmlSerializer {
 
   private XStream xStream;
