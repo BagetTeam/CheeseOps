@@ -314,6 +314,10 @@ public class RobotStepDefinitions {
     for (var row : cheeseWheels) {
       int id = Integer.parseInt(row.get("id"));
       MaturationPeriod months = MaturationPeriod.valueOf(row.get("newMonthsAged"));
+      CheeseWheel cheeseWheel = cheecsemanager.getCheeseWheel(id);
+      if (cheeseWheel == null) {
+        throw new RuntimeException("Cheese wheel " + id + " does not exist.");
+      }
       cheecsemanager.getCheeseWheel(id).setMonthsAged(months);
     }
   }
