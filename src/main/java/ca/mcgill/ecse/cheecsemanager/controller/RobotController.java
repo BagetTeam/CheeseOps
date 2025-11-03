@@ -250,7 +250,7 @@ public class RobotController {
     }
 
     logAction(LogAction.logAtCheeseWheel(wheelId));
-    robot.setStatus(Robot.Status.AtCheeseWheel);
+    robot.moveToCheeseWheel(targetCheeseWheel);
     return true;
   }
 
@@ -309,11 +309,9 @@ public class RobotController {
         currRow++;
         logAction(LogAction.logAdjustHeight(40));
       }
-      robot.setRow(currRow);
     }
 
-
-    robot.setStatus(Robot.Status.AtEntranceFacingAisle);
+    robot.moveToEntrance();
     return false;
   }
   /* =================================================== */

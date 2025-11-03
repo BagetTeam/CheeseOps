@@ -50,7 +50,7 @@ public class RobotStepDefinitions {
   /**
    * Create all locations for a specific shelf.
    * 
-   * @param String shelfId: The id of the shelf to create locations for
+   * @param shelfId: The id of the shelf to create locations for
    * @author Ewen Gueguen
    */
   @Given("all locations are created for shelf {string}")
@@ -136,7 +136,7 @@ public class RobotStepDefinitions {
    * @param cheeseWheelIndex The index of the cheese wheel
    * @param column The column number on the shelf
    * @param row The row number on the shelf
-   * @param shelfID The ID of the shelf
+   * @param shelfId The ID of the shelf
    * @author Olivier Mao
    */
   @Given("cheese wheel {int} is at shelf location with column {int} and row {int} of shelf {string}")
