@@ -212,6 +212,11 @@ public class RobotStepDefinitions {
         throw new RuntimeException("Unknown state: " + state);
     }
 
+    while (robot.numberOfLog() > 0) {
+      LogEntry logEntry = robot.getLog(robot.numberOfLog() - 1);
+      logEntry.delete();
+    }
+
     robot.addLog(actionLog);
   }
 
