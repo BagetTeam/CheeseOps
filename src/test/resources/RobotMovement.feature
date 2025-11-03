@@ -201,7 +201,7 @@ As the robot controller, I want to move the robot to shelfs and cheese wheels so
 
     Examples:
       | shelfID | log                       | cheeseWheelID | error                                  |
-      | A12     | At shelf #A12; Turn left; |            10 | Cheese wheel #10 is not on shelf #A12. |
+      | A12     | At shelf #A12; Turn left; |             6 | Cheese wheel #6 is not on shelf #A12.  |
       | B21     | At shelf #B21; Turn left; |             1 | Cheese wheel #1 is not on shelf #B21.  |
 
   Scenario Outline: Unsuccessfully move the robot to cheese wheel from another cheese wheel
