@@ -9,7 +9,7 @@ public class LogAction {
     return new LogAction("At shelf #" + shelfId + ";");
   }
 
-  static public LogAction logAtCheeseWheel(String wheelId) {
+  static public LogAction logAtCheeseWheel(int wheelId) {
     return new LogAction("At cheese wheel #" + wheelId + ";");
   }
 
@@ -25,7 +25,7 @@ public class LogAction {
 
   static public LogAction logTurnLeft() { return new LogAction("Turn left;"); }
 
-  static public LogAction LogTurnRight() {
+  static public LogAction logTurnRight() {
     return new LogAction("Turn right;");
   }
 
