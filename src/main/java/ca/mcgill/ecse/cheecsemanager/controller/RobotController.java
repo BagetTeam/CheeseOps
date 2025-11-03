@@ -6,6 +6,13 @@ import ca.mcgill.ecse.cheecsemanager.model.*;
 import javax.swing.*;
 import java.util.List;
 import java.util.Optional;
+import ca.mcgill.ecse.cheecsemanager.model.CheECSEManager;
+import ca.mcgill.ecse.cheecsemanager.model.CheeseWheel;
+import ca.mcgill.ecse.cheecsemanager.model.LogEntry;
+import ca.mcgill.ecse.cheecsemanager.model.Purchase;
+import ca.mcgill.ecse.cheecsemanager.model.Robot;
+import ca.mcgill.ecse.cheecsemanager.model.Shelf;
+import java.util.List;
 
 public class RobotController {
   static CheECSEManager manager = CheECSEManagerApplication.getCheecseManager();
@@ -75,8 +82,11 @@ public class RobotController {
   /* =================================================== */
 
   /**
-   * @author Ming Li Liu
+   * The facility manager needs to trigger the treatment of all cheese wheels
+   * and goes through each cheese wheel in the purchase to treat it.
    * @param purchaseId
+   *
+   * @author Ming Li Liu
    */
   public static void initializeTreatment(int purchaseId) {
     var purchase = (Purchase)manager.getTransaction(purchaseId);
@@ -84,6 +94,14 @@ public class RobotController {
     purchase.getCheeseWheels().forEach(wheel -> {
       moveToShelf(wheel.getLocation().getShelf().getId());
       moveToCheeseWheel(wheel.getId());
+      var shelf = wheel.getLocation().getShelf();
+
+      if (!shelf.getId().equals(robot.getCurrentShelf().getId())) {
+        goBackToEntrance();
+        moveToShelf(shelf);
+      }
+
+      moveToCheeseWheel(wheel);
       treatCurrentWheel();
     });
   }
@@ -325,5 +343,18 @@ public class RobotController {
    */
   public static void logAction(LogAction action) {
     manager.getRobot().addLog(action.toString());
+  }
+
+  /**
+   * View the robot’s action log
+   * @return
+   * @author Ming Li Liu
+   */
+  public static List<TOLogEntry> viewLog() {
+    return manager.getRobot()
+        .getLog()
+        .stream()
+        .map(log -> new TOLogEntry(log.getDescription()))
+        .toList();
   }
 }
