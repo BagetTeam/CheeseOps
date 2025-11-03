@@ -99,11 +99,14 @@ public class RobotController {
 
     purchase.getCheeseWheels().forEach(wheel -> {
       var shelf = wheel.getLocation().getShelf();
+
       if (!shelf.getId().equals(robot.getCurrentShelf().getId())) {
         goBackToEntrance();
+        turnRight();
         moveToShelf(shelf.getId());
       }
 
+      turnLeft();
       moveToCheeseWheel(wheel.getId());
       treatCurrentWheel();
     });
