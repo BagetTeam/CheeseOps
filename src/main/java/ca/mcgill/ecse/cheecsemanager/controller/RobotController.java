@@ -278,7 +278,6 @@ public class RobotController {
     logAction(LogAction.logStraight(targetCol - currCol));
     logAction(LogAction.logAdjustHeight((targetRow - currRow) * 40));
 
-    robot.setColumn(currCol);
     robot.moveToEntrance();
     return false;
   }
