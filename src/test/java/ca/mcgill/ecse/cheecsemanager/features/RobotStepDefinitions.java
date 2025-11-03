@@ -168,9 +168,13 @@ public class RobotStepDefinitions {
   @Given("the following cheese wheels are spoiled")
   public void the_following_cheese_wheels_are_spoiled(io.cucumber.datatable.DataTable dataTable) {
     List<Map<String, String>> cheeseWheels = dataTable.asMaps();
-    for (var cheeseWheel : cheeseWheels) {
-      int id = Integer.parseInt(cheeseWheel.get("id"));
-      cheecsemanager.getCheeseWheel(id).setIsSpoiled(true);
+    for (var cheeseWheelRow : cheeseWheels) {
+      int id = Integer.parseInt(cheeseWheelRow.get("id"));
+      CheeseWheel cheeseWheel = cheecsemanager.getCheeseWheel(id);
+      if (cheeseWheel == null) {
+        throw new RuntimeException("Cheese wheel " + id + " does not exist.");
+      }
+      cheeseWheel.setIsSpoiled(true);
     }
   }
 
