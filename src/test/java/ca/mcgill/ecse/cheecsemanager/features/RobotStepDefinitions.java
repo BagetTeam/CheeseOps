@@ -28,6 +28,17 @@ public class RobotStepDefinitions {
       return cheecsemanager.getRobot();
     }
   }
+
+  /**
+   * @author Ayush Patel
+   * This method is used in given steps to set the status of the robot to the desired status
+   * */
+  private void setStatus(Robot robot, Robot.Status targetStatus){
+    Robot.Status currentStatus = robot.getStatus();
+    if(currentStatus.equals(targetStatus)){
+      return;
+    }
+  }
   /**
    * Create shelves from the provided datatable.
    * Table columns expected: id
@@ -206,16 +217,16 @@ public class RobotStepDefinitions {
     robot.setCurrentShelf(shelf);
     switch (state) {
       case "Idle":
-        robot.setStatus(Robot.Status.Idle);
+        setStatus(robot ,Robot.Status.Idle);
         break;
       case "AtEntranceFacingAisle":
-        robot.setStatus(Robot.Status.AtEntranceFacingAisle);
+        setStatus(robot, Robot.Status.AtEntranceFacingAisle);
         break;
       case "AtEntranceNotFacingAisle":
-        robot.setStatus(Robot.Status.AtEntranceNotFacingAisle);
+        setStatus(robot, Robot.Status.AtEntranceNotFacingAisle);
         break;
       case "AtCheeseWheel":
-        robot.setStatus(Robot.Status.AtCheeseWheel);
+        setStatus(robot, Robot.Status.AtCheeseWheel);
         break;
       default:
         throw new RuntimeException("Unknown state: " + state);
@@ -330,7 +341,6 @@ public class RobotStepDefinitions {
   @Given("the robot is marked as {string} and at cheese wheel {int} on shelf {string} with action log {string}")
   public void the_robot_is_marked_as_and_at_cheese_wheel_on_shelf_with_action_log(String state, Integer wheelId, String shelfId, String actionLog) {
     Robot robot = cheecsemanager.getRobot();
-    RobotController.deactivateRobot(); // to ensure starting with robot with raw data
     CheeseWheel cheeseWheel = cheecsemanager.getCheeseWheel(wheelId);
     Shelf shelf = Shelf.getWithId(shelfId);
     robot.setCurrentShelf(shelf);
@@ -350,9 +360,9 @@ public class RobotStepDefinitions {
    * Adds all non-spoiled cheese wheels from a given purchase to a given order. 
    * Uses model API to get Purchase and Order objects
    * 
-   * @param int1 index of the purchase to take cheese wheels from 
-   * @param int2 index of the order to which the cheese wheels will be added
-   * @throws IlegalArgumentException if either the purchase or the order does not exist
+   * @param purchaseId index of the purchase to take cheese wheels from
+   * @param orderId index of the order to which the cheese wheels will be added
+   * @throws IllegalArgumentException if either the purchase or the order does not exist
    * @author Eun-jun Chang
    */
   @Given("all non-spoiled cheese wheels from purchase {int} are added to order {int}")

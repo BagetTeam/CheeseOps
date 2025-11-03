@@ -45,7 +45,7 @@ public class RobotController {
   public static void deactivateRobot() {
     if (!robot.getIsActivated())
       throw new RuntimeException("Robot is not already activated");
-    if (robot.getStatus() != Robot.Status.AtEntranceNotFacingAisle || robot.getStatus() != Robot.Status.AtCheeseWheel)
+    if (robot.getStatus() != Robot.Status.AtEntranceFacingAisle || robot.getStatus() != Robot.Status.AtCheeseWheel)
       throw new RuntimeException("Robot is not activated when tried to deactivate");
 
     boolean deactivated = robot.deactivate();
@@ -74,8 +74,8 @@ public class RobotController {
       throw new RuntimeException("The shelf" + shelfId + " does not exist.");
     }
 
-    robot.setRow(1);
     logAction(LogAction.logAtShelf(shelfId));
+    robot.setRow(1);
     logAction(LogAction.logAdjustHeight(0));
   }
 
