@@ -44,7 +44,7 @@ class Shelf {
   public static void reinitializeUniqueShelfID(List<Shelf> shelves) {
       shelfsById.clear();
       for (var shelf : shelves) {
-        shelfsById.put(shelf.getID(), shelf);
+        shelfsById.put(shelf.getId(), shelf);
       }
     }
 }

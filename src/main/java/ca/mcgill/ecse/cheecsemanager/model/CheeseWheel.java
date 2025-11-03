@@ -3,8 +3,10 @@
 
 package ca.mcgill.ecse.cheecsemanager.model;
 
-// line 55 "../../../../../../CheECSEManager.ump"
-// line 141 "../../../../../../CheECSEManager.ump"
+import java.util.List;
+
+// line 28 "../../../../../CheECSEManagerPersistence.ump"
+// line 57 "../../../../../CheECSEManager.ump"
 public class CheeseWheel
 {
 
@@ -293,7 +295,22 @@ public class CheeseWheel
     }
   }
 
-  // line 65 "../../../../../../CheECSEManager.ump"
+
+  /**
+   * private static int nextId = 1;
+   */
+  // line 31 "../../../../../CheECSEManagerPersistence.ump"
+   public static  void reinitializeId(List<CheeseWheel> wheels){
+    int maxId = 0;
+        for (CheeseWheel w : wheels) {
+          if (w.getId() > maxId) {
+            maxId = w.getId();
+          }
+        }
+        nextId = maxId + 1;
+  }
+
+  // line 67 "../../../../../CheECSEManager.ump"
    public static  void resetId(){
     nextId = 1;
   }
