@@ -4,8 +4,8 @@
 package ca.mcgill.ecse.cheecsemanager.model;
 import java.util.*;
 
-// line 15 "../../../../../../CheECSEManager.ump"
-// line 111 "../../../../../../CheECSEManager.ump"
+// line 78 "../../../../../CheECSEManagerPersistence.ump"
+// line 17 "../../../../../CheECSEManager.ump"
 public abstract class User
 {
 
@@ -96,6 +96,18 @@ public abstract class User
   public void delete()
   {
     usersByEmail.remove(getEmail());
+  }
+
+
+  /**
+   * private static Map<String, User> usersByEmail = new HashMap<String, User>();
+   */
+  // line 82 "../../../../../CheECSEManagerPersistence.ump"
+   public static  void reinitializeUniqueEmail(List<User> users){
+    usersByEmail.clear();
+          for (var user : users) {
+            usersByEmail.put(user.getEmail(), user);
+          }
   }
 
 

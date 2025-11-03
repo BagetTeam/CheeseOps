@@ -3,8 +3,7 @@
 
 package ca.mcgill.ecse.cheecsemanager.model;
 
-// line 99 "../../../../../../CheECSEManager.ump"
-// line 166 "../../../../../../CheECSEManager.ump"
+// line 101 "../../../../../CheECSEManager.ump"
 public class LogEntry
 {
 

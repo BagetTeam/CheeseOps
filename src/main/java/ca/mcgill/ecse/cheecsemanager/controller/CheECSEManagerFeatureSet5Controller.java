@@ -6,6 +6,8 @@ import ca.mcgill.ecse.cheecsemanager.model.CheeseWheel.MaturationPeriod;
 import ca.mcgill.ecse.cheecsemanager.model.Order;
 import ca.mcgill.ecse.cheecsemanager.model.Purchase;
 import ca.mcgill.ecse.cheecsemanager.model.WholesaleCompany;
+import ca.mcgill.ecse.cheecsemanager.persistence.CheECSEManagerPersistence;
+
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -134,6 +136,13 @@ public class CheECSEManagerFeatureSet5Controller {
         }
       }
 
+      // Save changes
+      try {
+        CheECSEManagerPersistence.save();
+      } catch (RuntimeException e) {
+        return e.getMessage();
+      }
+
       return "";
 
     } catch (Exception e) {
@@ -169,6 +178,11 @@ public class CheECSEManagerFeatureSet5Controller {
     }
     try {
       new WholesaleCompany(name, address, app);
+      try {
+        CheECSEManagerPersistence.save();
+      } catch (RuntimeException e) {
+        return e.getMessage();
+      }
       return "";
     } catch (Exception e) {
       return e.getMessage();
@@ -219,9 +233,15 @@ public class CheECSEManagerFeatureSet5Controller {
     try {
       company.setName(newName);
       company.setAddress(newAddress);
+      try {
+        CheECSEManagerPersistence.save();
+      } catch (RuntimeException e) {
+        return e.getMessage();
+      }
       return "";
     } catch (Exception e) {
       return e.getMessage();
     }
   }
+
 }
