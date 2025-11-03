@@ -19,6 +19,15 @@ public class RobotStepDefinitions {
   private CheECSEManager cheecsemanager = CheECSEManagerApplication.getCheecseManager();
   private Exception error;
 
+  private Robot getRobot(){
+    if(cheecsemanager.hasRobot()){
+      return cheecsemanager.getRobot();
+    } else {
+      Robot robot = new Robot(false, 0, 1, 0, null, cheecsemanager);
+      cheecsemanager.setRobot(robot);
+      return cheecsemanager.getRobot();
+    }
+  }
   /**
    * Create shelves from the provided datatable.
    * Table columns expected: id
@@ -192,7 +201,7 @@ public class RobotStepDefinitions {
   @Given("the robot is marked as {string} and at shelf {string} with action log {string}")
   public void the_robot_is_marked_as_and_at_shelf_with_action_log(String state, String shelfId,
                                                                   String actionLog) {
-    Robot robot = cheecsemanager.getRobot();
+    Robot robot = getRobot();
     Shelf shelf = Shelf.getWithId(shelfId);
     robot.setCurrentShelf(shelf);
     switch (state) {
