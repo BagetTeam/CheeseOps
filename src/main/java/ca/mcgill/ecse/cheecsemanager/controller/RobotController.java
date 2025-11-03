@@ -104,9 +104,9 @@ public class RobotController {
         goBackToEntrance();
         turnRight();
         moveToShelf(shelf.getId());
+        turnLeft();
       }
 
-      turnLeft();
       moveToCheeseWheel(wheel.getId());
       treatCurrentWheel();
     });
@@ -201,14 +201,16 @@ public class RobotController {
   public static boolean moveToCheeseWheel(int wheelId) {
     if (!robot.getIsActivated())
       throw new RuntimeException("The robot must be activated first");
+
     Robot.Status status = robot.getStatus();
-    if (status != Robot.Status.AtEntranceFacingAisle &&
-        status != Robot.Status.AtCheeseWheel)
+
+    if (status != Robot.Status.AtEntranceFacingAisle)
       throw new RuntimeException("Cannot move to shelf from " +
                                  robot.getStatus() + " status");
 
     Shelf currentShelf = robot.getCurrentShelf();
     CheeseWheel targetCheeseWheel = manager.getCheeseWheel(wheelId);
+
     if (targetCheeseWheel == null) {
       throw new RuntimeException("Cheese wheel " + wheelId +
                                  " does not exist.");
@@ -216,7 +218,8 @@ public class RobotController {
 
     ShelfLocation shelfLocationOfTarget = targetCheeseWheel.getLocation();
     Shelf shelfOfTarget = shelfLocationOfTarget.getShelf();
-    if (!currentShelf.equals(shelfOfTarget)) {
+
+    if (!currentShelf.getId().equals(shelfOfTarget.getId())) {
       throw new RuntimeException("The cheese wheel " + wheelId +
                                  " does not match the current shelf.");
     }
@@ -230,33 +233,15 @@ public class RobotController {
       return false;
     }
 
-    boolean moveColForward = targetCol > currCol;
-    boolean moveRowUp = targetRow > currRow;
+    robot.setColumn(currCol);
+    logAction(LogAction.logStraight(targetCol - currCol));
 
-    while (targetCol != currCol) {
-      if (moveColForward) {
-        currCol++;
-        logAction(LogAction.logStraight(1));
-      } else {
-        currCol--;
-        logAction(LogAction.logStraight(-1));
-      }
-      robot.setColumn(currCol);
-    }
+    robot.setRow(currRow);
+    logAction(LogAction.logAdjustHeight(targetRow - currRow));
 
-    while (targetRow != currRow) {
-      if (moveRowUp) {
-        currRow++;
-        logAction(LogAction.logAdjustHeight(40));
-      } else {
-        currRow--;
-        logAction(LogAction.logAdjustHeight(-40));
-      }
-      robot.setRow(currRow);
-    }
-
-    logAction(LogAction.logAtCheeseWheel(wheelId));
     robot.moveToCheeseWheel(targetCheeseWheel);
+    logAction(LogAction.logAtCheeseWheel(wheelId));
+
     return true;
   }
 
