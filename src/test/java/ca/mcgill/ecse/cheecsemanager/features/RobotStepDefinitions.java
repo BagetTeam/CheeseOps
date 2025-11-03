@@ -318,7 +318,7 @@ public class RobotStepDefinitions {
       if (cheeseWheel == null) {
         throw new RuntimeException("Cheese wheel " + id + " does not exist.");
       }
-      cheecsemanager.getCheeseWheel(id).setMonthsAged(months);
+      cheeseWheel.setMonthsAged(months);
     }
   }
 
