@@ -4,6 +4,8 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.time.LocalDate;
+import java.time.ZoneId;
 
 import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
 import ca.mcgill.ecse.cheecsemanager.controller.RobotController;
@@ -88,7 +90,12 @@ public class RobotStepDefinitions {
       io.cucumber.datatable.DataTable dataTable) {
     List<Map<String, String>> purchases = dataTable.asMaps();
     for (var purchase : purchases) {
-      Date transactionDate = Date.valueOf(purchase.get("transactionDate"));
+      String dateString = purchase.get("purchaseDate"); // e.g., "2024-03-15"
+      long epochTime = LocalDate.parse(dateString)
+              .atStartOfDay(ZoneId.systemDefault())
+              .toInstant()
+              .toEpochMilli();
+      Date transactionDate = new Date(epochTime);
       int nrCheeseWheels = Integer.parseInt(purchase.get("nrCheeseWheels"));
       MaturationPeriod monthsAged = MaturationPeriod.valueOf(purchase.get("monthsAged"));
       String farmerEmail = purchase.get("farmerEmail");
@@ -158,10 +165,21 @@ public class RobotStepDefinitions {
    */
   @Given("the following cheese wheels are spoiled")
   public void the_following_cheese_wheels_are_spoiled(io.cucumber.datatable.DataTable dataTable) {
-    List<Map<String, String>> cheeseWheels = dataTable.asMaps();
-    for (var cheeseWheel : cheeseWheels) {
-      int id = Integer.parseInt(cheeseWheel.get("id"));
-      cheecsemanager.getCheeseWheel(id).setIsSpoiled(true);
+    List<Map<String, String>> cheeseWheelsRows = dataTable.asMaps();
+    for (var cheeseWheelRow : cheeseWheelsRows) {
+      int id = Integer.parseInt(cheeseWheelRow.get("id"));
+      List<CheeseWheel> cheeseWheels = cheecsemanager.getCheeseWheels();
+      CheeseWheel cheeseWheel = null;
+      for (CheeseWheel cW : cheeseWheels) {
+        if (cW.getId() == id) {
+          cheeseWheel = cW;
+          break;
+        }
+      }
+      if (cheeseWheel == null) {
+        throw new RuntimeException("Cheese wheel " + id + " does not exist.");
+      }
+      cheeseWheel.setIsSpoiled(true);
     }
   }
 
@@ -171,11 +189,10 @@ public class RobotStepDefinitions {
    * @param shelfId shelf where the robot is
    * @param actionLog log message found in the robot's logs
    */
-  @Given("the robot is marked as {state} and at shelf {shelfId} with action log {actionLog}")
+  @Given("the robot is marked as {string} and at shelf {string} with action log {string}")
   public void the_robot_is_marked_as_and_at_shelf_with_action_log(String state, String shelfId,
                                                                   String actionLog) {
     Robot robot = cheecsemanager.getRobot();
-    RobotController.deactivateRobot(); // to ensure starting with robot with raw data
     Shelf shelf = Shelf.getWithId(shelfId);
     robot.setCurrentShelf(shelf);
     switch (state) {
@@ -220,7 +237,7 @@ public class RobotStepDefinitions {
    * @author Ayush Patel
    * @param state the current state of the robot
    * */
-  @Given("the robot is marked as {state}")
+  @Given("the robot is marked as {string}")
   public void the_robot_is_marked_as(String state) {
     Robot robot = cheecsemanager.getRobot();
     RobotController.deactivateRobot(); // to ensure starting with robot with raw data
@@ -296,7 +313,7 @@ public class RobotStepDefinitions {
     }
   }
 
-  @Given("the robot is marked as {state} and at cheese wheel {wheelId} on shelf {shelfId} with action log {actionLog}")
+  @Given("the robot is marked as {string} and at cheese wheel {int} on shelf {string} with action log {string}")
   public void the_robot_is_marked_as_and_at_cheese_wheel_on_shelf_with_action_log(String state, Integer wheelId, String shelfId, String actionLog) {
     Robot robot = cheecsemanager.getRobot();
     RobotController.deactivateRobot(); // to ensure starting with robot with raw data
@@ -327,17 +344,14 @@ public class RobotStepDefinitions {
   @Given("all non-spoiled cheese wheels from purchase {int} are added to order {int}")
   public void all_non_spoiled_cheese_wheels_from_purchase_are_added_to_order(Integer purchaseId,
       Integer orderId) {
-    var manager = CheECSEManagerApplication.getCheecseManager();
     Purchase purchase = null;
     Order order = null;
 
-    for(Transaction t : manager.getTransactions()) {
+    for(Transaction t : cheecsemanager.getTransactions()) {
     	if (t instanceof Order && t.getId() == orderId) {
     	    order = (Order) t;
-    	    break;
     	} else if (t instanceof Purchase && t.getId() == purchaseId) {
     	    purchase = (Purchase) t;
-    	    break;
     	}
     }
     if(purchase == null) {
@@ -393,7 +407,7 @@ public class RobotStepDefinitions {
   /**\
    * @author Ayush Patel
    */
-  @When("the robot controller attempts to move the robot to cheese wheel {wheelId}")
+  @When("the robot controller attempts to move the robot to cheese wheel {int}")
   public void the_robot_controller_attempts_to_move_the_robot_to_cheese_wheel(Integer wheelId) {
     // Write code here that turns the phrase above into concrete actions
     try{
@@ -424,7 +438,7 @@ public class RobotStepDefinitions {
   /**\
    * @author Ayush Patel
    */
-  @When("the robot controller attempts to move the robot to shelf {shelfId}")
+  @When("the robot controller attempts to move the robot to shelf {string}")
   public void the_robot_controller_attempts_to_move_the_robot_to_shelf(String shelfId) {
     // Write code here that turns the phrase above into concrete actions
     try{
@@ -456,7 +470,7 @@ public class RobotStepDefinitions {
   /**
    * @author Ayush Patel
    */
-  @Then("the robot shall be marked as {expectedStatusString}")
+  @Then("the robot shall be marked as {string}")
   public void the_robot_shall_be_marked_as(String expectedStatusString) {
     Robot robot = cheecsemanager.getRobot();
     Robot.Status actualStatus = robot.getStatus();
@@ -517,7 +531,7 @@ public class RobotStepDefinitions {
   /**\
    * @author Ayush Patel
    */
-  @When("the facility manager attempts to initialize the robot with shelf {shelfId}")
+  @When("the facility manager attempts to initialize the robot with shelf {string}")
   public void the_facility_manager_attempts_to_initialize_the_robot_with_shelf(String shelfId) {
     // Write code here that turns the phrase above into concrete actions
     try{
@@ -600,7 +614,7 @@ public class RobotStepDefinitions {
   /**
    * @author Ayush Patel
    * */
-  @Then("the current cheese wheel of the robot shall {wheelId}")
+  @Then("the current cheese wheel of the robot shall {int}")
   public void the_current_cheese_wheel_of_the_robot_shall(Integer wheelId) {
     // Write code here that turns the phrase above into concrete actions
     Robot robot = cheecsemanager.getRobot();
@@ -616,7 +630,7 @@ public class RobotStepDefinitions {
   /**
    * @author Ayush Patel
    * */
-  @Then("the current cheese wheel of the robot shall be {wheelId}")
+  @Then("the current cheese wheel of the robot shall be {int}")
   public void the_current_cheese_wheel_of_the_robot_shall_be(Integer wheelId) {
     Robot robot = cheecsemanager.getRobot();
     CheeseWheel currentCheeseWheel = robot.getCurrentCheeseWheel();
