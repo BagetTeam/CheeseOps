@@ -98,10 +98,10 @@ public class RobotController {
 
       if (!shelf.getId().equals(robot.getCurrentShelf().getId())) {
         goBackToEntrance();
-        moveToShelf(shelf);
+        moveToShelf(shelf.getId());
       }
 
-      moveToCheeseWheel(wheel);
+      moveToCheeseWheel(wheel.getId());
       treatCurrentWheel();
     });
   }
