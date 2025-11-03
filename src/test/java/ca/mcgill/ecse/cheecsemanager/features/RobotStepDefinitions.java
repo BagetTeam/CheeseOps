@@ -197,6 +197,10 @@ public class RobotStepDefinitions {
       if (robot == null) {
         throw new RuntimeException("Robot does not exist. Robot must be created first.");
       }
+
+      if (status != Status.AtEntranceNotFacingAisle && status != Status.AtEntranceFacingAisle) {
+        throw new RuntimeException("Invalid robot status: " + status);
+      }
       
       Shelf shelf = Shelf.getWithId(shelfID);
       if (shelf == null) {
@@ -228,22 +232,62 @@ public class RobotStepDefinitions {
         }
       }
       
-      // Use reflection to set the private status field
-      try {
-        java.lang.reflect.Field statusField = Robot.class.getDeclaredField("status");
-        statusField.setAccessible(true);
-        statusField.set(robot, status);
-      } catch (Exception e) {
-        throw new RuntimeException("Failed to set robot status via reflection: " + e.getMessage(), e);
-      }
+      Status currentStatus = robot.getStatus();
       
-      // Set activation state based on status
-      if (status != Status.Idle) {
-        robot.setIsActivated(true);
+      // no transition needed if status is already given status
+      if (currentStatus == status) {
+        if (status == Status.AtEntranceNotFacingAisle) {
+          robot.setIsFacingAisle(false);
+          robot.setIsActivated(true);
+        } else if (status == Status.AtEntranceFacingAisle) {
+          robot.setIsFacingAisle(true);
+          robot.setIsActivated(true);
+        }
       } else {
-        robot.setIsActivated(false);
+        // Transition to the target state
+        switch (status) {
+          case AtEntranceNotFacingAisle:
+            switch (currentStatus) {
+              case Idle:
+                robot.activate(); // Idle -> AtEntranceNotFacingAisle
+                break;
+              case AtEntranceFacingAisle:
+                robot.turnRight(); // AtEntranceFacingAisle -> AtEntranceNotFacingAisle
+                break;
+              case AtCheeseWheel:
+                robot.moveToEntrance(); // AtCheeseWheel -> AtEntranceFacingAisle
+                robot.turnRight(); // AtEntranceFacingAisle -> AtEntranceNotFacingAisle
+                break;
+              default:
+                throw new RuntimeException("Cannot transition from " + currentStatus + " to " + status);
+            }
+            robot.setIsFacingAisle(false);
+            robot.setCurrentCheeseWheel(null);
+            break;
+            
+          case AtEntranceFacingAisle:
+            switch (currentStatus) {
+              case Idle:
+                robot.activate(); // Idle -> AtEntranceNotFacingAisle
+                robot.turnLeft(); // AtEntranceNotFacingAisle -> AtEntranceFacingAisle
+                break;
+              case AtEntranceNotFacingAisle:
+                robot.turnLeft(); // AtEntranceNotFacingAisle -> AtEntranceFacingAisle
+                break;
+              case AtCheeseWheel:
+                robot.moveToEntrance(); // AtCheeseWheel -> AtEntranceFacingAisle
+                break;
+              default:
+                throw new RuntimeException("Cannot transition from " + currentStatus + " to " + status);
+            }
+            robot.setIsFacingAisle(true);
+            robot.setCurrentCheeseWheel(null);
+            break;
+
+          default:
+            throw new RuntimeException("Invalid robot status: " + status);
+        }
       }
-      
     } catch (IllegalArgumentException e) {
       throw new RuntimeException("Invalid robot status: " + state, e);
     }
