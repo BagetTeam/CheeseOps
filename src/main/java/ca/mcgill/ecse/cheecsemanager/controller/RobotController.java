@@ -244,6 +244,7 @@ public class RobotController {
    * Treat a cheese wheel when the robot is at a cheese wheel (i.e., upon being
    * asked to treat a cheese wheel, the robot picks up the cheese wheel, washes
    * it, turns it, and places it back on the shelf)
+   * @author Benjamin Curis-Friedman
    * @return whether action was successful
    */
   public static boolean treatCurrentWheel() {

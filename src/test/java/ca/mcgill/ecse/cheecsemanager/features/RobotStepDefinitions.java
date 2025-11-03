@@ -1,9 +1,11 @@
 package ca.mcgill.ecse.cheecsemanager.features;
 
+import static org.junit.jupiter.api.Assertions.*;
 import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.time.LocalDate;
 import java.time.ZoneId;
 
@@ -18,6 +20,7 @@ import io.cucumber.java.en.When;
 public class RobotStepDefinitions {
   private CheECSEManager cheecsemanager = CheECSEManagerApplication.getCheecseManager();
   private Exception error;
+  private List<LogEntry> presentedLog;
 
   /**
    * Create shelves from the provided datatable.
@@ -553,7 +556,9 @@ public class RobotStepDefinitions {
   public void the_facility_manager_attempts_to_view_the_action_log_of_the_robot() {
     // Write code here that turns the phrase above into concrete actions
     // throw new io.cucumber.java.PendingException();
-
+    // I'm using a private field to store the log so that the appropriate @then step needs to read it.
+    Robot robot = cheecsemanager.getRobot();
+    presentedLog = robot.getLog();
   }
 
   /**
@@ -563,7 +568,8 @@ public class RobotStepDefinitions {
   public void the_presented_action_log_of_the_robot_shall_be_empty() {
     // Write code here that turns the phrase above into concrete actions
     // throw new io.cucumber.java.PendingException();
-    
+    assertNotNull(presentedLog, "The action log is null");
+    assertTrue(presentedLog.isEmpty(), "Expected log to be empty");
   }
 
   /**
@@ -631,7 +637,18 @@ public class RobotStepDefinitions {
   @Then("the presented action log of the robot shall be {string}")
   public void the_presented_action_log_of_the_robot_shall_be(String string) {
     // Write code here that turns the phrase above into concrete actions
-    throw new io.cucumber.java.PendingException();
+    // throw new io.cucumber.java.PendingException();
+    assertNotNull(presentedLog, "Presented logs is null");
+
+    String allLogs = presentedLog.stream() // convert list to stream
+            .map(LogEntry::toString) // convert each LogEntry instance to a string
+            .collect(Collectors.joining(" ")); // Join with space in between
+
+    // if (!presentedLog.isEmpty()) {
+    //     allLogs += ";";
+    // }
+
+    assertEquals(string, allLogs);
   }
 
   /**
@@ -641,7 +658,14 @@ public class RobotStepDefinitions {
   @Then("the number of robots in the system shall be {int}")
   public void the_number_of_robots_in_the_system_shall_be(Integer int1) {
     // Write code here that turns the phrase above into concrete actions
-    throw new io.cucumber.java.PendingException();
+    int numRobots;
+    if (cheecsemanager.hasRobot()) {
+      numRobots = 1;
+    } else {
+      numRobots = 0;
+    }
+
+    assertEquals(numRobots, int1, "The number of robots in the system does not match the expected number");
   }
 
   /**
