@@ -4,12 +4,17 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
+import ca.mcgill.ecse.cheecsemanager.controller.LogAction;
+import ca.mcgill.ecse.cheecsemanager.controller.RobotController;
 import ca.mcgill.ecse.cheecsemanager.model.CheECSEManager;
 import ca.mcgill.ecse.cheecsemanager.model.CheeseWheel;
 import ca.mcgill.ecse.cheecsemanager.model.CheeseWheel.MaturationPeriod;
+import ca.mcgill.ecse.cheecsemanager.model.Robot.Status;
 import ca.mcgill.ecse.cheecsemanager.model.Farmer;
+import ca.mcgill.ecse.cheecsemanager.model.LogEntry;
 import ca.mcgill.ecse.cheecsemanager.model.Order;
 import ca.mcgill.ecse.cheecsemanager.model.Purchase;
+import ca.mcgill.ecse.cheecsemanager.model.Robot;
 import ca.mcgill.ecse.cheecsemanager.model.Shelf;
 import ca.mcgill.ecse.cheecsemanager.model.ShelfLocation;
 import ca.mcgill.ecse.cheecsemanager.model.Transaction;
@@ -169,12 +174,75 @@ public class RobotStepDefinitions {
     }
   }
 
-  // TODO Need controller method
+  /** 
+   * Sets the robot to a specific state, shelf, and action log for testing.
+   * Uses reflection to set the private status field.
+   * 
+   * @param state The robot status (e.g., "AtEntranceNotFacingAisle")
+   * @param shelfID The shelf ID where the robot is located
+   * @param initialLog The action log string (may contain multiple entries separated by "; ")
+   * @author: Ewen Gueguen
+   */ 
   @Given("the robot is marked as {string} and at shelf {string} with action log {string}")
-  public void the_robot_is_marked_as_and_at_shelf_with_action_log(String string, String string2,
-      String string3) {
-    // Write code here that turns the phrase above into concrete actions
-    throw new io.cucumber.java.PendingException();
+  public void the_robot_is_marked_as_and_at_shelf_with_action_log(String state, String shelfID,
+      String initialLog) {
+    try {
+      Status status = Status.valueOf(state);
+      Robot robot = cheecsemanager.getRobot();
+      
+      if (robot == null) {
+        throw new RuntimeException("Robot does not exist. Robot must be created first.");
+      }
+      
+      Shelf shelf = Shelf.getWithId(shelfID);
+      if (shelf == null) {
+        throw new RuntimeException("Shelf " + shelfID + " does not exist.");
+      }
+      
+      robot.setCurrentShelf(shelf);
+      
+      // Clear existing logs by deleting them
+      while (robot.numberOfLog() > 0) {
+        LogEntry logEntry = robot.getLog(robot.numberOfLog() - 1);
+        logEntry.delete();
+      }
+      
+      // Parse and add log entries from the initialLog string
+      if (initialLog != null && !initialLog.trim().isEmpty()) {
+        // Get loga seperated by ;
+        String[] logParts = initialLog.split("; ");
+        for (String logPart : logParts) {
+          if (logPart.trim().isEmpty()) {
+            continue;
+          }
+          // Add semicolon back
+          String logEntry = logPart.trim();
+          if (!logEntry.endsWith(";")) {
+            logEntry += ";";
+          }
+          robot.addLog(logEntry);
+        }
+      }
+      
+      // Use reflection to set the private status field
+      try {
+        java.lang.reflect.Field statusField = Robot.class.getDeclaredField("status");
+        statusField.setAccessible(true);
+        statusField.set(robot, status);
+      } catch (Exception e) {
+        throw new RuntimeException("Failed to set robot status via reflection: " + e.getMessage(), e);
+      }
+      
+      // Set activation state based on status
+      if (status != Status.Idle) {
+        robot.setIsActivated(true);
+      } else {
+        robot.setIsActivated(false);
+      }
+      
+    } catch (IllegalArgumentException e) {
+      throw new RuntimeException("Invalid robot status: " + state, e);
+    }
   }
 
    /**
@@ -198,6 +266,7 @@ public class RobotStepDefinitions {
   // TODO Need controller method
   @Given("the robot is marked as {string}")
   public void the_robot_is_marked_as(String state) {
+    Status status = Status.valueOf(state);
     // Write code here that turns the phrase above into concrete actions
     throw new io.cucumber.java.PendingException();
   }
