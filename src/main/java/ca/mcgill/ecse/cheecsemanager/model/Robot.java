@@ -276,7 +276,7 @@ public class Robot {
     return wasEventProcessed;
   }
 
-  public void setStatus(Status aStatus) { status = aStatus; }
+  private void setStatus(Status aStatus) { status = aStatus; }
   /* Code from template association_GetOne */
   public Shelf getCurrentShelf() { return currentShelf; }
 
