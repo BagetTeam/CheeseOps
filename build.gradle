@@ -70,3 +70,14 @@ tasks.named('test') {
     // Use junit platform for unit tests.
     useJUnitPlatform()
 }
+
+sourceSets {
+    main {
+        java {
+            exclude 'ca/mcgill/ecse/cheecsemanager/fxml/**'
+        }
+        resources {
+            exclude 'ca/mcgill/ecse/cheecsemanager/fxml/**'
+        }
+    }
+}
