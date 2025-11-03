@@ -3,9 +3,11 @@ package ca.mcgill.ecse.cheecsemanager.controller;
 import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
 import ca.mcgill.ecse.cheecsemanager.model.CheECSEManager;
 import ca.mcgill.ecse.cheecsemanager.model.CheeseWheel;
+import ca.mcgill.ecse.cheecsemanager.model.LogEntry;
 import ca.mcgill.ecse.cheecsemanager.model.Purchase;
 import ca.mcgill.ecse.cheecsemanager.model.Robot;
 import ca.mcgill.ecse.cheecsemanager.model.Shelf;
+import java.util.List;
 
 public class RobotController {
   static CheECSEManager manager = CheECSEManagerApplication.getCheecseManager();
@@ -181,4 +183,6 @@ public class RobotController {
   public static void logAction(LogAction action) {
     manager.getRobot().addLog(action.toString());
   }
+
+  public static List<LogEntry> viewLog() { return manager.getRobot().getLog(); }
 }

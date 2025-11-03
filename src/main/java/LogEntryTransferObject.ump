@@ -1,0 +1,5 @@
+namespace ca.mcgill.ecse.cheecsemanager.controller;
+
+class TOLogEntry {
+  String description;
+}

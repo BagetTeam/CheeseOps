@@ -1,3 +1,5 @@
+use LogEntryTransferObject.ump;
+
 namespace ca.mcgill.ecse.cheecsemanager.controller;
 
 class TOFarmer {
