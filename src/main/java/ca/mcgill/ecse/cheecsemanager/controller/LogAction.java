@@ -1,5 +1,9 @@
 package ca.mcgill.ecse.cheecsemanager.controller;
 
+/**
+ * Log actions helper class
+ * @author Ming Li Liu, Ayush Patel
+ * */
 public class LogAction {
   String description;
 
