@@ -237,7 +237,7 @@ public class RobotController {
     logAction(LogAction.logStraight(targetCol - currCol));
 
     robot.setRow(currRow);
-    logAction(LogAction.logAdjustHeight(targetRow - currRow));
+    logAction(LogAction.logAdjustHeight((targetRow - currRow) * 40));
 
     robot.moveToCheeseWheel(targetCheeseWheel);
     logAction(LogAction.logAtCheeseWheel(wheelId));
@@ -269,40 +269,16 @@ public class RobotController {
   public static boolean goBackToEntrance() {
     if (!robot.getIsActivated())
       throw new RuntimeException("The robot must be activated first");
-    Robot.Status status = robot.getStatus();
-    if (status != Robot.Status.AtCheeseWheel)
-      throw new RuntimeException("Cannot move to shelf from " +
-                                 robot.getStatus() + " status");
 
     int targetRow = 1;
     int targetCol = 0; // just a placeholder for being outside the shelf
     int currRow = robot.getRow();
     int currCol = robot.getColumn();
 
-    boolean moveColBackward = targetCol < currCol;
-    boolean moveRowDown = targetRow < currRow;
+    logAction(LogAction.logStraight(targetCol - currCol));
+    logAction(LogAction.logAdjustHeight((targetRow - currRow) * 40));
 
-    while (currCol != targetCol) {
-      if (moveColBackward) {
-        currCol--;
-        logAction(LogAction.logStraight(-1));
-      } else {
-        currCol++;
-        logAction(LogAction.logStraight(1));
-      }
-      robot.setColumn(currCol);
-    }
-
-    while (currRow != targetRow) {
-      if (moveRowDown) {
-        currRow--;
-        logAction(LogAction.logAdjustHeight(-40));
-      } else {
-        currRow++;
-        logAction(LogAction.logAdjustHeight(40));
-      }
-    }
-
+    robot.setColumn(currCol);
     robot.moveToEntrance();
     return false;
   }
