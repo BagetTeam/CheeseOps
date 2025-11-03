@@ -3,8 +3,10 @@
 
 package ca.mcgill.ecse.cheecsemanager.model;
 
-// line 45 "../../../../../../CheECSEManager.ump"
-// line 136 "../../../../../../CheECSEManager.ump"
+import java.util.List;
+
+// line 52 "../../../../../CheECSEManagerPersistence.ump"
+// line 47 "../../../../../CheECSEManager.ump"
 public class ShelfLocation
 {
 
@@ -162,7 +164,22 @@ public class ShelfLocation
     }
   }
 
-  // line 51 "../../../../../../CheECSEManager.ump"
+
+  /**
+   * private static int nextId = 1;
+   */
+  // line 55 "../../../../../CheECSEManagerPersistence.ump"
+   public static  void reinitializeNextId(List<ShelfLocation> locations){
+    int maxId = 0;
+     for (var loc : locations) {
+       if (loc.getId() > maxId) {
+         maxId = loc.getId();
+       }
+     }
+     nextId = maxId + 1;
+  }
+
+  // line 53 "../../../../../CheECSEManager.ump"
    public static  void resetId(){
     nextId = 1;
   }

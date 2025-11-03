@@ -6,8 +6,7 @@ import ca.mcgill.ecse.cheecsemanager.model.CheeseWheel.MaturationPeriod;
 import java.util.*;
 import java.sql.Date;
 
-// line 25 "../../../../../../CheECSEManager.ump"
-// line 121 "../../../../../../CheECSEManager.ump"
+// line 27 "../../../../../CheECSEManager.ump"
 public class Farmer extends User
 {
 

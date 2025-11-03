@@ -5,8 +5,8 @@ package ca.mcgill.ecse.cheecsemanager.model;
 import java.util.*;
 import java.sql.Date;
 
-// line 5 "../../../../../../CheECSEManager.ump"
-// line 106 "../../../../../../CheECSEManager.ump"
+// line 1 "../../../../../CheECSEManagerPersistence.ump"
+// line 7 "../../../../../CheECSEManager.ump"
 public class CheECSEManager
 {
 
@@ -674,6 +674,32 @@ public class CheECSEManager
       existingRobot.delete();
       existingRobot.setCheECSEManager(null);
     }
+  }
+
+  // line 3 "../../../../../CheECSEManagerPersistence.ump"
+   public void reinitialize(){
+    CheeseWheel.reinitializeId(getCheeseWheels());
+        Shelf.reinitializeUniqueShelfID(getShelves());
+
+        //Since all shelves will have a list of shelf locations, need to get all of them from all shelves
+        List<ShelfLocation> allLocations = new ArrayList<>();
+        for (Shelf shelf : getShelves()) {
+            allLocations.addAll(shelf.getLocations());
+        }
+        ShelfLocation.reinitializeNextId(allLocations);
+
+
+        Transaction.reinitializeNextId(getTransactions());
+
+        //Since User is the parent class of Manager and Farmer, we need to get a list of both manager and farmers.
+        List<User> allUsers = new ArrayList<>();
+        if (getManager() != null) allUsers.add(getManager()); // FacilityManager
+        allUsers.addAll(getFarmers()); // Farmer
+
+        //This list is passed into the reinitialize function as a parameter
+        User.reinitializeUniqueEmail(allUsers);
+
+        WholesaleCompany.reinitializeUniqueName(getCompanies());
   }
 
 }

@@ -1,5 +1,3 @@
-use CheECSEManager.ump;
-
 class Robot {
   Boolean isActivated = false;
 

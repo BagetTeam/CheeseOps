@@ -3,6 +3,8 @@ package ca.mcgill.ecse.cheecsemanager.controller;
 import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
 import ca.mcgill.ecse.cheecsemanager.model.Farmer;
 import ca.mcgill.ecse.cheecsemanager.model.Purchase;
+import ca.mcgill.ecse.cheecsemanager.persistence.CheECSEManagerPersistence;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -46,6 +48,12 @@ public class CheECSEManagerFeatureSet7Controller {
     farmer.setPassword(newPassword);
     farmer.setName(newName);
     farmer.setAddress(newAddress);
+
+    try {
+      CheECSEManagerPersistence.save();
+    } catch (RuntimeException e) {
+      return e.getMessage();
+    }
     return "";
   }
 
@@ -75,6 +83,12 @@ public class CheECSEManagerFeatureSet7Controller {
     }
 
     farmer.delete();
+
+    try {
+      CheECSEManagerPersistence.save();
+    } catch (RuntimeException e) {
+      return e.getMessage();
+    }
     return "";
   }
 

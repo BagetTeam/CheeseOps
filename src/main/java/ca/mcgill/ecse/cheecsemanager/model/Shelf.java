@@ -4,8 +4,8 @@
 package ca.mcgill.ecse.cheecsemanager.model;
 import java.util.*;
 
-// line 40 "../../../../../../CheECSEManager.ump"
-// line 131 "../../../../../../CheECSEManager.ump"
+// line 41 "../../../../../CheECSEManagerPersistence.ump"
+// line 42 "../../../../../CheECSEManager.ump"
 public class Shelf
 {
 
@@ -273,6 +273,18 @@ public class Shelf
     {
       robot.setCurrentShelf(null);
     }
+  }
+
+
+  /**
+   * private static Map<String, Shelf> shelfsById = new HashMap<String, Shelf>();
+   */
+  // line 45 "../../../../../CheECSEManagerPersistence.ump"
+   public static  void reinitializeUniqueShelfID(List<Shelf> shelves){
+    shelfsById.clear();
+      for (var shelf : shelves) {
+        shelfsById.put(shelf.getId(), shelf);
+      }
   }
 
 
