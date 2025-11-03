@@ -184,5 +184,16 @@ public class RobotController {
     manager.getRobot().addLog(action.toString());
   }
 
-  public static List<LogEntry> viewLog() { return manager.getRobot().getLog(); }
+  /**
+   * View the robot’s action log
+   * @return
+   * @author Ming Li Liu
+   */
+  public static List<TOLogEntry> viewLog() {
+    return manager.getRobot()
+        .getLog()
+        .stream()
+        .map(log -> new TOLogEntry(log.getDescription()))
+        .toList();
+  }
 }
