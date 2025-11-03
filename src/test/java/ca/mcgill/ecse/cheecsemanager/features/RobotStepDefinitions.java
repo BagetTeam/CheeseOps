@@ -1,6 +1,8 @@
 package ca.mcgill.ecse.cheecsemanager.features;
 
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Map;
 import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
@@ -97,13 +99,19 @@ public class RobotStepDefinitions {
       io.cucumber.datatable.DataTable dataTable) {
     List<Map<String, String>> purchases = dataTable.asMaps();
     for (var purchase : purchases) {
-      Date transactionDate = Date.valueOf(purchase.get("transactionDate"));
+      String dateString = purchase.get("transactionDate"); // e.g., "2024-03-15"
+      long epochTime = LocalDate.parse(dateString)
+          .atStartOfDay(ZoneId.systemDefault())
+          .toInstant()
+          .toEpochMilli();
+      Date transactionDate = new Date(epochTime);
+
       int nrCheeseWheels = Integer.parseInt(purchase.get("nrCheeseWheels"));
       MaturationPeriod monthsAged = MaturationPeriod.valueOf(purchase.get("monthsAged"));
       String farmerEmail = purchase.get("farmerEmail");
+
       var farmer = (Farmer) Farmer.getWithEmail(farmerEmail);
       var addedPurchase = farmer.addPurchase(transactionDate, cheecsemanager);
-      // TODO TS IS NOT IT
       for (int i = 0; i < nrCheeseWheels; i++) {
         addedPurchase.addCheeseWheel(monthsAged, false, cheecsemanager);
       }
@@ -180,7 +188,6 @@ public class RobotStepDefinitions {
 
   /** 
    * Sets the robot to a specific state, shelf, and action log for testing.
-   * Uses reflection to set the private status field.
    * 
    * @param state The robot status (e.g., "AtEntranceNotFacingAisle")
    * @param shelfID The shelf ID where the robot is located
@@ -375,10 +382,79 @@ public class RobotStepDefinitions {
 
   // To do once controller has been implemented
   @Given("the robot is marked as {string} and at cheese wheel {int} on shelf {string} with action log {string}")
-  public void the_robot_is_marked_as_and_at_cheese_wheel_on_shelf_with_action_log(String string,
-      Integer int1, String string2, String string3) {
-    // Write code here that turns the phrase above into concrete actions
-    throw new io.cucumber.java.PendingException();
+  public void the_robot_is_marked_as_and_at_cheese_wheel_on_shelf_with_action_log(String state,
+      Integer cheeseWheelID, String shelfID, String initialLog) {
+    try {
+      Status status = Status.valueOf(state);
+      Robot robot = cheecsemanager.getRobot();
+      
+      if (robot == null) {
+        throw new RuntimeException("Robot does not exist. Robot must be created first.");
+      }
+
+      if (status != Status.AtCheeseWheel) {
+        throw new RuntimeException("Invalid robot status: " + status);
+      }
+      
+      Shelf shelf = Shelf.getWithId(shelfID);
+      if (shelf == null) {
+        throw new RuntimeException("Shelf " + shelfID + " does not exist.");
+      }
+      robot.setCurrentShelf(shelf);
+
+      List<CheeseWheel> cheeseWheels = cheecsemanager.getCheeseWheels();
+      CheeseWheel targetCheeseWheel = null;
+      for (CheeseWheel cheeseWheel : cheeseWheels) {
+        if (cheeseWheel.getId() == cheeseWheelID && cheeseWheel.getLocation().getShelf().getId().equals(shelfID)) {
+          robot.setCurrentCheeseWheel(cheeseWheel);
+          targetCheeseWheel = cheeseWheel;
+          break;
+        }
+      }
+      if (targetCheeseWheel == null) {
+        throw new RuntimeException("Cheese wheel " + cheeseWheelID + " does not exist on shelf " + shelfID);
+      }
+      
+      
+      // Clear existing logs by deleting them
+      while (robot.numberOfLog() > 0) {
+        LogEntry logEntry = robot.getLog(robot.numberOfLog() - 1);
+        logEntry.delete();
+      }
+      
+      // Parse and add log entries from the initialLog string
+      if (initialLog != null && !initialLog.trim().isEmpty()) {
+        // Get logs seperated by ;
+        String[] logParts = initialLog.split("; ");
+        for (String logPart : logParts) {
+          if (logPart.trim().isEmpty()) {
+            continue;
+          }
+          // Add semicolon back
+          String logEntry = logPart.trim();
+          if (!logEntry.endsWith(";")) {
+            logEntry += ";";
+          }
+          robot.addLog(logEntry);
+        }
+      }
+      
+      Status currentStatus = robot.getStatus();
+      
+      switch (currentStatus) {
+        case AtCheeseWheel:
+        case AtEntranceFacingAisle:
+          robot.moveToCheeseWheel(cheecsemanager.getCheeseWheel(cheeseWheelID - 1));
+          break;
+        case AtEntranceNotFacingAisle:
+          robot.moveToCheeseWheel(cheecsemanager.getCheeseWheel(cheeseWheelID - 1));
+          break;
+        default:
+          throw new RuntimeException("Cannot transition from " + currentStatus + " to " + status);
+      }
+    } catch (IllegalArgumentException e) {
+      throw new RuntimeException("Invalid robot status: " + state, e);
+    }
   }
 
   /**
