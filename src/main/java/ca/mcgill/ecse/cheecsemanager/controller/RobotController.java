@@ -48,14 +48,23 @@ public class RobotController {
   /* =================================================== */
 
   /**
-   * @author Ming Li Liu
+   * The facility manager needs to trigger the treatment of all cheese wheels
+   * and goes through each cheese wheel in the purchase to treat it.
    * @param purchaseId
+   *
+   * @author Ming Li Liu
    */
   public static void initializeTreatment(int purchaseId) {
     var purchase = (Purchase)manager.getTransaction(purchaseId);
 
     purchase.getCheeseWheels().forEach(wheel -> {
-      moveToShelf(wheel.getLocation().getShelf());
+      var shelf = wheel.getLocation().getShelf();
+
+      if (!shelf.getId().equals(robot.getCurrentShelf().getId())) {
+        goBackToEntrance();
+        moveToShelf(shelf);
+      }
+
       moveToCheeseWheel(wheel);
       treatCurrentWheel();
     });
