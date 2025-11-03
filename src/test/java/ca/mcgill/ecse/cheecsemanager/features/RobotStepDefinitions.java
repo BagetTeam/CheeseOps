@@ -546,18 +546,30 @@ public class RobotStepDefinitions {
     }
   }
 
+  /**
+   * @author Benjamin Curis-Friedman
+   */
   @When("the facility manager attempts to view the action log of the robot")
   public void the_facility_manager_attempts_to_view_the_action_log_of_the_robot() {
     // Write code here that turns the phrase above into concrete actions
-    throw new io.cucumber.java.PendingException();
+    // throw new io.cucumber.java.PendingException();
+
   }
 
+  /**
+   * @author Benjamin Curis-Friedman
+   */
   @Then("the presented action log of the robot shall be empty")
   public void the_presented_action_log_of_the_robot_shall_be_empty() {
     // Write code here that turns the phrase above into concrete actions
-    throw new io.cucumber.java.PendingException();
+    // throw new io.cucumber.java.PendingException();
+    
   }
 
+  /**
+   * @author Benjamin Curis-Friedman
+   * @param string
+   */
   @Then("the error {string} shall be raised")
   public void the_error_shall_be_raised(String string) {
     // Write code here that turns the phrase above into concrete actions
@@ -570,6 +582,10 @@ public class RobotStepDefinitions {
     }
   }
 
+  /**
+   * @author Benjmain Curis-Friedman
+   * @param string
+   */
   @Then("the current shelf of the robot shall be {string}")
   public void the_current_shelf_of_the_robot_shall_be(String string) {
     // Write code here that turns the phrase above into concrete actions
@@ -585,6 +601,10 @@ public class RobotStepDefinitions {
     }
   }
 
+  /**
+   * @author Benjamin Curis-Friedman
+   * @param string
+   */
   @Then("the action log of the robot shall be {string}")
   public void the_action_log_of_the_robot_shall_be(String string) {
     // Write code here that turns the phrase above into concrete actions
@@ -604,12 +624,20 @@ public class RobotStepDefinitions {
     }
   }
 
+  /**
+   * @author Benjamin Curis-Friedman
+   * @param string
+   */
   @Then("the presented action log of the robot shall be {string}")
   public void the_presented_action_log_of_the_robot_shall_be(String string) {
     // Write code here that turns the phrase above into concrete actions
     throw new io.cucumber.java.PendingException();
   }
 
+  /**
+   * @author Benjamin Curis-Friedman
+   * @param int1
+   */
   @Then("the number of robots in the system shall be {int}")
   public void the_number_of_robots_in_the_system_shall_be(Integer int1) {
     // Write code here that turns the phrase above into concrete actions
