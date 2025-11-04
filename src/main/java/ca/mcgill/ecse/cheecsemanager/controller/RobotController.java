@@ -133,10 +133,10 @@ public class RobotController {
   }
 
   public static boolean turnRight() {
-    if (robot.getStatus() != Robot.Status.AtEntranceFacingAisle)
-      throw new RuntimeException("The robot cannot be turned right.");
     if (!robot.getIsActivated())
       throw new RuntimeException("The robot must be activated first.");
+    if (robot.getStatus() != Robot.Status.AtEntranceFacingAisle)
+      throw new RuntimeException("The robot cannot be turned right.");
 
     boolean turnedRight = robot.turnRight();
     if (turnedRight) {

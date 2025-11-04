@@ -47,6 +47,7 @@ public class RobotStepDefinitions {
     }
 
     if (targetStatus.equals(Robot.Status.Idle)){
+      robot.setIsActivated(true);
       return;
     }
 
