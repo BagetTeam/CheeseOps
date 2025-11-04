@@ -509,7 +509,6 @@ public class RobotStepDefinitions {
    */
   @When("the robot controller attempts to move the robot to cheese wheel {int}")
   public void the_robot_controller_attempts_to_move_the_robot_to_cheese_wheel(Integer wheelId) {
-    // Write code here that turns the phrase above into concrete actions
     try{
       RobotController.moveToCheeseWheel(wheelId);
     } catch(Exception e){
@@ -529,10 +528,18 @@ public class RobotStepDefinitions {
     }
   }
 
+  /**\
+   * @author Olivier Mao
+   */
   @When("the robot controller attempts to trigger the robot to perform treatment")
   public void the_robot_controller_attempts_to_trigger_the_robot_to_perform_treatment() {
-    // Write code here that turns the phrase above into concrete actions
-    throw new io.cucumber.java.PendingException();
+    // skibdi
+    try {
+      int lastIndex = cheecsemanager.getTransactions().size() - 1;
+      RobotController.initializeTreatment(lastIndex);
+    } catch (Exception e) {
+      error = e;
+    }
   }
 
   /**\
