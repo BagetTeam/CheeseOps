@@ -85,13 +85,6 @@ public class RobotController {
    * @author Ming Li Liu and Olivier Mao
    */
   public static void initializeTreatment(int purchaseId) {
-    // validate transaction exists and is a Purchase
-    Transaction t = manager.getTransaction(purchaseId);
-    if (!(t instanceof Purchase)) {
-      throw new RuntimeException("The robot cannot be perform treatment.");
-    }
-    Purchase purchase = (Purchase) t;
-
     // ensure robot is present and activated
     if (robot == null || !robot.getIsActivated()) {
       throw new RuntimeException("The robot must be activated first.");
@@ -100,6 +93,14 @@ public class RobotController {
     if (robot.getStatus() != Robot.Status.AtCheeseWheel) {
       throw new RuntimeException("The robot cannot be perform treatment.");
     }
+    // validate transaction exists and is a Purchase
+    Transaction t = manager.getTransaction(purchaseId);
+    if (!(t instanceof Purchase)) {
+      // TODO this always throws an error (Mingli please help)
+      throw new RuntimeException("The robot cannot be perform treatment.");
+    }
+    Purchase purchase = (Purchase) t;
+
     purchase.getCheeseWheels().forEach(wheel -> {
       var shelf = wheel.getLocation().getShelf();
 
@@ -111,7 +112,7 @@ public class RobotController {
       }
 
       moveToCheeseWheel(wheel.getId());
-      treatCurrentWheel();
+      treatCurrentWheel(wheel.getId());
     });
   }
 
@@ -254,8 +255,9 @@ public class RobotController {
    * it, turns it, and places it back on the shelf)
    * @return whether action was successful
    */
-  public static boolean treatCurrentWheel() {
+  public static boolean treatCurrentWheel(int cheeseWheelId) {
     // TODO: implement this method
+    logAction(LogAction.logTreatCheeseWheel(cheeseWheelId));
     return false;
   }
 
