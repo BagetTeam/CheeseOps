@@ -6,7 +6,7 @@ package ca.mcgill.ecse.cheecsemanager.model;
 import java.util.*;
 
 // line 1 "../../../../../../Robot.ump"
-// line 97 "../../../../../../Robot.ump"
+// line 98 "../../../../../../Robot.ump"
 // line 95 "../../../../../../model.ump"
 // line 165 "../../../../../../model.ump"
 public class Robot {
@@ -42,22 +42,21 @@ public class Robot {
   // CONSTRUCTOR
   //------------------------
 
-  public Robot(int aDirectionInDegrees, int aRow, int aColumn,
-               Purchase aCurrentPurchaseTreated, boolean aIsFacingAisle,
+  public Robot(Purchase aCurrentPurchaseTreated, boolean aIsFacingAisle,
                CheECSEManager aCheECSEManager) {
     isActivated = false;
-    directionInDegrees = aDirectionInDegrees;
-    row = aRow;
-    column = aColumn;
+    directionInDegrees = 0;
+    row = 1;
+    column = 0;
     currentPurchaseTreated = aCurrentPurchaseTreated;
     isFacingAisle = aIsFacingAisle;
     log = new ArrayList<LogEntry>();
     boolean didAddCheECSEManager = setCheECSEManager(aCheECSEManager);
     if (!didAddCheECSEManager) {
       throw new RuntimeException(
-          "Unable to create robot due to cheECSEManager. See " +
-          "https://" +
-          "manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+          "Unable to create robot due to cheECSEManager. See "
+          + "https://"
+          + "manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
     setStatus(Status.Idle);
   }
@@ -201,7 +200,7 @@ public class Robot {
       break;
     case AtCheeseWheel:
       if (cheeseWheelExists(aWheel)) {
-        // line 55 "../../../../../../Robot.ump"
+        // line 56 "../../../../../../Robot.ump"
         setCurrentCheeseWheel(aWheel);
         setStatus(Status.AtCheeseWheel);
         wasEventProcessed = true;
@@ -227,7 +226,7 @@ public class Robot {
       wasEventProcessed = true;
       break;
     case AtCheeseWheel:
-      // line 60 "../../../../../../Robot.ump"
+      // line 61 "../../../../../../Robot.ump"
       deactivateRobot();
       setStatus(Status.Idle);
       wasEventProcessed = true;
@@ -266,6 +265,7 @@ public class Robot {
     case AtCheeseWheel:
       // line 50 "../../../../../../Robot.ump"
       setRow(1);
+      setColumn(0);
       setStatus(Status.AtEntranceFacingAisle);
       wasEventProcessed = true;
       break;
@@ -491,16 +491,16 @@ public class Robot {
     }
   }
 
-  // line 68 "../../../../../../Robot.ump"
+  // line 69 "../../../../../../Robot.ump"
   public void activateRobot() { setIsActivated(true); }
 
-  // line 72 "../../../../../../Robot.ump"
+  // line 73 "../../../../../../Robot.ump"
   public void deactivateRobot() { setIsActivated(false); }
 
-  // line 76 "../../../../../../Robot.ump"
+  // line 77 "../../../../../../Robot.ump"
   public Boolean shelfExists(String aId) { return Shelf.hasWithId(aId); }
 
-  // line 80 "../../../../../../Robot.ump"
+  // line 81 "../../../../../../Robot.ump"
   public Boolean cheeseWheelExists(CheeseWheel wheel) {
     var shelf = getCurrentShelf();
     var location = wheel.getLocation();
@@ -512,7 +512,7 @@ public class Robot {
     return candidateShelf != null && candidateShelf.equals(shelf);
   }
 
-  // line 90 "../../../../../../Robot.ump"
+  // line 91 "../../../../../../Robot.ump"
   public Boolean canTreatCurrentWheel() {
     return getCurrentPurchaseTreated().indexOfCheeseWheel(
                getCurrentCheeseWheel()) != -1;
@@ -557,4 +557,3 @@ public class Robot {
              : "null");
   }
 }
-
