@@ -47,6 +47,7 @@ public class RobotStepDefinitions {
     }
 
     if (targetStatus.equals(Robot.Status.Idle)){
+      robot.setIsActivated(true);
       return;
     }
 
@@ -55,9 +56,15 @@ public class RobotStepDefinitions {
 
     if (targetStatus.equals(Robot.Status.AtEntranceFacingAisle)) {
       robot.turnLeft();
+      robot.setRow(1);
+      robot.setColumn(0);
     } else if (targetStatus.equals(Robot.Status.AtCheeseWheel)) {
       robot.turnLeft();
-      robot.moveToCheeseWheel(cheeseWheel);
+      if (cheeseWheel != null) {
+        robot.moveToCheeseWheel(cheeseWheel);
+        robot.setRow(cheeseWheel.getLocation().getRow());
+        robot.setColumn(cheeseWheel.getLocation().getColumn());
+      }
     }
   }
 
