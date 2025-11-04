@@ -34,8 +34,7 @@ public class RobotController {
 
     boolean activated = robot.activate();
     if (!activated)
-      throw new RuntimeException(
-          "Robot was not activated when tried to activate");
+      throw new RuntimeException("Robot was not activated when tried to activate");
   }
 
   /**
@@ -47,7 +46,7 @@ public class RobotController {
   public static void deactivateRobot() {
     if (!robot.getIsActivated())
       throw new RuntimeException("Robot is not already activated");
-    if (robot.getStatus() != Robot.Status.AtEntranceFacingAisle ||
+    if (robot.getStatus() != Robot.Status.AtEntranceFacingAisle &&
         robot.getStatus() != Robot.Status.AtCheeseWheel)
       throw new RuntimeException(
           "Robot is not activated when tried to deactivate");
@@ -120,10 +119,10 @@ public class RobotController {
    * @return whether action was successful
    */
   public static boolean turnLeft() {
-    if (!robot.getIsActivated())
-      throw new RuntimeException("The robot must be activated first");
     if (robot.getStatus() != Robot.Status.AtEntranceNotFacingAisle)
       throw new RuntimeException("The robot cannot be turned left.");
+    if (!robot.getIsActivated())
+      throw new RuntimeException("The robot must be activated first");
 
     boolean turnedLeft = robot.turnLeft();
     if (turnedLeft) {
@@ -138,7 +137,7 @@ public class RobotController {
     if (!robot.getIsActivated())
       throw new RuntimeException("The robot must be activated first");
     if (robot.getStatus() != Robot.Status.AtEntranceFacingAisle)
-      throw new RuntimeException("The robot cannot be turned left.");
+      throw new RuntimeException("The robot cannot be turned right.");
 
     boolean turnedRight = robot.turnRight();
     if (turnedRight) {
@@ -279,7 +278,7 @@ public class RobotController {
     logAction(LogAction.logAdjustHeight((targetRow - currRow) * 40));
 
     robot.moveToEntrance();
-    return false;
+    return true;
   }
   /* =================================================== */
 
@@ -303,7 +302,7 @@ public class RobotController {
    * @author Ming Li Liu
    */
   public static void logAction(LogAction action) {
-    manager.getRobot().addLog(action.toString());
+    robot.addLog(action.toString());
   }
 
   /**
@@ -312,7 +311,7 @@ public class RobotController {
    * @author Ming Li Liu
    */
   public static List<TOLogEntry> viewLog() {
-    return manager.getRobot()
+    return robot
         .getLog()
         .stream()
         .map(log -> new TOLogEntry(log.getDescription()))
