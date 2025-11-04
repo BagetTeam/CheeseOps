@@ -1,11 +1,6 @@
 package ca.mcgill.ecse.cheecsemanager.controller;
 import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
 import ca.mcgill.ecse.cheecsemanager.model.*;
-import ca.mcgill.ecse.cheecsemanager.model.CheECSEManager;
-import ca.mcgill.ecse.cheecsemanager.model.CheeseWheel;
-import ca.mcgill.ecse.cheecsemanager.model.Purchase;
-import ca.mcgill.ecse.cheecsemanager.model.Robot;
-import ca.mcgill.ecse.cheecsemanager.model.Shelf;
 import java.util.List;
 import java.util.Optional;
 
@@ -88,11 +83,24 @@ public class RobotController {
    * and goes through each cheese wheel in the purchase to treat it.
    * @param purchaseId
    *
-   * @author Ming Li Liu
+   * @author Ming Li Liu and Olivier Mao
    */
   public static void initializeTreatment(int purchaseId) {
-    var purchase = (Purchase)manager.getTransaction(purchaseId);
+    // validate transaction exists and is a Purchase
+    Transaction t = manager.getTransaction(purchaseId);
+    if (!(t instanceof Purchase)) {
+      throw new RuntimeException("The robot cannot be perform treatment.");
+    }
+    Purchase purchase = (Purchase) t;
 
+    // ensure robot is present and activated
+    if (robot == null || !robot.getIsActivated()) {
+      throw new RuntimeException("The robot must be activated first.");
+    }
+
+    if (robot.getStatus() != Robot.Status.AtCheeseWheel) {
+      throw new RuntimeException("The robot cannot be perform treatment.");
+    }
     purchase.getCheeseWheels().forEach(wheel -> {
       var shelf = wheel.getLocation().getShelf();
 
