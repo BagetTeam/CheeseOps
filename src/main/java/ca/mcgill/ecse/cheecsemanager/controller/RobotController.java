@@ -206,23 +206,20 @@ public class RobotController {
 
     Robot.Status status = robot.getStatus();
 
-    if (status != Robot.Status.AtEntranceFacingAisle)
+    if (status != Robot.Status.AtEntranceFacingAisle && status != Robot.Status.AtCheeseWheel)
       throw new RuntimeException("The robot cannot be moved to cheese wheel #" + wheelId + ".");
 
     Shelf currentShelf = robot.getCurrentShelf();
-    CheeseWheel targetCheeseWheel = manager.getCheeseWheel(wheelId);
-
-    if (targetCheeseWheel == null) {
-      throw new RuntimeException("Cheese wheel " + wheelId +
-                                 " does not exist.");
-    }
+    CheeseWheel targetCheeseWheel = manager.getCheeseWheels().stream()
+            .filter(wheel -> wheel.getId() == wheelId)
+            .findFirst()
+            .orElseThrow(() -> new RuntimeException("Cheese wheel " + wheelId + " does not exist."));
 
     ShelfLocation shelfLocationOfTarget = targetCheeseWheel.getLocation();
     Shelf shelfOfTarget = shelfLocationOfTarget.getShelf();
 
     if (!currentShelf.getId().equals(shelfOfTarget.getId())) {
-      throw new RuntimeException("The cheese wheel " + wheelId +
-                                 " does not match the current shelf.");
+      throw new RuntimeException("Cheese wheel #" + wheelId + " is not on shelf #"+ currentShelf.getId()+ ".");
     }
 
     int targetRow = shelfLocationOfTarget.getRow();
@@ -234,10 +231,10 @@ public class RobotController {
       return false;
     }
 
-    robot.setColumn(currCol);
+    robot.setColumn(targetCol);
     logAction(LogAction.logStraight(targetCol - currCol));
 
-    robot.setRow(currRow);
+    robot.setRow(targetRow);
     logAction(LogAction.logAdjustHeight((targetRow - currRow) * 40));
 
     robot.moveToCheeseWheel(targetCheeseWheel);

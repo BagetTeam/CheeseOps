@@ -23,8 +23,8 @@ public class LogAction {
   }
 
   static public LogAction logAdjustHeight(int centimeters) {
-    return new LogAction("Adjust height " + (centimeters < 0 ? "- " : "+ ") +
-                         centimeters + " centimeters;");
+    return new LogAction("Adjust height " + (centimeters < 0 ? "-" : "+") +
+                         Math.abs(centimeters) + " centimeters;");
   }
 
   static public LogAction logTurnLeft() { return new LogAction("Turn left;"); }
