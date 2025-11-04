@@ -231,8 +231,7 @@ public class RobotController {
     if (targetCol!=currCol) {
       logAction(LogAction.logStraight(targetCol - currCol));
     }
-    robot.setRow(1); // goes to 1 first and then goes back up
-    if(targetRow != 1){
+    if(targetRow != currRow){
       logAction(LogAction.logAdjustHeight((targetRow - 1) * 40)); // the robot
     }
     robot.setRow(targetRow);
@@ -275,13 +274,15 @@ public class RobotController {
     int targetCol = 0;
     int currRow = robot.getRow();
     int currCol = robot.getColumn();
+    int deltaCol = targetCol - currCol;
+    int deltaRow = targetRow - currRow;
 
-    if (targetCol != currCol) {
-      logAction(LogAction.logStraight(targetCol - currCol));
+    if (deltaCol != 0) {
+      logAction(LogAction.logStraight(deltaCol));
     }
 
-    if (targetRow != currRow) {
-      logAction(LogAction.logAdjustHeight((targetRow - currRow) * 40));
+    if (deltaRow != 0) {
+      logAction(LogAction.logAdjustHeight((deltaRow) * 40));
     }
 
     robot.setCurrentCheeseWheel(null);

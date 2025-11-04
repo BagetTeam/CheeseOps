@@ -59,7 +59,11 @@ public class RobotStepDefinitions {
       robot.setColumn(0);
     } else if (targetStatus.equals(Robot.Status.AtCheeseWheel)) {
       robot.turnLeft();
-      robot.moveToCheeseWheel(cheeseWheel);
+      if (cheeseWheel != null) {
+        robot.moveToCheeseWheel(cheeseWheel);
+        robot.setRow(cheeseWheel.getLocation().getRow());
+        robot.setColumn(cheeseWheel.getLocation().getColumn());
+      }
     }
   }
 

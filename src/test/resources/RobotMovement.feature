@@ -6,7 +6,7 @@ As the robot controller, I want to move the robot to shelfs and cheese wheels so
   Background:
     Given the following shelf exists in the system
       | id  | nrColumns | nrRows |
-      | A12 |         5 |      2 |
+      | A12 |         5 |      4 |
       | B21 |         3 |      3 |
     Given all locations are created for shelf "A12"
     Given all locations are created for shelf "B21"
