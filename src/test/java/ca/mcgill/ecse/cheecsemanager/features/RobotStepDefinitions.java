@@ -55,6 +55,8 @@ public class RobotStepDefinitions {
 
     if (targetStatus.equals(Robot.Status.AtEntranceFacingAisle)) {
       robot.turnLeft();
+      robot.setRow(1);
+      robot.setColumn(0);
     } else if (targetStatus.equals(Robot.Status.AtCheeseWheel)) {
       robot.turnLeft();
       robot.moveToCheeseWheel(cheeseWheel);
@@ -480,7 +482,6 @@ public class RobotStepDefinitions {
    */
   @When("the robot controller attempts to move the robot to cheese wheel {int}")
   public void the_robot_controller_attempts_to_move_the_robot_to_cheese_wheel(Integer wheelId) {
-    // Write code here that turns the phrase above into concrete actions
     try{
       RobotController.moveToCheeseWheel(wheelId);
     } catch(Exception e){

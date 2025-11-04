@@ -133,10 +133,10 @@ public class RobotController {
   }
 
   public static boolean turnRight() {
-    if (!robot.getIsActivated())
-      throw new RuntimeException("The robot must be activated first.");
     if (robot.getStatus() != Robot.Status.AtEntranceFacingAisle)
       throw new RuntimeException("The robot cannot be turned right.");
+    if (!robot.getIsActivated())
+      throw new RuntimeException("The robot must be activated first.");
 
     boolean turnedRight = robot.turnRight();
     if (turnedRight) {
@@ -155,18 +155,17 @@ public class RobotController {
    */
   public static boolean moveToShelf(String shelfId) throws RuntimeException {
     if(shelfId == null || shelfId.isEmpty()){
-      logAction(LogAction.logAtShelf(robot.getCurrentShelf().getId()));
       throw new RuntimeException("A shelf must be specified.");
     }
     if (!robot.getIsActivated())
       throw new RuntimeException("The robot must be activated first.");
     if (robot.getStatus() != Robot.Status.AtEntranceNotFacingAisle)
-      throw new RuntimeException("The robot cannot be moved to shelf #" + shelfId);
+      throw new RuntimeException("The robot cannot be moved to shelf #" + shelfId + ".");
 
     Shelf currentShelf = robot.getCurrentShelf();
     Shelf targetShelf = Shelf.getWithId(shelfId);
     if (targetShelf == null) {
-      throw new RuntimeException("Shelf " + shelfId + " does not exist.");
+      throw new RuntimeException("The shelf " + shelfId + " does not exist.");
     }
 
     if (currentShelf.equals(targetShelf)) {
@@ -200,11 +199,9 @@ public class RobotController {
    * @return whether action was successful
    */
   public static boolean moveToCheeseWheel(int wheelId) {
+    Robot.Status status = robot.getStatus();
     if (!robot.getIsActivated())
       throw new RuntimeException("The robot must be activated first.");
-
-    Robot.Status status = robot.getStatus();
-
     if (status != Robot.Status.AtEntranceFacingAisle && status != Robot.Status.AtCheeseWheel)
       throw new RuntimeException("The robot cannot be moved to cheese wheel #" + wheelId + ".");
 
@@ -234,11 +231,11 @@ public class RobotController {
     if (targetCol!=currCol) {
       logAction(LogAction.logStraight(targetCol - currCol));
     }
-
-    robot.setRow(targetRow);
-    if(targetRow != currRow){
-      logAction(LogAction.logAdjustHeight((targetRow - currRow) * 40));
+    robot.setRow(1); // goes to 1 first and then goes back up
+    if(targetRow != 1){
+      logAction(LogAction.logAdjustHeight((targetRow - 1) * 40)); // the robot
     }
+    robot.setRow(targetRow);
 
     robot.moveToCheeseWheel(targetCheeseWheel);
     logAction(LogAction.logAtCheeseWheel(wheelId));
@@ -275,13 +272,19 @@ public class RobotController {
       throw new RuntimeException("The robot cannot be moved to the entrance of the aisle.");
 
     int targetRow = 1;
-    int targetCol = 0; // just a placeholder for being outside the shelf
+    int targetCol = 0;
     int currRow = robot.getRow();
     int currCol = robot.getColumn();
 
-    logAction(LogAction.logStraight(targetCol - currCol));
-    logAction(LogAction.logAdjustHeight((targetRow - currRow) * 40));
+    if (targetCol != currCol) {
+      logAction(LogAction.logStraight(targetCol - currCol));
+    }
 
+    if (targetRow != currRow) {
+      logAction(LogAction.logAdjustHeight((targetRow - currRow) * 40));
+    }
+
+    robot.setCurrentCheeseWheel(null);
     robot.moveToEntrance();
     return true;
   }
