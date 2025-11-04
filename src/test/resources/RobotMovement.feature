@@ -133,7 +133,7 @@ As the robot controller, I want to move the robot to shelfs and cheese wheels so
       | B21     | At shelf #B21; | A12        | At shelf #B21; Straight -2 meters; At shelf #A12; |
 
   Scenario Outline: Unsuccessfully move the robot to shelf due to wrong input
-    Given the robot is marked as "AtEntranceNotFacingAisle" and at shelf "<shelfID>" with action log "log"
+    Given the robot is marked as "AtEntranceNotFacingAisle" and at shelf "<shelfID>" with action log "<log>"
     When the robot controller attempts to move the robot to shelf "<newShelfID>"
     Then the robot shall be marked as "AtEntranceNotFacingAisle"
     Then the current shelf of the robot shall be "<shelfID>"
@@ -191,7 +191,7 @@ As the robot controller, I want to move the robot to shelfs and cheese wheels so
       |            10 | A12     | At shelf #A12; Turn left; Straight +4 meters; Adjust height +40 centimeters; At cheese wheel #10; |               11 | At shelf #A12; Turn left; Straight +4 meters; Adjust height +40 centimeters; At cheese wheel #10; Straight -3 meters; At cheese wheel #11; |
 
   Scenario Outline: Unsuccessfully move the robot to cheese wheel from entrance
-    Given the robot is marked as "AtEntranceFacingAisle" and at shelf "<shelfID>" with action log "log"
+    Given the robot is marked as "AtEntranceFacingAisle" and at shelf "<shelfID>" with action log "<log>"
     When the robot controller attempts to move the robot to cheese wheel <cheeseWheelID>
     Then the robot shall be marked as "AtEntranceFacingAisle"
     Then the current shelf of the robot shall be "<shelfID>"
@@ -205,7 +205,7 @@ As the robot controller, I want to move the robot to shelfs and cheese wheels so
       | B21     | At shelf #B21; Turn left; |             1 | Cheese wheel #1 is not on shelf #B21.  |
 
   Scenario Outline: Unsuccessfully move the robot to cheese wheel from another cheese wheel
-    Given the robot is marked as "AtCheeseWheel" and at cheese wheel <cheeseWheelID> on shelf "<shelfID>" with action log "log"
+    Given the robot is marked as "AtCheeseWheel" and at cheese wheel <cheeseWheelID> on shelf "<shelfID>" with action log "<log>"
     When the robot controller attempts to move the robot to cheese wheel <newCheeseWheelID>
     Then the robot shall be marked as "AtCheeseWheel"
     Then the current shelf of the robot shall be "<shelfID>"

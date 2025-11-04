@@ -152,7 +152,7 @@ public class RobotController {
    * @return whether action was successful
    */
   public static boolean moveToShelf(String shelfId) throws RuntimeException {
-    if(shelfId == null){
+    if(shelfId == null || shelfId.isEmpty()){
       logAction(LogAction.logAtShelf(robot.getCurrentShelf().getId()));
       throw new RuntimeException("A shelf must be specified.");
     }
