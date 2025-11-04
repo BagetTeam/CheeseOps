@@ -15,6 +15,7 @@ import ca.mcgill.ecse.cheecsemanager.model.CheeseWheel.MaturationPeriod;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import io.cucumber.java.Before;
 
 import static org.junit.Assert.*;
 
@@ -35,25 +36,8 @@ public class RobotStepDefinitions {
    * This method is used in given steps to set the status of the robot to the desired status
    * First, we must deactivate the robot and put it to Idle then set its status back to the desired one
    * */
-  private void initializeRobot(Robot.Status targetStatus, Shelf shelf, CheeseWheel cheeseWheel) {
+  private void setStatus(Robot.Status targetStatus, Shelf shelf, CheeseWheel cheeseWheel) {
     Robot robot = getRobot();
-    // set to Idle and deactivated first
-    robot.setCurrentCheeseWheel(null);
-    robot.setCurrentShelf(null);
-    Robot.Status currentStatus = robot.getStatus();
-
-    switch (currentStatus){
-      case AtEntranceNotFacingAisle:
-        robot.turnLeft();
-        robot.deactivate();
-        break;
-      case AtEntranceFacingAisle:
-        robot.deactivate();
-        break;
-      case AtCheeseWheel:
-        robot.deactivate();
-    }
-
     if (shelf != null){
       robot.setCurrentShelf(shelf);
     }
@@ -75,50 +59,30 @@ public class RobotStepDefinitions {
       robot.turnLeft();
       robot.moveToCheeseWheel(cheeseWheel);
     }
+  }
 
+  @Before
+  public void initializeRobot(){
+    Robot robot = getRobot();
+    robot.setCurrentCheeseWheel(null);
+    robot.setCurrentShelf(null);
+    Robot.Status currentStatus = robot.getStatus();
 
-//    switch (currentStatus) {
-//      case Idle:
-//        robot.activate();
-//        if (targetStatus.equals(Robot.Status.AtEntranceFacingAisle)) {
-//          robot.turnLeft();
-//        } else if (targetStatus.equals(Robot.Status.AtCheeseWheel)) {
-//          robot.turnLeft();
-//          if (cheeseWheel != null) robot.moveToCheeseWheel(cheeseWheel);
-//        }
-//        break;
-//
-//      case AtEntranceNotFacingAisle:
-//        if (targetStatus.equals(Robot.Status.AtEntranceFacingAisle) || targetStatus.equals(Robot.Status.AtCheeseWheel)) {
-//          robot.turnLeft();
-//          if (targetStatus.equals(Robot.Status.AtCheeseWheel) && cheeseWheel != null) {
-//            robot.moveToCheeseWheel(cheeseWheel);
-//          }
-//        } else if (targetStatus.equals(Robot.Status.Idle)) {
-//          robot.turnLeft();
-//          robot.deactivate();
-//        }
-//        break;
-//
-//      case AtEntranceFacingAisle:
-//        if (targetStatus.equals(Robot.Status.AtEntranceNotFacingAisle)) {
-//          robot.turnRight();
-//        } else if (targetStatus.equals(Robot.Status.AtCheeseWheel)) {
-//          if (cheeseWheel != null) robot.moveToCheeseWheel(cheeseWheel);
-//        } else {
-//          robot.deactivate();
-//        }
-//        break;
-//
-//      case AtCheeseWheel:
-//        robot.moveToEntrance();
-//        if (targetStatus.equals(Robot.Status.AtEntranceNotFacingAisle)) {
-//          robot.turnRight();
-//        } else if (targetStatus.equals(Robot.Status.Idle)) {
-//          robot.deactivate();
-//        }
-//        break;
-//    }
+    switch (currentStatus){
+      case AtEntranceNotFacingAisle:
+        robot.turnLeft();
+        robot.deactivate();
+        break;
+      case AtEntranceFacingAisle:
+        robot.deactivate();
+        break;
+      case AtCheeseWheel:
+        robot.deactivate();
+    }
+    while (robot.numberOfLog() > 0) {
+      LogEntry logEntry = robot.getLog(robot.numberOfLog() - 1);
+      logEntry.delete();
+    }
 
   }
   /**
@@ -297,16 +261,16 @@ public class RobotStepDefinitions {
     Shelf shelf = Shelf.getWithId(shelfId);
     switch (state) {
       case "Idle":
-        initializeRobot(Robot.Status.Idle, shelf, null);
+        setStatus(Robot.Status.Idle, shelf, null);
         break;
       case "AtEntranceFacingAisle":
-        initializeRobot(Robot.Status.AtEntranceFacingAisle, shelf, null);
+        setStatus(Robot.Status.AtEntranceFacingAisle, shelf, null);
         break;
       case "AtEntranceNotFacingAisle":
-        initializeRobot(Robot.Status.AtEntranceNotFacingAisle, shelf, null);
+        setStatus(Robot.Status.AtEntranceNotFacingAisle, shelf, null);
         break;
       case "AtCheeseWheel":
-        initializeRobot(Robot.Status.AtCheeseWheel, shelf, null);
+        setStatus(Robot.Status.AtCheeseWheel, shelf, null);
         break;
       default:
         throw new RuntimeException("Unknown state: " + state);
@@ -347,16 +311,16 @@ public class RobotStepDefinitions {
   public void the_robot_is_marked_as(String state) {
     switch (state) {
       case "Idle":
-        initializeRobot(Robot.Status.Idle, null, null);
+        setStatus(Robot.Status.Idle, null, null);
         break;
       case "AtEntranceFacingAisle":
-        initializeRobot(Robot.Status.AtEntranceFacingAisle, null, null);
+        setStatus(Robot.Status.AtEntranceFacingAisle, null, null);
         break;
       case "AtEntranceNotFacingAisle":
-        initializeRobot(Robot.Status.AtEntranceNotFacingAisle, null, null);
+        setStatus(Robot.Status.AtEntranceNotFacingAisle, null, null);
         break;
       case "AtCheeseWheel":
-        initializeRobot(Robot.Status.AtCheeseWheel, null, null);
+        setStatus(Robot.Status.AtCheeseWheel, null, null);
         break;
       default:
         throw new RuntimeException("Unknown state: " + state);
@@ -419,17 +383,24 @@ public class RobotStepDefinitions {
 
   @Given("the robot is marked as {string} and at cheese wheel {int} on shelf {string} with action log {string}")
   public void the_robot_is_marked_as_and_at_cheese_wheel_on_shelf_with_action_log(String state, Integer wheelId, String shelfId, String actionLog) {
-    CheeseWheel cheeseWheel = cheecsemanager.getCheeseWheel(wheelId);
+    Optional<CheeseWheel> cheeseWheel = cheecsemanager.getCheeseWheels().stream()
+            .filter(wheel -> wheel.getId() == wheelId)
+            .findFirst();
     Shelf shelf = Shelf.getWithId(shelfId);
     switch (state) {
       case "AtCheeseWheel":
-        initializeRobot(Robot.Status.AtCheeseWheel, shelf, cheeseWheel);
+        setStatus(Robot.Status.AtCheeseWheel, shelf, cheeseWheel.get());
         break;
       default:
         throw new RuntimeException("Unsupported state for this state: " + state);
     }
 
     Robot robot = getRobot();
+    while (robot.numberOfLog() > 0) {
+      LogEntry logEntry = robot.getLog(robot.numberOfLog() - 1);
+      logEntry.delete();
+    }
+
     robot.addLog(actionLog);
   }
 

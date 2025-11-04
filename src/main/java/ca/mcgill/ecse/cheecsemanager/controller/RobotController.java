@@ -73,7 +73,6 @@ public class RobotController {
 
     logAction(LogAction.logAtShelf(shelfId));
     robot.setRow(1);
-    logAction(LogAction.logAdjustHeight(0));
   }
 
   /* =================================================== */
@@ -124,7 +123,7 @@ public class RobotController {
    * @return whether action was successful
    */
   public static boolean turnLeft() {
-    if (!robot.getIsActivated() && robot.getStatus() != Robot.Status.Idle)
+    if (!robot.getIsActivated())
       throw new RuntimeException("The robot must be activated first.");
     if (robot.getStatus() != Robot.Status.AtEntranceNotFacingAisle)
       throw new RuntimeException("The robot cannot be turned left.");
@@ -237,10 +236,14 @@ public class RobotController {
     }
 
     robot.setColumn(targetCol);
-    logAction(LogAction.logStraight(targetCol - currCol));
+    if (targetCol!=currCol) {
+      logAction(LogAction.logStraight(targetCol - currCol));
+    }
 
     robot.setRow(targetRow);
-    logAction(LogAction.logAdjustHeight((targetRow - currRow) * 40));
+    if(targetRow != currRow){
+      logAction(LogAction.logAdjustHeight((targetRow - currRow) * 40));
+    }
 
     robot.moveToCheeseWheel(targetCheeseWheel);
     logAction(LogAction.logAtCheeseWheel(wheelId));
@@ -270,7 +273,10 @@ public class RobotController {
    * @return whether action was successful
    */
   public static boolean goBackToEntrance() {
-    if (!robot.getIsActivated() || (robot.getStatus() != Robot.Status.AtCheeseWheel && robot.getStatus() != Robot.Status.AtEntranceFacingAisle))
+    if (!robot.getIsActivated()){
+      throw new RuntimeException("The robot must be activated first.");
+    }
+    if ((robot.getStatus() != Robot.Status.AtCheeseWheel && robot.getStatus() != Robot.Status.AtEntranceFacingAisle))
       throw new RuntimeException("The robot cannot be moved to the entrance of the aisle.");
 
     int targetRow = 1;
