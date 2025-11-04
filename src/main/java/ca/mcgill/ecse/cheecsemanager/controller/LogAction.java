@@ -18,7 +18,7 @@ public class LogAction {
   }
 
   static public LogAction logStraight(int meters) {
-    return new LogAction("Straight " + (meters < 0 ? "- " : "+ ") + meters +
+    return new LogAction("Straight " + (meters < 0 ? "-" : "+") + Math.abs(meters) +
                          " meters;");
   }
 

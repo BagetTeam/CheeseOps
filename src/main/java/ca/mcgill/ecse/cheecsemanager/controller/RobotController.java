@@ -119,10 +119,10 @@ public class RobotController {
    * @return whether action was successful
    */
   public static boolean turnLeft() {
+    if (!robot.getIsActivated() && robot.getStatus() != Robot.Status.Idle)
+      throw new RuntimeException("The robot must be activated first.");
     if (robot.getStatus() != Robot.Status.AtEntranceNotFacingAisle)
       throw new RuntimeException("The robot cannot be turned left.");
-    if (!robot.getIsActivated())
-      throw new RuntimeException("The robot must be activated first");
 
     boolean turnedLeft = robot.turnLeft();
     if (turnedLeft) {
@@ -135,7 +135,7 @@ public class RobotController {
 
   public static boolean turnRight() {
     if (!robot.getIsActivated())
-      throw new RuntimeException("The robot must be activated first");
+      throw new RuntimeException("The robot must be activated first.");
     if (robot.getStatus() != Robot.Status.AtEntranceFacingAisle)
       throw new RuntimeException("The robot cannot be turned right.");
 
@@ -154,12 +154,15 @@ public class RobotController {
    * @param shelfId the id of the target shelf
    * @return whether action was successful
    */
-  public static boolean moveToShelf(String shelfId) {
+  public static boolean moveToShelf(String shelfId) throws RuntimeException {
+    if(shelfId == null){
+      logAction(LogAction.logAtShelf(robot.getCurrentShelf().getId()));
+      throw new RuntimeException("A shelf must be specified.");
+    }
     if (!robot.getIsActivated())
-      throw new RuntimeException("The robot must be activated first");
+      throw new RuntimeException("The robot must be activated first.");
     if (robot.getStatus() != Robot.Status.AtEntranceNotFacingAisle)
-      throw new RuntimeException("Cannot move to shelf from " +
-                                 robot.getStatus() + " status");
+      throw new RuntimeException("The robot cannot be moved to shelf #" + shelfId);
 
     Shelf currentShelf = robot.getCurrentShelf();
     Shelf targetShelf = Shelf.getWithId(shelfId);
@@ -171,7 +174,7 @@ public class RobotController {
       return false;
     }
 
-    List<Shelf> allShelves = robot.getCheECSEManager().getShelves();
+    List<Shelf> allShelves = manager.getShelves();
     int currentShelfIndex = allShelves.indexOf(currentShelf);
     int targetShelfIndex = allShelves.indexOf(targetShelf);
 
@@ -199,13 +202,12 @@ public class RobotController {
    */
   public static boolean moveToCheeseWheel(int wheelId) {
     if (!robot.getIsActivated())
-      throw new RuntimeException("The robot must be activated first");
+      throw new RuntimeException("The robot must be activated first.");
 
     Robot.Status status = robot.getStatus();
 
     if (status != Robot.Status.AtEntranceFacingAisle)
-      throw new RuntimeException("Cannot move to shelf from " +
-                                 robot.getStatus() + " status");
+      throw new RuntimeException("The robot cannot be moved to cheese wheel #" + wheelId + ".");
 
     Shelf currentShelf = robot.getCurrentShelf();
     CheeseWheel targetCheeseWheel = manager.getCheeseWheel(wheelId);
@@ -266,8 +268,8 @@ public class RobotController {
    * @return whether action was successful
    */
   public static boolean goBackToEntrance() {
-    if (!robot.getIsActivated())
-      throw new RuntimeException("The robot must be activated first");
+    if (!robot.getIsActivated() || (robot.getStatus() != Robot.Status.AtCheeseWheel && robot.getStatus() != Robot.Status.AtEntranceFacingAisle))
+      throw new RuntimeException("The robot cannot be moved to the entrance of the aisle.");
 
     int targetRow = 1;
     int targetCol = 0; // just a placeholder for being outside the shelf
