@@ -6,8 +6,8 @@ import ca.mcgill.ecse.cheecsemanager.model.CheeseWheel.MaturationPeriod;
 import java.util.*;
 import java.sql.Date;
 
-// line 33 "../../../../../../CheECSEManager.ump"
-// line 126 "../../../../../../CheECSEManager.ump"
+// line 90 "../../../../../CheECSEManagerPersistence.ump"
+// line 35 "../../../../../CheECSEManager.ump"
 public class WholesaleCompany
 {
 
@@ -239,6 +239,18 @@ public class WholesaleCompany
     {
       placeholderCheECSEManager.removeCompany(this);
     }
+  }
+
+
+  /**
+   * private static Map<String, WholesaleCompany> wholesalecompanysByName = new HashMap<String, WholesaleCompany>();
+   */
+  // line 94 "../../../../../CheECSEManagerPersistence.ump"
+   public static  void reinitializeUniqueName(List<WholesaleCompany> wholesalecompanys){
+    wholesalecompanysByName.clear();
+          for (var wholesalecompany : wholesalecompanys) {
+            wholesalecompanysByName.put(wholesalecompany.getName(), wholesalecompany);
+          }
   }
 
 

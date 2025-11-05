@@ -3,9 +3,10 @@
 
 package ca.mcgill.ecse.cheecsemanager.model;
 import java.sql.Date;
+import java.util.List;
 
-// line 69 "../../../../../../CheECSEManager.ump"
-// line 146 "../../../../../../CheECSEManager.ump"
+// line 65 "../../../../../CheECSEManagerPersistence.ump"
+// line 71 "../../../../../CheECSEManager.ump"
 public abstract class Transaction
 {
 
@@ -99,7 +100,22 @@ public abstract class Transaction
     }
   }
 
-  // line 75 "../../../../../../CheECSEManager.ump"
+
+  /**
+   * private static int nextId = 1;
+   */
+  // line 68 "../../../../../CheECSEManagerPersistence.ump"
+   public static  void reinitializeNextId(List<Transaction> transactions){
+    int maxId = 0;
+    for (var t : transactions) {
+      if (t.getId() > maxId) {
+        maxId = t.getId();
+      }
+    }
+    nextId = maxId + 1;
+  }
+
+  // line 77 "../../../../../CheECSEManager.ump"
    public static  void resetId(){
     nextId = 1;
   }

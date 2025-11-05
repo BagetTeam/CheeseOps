@@ -4,6 +4,8 @@ import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
 import ca.mcgill.ecse.cheecsemanager.model.CheeseWheel;
 import ca.mcgill.ecse.cheecsemanager.model.Shelf;
 import ca.mcgill.ecse.cheecsemanager.model.ShelfLocation;
+import ca.mcgill.ecse.cheecsemanager.persistence.CheECSEManagerPersistence;
+
 import java.util.Optional;
 
 /**
@@ -37,11 +39,18 @@ public class CheECSEManagerFeatureSet2Controller {
       return String.format("The shelf %s already exists.", id);
     }
 
-    var cheecseManager = CheECSEManagerApplication.getCheecseManager();
+    try {
+      var cheecseManager = CheECSEManagerApplication.getCheecseManager();
+      Shelf newShelf = new Shelf(id, cheecseManager);
+      addShelfLocations(newShelf, nrColumns, nrRows);
 
-    Shelf newShelf = new Shelf(id, cheecseManager);
-    addShelfLocations(newShelf, nrColumns, nrRows);
-    return null;
+      // Save immediately after changing the model
+      CheECSEManagerPersistence.save();
+    } catch (RuntimeException e) {
+      return e.getMessage();
+    }
+
+    return null; // null or empty string if successful
   }
 
   /**
@@ -112,8 +121,10 @@ public class CheECSEManagerFeatureSet2Controller {
         app.getShelves().stream().filter(s -> id.equals(s.getId())).findFirst();
     if (shelfToDelete.isPresent()) {
       if (checkIsEmpty(shelfToDelete.get())) {
-        shelfToDelete.get().delete(); // this method takes care of deleting all
-                                      // locations as well
+        shelfToDelete.get().delete(); // this method takes care of deleting all locations as well
+
+        // saves the deletion of the shelf
+        CheECSEManagerPersistence.save();
         return null;
       } else {
         return "Cannot delete a shelf that contains cheese wheels.";

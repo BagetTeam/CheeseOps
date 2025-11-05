@@ -2,6 +2,8 @@ package ca.mcgill.ecse.cheecsemanager.controller;
 
 import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
 import ca.mcgill.ecse.cheecsemanager.model.WholesaleCompany;
+import ca.mcgill.ecse.cheecsemanager.persistence.CheECSEManagerPersistence;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +35,13 @@ public class CheECSEManagerFeatureSet6Controller {
 
     // If no orders are associated, delete the company
     company.delete();
+
+    try {
+      CheECSEManagerPersistence.save();
+    } catch (RuntimeException e) {
+      return e.getMessage();
+    }
+
     return "";
   }
 

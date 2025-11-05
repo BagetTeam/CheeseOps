@@ -1,0 +1,99 @@
+class CheECSEManager {
+    public void reinitialize() {
+        CheeseWheel.reinitializeId(getCheeseWheels());
+        Shelf.reinitializeUniqueShelfID(getShelves());
+
+        //Since all shelves will have a list of shelf locations, need to get all of them from all shelves
+        List<ShelfLocation> allLocations = new ArrayList<>();
+        for (Shelf shelf : getShelves()) {
+            allLocations.addAll(shelf.getLocations());
+        }
+        ShelfLocation.reinitializeNextId(allLocations);
+
+
+        Transaction.reinitializeNextId(getTransactions());
+
+        //Since User is the parent class of Manager and Farmer, we need to get a list of both manager and farmers.
+        List<User> allUsers = new ArrayList<>();
+        if (getManager() != null) allUsers.add(getManager()); // FacilityManager
+        allUsers.addAll(getFarmers()); // Farmer
+
+        //This list is passed into the reinitialize function as a parameter
+        User.reinitializeUniqueEmail(allUsers);
+
+        WholesaleCompany.reinitializeUniqueName(getCompanies());
+    }
+}
+
+class CheeseWheel {
+  // private static int nextId = 1;
+    public static void reinitializeId(List<CheeseWheel> wheels) {
+        int maxId = 0;
+        for (CheeseWheel w : wheels) {
+          if (w.getId() > maxId) {
+            maxId = w.getId();
+          }
+        }
+        nextId = maxId + 1;
+      }
+}
+
+class Shelf {
+  //private static Map<String, Shelf> shelfsById = new HashMap<String, Shelf>();
+
+  public static void reinitializeUniqueShelfID(List<Shelf> shelves) {
+      shelfsById.clear();
+      for (var shelf : shelves) {
+        shelfsById.put(shelf.getId(), shelf);
+      }
+    }
+}
+
+class ShelfLocation {
+//private static int nextId = 1;
+   public static void reinitializeNextId(List<ShelfLocation> locations) {
+     int maxId = 0;
+     for (var loc : locations) {
+       if (loc.getId() > maxId) {
+         maxId = loc.getId();
+       }
+     }
+     nextId = maxId + 1;
+   }
+ }
+
+class Transaction {
+//private static int nextId = 1;
+  public static void reinitializeNextId(List<Transaction> transactions) {
+    int maxId = 0;
+    for (var t : transactions) {
+      if (t.getId() > maxId) {
+        maxId = t.getId();
+      }
+    }
+    nextId = maxId + 1;
+  }
+}
+
+class User {
+//private static Map<String, User> usersByEmail = new HashMap<String, User>();
+
+    public static void reinitializeUniqueEmail(List<User> users) {
+          usersByEmail.clear();
+          for (var user : users) {
+            usersByEmail.put(user.getEmail(), user);
+          }
+        }
+
+}
+
+class WholesaleCompany {
+//  private static Map<String, WholesaleCompany> wholesalecompanysByName = new HashMap<String, WholesaleCompany>();
+
+    public static void reinitializeUniqueName(List<WholesaleCompany> wholesalecompanys) {
+          wholesalecompanysByName.clear();
+          for (var wholesalecompany : wholesalecompanys) {
+            wholesalecompanysByName.put(wholesalecompany.getName(), wholesalecompany);
+          }
+        }
+}

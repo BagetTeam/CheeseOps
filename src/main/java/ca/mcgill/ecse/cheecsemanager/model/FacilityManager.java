@@ -4,8 +4,7 @@
 package ca.mcgill.ecse.cheecsemanager.model;
 import java.util.*;
 
-// line 21 "../../../../../../CheECSEManager.ump"
-// line 116 "../../../../../../CheECSEManager.ump"
+// line 23 "../../../../../CheECSEManager.ump"
 public class FacilityManager extends User
 {
 
