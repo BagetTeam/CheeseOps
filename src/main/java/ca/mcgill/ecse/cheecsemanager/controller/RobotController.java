@@ -1,11 +1,7 @@
 package ca.mcgill.ecse.cheecsemanager.controller;
 import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
 import ca.mcgill.ecse.cheecsemanager.model.*;
-import ca.mcgill.ecse.cheecsemanager.model.CheECSEManager;
-import ca.mcgill.ecse.cheecsemanager.model.CheeseWheel;
-import ca.mcgill.ecse.cheecsemanager.model.Purchase;
-import ca.mcgill.ecse.cheecsemanager.model.Robot;
-import ca.mcgill.ecse.cheecsemanager.model.Shelf;
+import ca.mcgill.ecse.cheecsemanager.model.CheeseWheel.MaturationPeriod;
 import java.util.List;
 import java.util.Optional;
 
@@ -90,7 +86,7 @@ public class RobotController {
    *
    * @author Ming Li Liu and Olivier Mao
    */
-  public static void initializeTreatment(int purchaseId) {
+  public static void initializeTreatment(int purchaseId, MaturationPeriod monthAged) {
     // ensure robot is present and activated
     if (robot == null || !robot.getIsActivated()) {
       throw new RuntimeException("The robot must be activated first.");
@@ -108,6 +104,20 @@ public class RobotController {
     Purchase purchase = (Purchase)t;
 
     purchase.getCheeseWheels().forEach(wheel -> {
+      treatCheeseWheel(wheel, monthAged);
+    });
+  }
+
+  /** 
+   * Treat cheese wheel of a specific age
+   * @param wheel: the cheese wheel to treat
+   * @param monthAged: the age of the cheese wheel
+   * @author Ewen Gueguen
+   */
+  private static void treatCheeseWheel(CheeseWheel wheel, MaturationPeriod monthAged) {
+    if (wheel.getMonthsAged() != monthAged) {
+        return;
+      }
       var shelf = wheel.getLocation().getShelf();
 
       if (!shelf.getId().equals(robot.getCurrentShelf().getId())) {
@@ -119,7 +129,6 @@ public class RobotController {
 
       moveToCheeseWheel(wheel.getId());
       treatCurrentWheel();
-    });
   }
 
   /* =================================================== */

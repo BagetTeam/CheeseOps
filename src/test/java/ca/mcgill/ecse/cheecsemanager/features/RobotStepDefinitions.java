@@ -145,7 +145,6 @@ public class RobotStepDefinitions {
     var shelves = cheecsemanager.getShelves();
     for (var shelf : shelves) {
       if (shelfId.equals(shelf.getId())) {
-        // TODO TS IS NOT IT
         for (var location : shelf.getLocations()) {
           shelf.addLocation(location);
         }
@@ -200,7 +199,6 @@ public class RobotStepDefinitions {
       String farmerEmail = purchase.get("farmerEmail");
       var farmer = (Farmer)Farmer.getWithEmail(farmerEmail);
       var addedPurchase = farmer.addPurchase(transactionDate, cheecsemanager);
-      // TODO TS IS NOT IT
       for (int i = 0; i < nrCheeseWheels; i++) {
         addedPurchase.addCheeseWheel(monthsAged, false, cheecsemanager);
       }
@@ -259,7 +257,7 @@ public class RobotStepDefinitions {
     }
   }
 
-  /**
+  /** Set all cheese wheels given in to spoiled.
    * Table columns expected: id
    *
    * @param dataTable Cucumber datatable with cheese wheel rows (id)
@@ -431,6 +429,15 @@ public class RobotStepDefinitions {
     }
   }
 
+  /**
+   * Move robot to cheese wheel on shelf with action log
+   * 
+   * @param state: the target state of the robot
+   * @param cheeseWheelID: the ID of the cheese wheel
+   * @param shelfID: the ID of the shelf
+   * @param initialLog: the action log string
+   * @author Ewen Gueguen
+   */
   @Given("the robot is marked as {string} and at cheese wheel {int} on shelf "
          + "{string} with action log {string}")
   public void
@@ -499,7 +506,9 @@ public class RobotStepDefinitions {
     }
   }
 
-  /**\
+  /**
+   * Activate robot
+   * 
    * @author Ayush Patel
    */
   @When("the facility manager attempts to activate the robot")
@@ -511,7 +520,9 @@ public class RobotStepDefinitions {
     }
   }
 
-  /**\
+  /**
+   * Turn robot left
+   * 
    * @author Ayush Patel
    */
   @When("the robot controller attempts to turn the robot left")
@@ -523,7 +534,9 @@ public class RobotStepDefinitions {
     }
   }
 
-  /**\
+  /**
+   * Turn robot right
+   * 
    * @author Ayush Patel
    */
   @When("the robot controller attempts to turn the robot right")
@@ -535,7 +548,9 @@ public class RobotStepDefinitions {
     }
   }
 
-  /**\
+  /**
+   * Move robot to cheese wheel
+   * @param wheelId: the ID of the cheese wheel
    * @author Ayush Patel
    */
   @When("the robot controller attempts to move the robot to cheese wheel {int}")
@@ -548,7 +563,9 @@ public class RobotStepDefinitions {
     }
   }
 
-  /**\
+  /**
+   * Move robot to entrance
+   * 
    * @author Ayush Patel
    */
   @When("the robot controller attempts to move the robot to the entrance")
@@ -561,23 +578,26 @@ public class RobotStepDefinitions {
     }
   }
 
-  /**\
+  /**
+   * Trigger robot to perform treatment
+   * 
    * @author Olivier Mao
    */
   @When(
       "the robot controller attempts to trigger the robot to perform treatment")
   public void
   the_robot_controller_attempts_to_trigger_the_robot_to_perform_treatment() {
-    // skibdi
     try {
-      int lastIndex = cheecsemanager.getTransactions().size() - 1;
-      RobotController.initializeTreatment(lastIndex);
+      RobotController.treatCurrentWheel();
     } catch (Exception e) {
       error = e;
     }
   }
 
-  /**\
+  /**
+   * Move robot to shelf
+   * @param shelfId: the ID of the shelf
+   * 
    * @author Ayush Patel
    */
   @When("the robot controller attempts to move the robot to shelf {string}")
@@ -590,16 +610,30 @@ public class RobotStepDefinitions {
     }
   }
 
+  /**
+   * Trigger robot to perform treatment on old cheese wheels of purchase
+   * 
+   * @param monthsAged: the age of the cheese wheels
+   * @param purchaseId: the ID of the purchase
+   * @author Ewen Gueguen
+   */
   @When("the facility manager attempts to trigger the robot to perform "
         + "treatment on {string} old cheese wheels of purchase {int}")
   public void
   the_facility_manager_attempts_to_trigger_the_robot_to_perform_treatment_on_old_cheese_wheels_of_purchase(
-      String string, Integer int1) {
-    // Write code here that turns the phrase above into concrete actions
-    throw new io.cucumber.java.PendingException();
+      String monthsAged, Integer purchaseId) {
+    try {
+      MaturationPeriod age = MaturationPeriod.valueOf(monthsAged);
+      RobotController.initializeTreatment(purchaseId, age);
+    }
+    catch (Exception e) {
+      error = e;
+    }
   }
 
-  /**\
+  /**
+   * Deactivate robot
+   * 
    * @author Ayush Patel
    */
   @When("the facility manager attempts to deactivate the robot")
@@ -612,6 +646,7 @@ public class RobotStepDefinitions {
   }
 
   /**
+   * @param expectedStatusString: the expected status of the robot
    * @author Ayush Patel
    */
   @Then("the robot shall be marked as {string}")
@@ -653,6 +688,7 @@ public class RobotStepDefinitions {
   }
 
   /**\
+   * @param shelfID: the ID of the shelf
    * @author Ayush Patel
    */
   @When("the facility manager attempts to initialize the robot with shelf "
@@ -692,42 +728,42 @@ public class RobotStepDefinitions {
   }
 
   /**
+   * @param err: the expected error
    * @author Benjamin Curis-Friedman
-   * @param string
    */
   @Then("the error {string} shall be raised")
-  public void the_error_shall_be_raised(String string) {
-    assertEquals(string, error.getMessage());
+  public void the_error_shall_be_raised(String err) {
+    assertEquals(err, error.getMessage());
   }
 
   /**
+   * @param shelfID: the expected shelf ID
    * @author Benjamin Curis-Friedman
-   * @param string
    */
   @Then("the current shelf of the robot shall be {string}")
-  public void the_current_shelf_of_the_robot_shall_be(String string) {
-    assertEquals(string, getRobot().getCurrentShelf().getId());
+  public void the_current_shelf_of_the_robot_shall_be(String shelfID) {
+    assertEquals(shelfID, getRobot().getCurrentShelf().getId());
   }
 
   /**
+   * @param log: the expected action log
    * @author Benjamin Curis-Friedman
-   * @param string
    */
   @Then("the action log of the robot shall be {string}")
-  public void the_action_log_of_the_robot_shall_be(String string) {
+  public void the_action_log_of_the_robot_shall_be(String log) {
     List<LogEntry> logs = getRobot().getLog();
     String logString = logs.stream()
                            .map(LogEntry::getDescription)
                            .collect(Collectors.joining(" "));
-    assertEquals(string, logString);
+    assertEquals(log, logString);
   }
 
   /**
+   * @param log: the expected presented action log
    * @author Benjamin Curis-Friedman
-   * @param string
    */
   @Then("the presented action log of the robot shall be {string}")
-  public void the_presented_action_log_of_the_robot_shall_be(String string) {
+  public void the_presented_action_log_of_the_robot_shall_be(String log) {
     // Write code here that turns the phrase above into concrete actions
     // throw new io.cucumber.java.PendingException();
     assertNotNull(presentedLog, "Presented logs is null");
@@ -743,12 +779,12 @@ public class RobotStepDefinitions {
     //     allLogs += ";";
     // }
 
-    assertEquals(string, allLogs);
+    assertEquals(log, allLogs);
   }
 
   /**
+   * @param expectedNumberOfRobots: the expected number of robots
    * @author Benjamin Curis-Friedman
-   * @param int1
    */
   @Then("the number of robots in the system shall be {int}")
   public void
@@ -758,6 +794,7 @@ public class RobotStepDefinitions {
   }
 
   /**
+   * @param wheelId: the expected ID of the cheese wheel
    * @author Ayush Patel
    * */
   @Then("the current cheese wheel of the robot shall {int}")
@@ -767,6 +804,7 @@ public class RobotStepDefinitions {
   }
 
   /**
+   * @param wheelId: the expected ID of the cheese wheel
    * @author Ayush Patel
    * */
   @Then("the current cheese wheel of the robot shall be {int}")
