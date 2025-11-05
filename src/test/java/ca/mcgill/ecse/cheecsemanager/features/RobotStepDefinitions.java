@@ -550,7 +550,7 @@ public class RobotStepDefinitions {
 
   /**
    * Move robot to cheese wheel
-   * 
+   * @param wheelId: the ID of the cheese wheel
    * @author Ayush Patel
    */
   @When("the robot controller attempts to move the robot to cheese wheel {int}")
@@ -598,6 +598,7 @@ public class RobotStepDefinitions {
 
   /**
    * Move robot to shelf
+   * @param shelfId: the ID of the shelf
    * 
    * @author Ayush Patel
    */
@@ -647,7 +648,7 @@ public class RobotStepDefinitions {
   }
 
   /**
-   * 
+   * @param expectedStatusString: the expected status of the robot
    * @author Ayush Patel
    */
   @Then("the robot shall be marked as {string}")
@@ -689,6 +690,7 @@ public class RobotStepDefinitions {
   }
 
   /**\
+   * @param shelfID: the ID of the shelf
    * @author Ayush Patel
    */
   @When("the facility manager attempts to initialize the robot with shelf "
@@ -728,8 +730,8 @@ public class RobotStepDefinitions {
   }
 
   /**
+   * @param err: the expected error
    * @author Benjamin Curis-Friedman
-   * @param err
    */
   @Then("the error {string} shall be raised")
   public void the_error_shall_be_raised(String err) {
@@ -737,8 +739,8 @@ public class RobotStepDefinitions {
   }
 
   /**
+   * @param shelfID: the expected shelf ID
    * @author Benjamin Curis-Friedman
-   * @param shelfID
    */
   @Then("the current shelf of the robot shall be {string}")
   public void the_current_shelf_of_the_robot_shall_be(String shelfID) {
@@ -746,8 +748,8 @@ public class RobotStepDefinitions {
   }
 
   /**
+   * @param log: the expected action log
    * @author Benjamin Curis-Friedman
-   * @param log
    */
   @Then("the action log of the robot shall be {string}")
   public void the_action_log_of_the_robot_shall_be(String log) {
@@ -759,8 +761,8 @@ public class RobotStepDefinitions {
   }
 
   /**
+   * @param log: the expected presented action log
    * @author Benjamin Curis-Friedman
-   * @param log
    */
   @Then("the presented action log of the robot shall be {string}")
   public void the_presented_action_log_of_the_robot_shall_be(String log) {
@@ -783,8 +785,8 @@ public class RobotStepDefinitions {
   }
 
   /**
+   * @param expectedNumberOfRobots: the expected number of robots
    * @author Benjamin Curis-Friedman
-   * @param expectedNumberOfRobots
    */
   @Then("the number of robots in the system shall be {int}")
   public void
@@ -794,6 +796,7 @@ public class RobotStepDefinitions {
   }
 
   /**
+   * @param wheelId: the expected ID of the cheese wheel
    * @author Ayush Patel
    * */
   @Then("the current cheese wheel of the robot shall {int}")
@@ -803,6 +806,7 @@ public class RobotStepDefinitions {
   }
 
   /**
+   * @param wheelId: the expected ID of the cheese wheel
    * @author Ayush Patel
    * */
   @Then("the current cheese wheel of the robot shall be {int}")
