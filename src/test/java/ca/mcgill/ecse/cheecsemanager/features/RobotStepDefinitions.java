@@ -108,6 +108,10 @@ public class RobotStepDefinitions {
       break;
     case AtCheeseWheel:
       robot.deactivate();
+      break;
+
+    default:
+      break;
     }
     while (robot.numberOfLog() > 0) {
       LogEntry logEntry = robot.getLog(robot.numberOfLog() - 1);
