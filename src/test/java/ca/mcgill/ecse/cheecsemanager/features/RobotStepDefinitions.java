@@ -588,8 +588,6 @@ public class RobotStepDefinitions {
   public void
   the_robot_controller_attempts_to_trigger_the_robot_to_perform_treatment() {
     try {
-      // int lastIndex = cheecsemanager.getTransactions().size() - 1;
-      // RobotController.initializeTreatment(lastIndex);
       RobotController.treatCurrentWheel();
     } catch (Exception e) {
       error = e;
