@@ -701,7 +701,7 @@ public class RobotStepDefinitions {
   }
 
   /**
-   * @author Benjmain Curis-Friedman
+   * @author Benjamin Curis-Friedman
    * @param string
    */
   @Then("the current shelf of the robot shall be {string}")
