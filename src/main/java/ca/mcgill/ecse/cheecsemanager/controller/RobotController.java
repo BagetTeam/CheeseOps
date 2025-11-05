@@ -87,20 +87,8 @@ public class RobotController {
    * @author Ming Li Liu and Olivier Mao
    */
   public static void initializeTreatment(int purchaseId, MaturationPeriod monthAged) {
-    // ensure robot is present and activated
-    if (robot == null || !robot.getIsActivated()) {
-      throw new RuntimeException("The robot must be activated first.");
-    }
-
-    if (robot.getStatus() != Robot.Status.AtCheeseWheel) {
-      throw new RuntimeException("The robot cannot be perform treatment.");
-    }
-    // validate transaction exists and is a Purchase
+    
     Transaction t = manager.getTransaction(purchaseId);
-    if (!(t instanceof Purchase)) {
-      // TODO this always throws an error (Mingli please help)
-      throw new RuntimeException("The robot cannot be perform treatment.");
-    }
     Purchase purchase = (Purchase)t;
 
     purchase.getCheeseWheels().forEach(wheel -> {
