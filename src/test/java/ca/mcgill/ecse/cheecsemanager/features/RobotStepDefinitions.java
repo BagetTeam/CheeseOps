@@ -624,7 +624,7 @@ public class RobotStepDefinitions {
       String monthsAged, Integer purchaseId) {
     try {
       MaturationPeriod age = MaturationPeriod.valueOf(monthsAged);
-      
+      RobotController.initializeTreatment(purchaseId, age);
     }
     catch (Exception e) {
       error = e;
