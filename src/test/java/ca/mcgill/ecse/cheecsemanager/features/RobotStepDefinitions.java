@@ -435,8 +435,9 @@ public class RobotStepDefinitions {
    * @param state: the target state of the robot
    * @param cheeseWheelID: the ID of the cheese wheel
    * @param shelfID: the ID of the shelf
+   * @param wheelID: the ID of the Wheel
    * @param initialLog: the action log string
-   * @author Ewen Gueguen
+   * @author Ewen Gueguen and Olivier Mao (modified)
    */
   @Given("the robot is marked as {string} and at cheese wheel {int} on shelf "
          + "{string} with action log {string}")
@@ -464,6 +465,15 @@ public class RobotStepDefinitions {
     }
 
     robot.addLog(actionLog);
+    
+    // Set the purchase context when positioning robot at a cheese wheel
+    if (cheeseWheel.isPresent()) {
+      CheeseWheel wheel = cheeseWheel.get();
+      Purchase purchase = wheel.getPurchase();
+      if (purchase != null) {
+        robot.setCurrentPurchaseTreated(purchase);
+      }
+    }
   }
 
   /**
