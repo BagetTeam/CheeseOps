@@ -729,41 +729,41 @@ public class RobotStepDefinitions {
 
   /**
    * @author Benjamin Curis-Friedman
-   * @param string
+   * @param err
    */
   @Then("the error {string} shall be raised")
-  public void the_error_shall_be_raised(String string) {
-    assertEquals(string, error.getMessage());
+  public void the_error_shall_be_raised(String err) {
+    assertEquals(err, error.getMessage());
   }
 
   /**
    * @author Benjamin Curis-Friedman
-   * @param string
+   * @param shelfID
    */
   @Then("the current shelf of the robot shall be {string}")
-  public void the_current_shelf_of_the_robot_shall_be(String string) {
-    assertEquals(string, getRobot().getCurrentShelf().getId());
+  public void the_current_shelf_of_the_robot_shall_be(String shelfID) {
+    assertEquals(shelfID, getRobot().getCurrentShelf().getId());
   }
 
   /**
    * @author Benjamin Curis-Friedman
-   * @param string
+   * @param log
    */
   @Then("the action log of the robot shall be {string}")
-  public void the_action_log_of_the_robot_shall_be(String string) {
+  public void the_action_log_of_the_robot_shall_be(String log) {
     List<LogEntry> logs = getRobot().getLog();
     String logString = logs.stream()
                            .map(LogEntry::getDescription)
                            .collect(Collectors.joining(" "));
-    assertEquals(string, logString);
+    assertEquals(log, logString);
   }
 
   /**
    * @author Benjamin Curis-Friedman
-   * @param string
+   * @param log
    */
   @Then("the presented action log of the robot shall be {string}")
-  public void the_presented_action_log_of_the_robot_shall_be(String string) {
+  public void the_presented_action_log_of_the_robot_shall_be(String log) {
     // Write code here that turns the phrase above into concrete actions
     // throw new io.cucumber.java.PendingException();
     assertNotNull(presentedLog, "Presented logs is null");
@@ -779,12 +779,12 @@ public class RobotStepDefinitions {
     //     allLogs += ";";
     // }
 
-    assertEquals(string, allLogs);
+    assertEquals(log, allLogs);
   }
 
   /**
    * @author Benjamin Curis-Friedman
-   * @param int1
+   * @param expectedNumberOfRobots
    */
   @Then("the number of robots in the system shall be {int}")
   public void
