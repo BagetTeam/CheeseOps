@@ -85,6 +85,15 @@ public class RobotController {
    * @author Ming Li Liu and Olivier Mao
    */
   public static void initializeTreatment(int purchaseId) {
+    // Check if robot exists
+    if (robot == null) {
+      throw new RuntimeException("The robot must be activated first.");
+    }
+    // Check if robot is activated or in wrong state
+    if (!robot.getIsActivated() || robot.getStatus() != Robot.Status.AtCheeseWheel) {
+      throw new RuntimeException("The robot cannot be perform treatment.");
+    }
+
     // validate transaction exists and is a Purchase
     Transaction t = manager.getTransaction(purchaseId);
     if (!(t instanceof Purchase)) {
@@ -92,14 +101,6 @@ public class RobotController {
     }
     Purchase purchase = (Purchase) t;
 
-    // ensure robot is present and activated
-    if (robot == null || !robot.getIsActivated()) {
-      throw new RuntimeException("The robot must be activated first.");
-    }
-
-    if (robot.getStatus() != Robot.Status.AtCheeseWheel) {
-      throw new RuntimeException("The robot cannot be perform treatment.");
-    }
     purchase.getCheeseWheels().forEach(wheel -> {
       var shelf = wheel.getLocation().getShelf();
 
