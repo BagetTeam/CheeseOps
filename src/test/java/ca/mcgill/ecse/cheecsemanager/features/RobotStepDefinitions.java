@@ -58,7 +58,6 @@ public class RobotStepDefinitions {
     var shelves = cheecsemanager.getShelves();
     for (var shelf : shelves) {
       if (shelfId.equals(shelf.getId())) {
-        // TODO TS IS NOT IT
         for (var location : shelf.getLocations()) {
           shelf.addLocation(location);
         }
@@ -99,7 +98,8 @@ public class RobotStepDefinitions {
       io.cucumber.datatable.DataTable dataTable) {
     List<Map<String, String>> purchases = dataTable.asMaps();
     for (var purchase : purchases) {
-      String dateString = purchase.get("transactionDate"); // e.g., "2024-03-15"
+      // parse string to epooch time
+      String dateString = purchase.get("purchaseDate"); 
       long epochTime = LocalDate.parse(dateString)
           .atStartOfDay(ZoneId.systemDefault())
           .toInstant()
@@ -175,10 +175,17 @@ public class RobotStepDefinitions {
    */
   @Given("the following cheese wheels are spoiled")
   public void the_following_cheese_wheels_are_spoiled(io.cucumber.datatable.DataTable dataTable) {
-    List<Map<String, String>> cheeseWheels = dataTable.asMaps();
-    for (var cheeseWheelRow : cheeseWheels) {
+    List<Map<String, String>> cheeseWheelsRows = dataTable.asMaps();
+    for (var cheeseWheelRow : cheeseWheelsRows) {
       int id = Integer.parseInt(cheeseWheelRow.get("id"));
-      CheeseWheel cheeseWheel = cheecsemanager.getCheeseWheel(id);
+      List<CheeseWheel> cheeseWheels = cheecsemanager.getCheeseWheels();
+      CheeseWheel cheeseWheel = null;
+      for (CheeseWheel cW : cheeseWheels) {
+        if (cW.getId() == id) {
+          cheeseWheel = cW;
+          break;
+        }
+      }
       if (cheeseWheel == null) {
         throw new RuntimeException("Cheese wheel " + id + " does not exist.");
       }
