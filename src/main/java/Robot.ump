@@ -1,9 +1,9 @@
 class Robot {
   Boolean isActivated = false;
 
-  Integer directionInDegrees = 0;
-  Integer row = 1;
-  Integer column = 0;
+  Integer directionInDegrees;
+  Integer row;
+  Integer column;
   Purchase currentPurchaseTreated;
   
   status {
@@ -49,7 +49,6 @@ class Robot {
       
       moveToEntrance / {
         setRow(1);
-        setColumn(0);
       }
       -> AtEntranceFacingAisle;
       
