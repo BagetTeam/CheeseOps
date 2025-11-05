@@ -85,18 +85,18 @@ public class RobotController {
    * @author Ming Li Liu and Olivier Mao
    */
   public static void initializeTreatment(int purchaseId) {
-    // Check if robot exists
-    if (robot == null) {
+    // ensure robot is present and activated
+    if (robot == null || !robot.getIsActivated()) {
       throw new RuntimeException("The robot must be activated first.");
     }
-    // Check if robot is activated or in wrong state
-    if (!robot.getIsActivated() || robot.getStatus() != Robot.Status.AtCheeseWheel) {
+
+    if (robot.getStatus() != Robot.Status.AtCheeseWheel) {
       throw new RuntimeException("The robot cannot be perform treatment.");
     }
-
     // validate transaction exists and is a Purchase
     Transaction t = manager.getTransaction(purchaseId);
     if (!(t instanceof Purchase)) {
+      // TODO this always throws an error (Mingli please help)
       throw new RuntimeException("The robot cannot be perform treatment.");
     }
     Purchase purchase = (Purchase) t;
@@ -112,7 +112,7 @@ public class RobotController {
       }
 
       moveToCheeseWheel(wheel.getId());
-      treatCurrentWheel();
+      treatCurrentWheel(wheel.getId());
     });
   }
 
@@ -161,18 +161,17 @@ public class RobotController {
    */
   public static boolean moveToShelf(String shelfId) throws RuntimeException {
     if(shelfId == null || shelfId.isEmpty()){
-      logAction(LogAction.logAtShelf(robot.getCurrentShelf().getId()));
       throw new RuntimeException("A shelf must be specified.");
     }
     if (!robot.getIsActivated())
       throw new RuntimeException("The robot must be activated first.");
     if (robot.getStatus() != Robot.Status.AtEntranceNotFacingAisle)
-      throw new RuntimeException("The robot cannot be moved to shelf #" + shelfId);
+      throw new RuntimeException("The robot cannot be moved to shelf #" + shelfId + ".");
 
     Shelf currentShelf = robot.getCurrentShelf();
     Shelf targetShelf = Shelf.getWithId(shelfId);
     if (targetShelf == null) {
-      throw new RuntimeException("Shelf " + shelfId + " does not exist.");
+      throw new RuntimeException("The shelf " + shelfId + " does not exist.");
     }
 
     if (currentShelf.equals(targetShelf)) {
@@ -206,11 +205,9 @@ public class RobotController {
    * @return whether action was successful
    */
   public static boolean moveToCheeseWheel(int wheelId) {
+    Robot.Status status = robot.getStatus();
     if (!robot.getIsActivated())
       throw new RuntimeException("The robot must be activated first.");
-
-    Robot.Status status = robot.getStatus();
-
     if (status != Robot.Status.AtEntranceFacingAisle && status != Robot.Status.AtCheeseWheel)
       throw new RuntimeException("The robot cannot be moved to cheese wheel #" + wheelId + ".");
 
@@ -240,11 +237,10 @@ public class RobotController {
     if (targetCol!=currCol) {
       logAction(LogAction.logStraight(targetCol - currCol));
     }
-
-    robot.setRow(targetRow);
     if(targetRow != currRow){
-      logAction(LogAction.logAdjustHeight((targetRow - currRow) * 40));
+      logAction(LogAction.logAdjustHeight((targetRow - 1) * 40)); // the robot
     }
+    robot.setRow(targetRow);
 
     robot.moveToCheeseWheel(targetCheeseWheel);
     logAction(LogAction.logAtCheeseWheel(wheelId));
@@ -259,8 +255,9 @@ public class RobotController {
    * it, turns it, and places it back on the shelf)
    * @return whether action was successful
    */
-  public static boolean treatCurrentWheel() {
+  public static boolean treatCurrentWheel(int cheeseWheelId) {
     // TODO: implement this method
+    logAction(LogAction.logTreatCheeseWheel(cheeseWheelId));
     return false;
   }
 
@@ -281,13 +278,21 @@ public class RobotController {
       throw new RuntimeException("The robot cannot be moved to the entrance of the aisle.");
 
     int targetRow = 1;
-    int targetCol = 0; // just a placeholder for being outside the shelf
+    int targetCol = 0;
     int currRow = robot.getRow();
     int currCol = robot.getColumn();
+    int deltaCol = targetCol - currCol;
+    int deltaRow = targetRow - currRow;
 
-    logAction(LogAction.logStraight(targetCol - currCol));
-    logAction(LogAction.logAdjustHeight((targetRow - currRow) * 40));
+    if (deltaCol != 0) {
+      logAction(LogAction.logStraight(deltaCol));
+    }
 
+    if (deltaRow != 0) {
+      logAction(LogAction.logAdjustHeight((deltaRow) * 40));
+    }
+
+    robot.setCurrentCheeseWheel(null);
     robot.moveToEntrance();
     return true;
   }
