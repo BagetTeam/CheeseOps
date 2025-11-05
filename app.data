@@ -1,0 +1,30 @@
+{
+  "CheECSEManager": {
+    "farmers": [
+      ""
+    ],
+    "shelves": [
+      ""
+    ],
+    "cheeseWheels": [
+      ""
+    ],
+    "transactions": [
+      ""
+    ],
+    "companies": [
+      {
+        "WholesaleCompany": {
+          "name": "Dairy World",
+          "address": "55 Mtl",
+          "orders": [
+            ""
+          ],
+          "cheECSEManager": {
+            "@reference": "../../.."
+          }
+        }
+      }
+    ]
+  }
+}
