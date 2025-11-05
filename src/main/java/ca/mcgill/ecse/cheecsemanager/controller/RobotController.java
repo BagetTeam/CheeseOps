@@ -1,6 +1,7 @@
 package ca.mcgill.ecse.cheecsemanager.controller;
 import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
 import ca.mcgill.ecse.cheecsemanager.model.*;
+import ca.mcgill.ecse.cheecsemanager.model.CheeseWheel.MaturationPeriod;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,7 +27,8 @@ public class RobotController {
 
     boolean activated = robot.activate();
     if (!activated)
-      throw new RuntimeException("Robot was not activated when tried to activate");
+      throw new RuntimeException(
+          "Robot was not activated when tried to activate");
   }
 
   /**
@@ -84,7 +86,7 @@ public class RobotController {
    *
    * @author Ming Li Liu and Olivier Mao
    */
-  public static void initializeTreatment(int purchaseId) {
+  public static void initializeTreatment(int purchaseId, MaturationPeriod monthAged) {
     // ensure robot is present and activated
     if (robot == null || !robot.getIsActivated()) {
       throw new RuntimeException("The robot must be activated first.");
@@ -99,9 +101,23 @@ public class RobotController {
       // TODO this always throws an error (Mingli please help)
       throw new RuntimeException("The robot cannot be perform treatment.");
     }
-    Purchase purchase = (Purchase) t;
+    Purchase purchase = (Purchase)t;
 
     purchase.getCheeseWheels().forEach(wheel -> {
+      treatCheeseWheel(wheel, monthAged);
+    });
+  }
+
+  /** 
+   * Treat cheese wheel of a specific age
+   * @param wheel: the cheese wheel to treat
+   * @param monthAged: the age of the cheese wheel
+   * @author Ewen Gueguen
+   */
+  private static void treatCheeseWheel(CheeseWheel wheel, MaturationPeriod monthAged) {
+    if (wheel.getMonthsAged() != monthAged) {
+        return;
+      }
       var shelf = wheel.getLocation().getShelf();
 
       if (!shelf.getId().equals(robot.getCurrentShelf().getId())) {
@@ -112,8 +128,7 @@ public class RobotController {
       }
 
       moveToCheeseWheel(wheel.getId());
-      treatCurrentWheel(wheel.getId());
-    });
+      treatCurrentWheel();
   }
 
   /* =================================================== */
@@ -160,13 +175,14 @@ public class RobotController {
    * @return whether action was successful
    */
   public static boolean moveToShelf(String shelfId) throws RuntimeException {
-    if(shelfId == null || shelfId.isEmpty()){
+    if (shelfId == null || shelfId.isEmpty()) {
       throw new RuntimeException("A shelf must be specified.");
     }
     if (!robot.getIsActivated())
       throw new RuntimeException("The robot must be activated first.");
     if (robot.getStatus() != Robot.Status.AtEntranceNotFacingAisle)
-      throw new RuntimeException("The robot cannot be moved to shelf #" + shelfId + ".");
+      throw new RuntimeException("The robot cannot be moved to shelf #" +
+                                 shelfId + ".");
 
     Shelf currentShelf = robot.getCurrentShelf();
     Shelf targetShelf = Shelf.getWithId(shelfId);
@@ -208,20 +224,28 @@ public class RobotController {
     Robot.Status status = robot.getStatus();
     if (!robot.getIsActivated())
       throw new RuntimeException("The robot must be activated first.");
-    if (status != Robot.Status.AtEntranceFacingAisle && status != Robot.Status.AtCheeseWheel)
-      throw new RuntimeException("The robot cannot be moved to cheese wheel #" + wheelId + ".");
+    if (status != Robot.Status.AtEntranceFacingAisle &&
+        status != Robot.Status.AtCheeseWheel)
+      throw new RuntimeException("The robot cannot be moved to cheese wheel #" +
+                                 wheelId + ".");
 
     Shelf currentShelf = robot.getCurrentShelf();
-    CheeseWheel targetCheeseWheel = manager.getCheeseWheels().stream()
+    CheeseWheel targetCheeseWheel =
+        manager.getCheeseWheels()
+            .stream()
             .filter(wheel -> wheel.getId() == wheelId)
             .findFirst()
-            .orElseThrow(() -> new RuntimeException("Cheese wheel " + wheelId + " does not exist."));
+            .orElseThrow(()
+                             -> new RuntimeException("Cheese wheel " + wheelId +
+                                                     " does not exist."));
 
     ShelfLocation shelfLocationOfTarget = targetCheeseWheel.getLocation();
     Shelf shelfOfTarget = shelfLocationOfTarget.getShelf();
 
     if (!currentShelf.getId().equals(shelfOfTarget.getId())) {
-      throw new RuntimeException("Cheese wheel #" + wheelId + " is not on shelf #"+ currentShelf.getId()+ ".");
+      throw new RuntimeException("Cheese wheel #" + wheelId +
+                                 " is not on shelf #" + currentShelf.getId() +
+                                 ".");
     }
 
     int targetRow = shelfLocationOfTarget.getRow();
@@ -234,10 +258,10 @@ public class RobotController {
     }
 
     robot.setColumn(targetCol);
-    if (targetCol!=currCol) {
+    if (targetCol != currCol) {
       logAction(LogAction.logStraight(targetCol - currCol));
     }
-    if(targetRow != currRow){
+    if (targetRow != currRow) {
       logAction(LogAction.logAdjustHeight((targetRow - 1) * 40)); // the robot
     }
     robot.setRow(targetRow);
@@ -253,9 +277,10 @@ public class RobotController {
    * Treat a cheese wheel when the robot is at a cheese wheel (i.e., upon being
    * asked to treat a cheese wheel, the robot picks up the cheese wheel, washes
    * it, turns it, and places it back on the shelf)
+   * @author Benjamin Curis-Friedman
    * @return whether action was successful
    */
-  public static boolean treatCurrentWheel(int cheeseWheelId) {
+  public static boolean treatCurrentWheel() {
     Robot robot = CheECSEManagerApplication.getCheecseManager().getRobot();
 
     boolean success = robot.triggerTreatment();
@@ -278,11 +303,13 @@ public class RobotController {
    * @return whether action was successful
    */
   public static boolean goBackToEntrance() {
-    if (!robot.getIsActivated()){
+    if (!robot.getIsActivated()) {
       throw new RuntimeException("The robot must be activated first.");
     }
-    if ((robot.getStatus() != Robot.Status.AtCheeseWheel && robot.getStatus() != Robot.Status.AtEntranceFacingAisle))
-      throw new RuntimeException("The robot cannot be moved to the entrance of the aisle.");
+    if ((robot.getStatus() != Robot.Status.AtCheeseWheel &&
+         robot.getStatus() != Robot.Status.AtEntranceFacingAisle))
+      throw new RuntimeException(
+          "The robot cannot be moved to the entrance of the aisle.");
 
     int targetRow = 1;
     int targetCol = 0;
@@ -334,8 +361,7 @@ public class RobotController {
    * @author Ming Li Liu
    */
   public static List<TOLogEntry> viewLog() {
-    return robot
-        .getLog()
+    return robot.getLog()
         .stream()
         .map(log -> new TOLogEntry(log.getDescription()))
         .toList();
