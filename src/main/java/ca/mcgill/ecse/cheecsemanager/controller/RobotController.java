@@ -87,7 +87,8 @@ public class RobotController {
    * @author Ming Li Liu and Olivier Mao
    */
   public static void initializeTreatment(int purchaseId, MaturationPeriod monthAged) {
-    
+
+    // Get transaction of purchaseId and purchase
     Transaction t = manager.getTransaction(purchaseId);
     Purchase purchase = (Purchase)t;
 
@@ -265,19 +266,26 @@ public class RobotController {
    * Treat a cheese wheel when the robot is at a cheese wheel (i.e., upon being
    * asked to treat a cheese wheel, the robot picks up the cheese wheel, washes
    * it, turns it, and places it back on the shelf)
-   * @author Benjamin Curis-Friedman
+   * @author Benjamin Curis-Friedman and Olivier Mao (modified)
    * @return whether action was successful
    */
   public static boolean treatCurrentWheel() {
-    Robot robot = CheECSEManagerApplication.getCheecseManager().getRobot();
+    // Validation for if the robot is activated
+    if (!robot.getIsActivated()) {
+      throw new RuntimeException("The robot must be activated first.");
+    }
+    // Valdiation to see if the robot can perform treatment
+    if (robot.getStatus() != Robot.Status.AtCheeseWheel) {
+      throw new RuntimeException("The robot cannot be perform treatment.");
+    }
 
     boolean success = robot.triggerTreatment();
 
     if (success) { // log if its true
       int wheelID = robot.getCurrentCheeseWheel().getId();
-      logAction(LogAction.logTreatCheeseWheel(wheelID));
+      logAction(LogAction.logTreatCheeseWheel(wheelID));     
     }
-
+    
     return success;
   }
 
