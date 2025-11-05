@@ -100,12 +100,17 @@ public class RobotController {
       throw new RuntimeException("The robot cannot be perform treatment.");
     }
     // validate transaction exists and is a Purchase
-    Transaction t = manager.getTransaction(purchaseId);
-    if (!(t instanceof Purchase)) {
-      // TODO this always throws an error (Mingli please help)
-      throw new RuntimeException("The robot cannot be perform treatment.");
+    Purchase purchase = null;
+
+    for (var t : manager.getTransactions()) {
+      if (t instanceof Purchase && t.getId() == purchaseId) {
+        purchase = (Purchase)t;
+      }
     }
-    Purchase purchase = (Purchase)t;
+
+    if (purchase == null) {
+      throw new Error("Could not find purchase with id " + purchaseId);
+    }
 
     purchase.getCheeseWheels().forEach(wheel -> {
       var shelf = wheel.getLocation().getShelf();
