@@ -283,7 +283,10 @@ public class RobotController {
 
     if (success) { // log if its true
       int wheelID = robot.getCurrentCheeseWheel().getId();
+
+      logAction(LogAction.logTurnLeft());
       logAction(LogAction.logTreatCheeseWheel(wheelID));
+      logAction(LogAction.logTurnRight());
     }
 
     return success;
