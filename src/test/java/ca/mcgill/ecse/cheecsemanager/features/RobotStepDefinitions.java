@@ -34,7 +34,6 @@ public class RobotStepDefinitions {
   /**
    * @author Ayush Patel
    * This method is used in given steps to set the status of the robot to the desired status
-   * First, we must deactivate the robot and put it to Idle then set its status back to the desired one
    * */
   private void setStatus(Robot.Status targetStatus, Shelf shelf, CheeseWheel cheeseWheel) {
     Robot robot = getRobot();
@@ -51,7 +50,6 @@ public class RobotStepDefinitions {
       return;
     }
 
-    // Now switch to desired state
     robot.activate();
 
     if (targetStatus.equals(Robot.Status.AtEntranceFacingAisle)) {
@@ -64,10 +62,25 @@ public class RobotStepDefinitions {
         robot.moveToCheeseWheel(cheeseWheel);
         robot.setRow(cheeseWheel.getLocation().getRow());
         robot.setColumn(cheeseWheel.getLocation().getColumn());
+      } else {
+        // Assume that the robot is at the location of the
+        // placeHolderCheeseWheel which is some random wheel.
+        // This must done to successfully change the state to AtCheeseWheel
+        Optional<CheeseWheel> placeHolderCheeseWheel = cheecsemanager.getCheeseWheels().stream().
+                filter(cheeseWheel_ -> !cheeseWheel_.getIsSpoiled()).
+                findFirst();
+        robot.setCurrentShelf(placeHolderCheeseWheel.get().getLocation().getShelf());
+        robot.setRow(placeHolderCheeseWheel.get().getLocation().getRow());
+        robot.setColumn(placeHolderCheeseWheel.get().getLocation().getColumn());
+        robot.moveToCheeseWheel(placeHolderCheeseWheel.get());
       }
     }
   }
 
+  /**
+   * This method is used to clear the robot's information
+   * before doing some other operations
+   * */
   @Before
   public void initializeRobot(){
     Robot robot = getRobot();
