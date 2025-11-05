@@ -256,9 +256,16 @@ public class RobotController {
    * @return whether action was successful
    */
   public static boolean treatCurrentWheel(int cheeseWheelId) {
-    // TODO: implement this method
-    logAction(LogAction.logTreatCheeseWheel(cheeseWheelId));
-    return false;
+    Robot robot = CheECSEManagerApplication.getCheecseManager().getRobot();
+
+    boolean success = robot.triggerTreatment();
+
+    if (success) { // log if its true
+      int wheelID = robot.getCurrentCheeseWheel().getId();
+      logAction(LogAction.logTreatCheeseWheel(wheelID));
+    }
+
+    return success;
   }
 
   /**
