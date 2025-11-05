@@ -114,7 +114,7 @@ public class RobotController {
    * @param monthAged: the age of the cheese wheel
    * @author Ewen Gueguen
    */
-  public static void treatCheeseWheel(CheeseWheel wheel, MaturationPeriod monthAged) {
+  private static void treatCheeseWheel(CheeseWheel wheel, MaturationPeriod monthAged) {
     if (wheel.getMonthsAged() != monthAged) {
         return;
       }
