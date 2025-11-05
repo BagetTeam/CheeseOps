@@ -424,8 +424,7 @@ public class RobotStepDefinitions {
       }
       company.addOrder(transactionDate, manager, nrCheeseWheels, monthsAged,
                        deliveryDate);
-      // the cheese wheels will be added later in the all non-spoiled cheese
-      // wheels from purchase
+      // Cheese wheels will be added later in the all non-spoiled cheese
     }
   }
 
@@ -490,15 +489,15 @@ public class RobotStepDefinitions {
          + "order {int}")
   public void
   all_non_spoiled_cheese_wheels_from_purchase_are_added_to_order(
-      Integer purchaseId, Integer orderId) {
+    Integer purchaseId, Integer orderId) {							//renamed parameters to purhcaseId, orderId
     Purchase purchase = null;
     Order order = null;
 
     for (Transaction t : cheecsemanager.getTransactions()) {
       if (t instanceof Order && t.getId() == orderId) {
-        order = (Order)t;
+        order = (Order)t;											//Order transaction and matches the given orderId
       } else if (t instanceof Purchase && t.getId() == purchaseId) {
-        purchase = (Purchase)t;
+        purchase = (Purchase)t;										//Purchase transaction and matches the given purchaseId
       }
     }
     if (purchase == null) {
@@ -511,7 +510,7 @@ public class RobotStepDefinitions {
     }
     for (CheeseWheel cheese : purchase.getCheeseWheels()) {
       if (!cheese.isIsSpoiled()) {
-        order.addCheeseWheel(cheese);
+        order.addCheeseWheel(cheese);								//If the cheese is not spoiled, add it to the order
       }
     }
   }
