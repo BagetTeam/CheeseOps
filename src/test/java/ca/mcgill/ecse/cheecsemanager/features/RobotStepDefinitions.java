@@ -632,7 +632,9 @@ public class RobotStepDefinitions {
     }
   }
 
-  /**\
+  /**
+   * Deactivate robot
+   * 
    * @author Ayush Patel
    */
   @When("the facility manager attempts to deactivate the robot")
@@ -645,6 +647,7 @@ public class RobotStepDefinitions {
   }
 
   /**
+   * 
    * @author Ayush Patel
    */
   @Then("the robot shall be marked as {string}")
