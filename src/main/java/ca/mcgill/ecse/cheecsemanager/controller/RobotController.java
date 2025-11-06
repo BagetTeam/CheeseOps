@@ -2,6 +2,7 @@ package ca.mcgill.ecse.cheecsemanager.controller;
 import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
 import ca.mcgill.ecse.cheecsemanager.model.*;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 public class RobotController {
@@ -19,14 +20,10 @@ public class RobotController {
    * After initialization, the height of the robot defaults to row 1.
    */
   public static void activateRobot() {
-    if (robot.getIsActivated())
-      throw new RuntimeException("Robot is already activated");
-    if (robot.getStatus() != Robot.Status.Idle)
-      throw new RuntimeException("Robot is not idle");
+    if (robot.getIsActivated() || robot.getStatus() != Robot.Status.Idle)
+      throw new RuntimeException("The robot has already been activated.");
 
-    boolean activated = robot.activate();
-    if (!activated)
-      throw new RuntimeException("Robot was not activated when tried to activate");
+    robot.setIsActivated(true);
   }
 
   /**
@@ -37,17 +34,13 @@ public class RobotController {
    */
   public static void deactivateRobot() {
     if (!robot.getIsActivated())
-      throw new RuntimeException("Robot is not already activated");
-    if (robot.getStatus() != Robot.Status.AtEntranceFacingAisle &&
-        robot.getStatus() != Robot.Status.AtCheeseWheel)
-      throw new RuntimeException(
-          "Robot is not activated when tried to deactivate");
+      throw new RuntimeException("The robot must be activated first.");
 
-    boolean deactivated = robot.deactivate();
-    if (!deactivated)
-      throw new RuntimeException("Robot was not deactivated successfully");
+    if(robot.getStatus() == Robot.Status.AtCheeseWheel || robot.getStatus() == Robot.Status.AtEntranceFacingAisle){
+      throw new RuntimeException("The robot cannot be deactivated during active treatment.");
+    }
 
-    robot.delete(); // clears all data related to the robot from the system
+    robot.setIsActivated(false); // clears all data related to the robot from the system
   }
 
   /**
@@ -57,18 +50,23 @@ public class RobotController {
    * where the robot was placed by the employees
    * */
   public static void initializeRobot(String shelfId) {
-    if (!robot.getIsActivated())
-      throw new RuntimeException("The robot has already been initialized.");
-    if (robot.getStatus() != Robot.Status.AtEntranceNotFacingAisle)
-      throw new RuntimeException(
-          "Robot is not at entrance not facing aisle when tried to initialize");
+    if (shelfId == null || shelfId.isEmpty())
+      throw new RuntimeException("A shelf must be specified.");
 
-    Optional<Shelf> shelfRobotIsAt =
-        Optional.ofNullable(Shelf.getWithId(shelfId));
-    if (shelfRobotIsAt.isPresent()) {
-      robot.setCurrentShelf(shelfRobotIsAt.get());
+    if (!robot.getIsActivated()){
+      throw new RuntimeException("The robot must be activated first.");
+    }
+
+    if (robot.getCurrentShelf() != null || robot.getStatus() != Robot.Status.Idle){
+      throw new RuntimeException("The robot has already been initialized.");
+    }
+
+    Optional<Shelf> shelfToGoTo = Optional.ofNullable(Shelf.getWithId(shelfId));
+    if (shelfToGoTo.isPresent()) {
+      robot.activate();
+      robot.setCurrentShelf(shelfToGoTo.get());
     } else {
-      throw new RuntimeException("The shelf" + shelfId + " does not exist.");
+      throw new RuntimeException("The shelf " + shelfId + " does not exist.");
     }
 
     logAction(LogAction.logAtShelf(shelfId));

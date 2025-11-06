@@ -645,8 +645,9 @@ public class RobotStepDefinitions {
 
   @Then("the presented action log of the robot shall be {string}")
   public void the_presented_action_log_of_the_robot_shall_be(String string) {
-    // Write code here that turns the phrase above into concrete actions
-    throw new io.cucumber.java.PendingException();
+    List<LogEntry> logs = getRobot().getLog();
+    String logString = logs.stream().map(LogEntry::getDescription).collect(Collectors.joining(" "));
+    assertEquals(string, logString);
   }
 
   @Then("the number of robots in the system shall be {int}")
