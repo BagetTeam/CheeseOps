@@ -2,6 +2,7 @@ package ca.mcgill.ecse.cheecsemanager.controller;
 import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
 import ca.mcgill.ecse.cheecsemanager.model.*;
 import ca.mcgill.ecse.cheecsemanager.model.CheeseWheel.MaturationPeriod;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -39,11 +40,15 @@ public class RobotController {
     if (robot == null || !robot.getIsActivated())
       throw new RuntimeException("The robot must be activated first.");
 
-    if(robot.getStatus() == Robot.Status.AtCheeseWheel || robot.getStatus() == Robot.Status.AtEntranceFacingAisle){
-      throw new RuntimeException("The robot cannot be deactivated during active treatment.");
+    if (robot.getStatus() == Robot.Status.AtCheeseWheel ||
+        robot.getStatus() == Robot.Status.AtEntranceFacingAisle) {
+      throw new RuntimeException(
+          "The robot cannot be deactivated during active treatment.");
     }
 
-    robot.setIsActivated(false); // clears all data related to the robot from the system
+    // clears all data related to the robot from the system
+    robot.setIsActivated(false);
+    robot.delete();
   }
 
   /**
@@ -58,11 +63,12 @@ public class RobotController {
     if (shelfId == null || shelfId.isEmpty())
       throw new RuntimeException("A shelf must be specified.");
 
-    if (robot==null || !robot.getIsActivated()){
+    if (robot == null || !robot.getIsActivated()) {
       throw new RuntimeException("The robot must be activated first.");
     }
 
-    if (robot.getCurrentShelf() != null || robot.getStatus() != Robot.Status.Idle){
+    if (robot.getCurrentShelf() != null ||
+        robot.getStatus() != Robot.Status.Idle) {
       throw new RuntimeException("The robot has already been initialized.");
     }
 
@@ -87,7 +93,8 @@ public class RobotController {
    *
    * @author Ming Li Liu and Olivier Mao
    */
-  public static void initializeTreatment(int purchaseId, MaturationPeriod monthAged) {
+  public static void initializeTreatment(int purchaseId,
+                                         MaturationPeriod monthAged) {
 
     CheECSEManager manager = CheECSEManagerApplication.getCheecseManager();
 
@@ -95,9 +102,8 @@ public class RobotController {
     Transaction t = manager.getTransaction(purchaseId);
     Purchase purchase = (Purchase)t;
 
-    purchase.getCheeseWheels().forEach(wheel -> {
-      treatCheeseWheel(wheel, monthAged);
-    });
+    purchase.getCheeseWheels().forEach(
+        wheel -> { treatCheeseWheel(wheel, monthAged); });
   }
 
   /**
@@ -106,22 +112,23 @@ public class RobotController {
    * @param monthAged: the age of the cheese wheel
    * @author Ewen Gueguen
    */
-  private static void treatCheeseWheel(CheeseWheel wheel, MaturationPeriod monthAged) {
+  private static void treatCheeseWheel(CheeseWheel wheel,
+                                       MaturationPeriod monthAged) {
     Robot robot = CheECSEManagerApplication.getCheecseManager().getRobot();
     if (wheel.getMonthsAged() != monthAged) {
-        return;
-      }
-      var shelf = wheel.getLocation().getShelf();
+      return;
+    }
+    var shelf = wheel.getLocation().getShelf();
 
-      if (!shelf.getId().equals(robot.getCurrentShelf().getId())) {
-        goBackToEntrance();
-        turnRight();
-        moveToShelf(shelf.getId());
-        turnLeft();
-      }
+    if (!shelf.getId().equals(robot.getCurrentShelf().getId())) {
+      goBackToEntrance();
+      turnRight();
+      moveToShelf(shelf.getId());
+      turnLeft();
+    }
 
-      moveToCheeseWheel(wheel.getId());
-      treatCurrentWheel();
+    moveToCheeseWheel(wheel.getId());
+    treatCurrentWheel();
   }
 
   /* =================================================== */
@@ -149,7 +156,7 @@ public class RobotController {
 
   public static boolean turnRight() {
     Robot robot = CheECSEManagerApplication.getCheecseManager().getRobot();
-    if (robot==null || !robot.getIsActivated())
+    if (robot == null || !robot.getIsActivated())
       throw new RuntimeException("The robot must be activated first.");
     if (robot.getStatus() != Robot.Status.AtEntranceFacingAisle)
       throw new RuntimeException("The robot cannot be turned right.");
@@ -190,7 +197,8 @@ public class RobotController {
       return false;
     }
 
-    List<Shelf> allShelves = CheECSEManagerApplication.getCheecseManager().getShelves();
+    List<Shelf> allShelves =
+        CheECSEManagerApplication.getCheecseManager().getShelves();
     int currentShelfIndex = allShelves.indexOf(currentShelf);
     int targetShelfIndex = allShelves.indexOf(targetShelf);
 
@@ -217,8 +225,9 @@ public class RobotController {
    * @return whether action was successful
    */
   public static boolean moveToCheeseWheel(int wheelId) {
-    Optional<Robot> robot = Optional.ofNullable(CheECSEManagerApplication.getCheecseManager().getRobot());
-    if (robot.isEmpty()){
+    Optional<Robot> robot = Optional.ofNullable(
+        CheECSEManagerApplication.getCheecseManager().getRobot());
+    if (robot.isEmpty()) {
       throw new RuntimeException("The robot must be activated first.");
     }
     CheECSEManager manager = CheECSEManagerApplication.getCheecseManager();
@@ -373,6 +382,11 @@ public class RobotController {
    */
   public static List<TOLogEntry> viewLog() {
     Robot robot = CheECSEManagerApplication.getCheecseManager().getRobot();
+
+    if (robot == null) {
+      return new ArrayList<>();
+    }
+
     return robot.getLog()
         .stream()
         .map(log -> new TOLogEntry(log.getDescription()))
