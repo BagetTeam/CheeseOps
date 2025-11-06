@@ -70,8 +70,7 @@ public class RobotController {
 
     Optional<Shelf> shelfToGoTo = Optional.ofNullable(Shelf.getWithId(shelfId));
     if (shelfToGoTo.isPresent()) {
-      robot.activate();
-      robot.setCurrentShelf(shelfToGoTo.get());
+      robot.initialize(shelfToGoTo.get().getId());
     } else {
       throw new RuntimeException("The shelf " + shelfId + " does not exist.");
     }

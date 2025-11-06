@@ -22,16 +22,13 @@ public class RobotStepDefinitions {
   private CheECSEManager cheecsemanager =
       CheECSEManagerApplication.getCheecseManager();
   private static Exception error;
-  private Robot robot;
 
   private static List<TOLogEntry> presentedLog;
 
   private Robot getRobot() {
-    if (robot == null) {
-      robot = cheecsemanager.hasRobot()
-                  ? cheecsemanager.getRobot()
-                  : new Robot(null, false, cheecsemanager);
-    }
+    var robot = cheecsemanager.hasRobot()
+                    ? cheecsemanager.getRobot()
+                    : new Robot(null, false, cheecsemanager);
     return robot;
   }
 
@@ -49,41 +46,12 @@ public class RobotStepDefinitions {
 
     if (cheeseWheel != null) {
       robot.setCurrentCheeseWheel(cheeseWheel);
+      robot.setRow(cheeseWheel.getLocation().getRow());
+      robot.setColumn(cheeseWheel.getLocation().getColumn());
     }
 
-    if (targetStatus.equals(Robot.Status.Idle)) {
-      robot.setIsActivated(true);
-      return;
-    }
-
-    robot.activate();
-
-    if (targetStatus.equals(Robot.Status.AtEntranceFacingAisle)) {
-      robot.turnLeft();
-      robot.setRow(1);
-      robot.setColumn(0);
-    } else if (targetStatus.equals(Robot.Status.AtCheeseWheel)) {
-      robot.turnLeft();
-      if (cheeseWheel != null) {
-        robot.moveToCheeseWheel(cheeseWheel);
-        robot.setRow(cheeseWheel.getLocation().getRow());
-        robot.setColumn(cheeseWheel.getLocation().getColumn());
-      } else {
-        // Assume that the robot is at the location of the
-        // placeHolderCheeseWheel which is some random wheel.
-        // This must done to successfully change the state to AtCheeseWheel
-        Optional<CheeseWheel> placeHolderCheeseWheel =
-            cheecsemanager.getCheeseWheels()
-                .stream()
-                .filter(cheeseWheel_ -> !cheeseWheel_.getIsSpoiled())
-                .findFirst();
-        robot.setCurrentShelf(
-            placeHolderCheeseWheel.get().getLocation().getShelf());
-        robot.setRow(placeHolderCheeseWheel.get().getLocation().getRow());
-        robot.setColumn(placeHolderCheeseWheel.get().getLocation().getColumn());
-        robot.moveToCheeseWheel(placeHolderCheeseWheel.get());
-      }
-    }
+    robot.setIsActivated(true);
+    robot.setInnerStatus(targetStatus);
   }
 
   /**

@@ -6,9 +6,9 @@ package ca.mcgill.ecse.cheecsemanager.model;
 import java.util.*;
 
 // line 1 "../../../../../../Robot.ump"
-// line 98 "../../../../../../Robot.ump"
-// line 95 "../../../../../../model.ump"
-// line 165 "../../../../../../model.ump"
+// line 109 "../../../../../../Robot.ump"
+// line 93 "../../../../../../model.ump"
+// line 163 "../../../../../../model.ump"
 public class Robot {
 
   //------------------------
@@ -54,9 +54,9 @@ public class Robot {
     boolean didAddCheECSEManager = setCheECSEManager(aCheECSEManager);
     if (!didAddCheECSEManager) {
       throw new RuntimeException(
-          "Unable to create robot due to cheECSEManager. See "
-          + "https://"
-          + "manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+          "Unable to create robot due to cheECSEManager. See " +
+          "https://" +
+          "manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
     setStatus(Status.Idle);
   }
@@ -130,14 +130,14 @@ public class Robot {
 
   public Status getStatus() { return status; }
 
-  public boolean activate() {
+  public boolean initialize(String shelfId) {
     boolean wasEventProcessed = false;
 
     Status aStatus = status;
     switch (aStatus) {
     case Idle:
       // line 11 "../../../../../../Robot.ump"
-      activateRobot();
+      initializeRobot(shelfId);
       setStatus(Status.AtEntranceNotFacingAisle);
       wasEventProcessed = true;
       break;
@@ -492,16 +492,27 @@ public class Robot {
   }
 
   // line 69 "../../../../../../Robot.ump"
-  public void activateRobot() { setIsActivated(true); }
+  private void initializeRobot(String shelfId) {
+    Shelf shelf = Shelf.getWithId(shelfId);
+    if (shelf == null)
+      throw new RuntimeException("Shelf " + shelfId + " does not exist.");
 
-  // line 73 "../../../../../../Robot.ump"
-  public void deactivateRobot() { setIsActivated(false); }
+    setCurrentShelf(shelf);
+    setRow(1);
+    setColumn(0);
+  }
 
-  // line 77 "../../../../../../Robot.ump"
-  public Boolean shelfExists(String aId) { return Shelf.hasWithId(aId); }
+  // line 78 "../../../../../../Robot.ump"
+  private void deactivateRobot() {
+    setIsActivated(false);
+    delete();
+  }
 
-  // line 81 "../../../../../../Robot.ump"
-  public Boolean cheeseWheelExists(CheeseWheel wheel) {
+  // line 83 "../../../../../../Robot.ump"
+  private Boolean shelfExists(String aId) { return Shelf.hasWithId(aId); }
+
+  // line 87 "../../../../../../Robot.ump"
+  private Boolean cheeseWheelExists(CheeseWheel wheel) {
     var shelf = getCurrentShelf();
     var location = wheel.getLocation();
 
@@ -512,11 +523,14 @@ public class Robot {
     return candidateShelf != null && candidateShelf.equals(shelf);
   }
 
-  // line 91 "../../../../../../Robot.ump"
-  public Boolean canTreatCurrentWheel() {
+  // line 97 "../../../../../../Robot.ump"
+  private Boolean canTreatCurrentWheel() {
     return getCurrentPurchaseTreated().indexOfCheeseWheel(
                getCurrentCheeseWheel()) != -1;
   }
+
+  // line 101 "../../../../../../Robot.ump"
+  public void setInnerStatus(Status aStatus) { setStatus(aStatus); }
 
   public String toString() {
     return super.toString() + "["
