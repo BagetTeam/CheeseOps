@@ -1,4 +1,9 @@
 class CheECSEManager {
+  /**
+     * calls all the reintialize functions for the static unique IDs and data structures used in this application
+     * @return
+     * @author David tang
+     */
     public void reinitialize() {
         CheeseWheel.reinitializeId(getCheeseWheels());
         Shelf.reinitializeUniqueShelfID(getShelves());
@@ -27,6 +32,11 @@ class CheECSEManager {
 
 class CheeseWheel {
   // private static int nextId = 1;
+  /**
+     * Reinitializes the unique IDs of the cheese wheels
+     * @return
+     * @author David tang
+     */
     public static void reinitializeId(List<CheeseWheel> wheels) {
         int maxId = 0;
         for (CheeseWheel w : wheels) {
@@ -40,7 +50,11 @@ class CheeseWheel {
 
 class Shelf {
   //private static Map<String, Shelf> shelfsById = new HashMap<String, Shelf>();
-
+/**
+   * Reinitializes the static hashmap data structure of shelves
+   * @return
+   * @author David tang
+   */
   public static void reinitializeUniqueShelfID(List<Shelf> shelves) {
       shelfsById.clear();
       for (var shelf : shelves) {
@@ -51,6 +65,11 @@ class Shelf {
 
 class ShelfLocation {
 //private static int nextId = 1;
+/**
+   * Reinitializes the unique IDs of shelf locations
+   * @return
+   * @author David tang
+   */
    public static void reinitializeNextId(List<ShelfLocation> locations) {
      int maxId = 0;
      for (var loc : locations) {
@@ -64,6 +83,11 @@ class ShelfLocation {
 
 class Transaction {
 //private static int nextId = 1;
+/**
+   * Reinitializes the unique IDs of transactions
+   * @return
+   * @author David tang
+   */
   public static void reinitializeNextId(List<Transaction> transactions) {
     int maxId = 0;
     for (var t : transactions) {
@@ -77,7 +101,11 @@ class Transaction {
 
 class User {
 //private static Map<String, User> usersByEmail = new HashMap<String, User>();
-
+/**
+   * Reinitializes the static hashmap data structure of Users
+   * @return
+   * @author David tang
+   */
     public static void reinitializeUniqueEmail(List<User> users) {
           usersByEmail.clear();
           for (var user : users) {
@@ -89,7 +117,11 @@ class User {
 
 class WholesaleCompany {
 //  private static Map<String, WholesaleCompany> wholesalecompanysByName = new HashMap<String, WholesaleCompany>();
-
+/**
+   * Reinitializes the static hashmap data structure of wholesale companies
+   * @return
+   * @author David tang
+   */
     public static void reinitializeUniqueName(List<WholesaleCompany> wholesalecompanys) {
           wholesalecompanysByName.clear();
           for (var wholesalecompany : wholesalecompanys) {
