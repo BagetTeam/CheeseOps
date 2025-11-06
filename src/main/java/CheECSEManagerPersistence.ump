@@ -1,4 +1,9 @@
 class CheECSEManager {
+  /**
+     * calls all the reintialize functions for the static unique IDs and data structures used in this application
+     * @return
+     * @author David tang
+     */
     public void reinitialize() {
         CheeseWheel.reinitializeId(getCheeseWheels());
         Shelf.reinitializeUniqueShelfID(getShelves());
