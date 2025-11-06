@@ -7,7 +7,6 @@ import ca.mcgill.ecse.cheecsemanager.controller.RobotController;
 import ca.mcgill.ecse.cheecsemanager.controller.TOLogEntry;
 import ca.mcgill.ecse.cheecsemanager.model.*;
 import ca.mcgill.ecse.cheecsemanager.model.CheeseWheel.MaturationPeriod;
-import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -93,16 +92,23 @@ public class RobotStepDefinitions {
    * Uses CheECSEManager.addShelve(id).
    *
    * @param dataTable Cucumber datatable with a column "id"
-   * @author Olivier Mao
+   * @author Olivier Mao, Ming Li Liu
    */
   @Given("the following shelf exists in the system")
   public void the_following_shelf_exists_in_the_system(
-      io.cucumber.datatable.DataTable dataTable) {
-    List<Map<String, String>> rows = dataTable.asMaps();
-    for (var row : rows) {
+      List<Map<String, String>> dataTable) {
+
+    for (var row : dataTable) {
       String id = row.get("id");
-      if (id != null && !id.isEmpty()) {
-        cheecsemanager.addShelve(id);
+      Integer nrColumns = Integer.parseInt(row.get("nrColumns"));
+      Integer nrRows = Integer.parseInt(row.get("nrRows"));
+
+      var shelf = cheecsemanager.addShelve(id);
+
+      for (int i = 0; i < nrColumns; i++) {
+        for (int j = 0; j < nrRows; j++) {
+          shelf.addLocation(i, j);
+        }
       }
     }
   }
@@ -111,18 +117,12 @@ public class RobotStepDefinitions {
    * Create all locations for a specific shelf.
    *
    * @param shelfId: The id of the shelf to create locations for
-   * @author Ewen Gueguen
+   * @author Ewen Gueguen, Ming Li Liu
    */
   @Given("all locations are created for shelf {string}")
   public void all_locations_are_created_for_shelf(String shelfId) {
-    var shelves = cheecsemanager.getShelves();
-    for (var shelf : shelves) {
-      if (shelfId.equals(shelf.getId())) {
-        for (var location : shelf.getLocations()) {
-          shelf.addLocation(location);
-        }
-      }
-    }
+    var shelf = Shelf.getWithId(shelfId);
+    assert shelf.getLocations().size() > 0;
   }
 
   /**
@@ -134,9 +134,9 @@ public class RobotStepDefinitions {
    */
   @Given("the following farmer exists in the system")
   public void the_following_farmer_exists_in_the_system(
-      io.cucumber.datatable.DataTable dataTable) {
-    List<Map<String, String>> rows = dataTable.asMaps();
-    for (var row : rows) {
+      List<Map<String, String>> dataTable) {
+
+    for (var row : dataTable) {
       String email = row.get("email");
       String password = row.get("password");
       String address = row.get("address");
@@ -157,8 +157,8 @@ public class RobotStepDefinitions {
    */
   @Given("the following purchase exists in the system")
   public void the_following_purchase_exists_in_the_system(
-      io.cucumber.datatable.DataTable dataTable) {
-    List<Map<String, String>> purchases = dataTable.asMaps();
+      List<Map<String, String>> purchases) {
+
     for (var purchase : purchases) {
       String dateString = purchase.get("purchaseDate"); // e.g., "2024-03-15"
       long epochTime = LocalDate.parse(dateString)
@@ -166,10 +166,14 @@ public class RobotStepDefinitions {
                            .toInstant()
                            .toEpochMilli();
       Date transactionDate = new Date(epochTime);
+
       int nrCheeseWheels = Integer.parseInt(purchase.get("nrCheeseWheels"));
+
       MaturationPeriod monthsAged =
           MaturationPeriod.valueOf(purchase.get("monthsAged"));
+
       String farmerEmail = purchase.get("farmerEmail");
+
       var farmer = (Farmer)Farmer.getWithEmail(farmerEmail);
       var addedPurchase = farmer.addPurchase(transactionDate, cheecsemanager);
       for (int i = 0; i < nrCheeseWheels; i++) {
@@ -180,23 +184,34 @@ public class RobotStepDefinitions {
 
   /**
    * No-op GIVEN: purchases are created (and their wheels added) by the "the
-   * following purchase exists in the system" step(s). Keep this step blank and
-   * idempotent so features that include it still run.
+   * following purchase exists in the system" step(s). Keep this step blank
+   * and idempotent so features that include it still run.
    *
    * @author Olivier Mao
    */
   @Given("all cheese wheels for the following purchases are created")
   public void all_cheese_wheels_for_the_following_purchases_are_created(
-      io.cucumber.datatable.DataTable dataTable) {
+      List<Map<String, String>> dataTable) {
     // Intentionally left blank: purchase creation steps already create cheese
     // wheels.
+    for (var row : dataTable) {
+      int id = Integer.parseInt(row.get("purchaseId"));
+      var purchase = (Purchase)cheecsemanager.getTransactions()
+                         .stream()
+                         .filter(t -> t instanceof Purchase && t.getId() == id)
+                         .findFirst()
+                         .orElse(null);
+
+      assert purchase != null;
+      assert purchase.getCheeseWheels().size() > 0;
+    }
   }
 
   /**
    * This step definition ensures that the cheese wheel is at a shelf location
    * with a given column and row
    *
-   * @param cheeseWheelIndex The index of the cheese wheel
+   * @param cheeseWheelId The index of the cheese wheel
    * @param column The column number on the shelf
    * @param row The row number on the shelf
    * @param shelfId The ID of the shelf
@@ -206,8 +221,13 @@ public class RobotStepDefinitions {
          + "{int} of shelf {string}")
   public void
   cheese_wheel_is_at_shelf_location_with_column_and_row_of_shelf(
-      Integer cheeseWheelIndex, Integer column, Integer row, String shelfId) {
-    CheeseWheel cw = cheecsemanager.getCheeseWheel(cheeseWheelIndex - 1);
+      Integer cheeseWheelId, Integer column, Integer row, String shelfId) {
+    var cw = cheecsemanager.getCheeseWheels()
+                 .stream()
+                 .filter(wheel -> wheel.getId() == cheeseWheelId)
+                 .findFirst()
+                 .orElse(null);
+
     Shelf shelf = Shelf.getWithId(shelfId);
     if (shelf == null || cw == null) {
       return;
@@ -230,7 +250,8 @@ public class RobotStepDefinitions {
     }
   }
 
-  /** Set all cheese wheels given in to spoiled.
+  /**
+   * Set all cheese wheels given in to spoiled.
    * Table columns expected: id
    *
    * @param dataTable Cucumber datatable with cheese wheel rows (id)
@@ -298,8 +319,8 @@ public class RobotStepDefinitions {
 
   /**
    * Increase the months aged value of cheese wheels.
-   * Each row must contain "id" and "newMonthsAged" columns. Uses the model API
-   * to set the months aged value.
+   * Each row must contain "id" and "newMonthsAged" columns. Uses the model
+   * API to set the months aged value.
    *
    * @param dataTable the Cucumber datatable with cheese wheel rows (id,
    *     newMonthsAged)
@@ -313,7 +334,16 @@ public class RobotStepDefinitions {
       int id = Integer.parseInt(row.get("id"));
       MaturationPeriod months =
           MaturationPeriod.valueOf(row.get("newMonthsAged"));
-      cheecsemanager.getCheeseWheel(id).setMonthsAged(months);
+
+      var cw = cheecsemanager.getCheeseWheels()
+                   .stream()
+                   .filter(wheel -> wheel.getId() == id)
+                   .findFirst()
+                   .orElse(null);
+
+      if (cw != null) {
+        cw.setMonthsAged(months);
+      }
     }
   }
 
@@ -343,8 +373,8 @@ public class RobotStepDefinitions {
 
   /**
    * Ensures the wholesale companies from the provided datatable exist in the
-   * system. Each row must contain "name" and "address" columns. Uses the model
-   * API to add companies.
+   * system. Each row must contain "name" and "address" columns. Uses the
+   * model API to add companies.
    *
    * @param dataTable the Cucumber datatable with company rows (name, address)
    * @author Olivier Mao
@@ -449,11 +479,12 @@ public class RobotStepDefinitions {
   }
 
   /**
-   * Adds all non-spoiled cheese wheels from a given purchase to a given order.
-   * Uses model API to get Purchase and Order objects
+   * Adds all non-spoiled cheese wheels from a given purchase to a given
+   * order. Uses model API to get Purchase and Order objects
    *
    * @param purchaseId index of the purchase to take cheese wheels from
-   * @param orderId index of the order to which the cheese wheels will be added
+   * @param orderId index of the order to which the cheese wheels will be
+   *     added
    * @throws IllegalArgumentException if either the purchase or the order does
    *     not exist
    * @author Eun-jun Chang
@@ -462,15 +493,17 @@ public class RobotStepDefinitions {
          + "order {int}")
   public void
   all_non_spoiled_cheese_wheels_from_purchase_are_added_to_order(
-    Integer purchaseId, Integer orderId) {							//renamed parameters to purhcaseId, orderId
+      Integer purchaseId,
+      Integer orderId) { // renamed parameters to purhcaseId, orderId
     Purchase purchase = null;
     Order order = null;
 
     for (Transaction t : cheecsemanager.getTransactions()) {
       if (t instanceof Order && t.getId() == orderId) {
-        order = (Order)t;											//Order transaction and matches the given orderId
+        order = (Order)t; // Order transaction and matches the given orderId
       } else if (t instanceof Purchase && t.getId() == purchaseId) {
-        purchase = (Purchase)t;										//Purchase transaction and matches the given purchaseId
+        purchase = (Purchase)
+            t; // Purchase transaction and matches the given purchaseId
       }
     }
     if (purchase == null) {
@@ -483,7 +516,8 @@ public class RobotStepDefinitions {
     }
     for (CheeseWheel cheese : purchase.getCheeseWheels()) {
       if (!cheese.isIsSpoiled()) {
-        order.addCheeseWheel(cheese);								//If the cheese is not spoiled, add it to the order
+        order.addCheeseWheel(
+            cheese); // If the cheese is not spoiled, add it to the order
       }
     }
   }
@@ -565,8 +599,8 @@ public class RobotStepDefinitions {
    *
    * @author Olivier Mao
    */
-  @When(
-      "the robot controller attempts to trigger the robot to perform treatment")
+  @When("the robot controller attempts to trigger the robot to perform "
+        + "treatment")
   public void
   the_robot_controller_attempts_to_trigger_the_robot_to_perform_treatment() {
     try {
@@ -607,8 +641,7 @@ public class RobotStepDefinitions {
     try {
       MaturationPeriod age = MaturationPeriod.valueOf(monthsAged);
       RobotController.initializeTreatment(purchaseId, age);
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       error = e;
     }
   }
@@ -694,8 +727,8 @@ public class RobotStepDefinitions {
   the_facility_manager_attempts_to_view_the_action_log_of_the_robot() {
     // Write code here that turns the phrase above into concrete actions
     // throw new io.cucumber.java.PendingException();
-    // I'm using a private field to store the log so that the appropriate @then
-    // step needs to read it.
+    // I'm using a private field to store the log so that the appropriate
+    // @then step needs to read it.
     presentedLog = RobotController.viewLog();
   }
 
@@ -750,13 +783,10 @@ public class RobotStepDefinitions {
     // throw new io.cucumber.java.PendingException();
     assertNotNull(presentedLog, "Presented logs is null");
 
-    String allLogs =
-        presentedLog
-            .stream()
-            .map(l -> l.getDescription())
+    String allLogs = presentedLog.stream()
+                         .map(l -> l.getDescription())
 
-            .collect(Collectors.joining(" "));
-
+                         .collect(Collectors.joining(" "));
 
     assertEquals(log, allLogs);
   }

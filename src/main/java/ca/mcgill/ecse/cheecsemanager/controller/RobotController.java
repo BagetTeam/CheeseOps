@@ -7,9 +7,6 @@ import java.util.List;
 import java.util.Optional;
 
 public class RobotController {
-  CheECSEManager manager = CheECSEManagerApplication.getCheecseManager();
-  Robot robot = manager.getRobot();
-
   /* =================================================== */
   /**
    * @author Ayush Patel
