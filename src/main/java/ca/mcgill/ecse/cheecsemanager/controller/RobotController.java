@@ -4,7 +4,6 @@ import ca.mcgill.ecse.cheecsemanager.model.*;
 import ca.mcgill.ecse.cheecsemanager.model.CheeseWheel.MaturationPeriod;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 public class RobotController {
@@ -181,11 +180,15 @@ public class RobotController {
       throw new RuntimeException("A shelf must be specified.");
     }
     Robot robot = CheECSEManagerApplication.getCheecseManager().getRobot();
-    if (robot == null || !robot.getIsActivated())
+
+    if (robot == null || !robot.getIsActivated()) {
       throw new RuntimeException("The robot must be activated first.");
-    if (robot.getStatus() != Robot.Status.AtEntranceNotFacingAisle)
+    }
+
+    if (robot.getStatus() != Robot.Status.AtEntranceNotFacingAisle) {
       throw new RuntimeException("The robot cannot be moved to shelf #" +
                                  shelfId + ".");
+    }
 
     Shelf currentShelf = robot.getCurrentShelf();
     Shelf targetShelf = Shelf.getWithId(shelfId);
@@ -227,17 +230,23 @@ public class RobotController {
   public static boolean moveToCheeseWheel(int wheelId) {
     Optional<Robot> robot = Optional.ofNullable(
         CheECSEManagerApplication.getCheecseManager().getRobot());
+
     if (robot.isEmpty()) {
       throw new RuntimeException("The robot must be activated first.");
     }
+
     CheECSEManager manager = CheECSEManagerApplication.getCheecseManager();
     Robot.Status status = robot.get().getStatus();
-    if (!robot.get().getIsActivated())
+
+    if (!robot.get().getIsActivated()) {
       throw new RuntimeException("The robot must be activated first.");
+    }
+
     if (status != Robot.Status.AtEntranceFacingAisle &&
-        status != Robot.Status.AtCheeseWheel)
+        status != Robot.Status.AtCheeseWheel) {
       throw new RuntimeException("The robot cannot be moved to cheese wheel #" +
                                  wheelId + ".");
+    }
 
     Shelf currentShelf = robot.get().getCurrentShelf();
     CheeseWheel targetCheeseWheel =
