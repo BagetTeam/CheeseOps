@@ -738,8 +738,7 @@ public class RobotStepDefinitions {
   @Then("the presented action log of the robot shall be empty")
   public void the_presented_action_log_of_the_robot_shall_be_empty() {
     // Write code here that turns the phrase above into concrete actions
-    // throw new io.cucumber.java.PendingException();
-    assertTrue(getRobot().getLog().isEmpty());
+    assertTrue(presentedLog.isEmpty());
   }
 
   /**
@@ -784,8 +783,7 @@ public class RobotStepDefinitions {
     assertNotNull(presentedLog, "Presented logs is null");
 
     String allLogs = presentedLog.stream()
-                         .map(l -> l.getDescription())
-
+                         .map(TOLogEntry::getDescription)
                          .collect(Collectors.joining(" "));
 
     assertEquals(log, allLogs);
