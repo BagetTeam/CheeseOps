@@ -34,8 +34,7 @@ public class LogAction {
   }
 
   static public LogAction logTreatCheeseWheel(int cheeseWheelId) {
-    return new LogAction("Treat cheese wheel #" + cheeseWheelId +
-                         " (wash & turn);");
+    return new LogAction("Treat cheese wheel #" + cheeseWheelId + ";");
   }
 
   @Override
