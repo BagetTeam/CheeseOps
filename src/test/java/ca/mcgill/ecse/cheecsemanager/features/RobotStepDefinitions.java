@@ -88,33 +88,6 @@ public class RobotStepDefinitions {
   }
 
   /**
-   * This method is used to clear the robot's information
-   * before doing some other operations
-   * */
-  @Before
-  public void initializeRobot() {
-    Robot robot = getRobot();
-    robot.setCurrentCheeseWheel(null);
-    robot.setCurrentShelf(null);
-    Robot.Status currentStatus = robot.getStatus();
-
-    switch (currentStatus) {
-    case AtEntranceNotFacingAisle:
-      robot.turnLeft();
-      robot.deactivate();
-      break;
-    case AtEntranceFacingAisle:
-      robot.deactivate();
-      break;
-    case AtCheeseWheel:
-      robot.deactivate();
-    }
-    while (robot.numberOfLog() > 0) {
-      LogEntry logEntry = robot.getLog(robot.numberOfLog() - 1);
-      logEntry.delete();
-    }
-  }
-  /**
    * Create shelves from the provided datatable.
    * Table columns expected: id
    * Uses CheECSEManager.addShelve(id).

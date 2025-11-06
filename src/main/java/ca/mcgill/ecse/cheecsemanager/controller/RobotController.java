@@ -36,7 +36,7 @@ public class RobotController {
    */
   public static void deactivateRobot() {
     Robot robot = CheECSEManagerApplication.getCheecseManager().getRobot();
-    if (!robot.getIsActivated())
+    if (robot == null || !robot.getIsActivated())
       throw new RuntimeException("The robot must be activated first.");
 
     if(robot.getStatus() == Robot.Status.AtCheeseWheel || robot.getStatus() == Robot.Status.AtEntranceFacingAisle){
@@ -58,7 +58,7 @@ public class RobotController {
     if (shelfId == null || shelfId.isEmpty())
       throw new RuntimeException("A shelf must be specified.");
 
-    if (!robot.getIsActivated()){
+    if (robot==null || !robot.getIsActivated()){
       throw new RuntimeException("The robot must be activated first.");
     }
 
@@ -133,7 +133,7 @@ public class RobotController {
    */
   public static boolean turnLeft() {
     Robot robot = CheECSEManagerApplication.getCheecseManager().getRobot();
-    if (!robot.getIsActivated())
+    if (robot == null || !robot.getIsActivated())
       throw new RuntimeException("The robot must be activated first.");
     if (robot.getStatus() != Robot.Status.AtEntranceNotFacingAisle)
       throw new RuntimeException("The robot cannot be turned left.");
@@ -149,7 +149,7 @@ public class RobotController {
 
   public static boolean turnRight() {
     Robot robot = CheECSEManagerApplication.getCheecseManager().getRobot();
-    if (!robot.getIsActivated())
+    if (robot==null || !robot.getIsActivated())
       throw new RuntimeException("The robot must be activated first.");
     if (robot.getStatus() != Robot.Status.AtEntranceFacingAisle)
       throw new RuntimeException("The robot cannot be turned right.");
@@ -174,7 +174,7 @@ public class RobotController {
       throw new RuntimeException("A shelf must be specified.");
     }
     Robot robot = CheECSEManagerApplication.getCheecseManager().getRobot();
-    if (!robot.getIsActivated())
+    if (robot == null || !robot.getIsActivated())
       throw new RuntimeException("The robot must be activated first.");
     if (robot.getStatus() != Robot.Status.AtEntranceNotFacingAisle)
       throw new RuntimeException("The robot cannot be moved to shelf #" +
@@ -217,17 +217,20 @@ public class RobotController {
    * @return whether action was successful
    */
   public static boolean moveToCheeseWheel(int wheelId) {
-    Robot robot = CheECSEManagerApplication.getCheecseManager().getRobot();
+    Optional<Robot> robot = Optional.ofNullable(CheECSEManagerApplication.getCheecseManager().getRobot());
+    if (robot.isEmpty()){
+      throw new RuntimeException("The robot must be activated first.");
+    }
     CheECSEManager manager = CheECSEManagerApplication.getCheecseManager();
-    Robot.Status status = robot.getStatus();
-    if (!robot.getIsActivated())
+    Robot.Status status = robot.get().getStatus();
+    if (!robot.get().getIsActivated())
       throw new RuntimeException("The robot must be activated first.");
     if (status != Robot.Status.AtEntranceFacingAisle &&
         status != Robot.Status.AtCheeseWheel)
       throw new RuntimeException("The robot cannot be moved to cheese wheel #" +
                                  wheelId + ".");
 
-    Shelf currentShelf = robot.getCurrentShelf();
+    Shelf currentShelf = robot.get().getCurrentShelf();
     CheeseWheel targetCheeseWheel =
         manager.getCheeseWheels()
             .stream()
@@ -248,23 +251,23 @@ public class RobotController {
 
     int targetRow = shelfLocationOfTarget.getRow();
     int targetCol = shelfLocationOfTarget.getColumn();
-    int currRow = robot.getRow();
-    int currCol = robot.getColumn();
+    int currRow = robot.get().getRow();
+    int currCol = robot.get().getColumn();
 
     if (targetRow == currRow && targetCol == currCol) {
       return false;
     }
 
-    robot.setColumn(targetCol);
+    robot.get().setColumn(targetCol);
     if (targetCol != currCol) {
       logAction(LogAction.logStraight(targetCol - currCol));
     }
     if (targetRow != currRow) {
       logAction(LogAction.logAdjustHeight((targetRow - 1) * 40)); // the robot
     }
-    robot.setRow(targetRow);
+    robot.get().setRow(targetRow);
 
-    robot.moveToCheeseWheel(targetCheeseWheel);
+    robot.get().moveToCheeseWheel(targetCheeseWheel);
     logAction(LogAction.logAtCheeseWheel(wheelId));
 
     return true;
@@ -281,7 +284,7 @@ public class RobotController {
   public static boolean treatCurrentWheel() {
     // Validation for if the robot is activated
     Robot robot = CheECSEManagerApplication.getCheecseManager().getRobot();
-    if (!robot.getIsActivated()) {
+    if (robot == null || !robot.getIsActivated()) {
       throw new RuntimeException("The robot must be activated first.");
     }
     // Valdiation to see if the robot can perform treatment
@@ -310,7 +313,7 @@ public class RobotController {
    */
   public static boolean goBackToEntrance() {
     Robot robot = CheECSEManagerApplication.getCheecseManager().getRobot();
-    if (!robot.getIsActivated()) {
+    if (robot == null || !robot.getIsActivated()) {
       throw new RuntimeException("The robot must be activated first.");
     }
     if ((robot.getStatus() != Robot.Status.AtCheeseWheel &&
