@@ -15,14 +15,29 @@ public class CheECSEManagerPersistence {
     CheECSEManagerPersistence.filename = filename;
   }
 
+  /**
+   * helper function for saving the state of the application
+   * @return
+   * @author David tang
+   */
   public static void save() {
     save(CheECSEManagerApplication.getCheecseManager());
   }
 
+  /**
+   * saves the state of the application to "app.data" file
+   * @return
+   * @author David tang
+   */
   public static void save(CheECSEManager cheECSEManager) {
     serializer.serialize(cheECSEManager, filename);
   }
 
+  /**
+   * loads the state of the application before it was closed
+   * @return
+   * @author David tang
+   */
   public static CheECSEManager load() {
     var cheECSEManager = (CheECSEManager) serializer.deserialize(filename);
     // model cannot be loaded - create empty
