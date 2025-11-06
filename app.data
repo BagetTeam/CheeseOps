@@ -25,20 +25,6 @@
           }
         }
       }
-    ],
-    "robot": {
-      "isActivated": false,
-      "directionInDegrees": 0,
-      "row": 1,
-      "column": 0,
-      "isFacingAisle": false,
-      "status": "Idle",
-      "log": [
-        ""
-      ],
-      "cheECSEManager": {
-        "@reference": "../.."
-      }
-    }
+    ]
   }
 }
