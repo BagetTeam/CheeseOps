@@ -129,7 +129,7 @@ As the facility manager, I want to age cheese in a purchase to obtain a high-qua
   # ---------- Trigger robot to perform treatment ----------
 
   Scenario Outline: Successfully trigger the robot to perform treatment
-    Given the robot is marked as "AtEntranceNotFacingAisle" and at shelf "<shelfID>" with action log "initialLog"
+    Given the robot is marked as "AtEntranceNotFacingAisle" and at shelf "<shelfID>" with action log "<initialLog>"
     When the facility manager attempts to trigger the robot to perform treatment on "<monthsAged>" old cheese wheels of purchase <purchaseID>
     Then the robot shall be marked as "AtEntranceNotFacingAisle"
     Then the current shelf of the robot shall be "<lastShelfID>"

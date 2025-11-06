@@ -1,0 +1,44 @@
+{
+  "CheECSEManager": {
+    "farmers": [
+      ""
+    ],
+    "shelves": [
+      ""
+    ],
+    "cheeseWheels": [
+      ""
+    ],
+    "transactions": [
+      ""
+    ],
+    "companies": [
+      {
+        "WholesaleCompany": {
+          "name": "Dairy World",
+          "address": "55 Mtl",
+          "orders": [
+            ""
+          ],
+          "cheECSEManager": {
+            "@reference": "../../.."
+          }
+        }
+      }
+    ],
+    "robot": {
+      "isActivated": false,
+      "directionInDegrees": 0,
+      "row": 1,
+      "column": 0,
+      "isFacingAisle": false,
+      "status": "Idle",
+      "log": [
+        ""
+      ],
+      "cheECSEManager": {
+        "@reference": "../.."
+      }
+    }
+  }
+}

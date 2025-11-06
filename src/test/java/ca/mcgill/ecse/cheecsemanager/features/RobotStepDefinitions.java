@@ -20,10 +20,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class RobotStepDefinitions {
-  private static CheECSEManager cheecsemanager =
+  private CheECSEManager cheecsemanager =
       CheECSEManagerApplication.getCheecseManager();
   private static Exception error;
-  private static Robot robot;
+  private Robot robot;
 
   private static List<TOLogEntry> presentedLog;
 
@@ -430,7 +430,7 @@ public class RobotStepDefinitions {
 
   /**
    * Move robot to cheese wheel on shelf with action log
-   * 
+   *
    * @param state: the target state of the robot
    * @param cheeseWheelID: the ID of the cheese wheel
    * @param shelfID: the ID of the shelf
@@ -464,7 +464,7 @@ public class RobotStepDefinitions {
     }
 
     robot.addLog(actionLog);
-    
+
     // Set the purchase context when positioning robot at a cheese wheel
     if (cheeseWheel.isPresent()) {
       CheeseWheel wheel = cheeseWheel.get();
@@ -517,7 +517,7 @@ public class RobotStepDefinitions {
 
   /**
    * Activate robot
-   * 
+   *
    * @author Ayush Patel
    */
   @When("the facility manager attempts to activate the robot")
@@ -531,7 +531,7 @@ public class RobotStepDefinitions {
 
   /**
    * Turn robot left
-   * 
+   *
    * @author Ayush Patel
    */
   @When("the robot controller attempts to turn the robot left")
@@ -545,7 +545,7 @@ public class RobotStepDefinitions {
 
   /**
    * Turn robot right
-   * 
+   *
    * @author Ayush Patel
    */
   @When("the robot controller attempts to turn the robot right")
@@ -574,7 +574,7 @@ public class RobotStepDefinitions {
 
   /**
    * Move robot to entrance
-   * 
+   *
    * @author Ayush Patel
    */
   @When("the robot controller attempts to move the robot to the entrance")
@@ -589,7 +589,7 @@ public class RobotStepDefinitions {
 
   /**
    * Trigger robot to perform treatment
-   * 
+   *
    * @author Olivier Mao
    */
   @When(
@@ -606,7 +606,7 @@ public class RobotStepDefinitions {
   /**
    * Move robot to shelf
    * @param shelfId: the ID of the shelf
-   * 
+   *
    * @author Ayush Patel
    */
   @When("the robot controller attempts to move the robot to shelf {string}")
@@ -621,7 +621,7 @@ public class RobotStepDefinitions {
 
   /**
    * Trigger robot to perform treatment on old cheese wheels of purchase
-   * 
+   *
    * @param monthsAged: the age of the cheese wheels
    * @param purchaseId: the ID of the purchase
    * @author Ewen Gueguen
@@ -642,7 +642,7 @@ public class RobotStepDefinitions {
 
   /**
    * Deactivate robot
-   * 
+   *
    * @author Ayush Patel
    */
   @When("the facility manager attempts to deactivate the robot")
@@ -779,14 +779,11 @@ public class RobotStepDefinitions {
 
     String allLogs =
         presentedLog
-            .stream()                     // convert list to stream
-            .map(l -> l.getDescription()) // convert each LogEntry instance to a
-                                          // string
-            .collect(Collectors.joining(" ")); // Join with space in between
+            .stream()
+            .map(l -> l.getDescription())
 
-    // if (!presentedLog.isEmpty()) {
-    //     allLogs += ";";
-    // }
+            .collect(Collectors.joining(" "));
+
 
     assertEquals(log, allLogs);
   }
