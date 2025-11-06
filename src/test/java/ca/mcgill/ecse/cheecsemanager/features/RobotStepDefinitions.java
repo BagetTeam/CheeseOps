@@ -20,10 +20,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class RobotStepDefinitions {
-  private static CheECSEManager cheecsemanager =
+  private CheECSEManager cheecsemanager =
       CheECSEManagerApplication.getCheecseManager();
   private static Exception error;
-  private static Robot robot;
+  private Robot robot;
 
   private static List<TOLogEntry> presentedLog;
 
