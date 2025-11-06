@@ -201,7 +201,7 @@ As the robot controller, I want to move the robot to shelfs and cheese wheels so
 
     Examples:
       | shelfID | log                       | cheeseWheelID | error                                  |
-      | A12     | At shelf #A12; Turn left; |             6 | Cheese wheel #6 is not on shelf #A12.  |
+      | A12     | At shelf #A12; Turn left; |            6  | Cheese wheel #6 is not on shelf #A12. |
       | B21     | At shelf #B21; Turn left; |             1 | Cheese wheel #1 is not on shelf #B21.  |
 
   Scenario Outline: Unsuccessfully move the robot to cheese wheel from another cheese wheel
@@ -215,7 +215,7 @@ As the robot controller, I want to move the robot to shelfs and cheese wheels so
 
     Examples:
       | cheeseWheelID | shelfID | log                                                                                               | newCheeseWheelID | error                                  |
-      |             1 | A12     | At shelf #A12; Turn left; Straight +2 meters; At cheese wheel #1;                                 |                6 | Cheese wheel #6 is not on shelf #A12.  |
+      |             1 | A12     | At shelf #A12; Turn left; Straight +2 meters; At cheese wheel #1;                                 |               6 | Cheese wheel #6 is not on shelf #A12. |
       |            10 | A12     | At shelf #A12; Turn left; Straight +4 meters; Adjust height +40 centimeters; At cheese wheel #10; |                3 | Cheese wheel #3 is not on shelf #A12.  |
 
   Scenario Outline: Unsuccessfully move the robot to cheese wheel due to wrong state
