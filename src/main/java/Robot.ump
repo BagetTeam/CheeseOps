@@ -17,7 +17,7 @@ class Robot {
         setDirectionInDegrees((getDirectionInDegrees() + 90) % 360);
       } -> AtEntranceFacingAisle;
       
-      moveToShelf(String aId) [shelfExists(aId)] {
+      moveToShelf(String aId) [shelfExists(aId)] / {
           setCurrentShelf(Shelf.getWithId(aId));
       } -> AtEntranceNotFacingAisle;
     }

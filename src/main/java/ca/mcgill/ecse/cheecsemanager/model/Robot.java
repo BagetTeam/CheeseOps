@@ -166,6 +166,27 @@ public class Robot {
     return wasEventProcessed;
   }
 
+  public boolean moveToShelf(String aId) {
+    boolean wasEventProcessed = false;
+
+    Status aStatus = status;
+    switch (aStatus) {
+    case AtEntranceNotFacingAisle:
+      if (shelfExists(aId)) {
+        // line 20 "../../../../../../Robot.ump"
+        setCurrentShelf(Shelf.getWithId(aId));
+        setStatus(Status.AtEntranceNotFacingAisle);
+        wasEventProcessed = true;
+        break;
+      }
+      break;
+    default:
+      // Other states do respond to this event
+    }
+
+    return wasEventProcessed;
+  }
+
   public boolean turnRight() {
     boolean wasEventProcessed = false;
 
