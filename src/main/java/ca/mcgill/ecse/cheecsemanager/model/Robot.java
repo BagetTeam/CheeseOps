@@ -10,7 +10,6 @@ import java.util.*;
 // line 93 "../../../../../../model.ump"
 // line 163 "../../../../../../model.ump"
 public class Robot {
-
   //------------------------
   // MEMBER VARIABLES
   //------------------------
@@ -24,12 +23,7 @@ public class Robot {
   private boolean isFacingAisle;
 
   // Robot State Machines
-  public enum Status {
-    Idle,
-    AtEntranceNotFacingAisle,
-    AtEntranceFacingAisle,
-    AtCheeseWheel
-  }
+  public enum Status { Idle, AtEntranceNotFacingAisle, AtEntranceFacingAisle, AtCheeseWheel }
   private Status status;
 
   // Robot Associations
@@ -42,8 +36,8 @@ public class Robot {
   // CONSTRUCTOR
   //------------------------
 
-  public Robot(Purchase aCurrentPurchaseTreated, boolean aIsFacingAisle,
-               CheECSEManager aCheECSEManager) {
+  public Robot(
+      Purchase aCurrentPurchaseTreated, boolean aIsFacingAisle, CheECSEManager aCheECSEManager) {
     isActivated = false;
     directionInDegrees = 0;
     row = 1;
@@ -53,10 +47,9 @@ public class Robot {
     log = new ArrayList<LogEntry>();
     boolean didAddCheECSEManager = setCheECSEManager(aCheECSEManager);
     if (!didAddCheECSEManager) {
-      throw new RuntimeException(
-          "Unable to create robot due to cheECSEManager. See " +
-          "https://" +
-          "manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+      throw new RuntimeException("Unable to create robot due to cheECSEManager. See "
+          + "https://"
+          + "manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
     setStatus(Status.Idle);
   }
@@ -107,42 +100,60 @@ public class Robot {
     return wasSet;
   }
 
-  public boolean getIsActivated() { return isActivated; }
+  public boolean getIsActivated() {
+    return isActivated;
+  }
 
-  public int getDirectionInDegrees() { return directionInDegrees; }
+  public int getDirectionInDegrees() {
+    return directionInDegrees;
+  }
 
-  public int getRow() { return row; }
+  public int getRow() {
+    return row;
+  }
 
-  public int getColumn() { return column; }
+  public int getColumn() {
+    return column;
+  }
 
-  public Purchase getCurrentPurchaseTreated() { return currentPurchaseTreated; }
+  public Purchase getCurrentPurchaseTreated() {
+    return currentPurchaseTreated;
+  }
 
-  public boolean getIsFacingAisle() { return isFacingAisle; }
+  public boolean getIsFacingAisle() {
+    return isFacingAisle;
+  }
   /* Code from template attribute_IsBoolean */
-  public boolean isIsActivated() { return isActivated; }
+  public boolean isIsActivated() {
+    return isActivated;
+  }
   /* Code from template attribute_IsBoolean */
-  public boolean isIsFacingAisle() { return isFacingAisle; }
+  public boolean isIsFacingAisle() {
+    return isFacingAisle;
+  }
 
   public String getStatusFullName() {
     String answer = status.toString();
     return answer;
   }
 
-  public Status getStatus() { return status; }
+  public Status getStatus() {
+    return status;
+  }
 
   public boolean initialize(String shelfId) {
     boolean wasEventProcessed = false;
 
     Status aStatus = status;
     switch (aStatus) {
-    case Idle:
-      // line 11 "../../../../../../Robot.ump"
-      initializeRobot(shelfId);
-      setStatus(Status.AtEntranceNotFacingAisle);
-      wasEventProcessed = true;
-      break;
-    default:
-      // Other states do respond to this event
+      case Idle:
+        // line 11 "../../../../../../Robot.ump"
+        initializeRobot(shelfId);
+        setStatus(Status.AtEntranceNotFacingAisle);
+        wasEventProcessed = true;
+        break;
+      default:
+        // Other states do respond to this event
     }
 
     return wasEventProcessed;
@@ -153,14 +164,14 @@ public class Robot {
 
     Status aStatus = status;
     switch (aStatus) {
-    case AtEntranceNotFacingAisle:
-      // line 16 "../../../../../../Robot.ump"
-      setDirectionInDegrees((getDirectionInDegrees() + 90) % 360);
-      setStatus(Status.AtEntranceFacingAisle);
-      wasEventProcessed = true;
-      break;
-    default:
-      // Other states do respond to this event
+      case AtEntranceNotFacingAisle:
+        // line 16 "../../../../../../Robot.ump"
+        setDirectionInDegrees((getDirectionInDegrees() + 90) % 360);
+        setStatus(Status.AtEntranceFacingAisle);
+        wasEventProcessed = true;
+        break;
+      default:
+        // Other states do respond to this event
     }
 
     return wasEventProcessed;
@@ -171,17 +182,17 @@ public class Robot {
 
     Status aStatus = status;
     switch (aStatus) {
-    case AtEntranceNotFacingAisle:
-      if (shelfExists(aId)) {
-        // line 20 "../../../../../../Robot.ump"
-        setCurrentShelf(Shelf.getWithId(aId));
-        setStatus(Status.AtEntranceNotFacingAisle);
-        wasEventProcessed = true;
+      case AtEntranceNotFacingAisle:
+        if (shelfExists(aId)) {
+          // line 20 "../../../../../../Robot.ump"
+          setCurrentShelf(Shelf.getWithId(aId));
+          setStatus(Status.AtEntranceNotFacingAisle);
+          wasEventProcessed = true;
+          break;
+        }
         break;
-      }
-      break;
-    default:
-      // Other states do respond to this event
+      default:
+        // Other states do respond to this event
     }
 
     return wasEventProcessed;
@@ -192,14 +203,14 @@ public class Robot {
 
     Status aStatus = status;
     switch (aStatus) {
-    case AtEntranceFacingAisle:
-      // line 26 "../../../../../../Robot.ump"
-      setDirectionInDegrees((getDirectionInDegrees() - 90) % 360);
-      setStatus(Status.AtEntranceNotFacingAisle);
-      wasEventProcessed = true;
-      break;
-    default:
-      // Other states do respond to this event
+      case AtEntranceFacingAisle:
+        // line 26 "../../../../../../Robot.ump"
+        setDirectionInDegrees((getDirectionInDegrees() - 90) % 360);
+        setStatus(Status.AtEntranceNotFacingAisle);
+        wasEventProcessed = true;
+        break;
+      default:
+        // Other states do respond to this event
     }
 
     return wasEventProcessed;
@@ -210,26 +221,26 @@ public class Robot {
 
     Status aStatus = status;
     switch (aStatus) {
-    case AtEntranceFacingAisle:
-      if (cheeseWheelExists(aWheel)) {
-        // line 31 "../../../../../../Robot.ump"
-        setCurrentCheeseWheel(aWheel);
-        setStatus(Status.AtCheeseWheel);
-        wasEventProcessed = true;
+      case AtEntranceFacingAisle:
+        if (cheeseWheelExists(aWheel)) {
+          // line 31 "../../../../../../Robot.ump"
+          setCurrentCheeseWheel(aWheel);
+          setStatus(Status.AtCheeseWheel);
+          wasEventProcessed = true;
+          break;
+        }
         break;
-      }
-      break;
-    case AtCheeseWheel:
-      if (cheeseWheelExists(aWheel)) {
-        // line 46 "../../../../../../Robot.ump"
-        setCurrentCheeseWheel(aWheel);
-        setStatus(Status.AtCheeseWheel);
-        wasEventProcessed = true;
+      case AtCheeseWheel:
+        if (cheeseWheelExists(aWheel)) {
+          // line 46 "../../../../../../Robot.ump"
+          setCurrentCheeseWheel(aWheel);
+          setStatus(Status.AtCheeseWheel);
+          wasEventProcessed = true;
+          break;
+        }
         break;
-      }
-      break;
-    default:
-      // Other states do respond to this event
+      default:
+        // Other states do respond to this event
     }
 
     return wasEventProcessed;
@@ -240,15 +251,15 @@ public class Robot {
 
     Status aStatus = status;
     switch (aStatus) {
-    case AtCheeseWheel:
-      if (canTreatCurrentWheel()) {
-        setStatus(Status.AtCheeseWheel);
-        wasEventProcessed = true;
+      case AtCheeseWheel:
+        if (canTreatCurrentWheel()) {
+          setStatus(Status.AtCheeseWheel);
+          wasEventProcessed = true;
+          break;
+        }
         break;
-      }
-      break;
-    default:
-      // Other states do respond to this event
+      default:
+        // Other states do respond to this event
     }
 
     return wasEventProcessed;
@@ -259,30 +270,36 @@ public class Robot {
 
     Status aStatus = status;
     switch (aStatus) {
-    case AtCheeseWheel:
-      // line 40 "../../../../../../Robot.ump"
-      setRow(1);
-      setColumn(0);
-      setStatus(Status.AtEntranceFacingAisle);
-      wasEventProcessed = true;
-      break;
-    default:
-      // Other states do respond to this event
+      case AtCheeseWheel:
+        // line 40 "../../../../../../Robot.ump"
+        setRow(1);
+        setColumn(0);
+        setStatus(Status.AtEntranceFacingAisle);
+        wasEventProcessed = true;
+        break;
+      default:
+        // Other states do respond to this event
     }
 
     return wasEventProcessed;
   }
 
-  private void setStatus(Status aStatus) { status = aStatus; }
+  private void setStatus(Status aStatus) {
+    status = aStatus;
+  }
   /* Code from template association_GetOne */
-  public Shelf getCurrentShelf() { return currentShelf; }
+  public Shelf getCurrentShelf() {
+    return currentShelf;
+  }
 
   public boolean hasCurrentShelf() {
     boolean has = currentShelf != null;
     return has;
   }
   /* Code from template association_GetOne */
-  public CheeseWheel getCurrentCheeseWheel() { return currentCheeseWheel; }
+  public CheeseWheel getCurrentCheeseWheel() {
+    return currentCheeseWheel;
+  }
 
   public boolean hasCurrentCheeseWheel() {
     boolean has = currentCheeseWheel != null;
@@ -314,7 +331,9 @@ public class Robot {
     return index;
   }
   /* Code from template association_GetOne */
-  public CheECSEManager getCheECSEManager() { return cheECSEManager; }
+  public CheECSEManager getCheECSEManager() {
+    return cheECSEManager;
+  }
   /* Code from template association_SetOptionalOneToOptionalOne */
   public boolean setCurrentShelf(Shelf aNewCurrentShelf) {
     boolean wasSet = false;
@@ -322,8 +341,7 @@ public class Robot {
       Shelf existingCurrentShelf = currentShelf;
       currentShelf = null;
 
-      if (existingCurrentShelf != null &&
-          existingCurrentShelf.getRobot() != null) {
+      if (existingCurrentShelf != null && existingCurrentShelf.getRobot() != null) {
         existingCurrentShelf.setRobot(null);
       }
       wasSet = true;
@@ -331,8 +349,7 @@ public class Robot {
     }
 
     Shelf currentCurrentShelf = getCurrentShelf();
-    if (currentCurrentShelf != null &&
-        !currentCurrentShelf.equals(aNewCurrentShelf)) {
+    if (currentCurrentShelf != null && !currentCurrentShelf.equals(aNewCurrentShelf)) {
       currentCurrentShelf.setRobot(null);
     }
 
@@ -352,8 +369,7 @@ public class Robot {
       CheeseWheel existingCurrentCheeseWheel = currentCheeseWheel;
       currentCheeseWheel = null;
 
-      if (existingCurrentCheeseWheel != null &&
-          existingCurrentCheeseWheel.getRobot() != null) {
+      if (existingCurrentCheeseWheel != null && existingCurrentCheeseWheel.getRobot() != null) {
         existingCurrentCheeseWheel.setRobot(null);
       }
       wasSet = true;
@@ -361,8 +377,8 @@ public class Robot {
     }
 
     CheeseWheel currentCurrentCheeseWheel = getCurrentCheeseWheel();
-    if (currentCurrentCheeseWheel != null &&
-        !currentCurrentCheeseWheel.equals(aNewCurrentCheeseWheel)) {
+    if (currentCurrentCheeseWheel != null
+        && !currentCurrentCheeseWheel.equals(aNewCurrentCheeseWheel)) {
       currentCurrentCheeseWheel.setRobot(null);
     }
 
@@ -376,7 +392,9 @@ public class Robot {
     return wasSet;
   }
   /* Code from template association_MinimumNumberOfMethod */
-  public static int minimumNumberOfLog() { return 0; }
+  public static int minimumNumberOfLog() {
+    return 0;
+  }
   /* Code from template association_AddManyToOne */
   public LogEntry addLog(String aDescription) {
     return new LogEntry(aDescription, this);
@@ -500,7 +518,9 @@ public class Robot {
   }
 
   // line 63 "../../../../../../Robot.ump"
-  private Boolean shelfExists(String aId) { return Shelf.hasWithId(aId); }
+  private Boolean shelfExists(String aId) {
+    return Shelf.hasWithId(aId);
+  }
 
   // line 67 "../../../../../../Robot.ump"
   private Boolean cheeseWheelExists(CheeseWheel wheel) {
@@ -516,12 +536,13 @@ public class Robot {
 
   // line 77 "../../../../../../Robot.ump"
   private Boolean canTreatCurrentWheel() {
-    return getCurrentPurchaseTreated().indexOfCheeseWheel(
-               getCurrentCheeseWheel()) != -1;
+    return getCurrentPurchaseTreated().indexOfCheeseWheel(getCurrentCheeseWheel()) != -1;
   }
 
   // line 81 "../../../../../../Robot.ump"
-  public void setInnerStatus(Status aStatus) { setStatus(aStatus); }
+  public void setInnerStatus(Status aStatus) {
+    setStatus(aStatus);
+  }
 
   public String toString() {
     return super.toString() + "["
@@ -534,31 +555,28 @@ public class Robot {
         + "column"
         + ":" + getColumn() + ","
         + "isFacingAisle"
-        + ":" + getIsFacingAisle() + "]" +
-        System.getProperties().getProperty("line.separator") + "  "
+        + ":" + getIsFacingAisle() + "]" + System.getProperties().getProperty("line.separator")
+        + "  "
         + "currentPurchaseTreated"
-        + "=" +
-        (getCurrentPurchaseTreated() != null
-             ? !getCurrentPurchaseTreated().equals(this)
-                   ? getCurrentPurchaseTreated().toString().replaceAll("  ",
-                                                                       "    ")
-                   : "this"
-             : "null") +
-        System.getProperties().getProperty("line.separator") + "  "
-        + "currentShelf = " +
-        (getCurrentShelf() != null
-             ? Integer.toHexString(System.identityHashCode(getCurrentShelf()))
-             : "null") +
-        System.getProperties().getProperty("line.separator") + "  "
-        + "currentCheeseWheel = " +
-        (getCurrentCheeseWheel() != null
-             ? Integer.toHexString(
-                   System.identityHashCode(getCurrentCheeseWheel()))
-             : "null") +
-        System.getProperties().getProperty("line.separator") + "  "
-        + "cheECSEManager = " +
-        (getCheECSEManager() != null
-             ? Integer.toHexString(System.identityHashCode(getCheECSEManager()))
-             : "null");
+        + "="
+        + (getCurrentPurchaseTreated() != null ? !getCurrentPurchaseTreated().equals(this)
+                    ? getCurrentPurchaseTreated().toString().replaceAll("  ", "    ")
+                    : "this"
+                                               : "null")
+        + System.getProperties().getProperty("line.separator") + "  "
+        + "currentShelf = "
+        + (getCurrentShelf() != null
+                ? Integer.toHexString(System.identityHashCode(getCurrentShelf()))
+                : "null")
+        + System.getProperties().getProperty("line.separator") + "  "
+        + "currentCheeseWheel = "
+        + (getCurrentCheeseWheel() != null
+                ? Integer.toHexString(System.identityHashCode(getCurrentCheeseWheel()))
+                : "null")
+        + System.getProperties().getProperty("line.separator") + "  "
+        + "cheECSEManager = "
+        + (getCheECSEManager() != null
+                ? Integer.toHexString(System.identityHashCode(getCheECSEManager()))
+                : "null");
   }
 }

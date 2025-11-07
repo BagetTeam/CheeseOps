@@ -7,7 +7,6 @@ package ca.mcgill.ecse.cheecsemanager.controller;
 // line 3 "../../../../../../LogEntryTransferObject.ump"
 // line 10 "../../../../../../LogEntryTransferObject.ump"
 public class TOLogEntry {
-
   //------------------------
   // MEMBER VARIABLES
   //------------------------
@@ -19,7 +18,9 @@ public class TOLogEntry {
   // CONSTRUCTOR
   //------------------------
 
-  public TOLogEntry(String aDescription) { description = aDescription; }
+  public TOLogEntry(String aDescription) {
+    description = aDescription;
+  }
 
   //------------------------
   // INTERFACE
@@ -32,7 +33,9 @@ public class TOLogEntry {
     return wasSet;
   }
 
-  public String getDescription() { return description; }
+  public String getDescription() {
+    return description;
+  }
 
   public void delete() {}
 

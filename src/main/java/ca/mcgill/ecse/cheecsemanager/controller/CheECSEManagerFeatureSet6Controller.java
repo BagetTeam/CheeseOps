@@ -3,7 +3,6 @@ package ca.mcgill.ecse.cheecsemanager.controller;
 import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
 import ca.mcgill.ecse.cheecsemanager.model.WholesaleCompany;
 import ca.mcgill.ecse.cheecsemanager.persistence.CheECSEManagerPersistence;
-
 import java.util.ArrayList;
 import java.util.List;
 

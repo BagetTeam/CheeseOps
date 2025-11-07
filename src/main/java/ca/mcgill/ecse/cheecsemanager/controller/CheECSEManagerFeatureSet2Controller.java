@@ -5,7 +5,6 @@ import ca.mcgill.ecse.cheecsemanager.model.CheeseWheel;
 import ca.mcgill.ecse.cheecsemanager.model.Shelf;
 import ca.mcgill.ecse.cheecsemanager.model.ShelfLocation;
 import ca.mcgill.ecse.cheecsemanager.persistence.CheECSEManagerPersistence;
-
 import java.util.Optional;
 
 /**

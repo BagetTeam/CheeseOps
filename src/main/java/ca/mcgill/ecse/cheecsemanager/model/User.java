@@ -6,9 +6,7 @@ import java.util.*;
 
 // line 78 "../../../../../CheECSEManagerPersistence.ump"
 // line 17 "../../../../../CheECSEManager.ump"
-public abstract class User
-{
-
+public abstract class User {
   //------------------------
   // STATIC VARIABLES
   //------------------------
@@ -19,24 +17,23 @@ public abstract class User
   // MEMBER VARIABLES
   //------------------------
 
-  //User Attributes
+  // User Attributes
   private String email;
   private String password;
 
-  //Helper Variables
+  // Helper Variables
   private boolean canSetEmail;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public User(String aEmail, String aPassword)
-  {
+  public User(String aEmail, String aPassword) {
     canSetEmail = true;
     password = aPassword;
-    if (!setEmail(aEmail))
-    {
-      throw new RuntimeException("Cannot create due to duplicate email. See https://manual.umple.org?RE003ViolationofUniqueness.html");
+    if (!setEmail(aEmail)) {
+      throw new RuntimeException("Cannot create due to duplicate email. See "
+                                 + "https://manual.umple.org?RE003ViolationofUniqueness.html");
     }
   }
 
@@ -44,10 +41,11 @@ public abstract class User
   // INTERFACE
   //------------------------
   /* Code from template attribute_SetImmutable */
-  public boolean setEmail(String aEmail)
-  {
+  public boolean setEmail(String aEmail) {
     boolean wasSet = false;
-    if (!canSetEmail) { return false; }
+    if (!canSetEmail) {
+      return false;
+    }
     String anOldEmail = getEmail();
     if (anOldEmail != null && anOldEmail.equals(aEmail)) {
       return true;
@@ -65,56 +63,49 @@ public abstract class User
     return wasSet;
   }
 
-  public boolean setPassword(String aPassword)
-  {
+  public boolean setPassword(String aPassword) {
     boolean wasSet = false;
     password = aPassword;
     wasSet = true;
     return wasSet;
   }
 
-  public String getEmail()
-  {
+  public String getEmail() {
     return email;
   }
   /* Code from template attribute_GetUnique */
-  public static User getWithEmail(String aEmail)
-  {
+  public static User getWithEmail(String aEmail) {
     return usersByEmail.get(aEmail);
   }
   /* Code from template attribute_HasUnique */
-  public static boolean hasWithEmail(String aEmail)
-  {
+  public static boolean hasWithEmail(String aEmail) {
     return getWithEmail(aEmail) != null;
   }
 
-  public String getPassword()
-  {
+  public String getPassword() {
     return password;
   }
 
-  public void delete()
-  {
+  public void delete() {
     usersByEmail.remove(getEmail());
   }
-
 
   /**
    * private static Map<String, User> usersByEmail = new HashMap<String, User>();
    */
   // line 82 "../../../../../CheECSEManagerPersistence.ump"
-   public static  void reinitializeUniqueEmail(List<User> users){
+  public static void reinitializeUniqueEmail(List<User> users) {
     usersByEmail.clear();
-          for (var user : users) {
-            usersByEmail.put(user.getEmail(), user);
-          }
+    for (var user : users) {
+      usersByEmail.put(user.getEmail(), user);
+    }
   }
 
-
-  public String toString()
-  {
-    return super.toString() + "["+
-            "email" + ":" + getEmail()+ "," +
-            "password" + ":" + getPassword()+ "]";
+  public String toString() {
+    return super.toString() + "["
+        + "email"
+        + ":" + getEmail() + ","
+        + "password"
+        + ":" + getPassword() + "]";
   }
 }

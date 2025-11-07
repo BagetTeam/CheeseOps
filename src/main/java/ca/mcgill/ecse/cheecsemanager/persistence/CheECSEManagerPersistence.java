@@ -7,7 +7,6 @@ import ca.mcgill.ecse.cheecsemanager.model.CheECSEManager;
  * @author David Tang
  * */
 public class CheECSEManagerPersistence {
-
   private static String filename = "app.data";
   private static JsonSerializer serializer = new JsonSerializer("ca.mcgill.ecse.cheecsemanager");
 
@@ -48,5 +47,4 @@ public class CheECSEManagerPersistence {
     }
     return cheECSEManager;
   }
-
 }
