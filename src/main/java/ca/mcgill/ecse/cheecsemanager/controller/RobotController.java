@@ -34,7 +34,7 @@ public class RobotController {
     var manager = getManager();
 
     if (manager.hasRobot()) {
-      throw new Error("The robot has already been activated.");
+      throw new RuntimeException("The robot has already been activated.");
     }
 
     var robot = new Robot(null, false, manager);
