@@ -33,7 +33,7 @@ public class RobotStepDefinitions {
   }
 
   /**
-   * @author Ayush Patel
+   * @author Ayush Patel, Ming Li Liu
    * This method is used in given steps to set the status of the robot to the
    * desired status
    * */

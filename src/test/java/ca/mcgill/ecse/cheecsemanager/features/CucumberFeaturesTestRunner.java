@@ -7,6 +7,6 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 
 @CucumberOptions(plugin = "pretty",
-                 features = "src/test/resources/AgingTreatment.feature",
+                 features = "src/test/resources/RobotMovement.feature",
                  glue = "ca.mcgill.ecse.cheecsemanager.features")
 public class CucumberFeaturesTestRunner {}
