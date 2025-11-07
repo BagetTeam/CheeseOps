@@ -182,16 +182,18 @@ public class RobotController {
                                        MaturationPeriod monthAged) {
     Robot robot = getRobot();
 
-    if (wheel.getMonthsAged() != monthAged) {
+    if (wheel.getMonthsAged() != monthAged || wheel.getIsSpoiled()) {
       return;
     }
     var shelf = wheel.getLocation().getShelf();
 
     if (!shelf.getId().equals(robot.getCurrentShelf().getId())) {
-      goBackToEntrance();
-      turnRight();
+      if (robot.getStatus() == Robot.Status.AtCheeseWheel) {
+        goBackToEntrance();
+        turnRight();
+      }
+
       moveToShelf(shelf.getId());
-      turnLeft();
     }
 
     if (robot.getStatus() == Robot.Status.AtEntranceNotFacingAisle) {
@@ -361,7 +363,8 @@ public class RobotController {
     }
 
     if (targetRow != currRow) {
-      logAction(LogAction.logAdjustHeight((targetRow - 1) * 40)); // the robot
+      logAction(
+          LogAction.logAdjustHeight((targetRow - currRow) * 40)); // the robot
     }
     robot.setRow(targetRow);
 
@@ -423,10 +426,16 @@ public class RobotController {
   public static boolean goBackToEntrance() {
     Robot robot = getRobot();
 
-    if ((robot.getStatus() != Robot.Status.AtCheeseWheel &&
-         robot.getStatus() != Robot.Status.AtEntranceFacingAisle))
+    switch (robot.getStatus()) {
+    case Idle:
+    case AtEntranceFacingAisle:
+    case AtEntranceNotFacingAisle:
       throw new RuntimeException(
           "The robot cannot be moved to the entrance of the aisle.");
+
+    default:
+      break;
+    }
 
     int targetRow = 1;
     int targetCol = 0;
