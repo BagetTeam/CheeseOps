@@ -3,7 +3,6 @@ package ca.mcgill.ecse.cheecsemanager.controller;
 import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
 import ca.mcgill.ecse.cheecsemanager.model.*;
 import ca.mcgill.ecse.cheecsemanager.persistence.CheECSEManagerPersistence;
-
 import java.sql.Date;
 
 /**

@@ -1,14 +1,14 @@
 package ca.mcgill.ecse.cheecsemanager.persistence;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import com.google.common.reflect.ClassPath;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.XStreamException;
 import com.thoughtworks.xstream.io.AbstractDriver;
 import com.thoughtworks.xstream.io.json.JettisonMappedXmlDriver;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 /**
  * Serializes model elements to/from JSON.
@@ -17,12 +17,14 @@ import com.thoughtworks.xstream.io.json.JettisonMappedXmlDriver;
  * @author David Tang
  * */
 public class JsonSerializer {
-
   private XStream xStream;
 
   static final int INDENT_WIDTH = 2;
 
-  /** Constructs a JsonSerializer instance that can serialize domain model classes in the given package. */
+  /**
+   * Constructs a JsonSerializer instance that can serialize domain model classes in the given
+   * package.
+   */
   public JsonSerializer(String packageName) {
     this(packageName, new JettisonMappedXmlDriver());
   }
@@ -30,8 +32,9 @@ public class JsonSerializer {
   private JsonSerializer(String packageName, AbstractDriver serializeDriver) {
     xStream = new XStream(serializeDriver);
     xStream.setMode(XStream.XPATH_RELATIVE_REFERENCES);
-    // XStream blocks (de)serialization of all types for security reasons, except allowed types that match this pattern
-    xStream.allowTypesByWildcard(new String[] { packageName + ".**" });
+    // XStream blocks (de)serialization of all types for security reasons, except allowed types that
+    // match this pattern
+    xStream.allowTypesByWildcard(new String[] {packageName + ".**"});
     setupXStreamAliases(packageName);
   }
 
@@ -63,7 +66,9 @@ public class JsonSerializer {
   private void setupXStreamAliases(String packageName) {
     var modelPkg = packageName + ".model";
     try {
-      ClassPath.from(getClass().getClassLoader()).getAllClasses().stream()
+      ClassPath.from(getClass().getClassLoader())
+          .getAllClasses()
+          .stream()
           // filter classes to only include those in the model package
           .filter(clsInfo -> clsInfo.getPackageName().equals(modelPkg))
           // establish 2-way mapping in XStream between model type name <-> its model class
@@ -74,7 +79,8 @@ public class JsonSerializer {
   }
 
   /**
-   * Formats the input JSON string to make it easier for humans to read. Based on stackoverflow.com/a/46519130.<br>
+   * Formats the input JSON string to make it easier for humans to read. Based on
+   stackoverflow.com/a/46519130.<br>
    *
    * For example:<br>
    * Before: {@code {"licencePlate":"XYZ123","inRepairShop":false}}<br>
@@ -103,7 +109,9 @@ public class JsonSerializer {
       if (!beginQuotes) {
         result += switch (c) {
           case '{', '[' -> c + newline + String.format("%" + (indent += INDENT_WIDTH) + "s", "");
-          case '}', ']' -> newline + ((indent -= INDENT_WIDTH) > 0 ? String.format("%" + indent + "s", "") : "") + c;
+          case '}', ']' ->
+            newline + ((indent -= INDENT_WIDTH) > 0 ? String.format("%" + indent + "s", "") : "")
+                + c;
           case ':' -> c + " ";
           case ',' -> c + newline + (indent > 0 ? String.format("%" + indent + "s", "") : "");
           default -> "";
@@ -117,5 +125,4 @@ public class JsonSerializer {
 
     return result;
   }
-
 }

@@ -6,6 +6,11 @@ import ca.mcgill.ecse.cheecsemanager.fxml.state.AttributeInfo;
 import ca.mcgill.ecse.cheecsemanager.fxml.state.NavigationState;
 import ca.mcgill.ecse.cheecsemanager.fxml.state.PageType;
 import ca.mcgill.ecse.cheecsemanager.fxml.util.PageSwitchEvent;
+import java.net.URL;
+import java.util.List;
+import java.util.Map;
+import java.util.ResourceBundle;
+import java.util.function.Supplier;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -13,46 +18,42 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
-import java.net.URL;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.function.Supplier;
+public class WholesaleCompanyDisplayController
+    extends BaseDisplayController implements Initializable {
+  @FXML public VBox parentContainer, childContainer;
+  @FXML private Button buttonAdd;
 
-public class WholesaleCompanyDisplayController extends BaseDisplayController implements Initializable {
+  @Override
+  protected Pane getChildContainer() {
+    return childContainer;
+  }
 
-    @FXML
-    public VBox parentContainer, childContainer;
-    @FXML
-    private Button buttonAdd;
+  @Override
+  public void initialize(URL url, ResourceBundle resourceBundle) {
+    super.loadFXML("view/page/wholesalecompany/WholesaleCompanyDisplayMany.fxml");
+  }
 
+  public void onAdd(ActionEvent event) {
+    NavigationState state = new NavigationState<>("Add WholesaleCompany", PageType.ADD,
+        "view/page/wholesalecompany/WholesaleCompanyForm.fxml");
+    parentContainer.fireEvent(new PageSwitchEvent(state));
+  }
 
-    @Override
-    protected Pane getChildContainer() {
-        return childContainer;
+  public <T> void setData(String multiplicity, Map<String, AttributeInfo> scope, T data) {
+    buttonAdd.setVisible(false);
+    buttonAdd.setManaged(false);
+    if (multiplicity.endsWith("*")) {
+      WholesaleCompanyDisplayManyController controller =
+          super.loadFXML("view/page/wholesalecompany/WholesaleCompanyDisplayMany.fxml")
+              .getController();
+      controller.setData(scope, (Supplier<List<TOWholesaleCompany>>) data);
+      return;
     }
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        super.loadFXML("view/page/wholesalecompany/WholesaleCompanyDisplayMany.fxml");
+    if (multiplicity.endsWith("1")) {
+      WholesaleCompanyDisplayOneController controller =
+          super.loadFXML("view/page/wholesalecompany/WholesaleCompanyDisplayOne.fxml")
+              .getController();
+      controller.setData(scope, (Supplier<TOWholesaleCompany>) data);
     }
-
-    public void onAdd(ActionEvent event) {
-		NavigationState state = new NavigationState<>("Add WholesaleCompany", PageType.ADD, "view/page/wholesalecompany/WholesaleCompanyForm.fxml");
-        parentContainer.fireEvent(new PageSwitchEvent(state));
-    }
-
-    public <T> void setData(String multiplicity, Map<String, AttributeInfo> scope, T data) {
-        buttonAdd.setVisible(false);
-        buttonAdd.setManaged(false);
-        if (multiplicity.endsWith("*")) {
-            WholesaleCompanyDisplayManyController controller = super.loadFXML("view/page/wholesalecompany/WholesaleCompanyDisplayMany.fxml").getController();
-            controller.setData(scope, (Supplier<List<TOWholesaleCompany>>) data);
-            return;
-        }
-        if (multiplicity.endsWith("1")) {
-            WholesaleCompanyDisplayOneController controller = super.loadFXML("view/page/wholesalecompany/WholesaleCompanyDisplayOne.fxml").getController();
-            controller.setData(scope, (Supplier<TOWholesaleCompany>) data);
-        }
-    }
+  }
 }

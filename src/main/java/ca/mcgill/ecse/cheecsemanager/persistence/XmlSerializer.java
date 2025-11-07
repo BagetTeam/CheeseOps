@@ -1,15 +1,15 @@
 package ca.mcgill.ecse.cheecsemanager.persistence;
 
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.XStreamException;
+import com.thoughtworks.xstream.io.AbstractDriver;
+import com.thoughtworks.xstream.io.xml.XppDriver;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.XStreamException;
-import com.thoughtworks.xstream.io.AbstractDriver;
-import com.thoughtworks.xstream.io.xml.XppDriver;
 
 /**
  * Serializes model elements to/from XML.
@@ -18,7 +18,6 @@ import com.thoughtworks.xstream.io.xml.XppDriver;
  * @author David Tang
  * */
 public class XmlSerializer {
-
   private XStream xStream;
 
   public XmlSerializer(String packageName) {
@@ -29,7 +28,7 @@ public class XmlSerializer {
   public XmlSerializer(String packageName, AbstractDriver serializeDriver) {
     xStream = new XStream(serializeDriver);
     xStream.setMode(XStream.XPATH_RELATIVE_REFERENCES);
-    xStream.allowTypesByWildcard(new String[] { packageName + ".**" });
+    xStream.allowTypesByWildcard(new String[] {packageName + ".**"});
   }
 
   public void serialize(Object object, String filename) {
@@ -56,14 +55,17 @@ public class XmlSerializer {
     var modelPkg = (packageName + ".model");
     var modelPkgWithSlashes = modelPkg.replace(".", File.separator);
     try (var files = Files.walk(Paths.get("."))) { // iterate over all files in project
-      files.filter(Files::isRegularFile)
+      files
+          .filter(Files::isRegularFile)
           // filter files to only include Java files in the the model package
           .filter(p -> p.toString().contains(modelPkgWithSlashes) && p.toString().endsWith(".java"))
           // map to filenames, then to strings, and remove ".java" suffix
-          .map(Path::getFileName).map(p -> p.toString().replace(".java", ""))
+          .map(Path::getFileName)
+          .map(p -> p.toString().replace(".java", ""))
           // tell XStream to set the alias for each model type name
           .forEach(modelTypeName -> {
-            // need a nested try/catch here for the Class.forName() call, due to limitations of current Java compiler
+            // need a nested try/catch here for the Class.forName() call, due to limitations of
+            // current Java compiler
             try {
               xStream.alias(modelTypeName, Class.forName(modelPkg + "." + modelTypeName));
             } catch (ClassNotFoundException e) {
@@ -74,5 +76,4 @@ public class XmlSerializer {
       e.printStackTrace();
     }
   }
-
 }

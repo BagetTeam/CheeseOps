@@ -19,16 +19,14 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class RobotStepDefinitions {
-  private CheECSEManager cheecsemanager =
-      CheECSEManagerApplication.getCheecseManager();
+  private CheECSEManager cheecsemanager = CheECSEManagerApplication.getCheecseManager();
   private static Exception error;
 
   private static List<TOLogEntry> presentedLog;
 
   private Robot getRobot() {
-    var robot = cheecsemanager.hasRobot()
-                    ? cheecsemanager.getRobot()
-                    : new Robot(null, false, cheecsemanager);
+    var robot = cheecsemanager.hasRobot() ? cheecsemanager.getRobot()
+                                          : new Robot(null, false, cheecsemanager);
     return robot;
   }
 
@@ -37,8 +35,7 @@ public class RobotStepDefinitions {
    * This method is used in given steps to set the status of the robot to the
    * desired status
    * */
-  private void setStatus(Robot.Status targetStatus, Shelf shelf,
-                         CheeseWheel cheeseWheel) {
+  private void setStatus(Robot.Status targetStatus, Shelf shelf, CheeseWheel cheeseWheel) {
     Robot robot = getRobot();
     if (shelf != null) {
       robot.setCurrentShelf(shelf);
@@ -63,9 +60,7 @@ public class RobotStepDefinitions {
    * @author Olivier Mao, Ming Li Liu
    */
   @Given("the following shelf exists in the system")
-  public void the_following_shelf_exists_in_the_system(
-      List<Map<String, String>> dataTable) {
-
+  public void the_following_shelf_exists_in_the_system(List<Map<String, String>> dataTable) {
     for (var row : dataTable) {
       String id = row.get("id");
       Integer nrColumns = Integer.parseInt(row.get("nrColumns"));
@@ -101,9 +96,7 @@ public class RobotStepDefinitions {
    * @author Olivier Mao
    */
   @Given("the following farmer exists in the system")
-  public void the_following_farmer_exists_in_the_system(
-      List<Map<String, String>> dataTable) {
-
+  public void the_following_farmer_exists_in_the_system(List<Map<String, String>> dataTable) {
     for (var row : dataTable) {
       String email = row.get("email");
       String password = row.get("password");
@@ -124,9 +117,7 @@ public class RobotStepDefinitions {
    * @author Ewen Gueguen
    */
   @Given("the following purchase exists in the system")
-  public void the_following_purchase_exists_in_the_system(
-      List<Map<String, String>> purchases) {
-
+  public void the_following_purchase_exists_in_the_system(List<Map<String, String>> purchases) {
     for (var purchase : purchases) {
       String dateString = purchase.get("purchaseDate"); // e.g., "2024-03-15"
       long epochTime = LocalDate.parse(dateString)
@@ -137,12 +128,11 @@ public class RobotStepDefinitions {
 
       int nrCheeseWheels = Integer.parseInt(purchase.get("nrCheeseWheels"));
 
-      MaturationPeriod monthsAged =
-          MaturationPeriod.valueOf(purchase.get("monthsAged"));
+      MaturationPeriod monthsAged = MaturationPeriod.valueOf(purchase.get("monthsAged"));
 
       String farmerEmail = purchase.get("farmerEmail");
 
-      var farmer = (Farmer)Farmer.getWithEmail(farmerEmail);
+      var farmer = (Farmer) Farmer.getWithEmail(farmerEmail);
       var addedPurchase = farmer.addPurchase(transactionDate, cheecsemanager);
       for (int i = 0; i < nrCheeseWheels; i++) {
         addedPurchase.addCheeseWheel(monthsAged, false, cheecsemanager);
@@ -164,7 +154,7 @@ public class RobotStepDefinitions {
     // wheels.
     for (var row : dataTable) {
       int id = Integer.parseInt(row.get("purchaseId"));
-      var purchase = (Purchase)cheecsemanager.getTransactions()
+      var purchase = (Purchase) cheecsemanager.getTransactions()
                          .stream()
                          .filter(t -> t instanceof Purchase && t.getId() == id)
                          .findFirst()
@@ -186,7 +176,7 @@ public class RobotStepDefinitions {
    * @author Olivier Mao
    */
   @Given("cheese wheel {int} is at shelf location with column {int} and row "
-         + "{int} of shelf {string}")
+      + "{int} of shelf {string}")
   public void
   cheese_wheel_is_at_shelf_location_with_column_and_row_of_shelf(
       Integer cheeseWheelId, Integer column, Integer row, String shelfId) {
@@ -226,8 +216,7 @@ public class RobotStepDefinitions {
    * @author Ewen Gueguen
    */
   @Given("the following cheese wheels are spoiled")
-  public void the_following_cheese_wheels_are_spoiled(
-      io.cucumber.datatable.DataTable dataTable) {
+  public void the_following_cheese_wheels_are_spoiled(io.cucumber.datatable.DataTable dataTable) {
     List<Map<String, String>> cheeseWheelsRows = dataTable.asMaps();
     for (var cheeseWheelRow : cheeseWheelsRows) {
       int id = Integer.parseInt(cheeseWheelRow.get("id"));
@@ -253,11 +242,10 @@ public class RobotStepDefinitions {
    * @param initialLogt log message found in the robot's logs
    */
   @Given("the robot is marked as {string} and at shelf {string} with action "
-         + "log {string}")
+      + "log {string}")
   public void
-  the_robot_is_marked_as_and_at_shelf_with_action_log(String state,
-                                                      String shelfId,
-                                                      String initialLogt) {
+  the_robot_is_marked_as_and_at_shelf_with_action_log(
+      String state, String shelfId, String initialLogt) {
     Shelf shelf = Shelf.getWithId(shelfId);
     Robot.Status status = Robot.Status.valueOf(state);
 
@@ -282,8 +270,7 @@ public class RobotStepDefinitions {
     List<Map<String, String>> cheeseWheels = dataTable.asMaps();
     for (var row : cheeseWheels) {
       int id = Integer.parseInt(row.get("id"));
-      MaturationPeriod months =
-          MaturationPeriod.valueOf(row.get("newMonthsAged"));
+      MaturationPeriod months = MaturationPeriod.valueOf(row.get("newMonthsAged"));
 
       var cw = cheecsemanager.getCheeseWheels()
                    .stream()
@@ -304,20 +291,20 @@ public class RobotStepDefinitions {
   @Given("the robot is marked as {string}")
   public void the_robot_is_marked_as(String state) {
     switch (state) {
-    case "Idle":
-      setStatus(Robot.Status.Idle, null, null);
-      break;
-    case "AtEntranceFacingAisle":
-      setStatus(Robot.Status.AtEntranceFacingAisle, null, null);
-      break;
-    case "AtEntranceNotFacingAisle":
-      setStatus(Robot.Status.AtEntranceNotFacingAisle, null, null);
-      break;
-    case "AtCheeseWheel":
-      setStatus(Robot.Status.AtCheeseWheel, null, null);
-      break;
-    default:
-      throw new RuntimeException("Unknown state: " + state);
+      case "Idle":
+        setStatus(Robot.Status.Idle, null, null);
+        break;
+      case "AtEntranceFacingAisle":
+        setStatus(Robot.Status.AtEntranceFacingAisle, null, null);
+        break;
+      case "AtEntranceNotFacingAisle":
+        setStatus(Robot.Status.AtEntranceNotFacingAisle, null, null);
+        break;
+      case "AtCheeseWheel":
+        setStatus(Robot.Status.AtCheeseWheel, null, null);
+        break;
+      default:
+        throw new RuntimeException("Unknown state: " + state);
     }
   }
 
@@ -352,8 +339,7 @@ public class RobotStepDefinitions {
    * @author Eun-jun Chang
    */
   @Given("the following order exists in the system")
-  public void the_following_order_exists_in_the_system(
-      io.cucumber.datatable.DataTable dataTable) {
+  public void the_following_order_exists_in_the_system(io.cucumber.datatable.DataTable dataTable) {
     List<Map<String, String>> rows = dataTable.asMaps();
     for (var row : rows) {
       Date transactionDate = Date.valueOf(row.get("transactionDate"));
@@ -372,11 +358,9 @@ public class RobotStepDefinitions {
         }
       }
       if (company == null) {
-        throw new IllegalArgumentException("Company " + companyName +
-                                           " does not exist.");
+        throw new IllegalArgumentException("Company " + companyName + " does not exist.");
       }
-      company.addOrder(transactionDate, manager, nrCheeseWheels, monthsAged,
-                       deliveryDate);
+      company.addOrder(transactionDate, manager, nrCheeseWheels, monthsAged, deliveryDate);
       // Cheese wheels will be added later in the all non-spoiled cheese
     }
   }
@@ -392,22 +376,21 @@ public class RobotStepDefinitions {
    * @author Ewen Gueguen and Olivier Mao (modified)
    */
   @Given("the robot is marked as {string} and at cheese wheel {int} on shelf "
-         + "{string} with action log {string}")
+      + "{string} with action log {string}")
   public void
   the_robot_is_marked_as_and_at_cheese_wheel_on_shelf_with_action_log(
       String state, Integer wheelId, String shelfId, String actionLog) {
-    Optional<CheeseWheel> cheeseWheel =
-        cheecsemanager.getCheeseWheels()
-            .stream()
-            .filter(wheel -> wheel.getId() == wheelId)
-            .findFirst();
+    Optional<CheeseWheel> cheeseWheel = cheecsemanager.getCheeseWheels()
+                                            .stream()
+                                            .filter(wheel -> wheel.getId() == wheelId)
+                                            .findFirst();
     Shelf shelf = Shelf.getWithId(shelfId);
     switch (state) {
-    case "AtCheeseWheel":
-      setStatus(Robot.Status.AtCheeseWheel, shelf, cheeseWheel.get());
-      break;
-    default:
-      throw new RuntimeException("Unsupported state for this state: " + state);
+      case "AtCheeseWheel":
+        setStatus(Robot.Status.AtCheeseWheel, shelf, cheeseWheel.get());
+        break;
+      default:
+        throw new RuntimeException("Unsupported state for this state: " + state);
     }
 
     Robot robot = getRobot();
@@ -440,34 +423,29 @@ public class RobotStepDefinitions {
    * @author Eun-jun Chang
    */
   @Given("all non-spoiled cheese wheels from purchase {int} are added to "
-         + "order {int}")
+      + "order {int}")
   public void
-  all_non_spoiled_cheese_wheels_from_purchase_are_added_to_order(
-      Integer purchaseId,
+  all_non_spoiled_cheese_wheels_from_purchase_are_added_to_order(Integer purchaseId,
       Integer orderId) { // renamed parameters to purhcaseId, orderId
     Purchase purchase = null;
     Order order = null;
 
     for (Transaction t : cheecsemanager.getTransactions()) {
       if (t instanceof Order && t.getId() == orderId) {
-        order = (Order)t; // Order transaction and matches the given orderId
+        order = (Order) t; // Order transaction and matches the given orderId
       } else if (t instanceof Purchase && t.getId() == purchaseId) {
-        purchase = (Purchase)
-            t; // Purchase transaction and matches the given purchaseId
+        purchase = (Purchase) t; // Purchase transaction and matches the given purchaseId
       }
     }
     if (purchase == null) {
-      throw new IllegalArgumentException("The purchase " + purchaseId +
-                                         " does not exist.");
+      throw new IllegalArgumentException("The purchase " + purchaseId + " does not exist.");
     }
     if (order == null) {
-      throw new IllegalArgumentException("The order " + orderId +
-                                         " does not exist.");
+      throw new IllegalArgumentException("The order " + orderId + " does not exist.");
     }
     for (CheeseWheel cheese : purchase.getCheeseWheels()) {
       if (!cheese.isIsSpoiled()) {
-        order.addCheeseWheel(
-            cheese); // If the cheese is not spoiled, add it to the order
+        order.addCheeseWheel(cheese); // If the cheese is not spoiled, add it to the order
       }
     }
   }
@@ -520,8 +498,7 @@ public class RobotStepDefinitions {
    * @author Ayush Patel
    */
   @When("the robot controller attempts to move the robot to cheese wheel {int}")
-  public void the_robot_controller_attempts_to_move_the_robot_to_cheese_wheel(
-      Integer wheelId) {
+  public void the_robot_controller_attempts_to_move_the_robot_to_cheese_wheel(Integer wheelId) {
     try {
       RobotController.moveToCheeseWheel(wheelId);
     } catch (Exception e) {
@@ -535,8 +512,7 @@ public class RobotStepDefinitions {
    * @author Ayush Patel
    */
   @When("the robot controller attempts to move the robot to the entrance")
-  public void
-  the_robot_controller_attempts_to_move_the_robot_to_the_entrance() {
+  public void the_robot_controller_attempts_to_move_the_robot_to_the_entrance() {
     try {
       RobotController.goBackToEntrance();
     } catch (Exception e) {
@@ -550,7 +526,7 @@ public class RobotStepDefinitions {
    * @author Olivier Mao
    */
   @When("the robot controller attempts to trigger the robot to perform "
-        + "treatment")
+      + "treatment")
   public void
   the_robot_controller_attempts_to_trigger_the_robot_to_perform_treatment() {
     try {
@@ -567,8 +543,7 @@ public class RobotStepDefinitions {
    * @author Ayush Patel
    */
   @When("the robot controller attempts to move the robot to shelf {string}")
-  public void
-  the_robot_controller_attempts_to_move_the_robot_to_shelf(String shelfId) {
+  public void the_robot_controller_attempts_to_move_the_robot_to_shelf(String shelfId) {
     try {
       RobotController.moveToShelf(shelfId);
     } catch (Exception e) {
@@ -584,7 +559,7 @@ public class RobotStepDefinitions {
    * @author Ewen Gueguen
    */
   @When("the facility manager attempts to trigger the robot to perform "
-        + "treatment on {string} old cheese wheels of purchase {int}")
+      + "treatment on {string} old cheese wheels of purchase {int}")
   public void
   the_facility_manager_attempts_to_trigger_the_robot_to_perform_treatment_on_old_cheese_wheels_of_purchase(
       String monthsAged, Integer purchaseId) {
@@ -620,9 +595,7 @@ public class RobotStepDefinitions {
       case "AtCheeseWheel" -> Robot.Status.AtCheeseWheel;
       case "AtEntranceNotFacingAisle" -> Robot.Status.AtEntranceNotFacingAisle;
       case "AtEntranceFacingAisle" -> Robot.Status.AtEntranceFacingAisle;
-      default ->
-        throw new IllegalArgumentException("Unknown status:" +
-                                           expectedStatusString);
+      default -> throw new IllegalArgumentException("Unknown status:" + expectedStatusString);
     };
     assertEquals(expectedStatus, getRobot().getStatus());
   }
@@ -656,10 +629,9 @@ public class RobotStepDefinitions {
    * @author Ayush Patel
    */
   @When("the facility manager attempts to initialize the robot with shelf "
-        + "{string}")
+      + "{string}")
   public void
-  the_facility_manager_attempts_to_initialize_the_robot_with_shelf(
-      String shelfId) {
+  the_facility_manager_attempts_to_initialize_the_robot_with_shelf(String shelfId) {
     // Write code here that turns the phrase above into concrete actions
     try {
       RobotController.initializeRobot(shelfId);
@@ -672,8 +644,7 @@ public class RobotStepDefinitions {
    * @author Benjamin Curis-Friedman
    */
   @When("the facility manager attempts to view the action log of the robot")
-  public void
-  the_facility_manager_attempts_to_view_the_action_log_of_the_robot() {
+  public void the_facility_manager_attempts_to_view_the_action_log_of_the_robot() {
     // Write code here that turns the phrase above into concrete actions
     // throw new io.cucumber.java.PendingException();
     // I'm using a private field to store the log so that the appropriate
@@ -719,9 +690,7 @@ public class RobotStepDefinitions {
   @Then("the action log of the robot shall be {string}")
   public void the_action_log_of_the_robot_shall_be(String log) {
     List<LogEntry> logs = getRobot().getLog();
-    String logString = logs.stream()
-                           .map(LogEntry::getDescription)
-                           .collect(Collectors.joining(" "));
+    String logString = logs.stream().map(LogEntry::getDescription).collect(Collectors.joining(" "));
     assertEquals(log, logString);
   }
 
@@ -735,9 +704,8 @@ public class RobotStepDefinitions {
     // throw new io.cucumber.java.PendingException();
     assertNotNull(presentedLog, "Presented logs is null");
 
-    String allLogs = presentedLog.stream()
-                         .map(TOLogEntry::getDescription)
-                         .collect(Collectors.joining(" "));
+    String allLogs =
+        presentedLog.stream().map(TOLogEntry::getDescription).collect(Collectors.joining(" "));
 
     assertEquals(log, allLogs);
   }
@@ -747,8 +715,7 @@ public class RobotStepDefinitions {
    * @author Benjamin Curis-Friedman
    */
   @Then("the number of robots in the system shall be {int}")
-  public void
-  the_number_of_robots_in_the_system_shall_be(Integer expectedNumberOfRobots) {
+  public void the_number_of_robots_in_the_system_shall_be(Integer expectedNumberOfRobots) {
     Integer actualNumberOfRobots = cheecsemanager.hasRobot() ? 1 : 0;
     assertEquals(expectedNumberOfRobots, actualNumberOfRobots);
   }
@@ -759,8 +726,7 @@ public class RobotStepDefinitions {
    * */
   @Then("the current cheese wheel of the robot shall {int}")
   public void the_current_cheese_wheel_of_the_robot_shall(Integer wheelId) {
-    assertEquals(wheelId,
-                 Optional.of(getRobot().getCurrentCheeseWheel().getId()).get());
+    assertEquals(wheelId, Optional.of(getRobot().getCurrentCheeseWheel().getId()).get());
   }
 
   /**
@@ -769,7 +735,6 @@ public class RobotStepDefinitions {
    * */
   @Then("the current cheese wheel of the robot shall be {int}")
   public void the_current_cheese_wheel_of_the_robot_shall_be(Integer wheelId) {
-    assertEquals(wheelId,
-                 Optional.of(getRobot().getCurrentCheeseWheel().getId()).get());
+    assertEquals(wheelId, Optional.of(getRobot().getCurrentCheeseWheel().getId()).get());
   }
 }

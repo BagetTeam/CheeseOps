@@ -4,7 +4,6 @@ import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
 import ca.mcgill.ecse.cheecsemanager.model.Farmer;
 import ca.mcgill.ecse.cheecsemanager.model.Purchase;
 import ca.mcgill.ecse.cheecsemanager.persistence.CheECSEManagerPersistence;
-
 import java.util.List;
 import java.util.Optional;
 

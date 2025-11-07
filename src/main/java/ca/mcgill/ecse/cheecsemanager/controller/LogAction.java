@@ -7,7 +7,9 @@ package ca.mcgill.ecse.cheecsemanager.controller;
 public class LogAction {
   String description;
 
-  public LogAction(String description) { this.description = description; }
+  public LogAction(String description) {
+    this.description = description;
+  }
 
   static public LogAction logAtShelf(String shelfId) {
     return new LogAction("At shelf #" + shelfId + ";");
@@ -18,16 +20,17 @@ public class LogAction {
   }
 
   static public LogAction logStraight(int meters) {
-    return new LogAction("Straight " + (meters < 0 ? "-" : "+") + Math.abs(meters) +
-                         " meters;");
+    return new LogAction("Straight " + (meters < 0 ? "-" : "+") + Math.abs(meters) + " meters;");
   }
 
   static public LogAction logAdjustHeight(int centimeters) {
-    return new LogAction("Adjust height " + (centimeters < 0 ? "-" : "+") +
-                         Math.abs(centimeters) + " centimeters;");
+    return new LogAction(
+        "Adjust height " + (centimeters < 0 ? "-" : "+") + Math.abs(centimeters) + " centimeters;");
   }
 
-  static public LogAction logTurnLeft() { return new LogAction("Turn left;"); }
+  static public LogAction logTurnLeft() {
+    return new LogAction("Turn left;");
+  }
 
   static public LogAction logTurnRight() {
     return new LogAction("Turn right;");
