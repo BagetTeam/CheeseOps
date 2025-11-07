@@ -3,7 +3,6 @@ import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
 import ca.mcgill.ecse.cheecsemanager.model.*;
 import ca.mcgill.ecse.cheecsemanager.model.CheeseWheel.MaturationPeriod;
 import ca.mcgill.ecse.cheecsemanager.persistence.CheECSEManagerPersistence;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -158,16 +157,19 @@ public class RobotController {
                                                      purchaseId +
                                                      " does not exist."));
 
+    robot.setCurrentPurchaseTreated(purchase);
+
     purchase.getCheeseWheels().forEach(
         wheel -> { treatCheeseWheel(wheel, monthAged); });
+
+    goBackToEntrance();
+    turnRight();
     // Save changes
     try {
       CheECSEManagerPersistence.save();
     } catch (RuntimeException e) {
       System.err.println("Failed to save CheECSEManager: " + e.getMessage());
     }
-
-
   }
 
   /**
@@ -192,6 +194,9 @@ public class RobotController {
       turnLeft();
     }
 
+    if (robot.getStatus() == Robot.Status.AtEntranceNotFacingAisle) {
+      turnLeft();
+    }
     moveToCheeseWheel(wheel.getId());
     treatCurrentWheel();
   }
@@ -289,7 +294,7 @@ public class RobotController {
     logAction(LogAction.logStraight(diff * 2));
     logAction(LogAction.logAtShelf(shelfId));
 
-    robot.setCurrentShelf(targetShelf);
+    robot.moveToShelf(targetShelf.getId());
 
     // Save changes
     try {
@@ -297,7 +302,6 @@ public class RobotController {
     } catch (RuntimeException e) {
       System.err.println("Failed to save CheECSEManager: " + e.getMessage());
     }
-
 
     return true;
   }
@@ -371,7 +375,6 @@ public class RobotController {
       System.err.println("Failed to save CheECSEManager: " + e.getMessage());
     }
 
-
     return true;
   }
 
@@ -404,7 +407,6 @@ public class RobotController {
     } catch (RuntimeException e) {
       System.err.println("Failed to save CheECSEManager: " + e.getMessage());
     }
-
 
     return success;
   }
@@ -451,7 +453,6 @@ public class RobotController {
       System.err.println("Failed to save CheECSEManager: " + e.getMessage());
     }
 
-
     return true;
   }
   /* =================================================== */
@@ -485,7 +486,6 @@ public class RobotController {
     } catch (RuntimeException e) {
       System.err.println("Failed to save CheECSEManager: " + e.getMessage());
     }
-
   }
 
   /**

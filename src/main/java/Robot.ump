@@ -5,55 +5,55 @@ class Robot {
   Integer row = 1;
   Integer column = 0;
   Purchase currentPurchaseTreated;
-
+  
   status {
     Idle {
       initialize(String shelfId) / { initializeRobot(shelfId); }
       -> AtEntranceNotFacingAisle;
     }
-
+    
     AtEntranceNotFacingAisle {
       turnLeft / {
         setDirectionInDegrees((getDirectionInDegrees() + 90) % 360);
       } -> AtEntranceFacingAisle;
-
-      moveToShelf(String aId) [shelfExists(aId)] {
+      
+      moveToShelf(String aId) [shelfExists(aId)] / {
           setCurrentShelf(Shelf.getWithId(aId));
       } -> AtEntranceNotFacingAisle;
     }
-
+    
     AtEntranceFacingAisle {
       turnRight / {
         setDirectionInDegrees((getDirectionInDegrees() - 90) % 360);
       }
       -> AtEntranceNotFacingAisle;
-
+      
       moveToCheeseWheel(CheeseWheel aWheel) [cheeseWheelExists(aWheel)] / {
         setCurrentCheeseWheel(aWheel);
       }
       -> AtCheeseWheel;
     }
-
+    
     AtCheeseWheel {
       triggerTreatment [canTreatCurrentWheel()] -> AtCheeseWheel;
-
+      
       moveToEntrance / {
         setRow(1);
         setColumn(0);
       }
       -> AtEntranceFacingAisle;
-
+      
       moveToCheeseWheel(CheeseWheel aWheel) [cheeseWheelExists(aWheel)] / {
         setCurrentCheeseWheel(aWheel);
       }
       -> AtCheeseWheel;
     }
   }
-
+  
   private void initializeRobot(String shelfId) Java {
     Shelf shelf = Shelf.getWithId(shelfId);
     if (shelf == null) throw new RuntimeException("Shelf " + shelfId + " does not exist.");
-
+    
     setCurrentShelf(shelf);
     setRow(1);
     setColumn(0);
