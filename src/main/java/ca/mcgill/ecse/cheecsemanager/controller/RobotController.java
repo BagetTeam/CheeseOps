@@ -2,6 +2,8 @@ package ca.mcgill.ecse.cheecsemanager.controller;
 import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
 import ca.mcgill.ecse.cheecsemanager.model.*;
 import ca.mcgill.ecse.cheecsemanager.model.CheeseWheel.MaturationPeriod;
+import ca.mcgill.ecse.cheecsemanager.persistence.CheECSEManagerPersistence;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -39,6 +41,12 @@ public class RobotController {
 
     var robot = new Robot(null, false, manager);
     robot.setIsActivated(true);
+    // Save changes
+    try {
+      CheECSEManagerPersistence.save();
+    } catch (RuntimeException e) {
+      System.err.println("Failed to save CheECSEManager: " + e.getMessage());
+    }
   }
 
   /**
@@ -61,6 +69,13 @@ public class RobotController {
     default:
       throw new RuntimeException(
           "The robot cannot be deactivated during active treatment.");
+    }
+
+    // Save changes
+    try {
+      CheECSEManagerPersistence.save();
+    } catch (RuntimeException e) {
+      System.err.println("Failed to save CheECSEManager: " + e.getMessage());
     }
   }
 
@@ -89,6 +104,13 @@ public class RobotController {
     }
 
     logAction(LogAction.logAtShelf(shelfId));
+
+    // Save changes
+    try {
+      CheECSEManagerPersistence.save();
+    } catch (RuntimeException e) {
+      System.err.println("Failed to save CheECSEManager: " + e.getMessage());
+    }
   }
 
   /* =================================================== */
@@ -138,6 +160,14 @@ public class RobotController {
 
     purchase.getCheeseWheels().forEach(
         wheel -> { treatCheeseWheel(wheel, monthAged); });
+    // Save changes
+    try {
+      CheECSEManagerPersistence.save();
+    } catch (RuntimeException e) {
+      System.err.println("Failed to save CheECSEManager: " + e.getMessage());
+    }
+
+
   }
 
   /**
@@ -182,6 +212,11 @@ public class RobotController {
     boolean turnedLeft = robot.turnLeft();
     if (turnedLeft) {
       logAction(LogAction.logTurnLeft());
+      try {
+        CheECSEManagerPersistence.save();
+      } catch (RuntimeException e) {
+        System.err.println("Failed to save CheECSEManager: " + e.getMessage());
+      }
       return true;
     } else {
       return false;
@@ -197,6 +232,11 @@ public class RobotController {
     boolean turnedRight = robot.turnRight();
     if (turnedRight) {
       logAction(LogAction.logTurnRight());
+      try {
+        CheECSEManagerPersistence.save();
+      } catch (RuntimeException e) {
+        System.err.println("Failed to save CheECSEManager: " + e.getMessage());
+      }
       return true;
     } else {
       return false;
@@ -250,6 +290,15 @@ public class RobotController {
     logAction(LogAction.logAtShelf(shelfId));
 
     robot.setCurrentShelf(targetShelf);
+
+    // Save changes
+    try {
+      CheECSEManagerPersistence.save();
+    } catch (RuntimeException e) {
+      System.err.println("Failed to save CheECSEManager: " + e.getMessage());
+    }
+
+
     return true;
   }
 
@@ -315,6 +364,14 @@ public class RobotController {
     robot.moveToCheeseWheel(targetCheeseWheel);
     logAction(LogAction.logAtCheeseWheel(wheelId));
 
+    // Save changes
+    try {
+      CheECSEManagerPersistence.save();
+    } catch (RuntimeException e) {
+      System.err.println("Failed to save CheECSEManager: " + e.getMessage());
+    }
+
+
     return true;
   }
 
@@ -340,6 +397,14 @@ public class RobotController {
       int wheelID = robot.getCurrentCheeseWheel().getId();
       logAction(LogAction.logTreatCheeseWheel(wheelID));
     }
+
+    // Save changes
+    try {
+      CheECSEManagerPersistence.save();
+    } catch (RuntimeException e) {
+      System.err.println("Failed to save CheECSEManager: " + e.getMessage());
+    }
+
 
     return success;
   }
@@ -378,6 +443,15 @@ public class RobotController {
 
     robot.setCurrentCheeseWheel(null);
     robot.moveToEntrance();
+
+    // Save changes
+    try {
+      CheECSEManagerPersistence.save();
+    } catch (RuntimeException e) {
+      System.err.println("Failed to save CheECSEManager: " + e.getMessage());
+    }
+
+
     return true;
   }
   /* =================================================== */
@@ -404,6 +478,14 @@ public class RobotController {
   public static void logAction(LogAction action) {
     Robot robot = getRobot();
     robot.addLog(action.toString());
+
+    // Save changes
+    try {
+      CheECSEManagerPersistence.save();
+    } catch (RuntimeException e) {
+      System.err.println("Failed to save CheECSEManager: " + e.getMessage());
+    }
+
   }
 
   /**

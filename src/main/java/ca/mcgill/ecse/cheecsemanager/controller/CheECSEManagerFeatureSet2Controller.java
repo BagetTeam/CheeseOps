@@ -107,6 +107,12 @@ public class CheECSEManagerFeatureSet2Controller {
         new ShelfLocation(i, j, aShelf);
       }
     }
+    // Save changes
+    try {
+      CheECSEManagerPersistence.save();
+    } catch (RuntimeException e) {
+      System.err.println("Failed to save CheECSEManager: " + e.getMessage());
+    }
   }
 
   /**
@@ -123,8 +129,11 @@ public class CheECSEManagerFeatureSet2Controller {
       if (checkIsEmpty(shelfToDelete.get())) {
         shelfToDelete.get().delete(); // this method takes care of deleting all locations as well
 
-        // saves the deletion of the shelf
-        CheECSEManagerPersistence.save();
+        try {
+          CheECSEManagerPersistence.save();
+        } catch (RuntimeException e) {
+          return e.getMessage();
+        }
         return null;
       } else {
         return "Cannot delete a shelf that contains cheese wheels.";
