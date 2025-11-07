@@ -8,7 +8,7 @@ class Robot {
   
   status {
     Idle {
-      activate / { activateRobot(); }
+      initialize(String shelfId) / { initializeRobot(shelfId); }
       -> AtEntranceNotFacingAisle;
     }
     
@@ -20,11 +20,6 @@ class Robot {
       moveToShelf(String aId) [shelfExists(aId)] {
           setCurrentShelf(Shelf.getWithId(aId));
       } -> AtEntranceNotFacingAisle;
-      
-      deactivate / {
-        deactivateRobot();
-      }
-      -> Idle;
     }
     
     AtEntranceFacingAisle {
@@ -37,11 +32,6 @@ class Robot {
         setCurrentCheeseWheel(aWheel);
       }
       -> AtCheeseWheel;
-      
-      deactivate / {
-        deactivateRobot();
-      }
-      -> Idle;
     }
     
     AtCheeseWheel {
@@ -57,27 +47,23 @@ class Robot {
         setCurrentCheeseWheel(aWheel);
       }
       -> AtCheeseWheel;
-      
-      deactivate / {
-        deactivateRobot();
-      }
-      -> Idle;
     }
   }
   
-  void activateRobot() Java {
-    setIsActivated(true);
-  }
-  
-  void deactivateRobot() Java {
-    setIsActivated(false);
+  private void initializeRobot(String shelfId) Java {
+    Shelf shelf = Shelf.getWithId(shelfId);
+    if (shelf == null) throw new RuntimeException("Shelf " + shelfId + " does not exist.");
+    
+    setCurrentShelf(shelf);
+    setRow(1);
+    setColumn(0);
   }
 
-  Boolean shelfExists(String aId) Java {
+  private Boolean shelfExists(String aId) Java {
     return Shelf.hasWithId(aId);
   }
 
-  Boolean cheeseWheelExists(CheeseWheel wheel) Java {
+  private Boolean cheeseWheelExists(CheeseWheel wheel) Java {
     var shelf = getCurrentShelf();
     var location = wheel.getLocation();
 
@@ -87,7 +73,12 @@ class Robot {
     return candidateShelf != null && candidateShelf.equals(shelf);
   }
 
-  Boolean canTreatCurrentWheel() Java {
+  private Boolean canTreatCurrentWheel() Java {
     return getCurrentPurchaseTreated().indexOfCheeseWheel(getCurrentCheeseWheel()) != -1;
   }
+
+  void setInnerStatus(Status aStatus) Java {
+    setStatus(aStatus);
+  }
 }
+
