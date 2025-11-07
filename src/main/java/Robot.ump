@@ -20,11 +20,6 @@ class Robot {
       moveToShelf(String aId) [shelfExists(aId)] {
           setCurrentShelf(Shelf.getWithId(aId));
       } -> AtEntranceNotFacingAisle;
-      
-      deactivate / {
-        deactivateRobot();
-      }
-      -> Idle;
     }
     
     AtEntranceFacingAisle {
@@ -37,11 +32,6 @@ class Robot {
         setCurrentCheeseWheel(aWheel);
       }
       -> AtCheeseWheel;
-      
-      deactivate / {
-        deactivateRobot();
-      }
-      -> Idle;
     }
     
     AtCheeseWheel {
@@ -57,21 +47,7 @@ class Robot {
         setCurrentCheeseWheel(aWheel);
       }
       -> AtCheeseWheel;
-      
-      deactivate / {
-        deactivateRobot();
-      }
-      -> Idle;
     }
-  }
-
-  static Boolean activateRobot() Java {  
-    setIsActivated(true);
-    var manager = CheECSEManagerApplication.getCheecseManager();
-    if (manager.hasRobot()){
-      throw new Error("The robot has already been activated.");
-    }
-    return new Robot(null, false, manager);
   }
   
   private void initializeRobot(String shelfId) Java {
@@ -81,11 +57,6 @@ class Robot {
     setCurrentShelf(shelf);
     setRow(1);
     setColumn(0);
-  }
-  
-  private void deactivateRobot() Java {
-    setIsActivated(false);
-    delete();
   }
 
   private Boolean shelfExists(String aId) Java {
@@ -110,3 +81,4 @@ class Robot {
     setStatus(aStatus);
   }
 }
+

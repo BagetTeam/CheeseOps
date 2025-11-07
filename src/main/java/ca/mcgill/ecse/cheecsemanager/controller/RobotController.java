@@ -50,14 +50,18 @@ public class RobotController {
   public static void deactivateRobot() {
     Robot robot = getRobot();
 
-    if (robot.getStatus() == Robot.Status.AtCheeseWheel ||
-        robot.getStatus() == Robot.Status.AtEntranceFacingAisle) {
+    var status = robot.getStatus();
+
+    switch (status) {
+    case Idle:
+    case AtEntranceNotFacingAisle:
+      // clears all data related to the robot from the system
+      robot.delete();
+      break;
+    default:
       throw new RuntimeException(
           "The robot cannot be deactivated during active treatment.");
     }
-
-    // clears all data related to the robot from the system
-    robot.deactivate();
   }
 
   /**

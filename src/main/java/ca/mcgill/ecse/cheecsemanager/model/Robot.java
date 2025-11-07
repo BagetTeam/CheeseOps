@@ -6,7 +6,7 @@ package ca.mcgill.ecse.cheecsemanager.model;
 import java.util.*;
 
 // line 1 "../../../../../../Robot.ump"
-// line 109 "../../../../../../Robot.ump"
+// line 89 "../../../../../../Robot.ump"
 // line 93 "../../../../../../model.ump"
 // line 163 "../../../../../../model.ump"
 public class Robot {
@@ -172,7 +172,7 @@ public class Robot {
     Status aStatus = status;
     switch (aStatus) {
     case AtEntranceFacingAisle:
-      // line 31 "../../../../../../Robot.ump"
+      // line 26 "../../../../../../Robot.ump"
       setDirectionInDegrees((getDirectionInDegrees() - 90) % 360);
       setStatus(Status.AtEntranceNotFacingAisle);
       wasEventProcessed = true;
@@ -191,7 +191,7 @@ public class Robot {
     switch (aStatus) {
     case AtEntranceFacingAisle:
       if (cheeseWheelExists(aWheel)) {
-        // line 36 "../../../../../../Robot.ump"
+        // line 31 "../../../../../../Robot.ump"
         setCurrentCheeseWheel(aWheel);
         setStatus(Status.AtCheeseWheel);
         wasEventProcessed = true;
@@ -200,36 +200,12 @@ public class Robot {
       break;
     case AtCheeseWheel:
       if (cheeseWheelExists(aWheel)) {
-        // line 56 "../../../../../../Robot.ump"
+        // line 46 "../../../../../../Robot.ump"
         setCurrentCheeseWheel(aWheel);
         setStatus(Status.AtCheeseWheel);
         wasEventProcessed = true;
         break;
       }
-      break;
-    default:
-      // Other states do respond to this event
-    }
-
-    return wasEventProcessed;
-  }
-
-  public boolean deactivate() {
-    boolean wasEventProcessed = false;
-
-    Status aStatus = status;
-    switch (aStatus) {
-    case AtEntranceFacingAisle:
-      // line 41 "../../../../../../Robot.ump"
-      deactivateRobot();
-      setStatus(Status.Idle);
-      wasEventProcessed = true;
-      break;
-    case AtCheeseWheel:
-      // line 61 "../../../../../../Robot.ump"
-      deactivateRobot();
-      setStatus(Status.Idle);
-      wasEventProcessed = true;
       break;
     default:
       // Other states do respond to this event
@@ -263,7 +239,7 @@ public class Robot {
     Status aStatus = status;
     switch (aStatus) {
     case AtCheeseWheel:
-      // line 50 "../../../../../../Robot.ump"
+      // line 40 "../../../../../../Robot.ump"
       setRow(1);
       setColumn(0);
       setStatus(Status.AtEntranceFacingAisle);
@@ -491,7 +467,7 @@ public class Robot {
     }
   }
 
-  // line 69 "../../../../../../Robot.ump"
+  // line 54 "../../../../../../Robot.ump"
   private void initializeRobot(String shelfId) {
     Shelf shelf = Shelf.getWithId(shelfId);
     if (shelf == null)
@@ -502,16 +478,10 @@ public class Robot {
     setColumn(0);
   }
 
-  // line 78 "../../../../../../Robot.ump"
-  private void deactivateRobot() {
-    setIsActivated(false);
-    delete();
-  }
-
-  // line 83 "../../../../../../Robot.ump"
+  // line 63 "../../../../../../Robot.ump"
   private Boolean shelfExists(String aId) { return Shelf.hasWithId(aId); }
 
-  // line 87 "../../../../../../Robot.ump"
+  // line 67 "../../../../../../Robot.ump"
   private Boolean cheeseWheelExists(CheeseWheel wheel) {
     var shelf = getCurrentShelf();
     var location = wheel.getLocation();
@@ -523,13 +493,13 @@ public class Robot {
     return candidateShelf != null && candidateShelf.equals(shelf);
   }
 
-  // line 97 "../../../../../../Robot.ump"
+  // line 77 "../../../../../../Robot.ump"
   private Boolean canTreatCurrentWheel() {
     return getCurrentPurchaseTreated().indexOfCheeseWheel(
                getCurrentCheeseWheel()) != -1;
   }
 
-  // line 101 "../../../../../../Robot.ump"
+  // line 81 "../../../../../../Robot.ump"
   public void setInnerStatus(Status aStatus) { setStatus(aStatus); }
 
   public String toString() {
