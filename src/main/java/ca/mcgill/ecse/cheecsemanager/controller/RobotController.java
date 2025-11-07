@@ -102,6 +102,20 @@ public class RobotController {
    */
   public static void initializeTreatment(int purchaseId,
                                          MaturationPeriod monthAged) {
+
+    var robot = getRobot();
+
+    switch (robot.getStatus()) {
+    case Idle:
+      throw new RuntimeException("The robot must be initialized first.");
+    case AtEntranceFacingAisle:
+    case AtCheeseWheel:
+      throw new RuntimeException("The robot cannot be triggered to perform "
+                                 + "treatment again during active treatment.");
+    default:
+      break;
+    }
+
     CheECSEManager manager = CheECSEManagerApplication.getCheecseManager();
 
     // Get transaction of purchaseId and purchase
