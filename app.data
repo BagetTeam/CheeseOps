@@ -1,0 +1,780 @@
+{
+  "CheECSEManager": {
+    "farmers": [
+      {
+        "Farmer": {
+          "email": "farmer@cheesy.fr",
+          "password": "P@ssw0rd",
+          "canSetEmail": false,
+          "name": "Farmer A",
+          "address": "112 Av",
+          "purchases": [
+            {
+              "Purchase": [
+                {
+                  "transactionDate": "2025-04-04",
+                  "id": 1,
+                  "cheECSEManager": {
+                    "@reference": "../../../../.."
+                  },
+                  "farmer": {
+                    "@reference": "../../.."
+                  },
+                  "cheeseWheels": [
+                    {
+                      "CheeseWheel": [
+                        {
+                          "monthsAged": "Twelve",
+                          "isSpoiled": false,
+                          "id": 1,
+                          "purchase": {
+                            "@reference": "../../.."
+                          },
+                          "location": {
+                            "column": 2,
+                            "row": 1,
+                            "id": 10,
+                            "shelf": {
+                              "id": "A12",
+                              "locations": [
+                                {
+                                  "ShelfLocation": [
+                                    {
+                                      "column": 0,
+                                      "row": 0,
+                                      "id": 1,
+                                      "shelf": {
+                                        "@reference": "../../.."
+                                      }
+                                    },
+                                    {
+                                      "column": 0,
+                                      "row": 1,
+                                      "id": 2,
+                                      "shelf": {
+                                        "@reference": "../../.."
+                                      }
+                                    },
+                                    {
+                                      "column": 0,
+                                      "row": 2,
+                                      "id": 3,
+                                      "shelf": {
+                                        "@reference": "../../.."
+                                      }
+                                    },
+                                    {
+                                      "column": 0,
+                                      "row": 3,
+                                      "id": 4,
+                                      "shelf": {
+                                        "@reference": "../../.."
+                                      }
+                                    },
+                                    {
+                                      "column": 1,
+                                      "row": 0,
+                                      "id": 5,
+                                      "shelf": {
+                                        "@reference": "../../.."
+                                      }
+                                    },
+                                    {
+                                      "column": 1,
+                                      "row": 1,
+                                      "id": 6,
+                                      "shelf": {
+                                        "@reference": "../../.."
+                                      },
+                                      "cheeseWheel": {
+                                        "monthsAged": "Six",
+                                        "isSpoiled": false,
+                                        "id": 9,
+                                        "purchase": {
+                                          "transactionDate": "2025-04-04",
+                                          "id": 4,
+                                          "cheECSEManager": {
+                                            "@reference": "../../../../../../../../../../../../.."
+                                          },
+                                          "farmer": {
+                                            "@reference": "../../../../../../../../../../.."
+                                          },
+                                          "cheeseWheels": [
+                                            {
+                                              "CheeseWheel": [
+                                                {
+                                                  "monthsAged": "Six",
+                                                  "isSpoiled": true,
+                                                  "id": 7,
+                                                  "purchase": {
+                                                    "@reference": "../../.."
+                                                  },
+                                                  "cheECSEManager": {
+                                                    "@reference": "../../../../../../../../../../../../../../.."
+                                                  }
+                                                },
+                                                {
+                                                  "monthsAged": "ThirtySix",
+                                                  "isSpoiled": false,
+                                                  "id": 8,
+                                                  "purchase": {
+                                                    "@reference": "../../.."
+                                                  },
+                                                  "location": {
+                                                    "column": 4,
+                                                    "row": 3,
+                                                    "id": 20,
+                                                    "shelf": {
+                                                      "@reference": "../../../../../../../.."
+                                                    },
+                                                    "cheeseWheel": {
+                                                      "@reference": "../.."
+                                                    }
+                                                  },
+                                                  "cheECSEManager": {
+                                                    "@reference": "../../../../../../../../../../../../../../.."
+                                                  }
+                                                },
+                                                {
+                                                  "@reference": "../../.."
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        },
+                                        "location": {
+                                          "@reference": "../.."
+                                        },
+                                        "cheECSEManager": {
+                                          "@reference": "../../../../../../../../../../../.."
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "column": 1,
+                                      "row": 2,
+                                      "id": 7,
+                                      "shelf": {
+                                        "@reference": "../../.."
+                                      },
+                                      "cheeseWheel": {
+                                        "monthsAged": "TwentyFour",
+                                        "isSpoiled": false,
+                                        "id": 11,
+                                        "purchase": {
+                                          "transactionDate": "2025-04-04",
+                                          "id": 5,
+                                          "cheECSEManager": {
+                                            "@reference": "../../../../../../../../../../../../.."
+                                          },
+                                          "farmer": {
+                                            "@reference": "../../../../../../../../../../.."
+                                          },
+                                          "cheeseWheels": [
+                                            {
+                                              "CheeseWheel": [
+                                                {
+                                                  "monthsAged": "TwentyFour",
+                                                  "isSpoiled": false,
+                                                  "id": 10,
+                                                  "purchase": {
+                                                    "@reference": "../../.."
+                                                  },
+                                                  "location": {
+                                                    "column": 4,
+                                                    "row": 2,
+                                                    "id": 19,
+                                                    "shelf": {
+                                                      "@reference": "../../../../../../../.."
+                                                    },
+                                                    "cheeseWheel": {
+                                                      "@reference": "../.."
+                                                    }
+                                                  },
+                                                  "cheECSEManager": {
+                                                    "@reference": "../../../../../../../../../../../../../../.."
+                                                  },
+                                                  "robot": {
+                                                    "isActivated": true,
+                                                    "directionInDegrees": 0,
+                                                    "row": 2,
+                                                    "column": 4,
+                                                    "currentPurchaseTreated": {
+                                                      "@reference": "../../../.."
+                                                    },
+                                                    "isFacingAisle": false,
+                                                    "status": "AtCheeseWheel",
+                                                    "currentShelf": {
+                                                      "@reference": "../../../../../../../.."
+                                                    },
+                                                    "currentCheeseWheel": {
+                                                      "@reference": "../.."
+                                                    },
+                                                    "log": [
+                                                      {
+                                                        "LogEntry": [
+                                                          {
+                                                            "description": "At shelf #A12; Turn left; Straight +4 meters; Adjust height +40 centimeters; At cheese wheel #10;",
+                                                            "robot": {
+                                                              "@reference": "../../.."
+                                                            }
+                                                          },
+                                                          {
+                                                            "description": "Treat cheese wheel #10;",
+                                                            "robot": {
+                                                              "@reference": "../../.."
+                                                            }
+                                                          }
+                                                        ]
+                                                      }
+                                                    ],
+                                                    "cheECSEManager": {
+                                                      "@reference": "../../../../../../../../../../../../../../../.."
+                                                    }
+                                                  }
+                                                },
+                                                {
+                                                  "@reference": "../../.."
+                                                },
+                                                {
+                                                  "monthsAged": "Twelve",
+                                                  "isSpoiled": true,
+                                                  "id": 12,
+                                                  "purchase": {
+                                                    "@reference": "../../.."
+                                                  },
+                                                  "cheECSEManager": {
+                                                    "@reference": "../../../../../../../../../../../../../../.."
+                                                  }
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        },
+                                        "location": {
+                                          "@reference": "../.."
+                                        },
+                                        "cheECSEManager": {
+                                          "@reference": "../../../../../../../../../../../.."
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "column": 1,
+                                      "row": 3,
+                                      "id": 8,
+                                      "shelf": {
+                                        "@reference": "../../.."
+                                      }
+                                    },
+                                    {
+                                      "column": 2,
+                                      "row": 0,
+                                      "id": 9,
+                                      "shelf": {
+                                        "@reference": "../../.."
+                                      }
+                                    },
+                                    {
+                                      "@reference": "../../.."
+                                    },
+                                    {
+                                      "column": 2,
+                                      "row": 2,
+                                      "id": 11,
+                                      "shelf": {
+                                        "@reference": "../../.."
+                                      }
+                                    },
+                                    {
+                                      "column": 2,
+                                      "row": 3,
+                                      "id": 12,
+                                      "shelf": {
+                                        "@reference": "../../.."
+                                      }
+                                    },
+                                    {
+                                      "column": 3,
+                                      "row": 0,
+                                      "id": 13,
+                                      "shelf": {
+                                        "@reference": "../../.."
+                                      }
+                                    },
+                                    {
+                                      "column": 3,
+                                      "row": 1,
+                                      "id": 14,
+                                      "shelf": {
+                                        "@reference": "../../.."
+                                      }
+                                    },
+                                    {
+                                      "column": 3,
+                                      "row": 2,
+                                      "id": 15,
+                                      "shelf": {
+                                        "@reference": "../../.."
+                                      },
+                                      "cheeseWheel": {
+                                        "monthsAged": "Twelve",
+                                        "isSpoiled": false,
+                                        "id": 2,
+                                        "purchase": {
+                                          "@reference": "../../../../../../../.."
+                                        },
+                                        "location": {
+                                          "@reference": "../.."
+                                        },
+                                        "order": {
+                                          "transactionDate": "2025-04-04",
+                                          "id": 7,
+                                          "cheECSEManager": {
+                                            "@reference": "../../../../../../../../../../../../.."
+                                          },
+                                          "nrCheeseWheels": 3,
+                                          "monthsAged": "Twelve",
+                                          "deliveryDate": "2026-05-01",
+                                          "company": {
+                                            "name": "Cheesy Bites",
+                                            "address": "112 Av",
+                                            "orders": [
+                                              {
+                                                "Order": [
+                                                  {
+                                                    "transactionDate": "2025-04-04",
+                                                    "id": 6,
+                                                    "cheECSEManager": {
+                                                      "@reference": "../../../../../../../../../../../../../../../.."
+                                                    },
+                                                    "nrCheeseWheels": 2,
+                                                    "monthsAged": "Six",
+                                                    "deliveryDate": "2025-12-01",
+                                                    "company": {
+                                                      "@reference": "../../.."
+                                                    },
+                                                    "cheeseWheels": [
+                                                      {
+                                                        "CheeseWheel": [
+                                                          {
+                                                            "monthsAged": "Six",
+                                                            "isSpoiled": false,
+                                                            "id": 4,
+                                                            "purchase": {
+                                                              "transactionDate": "2025-04-04",
+                                                              "id": 2,
+                                                              "cheECSEManager": {
+                                                                "@reference": "../../../../../../../../../../../../../../../../../../.."
+                                                              },
+                                                              "farmer": {
+                                                                "@reference": "../../../../../../../../../../../../../../../../.."
+                                                              },
+                                                              "cheeseWheels": [
+                                                                {
+                                                                  "CheeseWheel": [
+                                                                    {
+                                                                      "@reference": "../../.."
+                                                                    },
+                                                                    {
+                                                                      "monthsAged": "Six",
+                                                                      "isSpoiled": false,
+                                                                      "id": 5,
+                                                                      "purchase": {
+                                                                        "@reference": "../../.."
+                                                                      },
+                                                                      "location": {
+                                                                        "column": 5,
+                                                                        "row": 1,
+                                                                        "id": 31,
+                                                                        "shelf": {
+                                                                          "@reference": "../../../../../../../../../../../../../.."
+                                                                        },
+                                                                        "cheeseWheel": {
+                                                                          "@reference": "../.."
+                                                                        }
+                                                                      },
+                                                                      "order": {
+                                                                        "@reference": "../../../../../.."
+                                                                      },
+                                                                      "cheECSEManager": {
+                                                                        "@reference": "../../../../../../../../../../../../../../../../../../../../.."
+                                                                      }
+                                                                    }
+                                                                  ]
+                                                                }
+                                                              ]
+                                                            },
+                                                            "location": {
+                                                              "column": 5,
+                                                              "row": 2,
+                                                              "id": 30,
+                                                              "shelf": {
+                                                                "@reference": "../../../../../../../../../../.."
+                                                              },
+                                                              "cheeseWheel": {
+                                                                "@reference": "../.."
+                                                              }
+                                                            },
+                                                            "order": {
+                                                              "@reference": "../../.."
+                                                            },
+                                                            "cheECSEManager": {
+                                                              "@reference": "../../../../../../../../../../../../../../../../../.."
+                                                            }
+                                                          },
+                                                          {
+                                                            "@reference": "../CheeseWheel/purchase/cheeseWheels/CheeseWheel[2]"
+                                                          }
+                                                        ]
+                                                      }
+                                                    ]
+                                                  },
+                                                  {
+                                                    "@reference": "../../.."
+                                                  }
+                                                ]
+                                              }
+                                            ],
+                                            "cheECSEManager": {
+                                              "@reference": "../../../../../../../../../../../../../.."
+                                            }
+                                          },
+                                          "cheeseWheels": [
+                                            {
+                                              "CheeseWheel": [
+                                                {
+                                                  "@reference": "../../../../../../../.."
+                                                },
+                                                {
+                                                  "@reference": "../../.."
+                                                },
+                                                {
+                                                  "monthsAged": "Twelve",
+                                                  "isSpoiled": false,
+                                                  "id": 3,
+                                                  "purchase": {
+                                                    "@reference": "../../../../../../../../../../.."
+                                                  },
+                                                  "location": {
+                                                    "column": 2,
+                                                    "row": 2,
+                                                    "id": 29,
+                                                    "shelf": {
+                                                      "id": "B21",
+                                                      "locations": [
+                                                        {
+                                                          "ShelfLocation": [
+                                                            {
+                                                              "column": 0,
+                                                              "row": 0,
+                                                              "id": 21,
+                                                              "shelf": {
+                                                                "@reference": "../../.."
+                                                              }
+                                                            },
+                                                            {
+                                                              "column": 0,
+                                                              "row": 1,
+                                                              "id": 22,
+                                                              "shelf": {
+                                                                "@reference": "../../.."
+                                                              }
+                                                            },
+                                                            {
+                                                              "column": 0,
+                                                              "row": 2,
+                                                              "id": 23,
+                                                              "shelf": {
+                                                                "@reference": "../../.."
+                                                              }
+                                                            },
+                                                            {
+                                                              "column": 1,
+                                                              "row": 0,
+                                                              "id": 24,
+                                                              "shelf": {
+                                                                "@reference": "../../.."
+                                                              }
+                                                            },
+                                                            {
+                                                              "column": 1,
+                                                              "row": 1,
+                                                              "id": 25,
+                                                              "shelf": {
+                                                                "@reference": "../../.."
+                                                              }
+                                                            },
+                                                            {
+                                                              "column": 1,
+                                                              "row": 2,
+                                                              "id": 26,
+                                                              "shelf": {
+                                                                "@reference": "../../.."
+                                                              }
+                                                            },
+                                                            {
+                                                              "column": 2,
+                                                              "row": 0,
+                                                              "id": 27,
+                                                              "shelf": {
+                                                                "@reference": "../../.."
+                                                              }
+                                                            },
+                                                            {
+                                                              "column": 2,
+                                                              "row": 1,
+                                                              "id": 28,
+                                                              "shelf": {
+                                                                "@reference": "../../.."
+                                                              }
+                                                            },
+                                                            {
+                                                              "@reference": "../../.."
+                                                            },
+                                                            {
+                                                              "column": 1,
+                                                              "row": 3,
+                                                              "id": 32,
+                                                              "shelf": {
+                                                                "@reference": "../../.."
+                                                              },
+                                                              "cheeseWheel": {
+                                                                "monthsAged": "Six",
+                                                                "isSpoiled": false,
+                                                                "id": 6,
+                                                                "purchase": {
+                                                                  "transactionDate": "2025-04-04",
+                                                                  "id": 3,
+                                                                  "cheECSEManager": {
+                                                                    "@reference": "../../../../../../../../../../../../../../../../../../../../.."
+                                                                  },
+                                                                  "farmer": {
+                                                                    "@reference": "../../../../../../../../../../../../../../../../../../.."
+                                                                  },
+                                                                  "cheeseWheels": [
+                                                                    {
+                                                                      "CheeseWheel": {
+                                                                        "@reference": "../../.."
+                                                                      }
+                                                                    }
+                                                                  ]
+                                                                },
+                                                                "location": {
+                                                                  "@reference": "../.."
+                                                                },
+                                                                "cheECSEManager": {
+                                                                  "@reference": "../../../../../../../../../../../../../../../../../../../.."
+                                                                }
+                                                              }
+                                                            }
+                                                          ]
+                                                        }
+                                                      ],
+                                                      "cheECSEManager": {
+                                                        "@reference": "../../../../../../../../../../../../../../../../.."
+                                                      }
+                                                    },
+                                                    "cheeseWheel": {
+                                                      "@reference": "../.."
+                                                    }
+                                                  },
+                                                  "order": {
+                                                    "@reference": "../../.."
+                                                  },
+                                                  "cheECSEManager": {
+                                                    "@reference": "../../../../../../../../../../../../../../.."
+                                                  }
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        },
+                                        "cheECSEManager": {
+                                          "@reference": "../../../../../../../../../../../.."
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "column": 3,
+                                      "row": 3,
+                                      "id": 16,
+                                      "shelf": {
+                                        "@reference": "../../.."
+                                      }
+                                    },
+                                    {
+                                      "column": 4,
+                                      "row": 0,
+                                      "id": 17,
+                                      "shelf": {
+                                        "@reference": "../../.."
+                                      }
+                                    },
+                                    {
+                                      "column": 4,
+                                      "row": 1,
+                                      "id": 18,
+                                      "shelf": {
+                                        "@reference": "../../.."
+                                      }
+                                    },
+                                    {
+                                      "@reference": "../ShelfLocation[7]/cheeseWheel/purchase/cheeseWheels/CheeseWheel/location"
+                                    },
+                                    {
+                                      "@reference": "../ShelfLocation[6]/cheeseWheel/purchase/cheeseWheels/CheeseWheel[2]/location"
+                                    },
+                                    {
+                                      "@reference": "../ShelfLocation[15]/cheeseWheel/order/company/orders/Order/cheeseWheels/CheeseWheel/location"
+                                    },
+                                    {
+                                      "@reference": "../ShelfLocation[15]/cheeseWheel/order/company/orders/Order/cheeseWheels/CheeseWheel/purchase/cheeseWheels/CheeseWheel[2]/location"
+                                    }
+                                  ]
+                                }
+                              ],
+                              "cheECSEManager": {
+                                "@reference": "../../../../../../../../.."
+                              },
+                              "robot": {
+                                "@reference": "../locations/ShelfLocation[7]/cheeseWheel/purchase/cheeseWheels/CheeseWheel/robot"
+                              }
+                            },
+                            "cheeseWheel": {
+                              "@reference": "../.."
+                            }
+                          },
+                          "order": {
+                            "@reference": "../location/shelf/locations/ShelfLocation[15]/cheeseWheel/order"
+                          },
+                          "cheECSEManager": {
+                            "@reference": "../../../../../../.."
+                          }
+                        },
+                        {
+                          "@reference": "../CheeseWheel/location/shelf/locations/ShelfLocation[15]/cheeseWheel"
+                        },
+                        {
+                          "@reference": "../CheeseWheel/location/shelf/locations/ShelfLocation[15]/cheeseWheel/order/cheeseWheels/CheeseWheel[3]"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "@reference": "../Purchase/cheeseWheels/CheeseWheel/location/shelf/locations/ShelfLocation[15]/cheeseWheel/order/company/orders/Order/cheeseWheels/CheeseWheel/purchase"
+                },
+                {
+                  "@reference": "../Purchase/cheeseWheels/CheeseWheel/location/shelf/locations/ShelfLocation[15]/cheeseWheel/order/cheeseWheels/CheeseWheel[3]/location/shelf/locations/ShelfLocation[10]/cheeseWheel/purchase"
+                },
+                {
+                  "@reference": "../Purchase/cheeseWheels/CheeseWheel/location/shelf/locations/ShelfLocation[6]/cheeseWheel/purchase"
+                },
+                {
+                  "@reference": "../Purchase/cheeseWheels/CheeseWheel/location/shelf/locations/ShelfLocation[7]/cheeseWheel/purchase"
+                }
+              ]
+            }
+          ],
+          "cheECSEManager": {
+            "@reference": "../../.."
+          }
+        }
+      }
+    ],
+    "shelves": [
+      {
+        "Shelf": [
+          {
+            "@reference": "../../farmers/Farmer/purchases/Purchase/cheeseWheels/CheeseWheel/location/shelf"
+          },
+          {
+            "@reference": "../../farmers/Farmer/purchases/Purchase/cheeseWheels/CheeseWheel/location/shelf/locations/ShelfLocation[15]/cheeseWheel/order/cheeseWheels/CheeseWheel[3]/location/shelf"
+          }
+        ]
+      }
+    ],
+    "cheeseWheels": [
+      {
+        "CheeseWheel": [
+          {
+            "@reference": "../../farmers/Farmer/purchases/Purchase/cheeseWheels/CheeseWheel"
+          },
+          {
+            "@reference": "../../farmers/Farmer/purchases/Purchase/cheeseWheels/CheeseWheel/location/shelf/locations/ShelfLocation[15]/cheeseWheel"
+          },
+          {
+            "@reference": "../../farmers/Farmer/purchases/Purchase/cheeseWheels/CheeseWheel/location/shelf/locations/ShelfLocation[15]/cheeseWheel/order/cheeseWheels/CheeseWheel[3]"
+          },
+          {
+            "@reference": "../../farmers/Farmer/purchases/Purchase/cheeseWheels/CheeseWheel/location/shelf/locations/ShelfLocation[15]/cheeseWheel/order/company/orders/Order/cheeseWheels/CheeseWheel"
+          },
+          {
+            "@reference": "../../farmers/Farmer/purchases/Purchase/cheeseWheels/CheeseWheel/location/shelf/locations/ShelfLocation[15]/cheeseWheel/order/company/orders/Order/cheeseWheels/CheeseWheel/purchase/cheeseWheels/CheeseWheel[2]"
+          },
+          {
+            "@reference": "../../farmers/Farmer/purchases/Purchase/cheeseWheels/CheeseWheel/location/shelf/locations/ShelfLocation[15]/cheeseWheel/order/cheeseWheels/CheeseWheel[3]/location/shelf/locations/ShelfLocation[10]/cheeseWheel"
+          },
+          {
+            "@reference": "../../farmers/Farmer/purchases/Purchase/cheeseWheels/CheeseWheel/location/shelf/locations/ShelfLocation[6]/cheeseWheel/purchase/cheeseWheels/CheeseWheel"
+          },
+          {
+            "@reference": "../../farmers/Farmer/purchases/Purchase/cheeseWheels/CheeseWheel/location/shelf/locations/ShelfLocation[6]/cheeseWheel/purchase/cheeseWheels/CheeseWheel[2]"
+          },
+          {
+            "@reference": "../../farmers/Farmer/purchases/Purchase/cheeseWheels/CheeseWheel/location/shelf/locations/ShelfLocation[6]/cheeseWheel"
+          },
+          {
+            "@reference": "../../farmers/Farmer/purchases/Purchase/cheeseWheels/CheeseWheel/location/shelf/locations/ShelfLocation[7]/cheeseWheel/purchase/cheeseWheels/CheeseWheel"
+          },
+          {
+            "@reference": "../../farmers/Farmer/purchases/Purchase/cheeseWheels/CheeseWheel/location/shelf/locations/ShelfLocation[7]/cheeseWheel"
+          },
+          {
+            "@reference": "../../farmers/Farmer/purchases/Purchase/cheeseWheels/CheeseWheel/location/shelf/locations/ShelfLocation[7]/cheeseWheel/purchase/cheeseWheels/CheeseWheel[3]"
+          }
+        ]
+      }
+    ],
+    "transactions": [
+      {
+        "Purchase": [
+          {
+            "@reference": "../../farmers/Farmer/purchases/Purchase"
+          },
+          {
+            "@reference": "../../farmers/Farmer/purchases/Purchase/cheeseWheels/CheeseWheel/location/shelf/locations/ShelfLocation[15]/cheeseWheel/order/company/orders/Order/cheeseWheels/CheeseWheel/purchase"
+          },
+          {
+            "@reference": "../../farmers/Farmer/purchases/Purchase/cheeseWheels/CheeseWheel/location/shelf/locations/ShelfLocation[15]/cheeseWheel/order/cheeseWheels/CheeseWheel[3]/location/shelf/locations/ShelfLocation[10]/cheeseWheel/purchase"
+          },
+          {
+            "@reference": "../../farmers/Farmer/purchases/Purchase/cheeseWheels/CheeseWheel/location/shelf/locations/ShelfLocation[6]/cheeseWheel/purchase"
+          },
+          {
+            "@reference": "../../farmers/Farmer/purchases/Purchase/cheeseWheels/CheeseWheel/location/shelf/locations/ShelfLocation[7]/cheeseWheel/purchase"
+          }
+        ],
+        "Order": [
+          {
+            "@reference": "../../farmers/Farmer/purchases/Purchase/cheeseWheels/CheeseWheel/location/shelf/locations/ShelfLocation[15]/cheeseWheel/order/company/orders/Order"
+          },
+          {
+            "@reference": "../../farmers/Farmer/purchases/Purchase/cheeseWheels/CheeseWheel/location/shelf/locations/ShelfLocation[15]/cheeseWheel/order"
+          }
+        ]
+      }
+    ],
+    "companies": [
+      {
+        "WholesaleCompany": {
+          "@reference": "../../farmers/Farmer/purchases/Purchase/cheeseWheels/CheeseWheel/location/shelf/locations/ShelfLocation[15]/cheeseWheel/order/company"
+        }
+      }
+    ],
+    "robot": {
+      "@reference": "../farmers/Farmer/purchases/Purchase/cheeseWheels/CheeseWheel/location/shelf/locations/ShelfLocation[7]/cheeseWheel/purchase/cheeseWheels/CheeseWheel/robot"
+    }
+  }
+}
