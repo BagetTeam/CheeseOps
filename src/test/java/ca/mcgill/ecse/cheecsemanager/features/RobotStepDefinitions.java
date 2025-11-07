@@ -247,42 +247,24 @@ public class RobotStepDefinitions {
   }
 
   /**
-   * @author Ayush Patel
+   * @author Ayush Patel, Ming Li Liu
    * @param state current state of the robot
    * @param shelfId shelf where the robot is
-   * @param actionLog log message found in the robot's logs
+   * @param initialLogt log message found in the robot's logs
    */
   @Given("the robot is marked as {string} and at shelf {string} with action "
          + "log {string}")
   public void
   the_robot_is_marked_as_and_at_shelf_with_action_log(String state,
                                                       String shelfId,
-                                                      String actionLog) {
+                                                      String initialLogt) {
     Shelf shelf = Shelf.getWithId(shelfId);
-    switch (state) {
-    case "Idle":
-      setStatus(Robot.Status.Idle, shelf, null);
-      break;
-    case "AtEntranceFacingAisle":
-      setStatus(Robot.Status.AtEntranceFacingAisle, shelf, null);
-      break;
-    case "AtEntranceNotFacingAisle":
-      setStatus(Robot.Status.AtEntranceNotFacingAisle, shelf, null);
-      break;
-    case "AtCheeseWheel":
-      setStatus(Robot.Status.AtCheeseWheel, shelf, null);
-      break;
-    default:
-      throw new RuntimeException("Unknown state: " + state);
-    }
+    Robot.Status status = Robot.Status.valueOf(state);
+
+    setStatus(status, shelf, null);
 
     Robot robot = getRobot();
-    while (robot.numberOfLog() > 0) {
-      LogEntry logEntry = robot.getLog(robot.numberOfLog() - 1);
-      logEntry.delete();
-    }
-
-    robot.addLog(actionLog);
+    robot.addLog(initialLogt);
   }
 
   /**
@@ -723,6 +705,10 @@ public class RobotStepDefinitions {
    */
   @Then("the current shelf of the robot shall be {string}")
   public void the_current_shelf_of_the_robot_shall_be(String shelfID) {
+    System.out.println("=================================");
+    System.out.println(getRobot().getLog());
+    System.out.println("=================================");
+
     assertEquals(shelfID, getRobot().getCurrentShelf().getId());
   }
 
