@@ -2,6 +2,7 @@ package ca.mcgill.ecse.cheecsemanager.controller;
 
 import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
 import ca.mcgill.ecse.cheecsemanager.model.Shelf;
+import ca.mcgill.ecse.cheecsemanager.persistence.CheECSEManagerPersistence;
 import java.util.List;
 
 /**
@@ -17,7 +18,8 @@ public class CheECSEManagerFeatureSet1Controller {
   public static String updateFacilityManager(String password) {
     if (password.length() < 4) {
       return "Password must be at least 4 characters long.";
-    } else if (!password.contains("!") && !password.contains("#") && !password.contains("$")) {
+    } else if (!password.contains("!") && !password.contains("#") &&
+               !password.contains("$")) {
       return "Password must contain a special character from !, #, or $.";
     } else if (!password.chars().anyMatch((c) -> (c >= 'A' && c <= 'Z'))) {
       return "Password must contain an uppercase character.";
@@ -29,6 +31,11 @@ public class CheECSEManagerFeatureSet1Controller {
     var manager = app.getManager();
     manager.setPassword(password);
 
+    try {
+      CheECSEManagerPersistence.save();
+    } catch (Exception e) {
+      return e.getMessage();
+    }
     return "";
   }
 
