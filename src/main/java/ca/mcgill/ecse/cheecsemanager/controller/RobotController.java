@@ -87,8 +87,9 @@ public class RobotController {
   public static void initializeRobot(String shelfId) {
     Robot robot = getRobot();
 
-    if (shelfId == null || shelfId.isEmpty())
+    if (shelfId == null || shelfId.isEmpty()) {
       throw new RuntimeException("A shelf must be specified.");
+    }
 
     if (robot.getCurrentShelf() != null ||
         robot.getStatus() != Robot.Status.Idle) {
@@ -213,8 +214,9 @@ public class RobotController {
   public static boolean turnLeft() {
     Robot robot = getRobot();
 
-    if (robot.getStatus() != Robot.Status.AtEntranceNotFacingAisle)
+    if (robot.getStatus() != Robot.Status.AtEntranceNotFacingAisle) {
       throw new RuntimeException("The robot cannot be turned left.");
+    }
 
     boolean turnedLeft = robot.turnLeft();
     if (turnedLeft) {
@@ -233,8 +235,9 @@ public class RobotController {
   public static boolean turnRight() {
     Robot robot = getRobot();
 
-    if (robot.getStatus() != Robot.Status.AtEntranceFacingAisle)
+    if (robot.getStatus() != Robot.Status.AtEntranceFacingAisle) {
       throw new RuntimeException("The robot cannot be turned right.");
+    }
 
     boolean turnedRight = robot.turnRight();
     if (turnedRight) {
