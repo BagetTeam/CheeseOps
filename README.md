@@ -1,5 +1,8 @@
 # 🧀 ECSE223 CheECSEManager Project: Team 2
 
+<img width="1506" height="928" alt="image" src="https://github.com/user-attachments/assets/c19197ef-d433-41bc-b423-2a4669c6babe" />
+
+
 ## Getting started
 
 1. Clone the repository.
