@@ -607,8 +607,7 @@ public class RobotStepDefinitions {
   the_facility_manager_attempts_to_trigger_the_robot_to_perform_treatment_on_old_cheese_wheels_of_purchase(
       String monthsAged, Integer purchaseId) {
     try {
-      MaturationPeriod age = MaturationPeriod.valueOf(monthsAged);
-      RobotController.initializeTreatment(purchaseId, age);
+      RobotController.initializeTreatment(purchaseId, monthsAged);
     } catch (Exception e) {
       error = e;
     }

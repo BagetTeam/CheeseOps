@@ -101,7 +101,14 @@ public class RobotController {
    * @author Ming Li Liu and Olivier Mao
    */
   public static void initializeTreatment(int purchaseId,
-                                         MaturationPeriod monthAged) {
+                                         String monthAgedString) {
+    MaturationPeriod monthAged;
+    try {
+      monthAged = MaturationPeriod.valueOf(monthAgedString);
+    } catch (Exception _e) {
+      throw new RuntimeException(
+          "The monthsAged must be Six, Twelve, TwentyFour, or ThirtySix.");
+    }
 
     var robot = getRobot();
 
@@ -119,8 +126,15 @@ public class RobotController {
     CheECSEManager manager = CheECSEManagerApplication.getCheecseManager();
 
     // Get transaction of purchaseId and purchase
-    Transaction t = manager.getTransaction(purchaseId);
-    Purchase purchase = (Purchase)t;
+    Purchase purchase =
+        (Purchase)manager.getTransactions()
+            .stream()
+            .filter(t -> t instanceof Purchase && t.getId() == purchaseId)
+            .findFirst()
+            .orElseThrow(()
+                             -> new RuntimeException("The purchase " +
+                                                     purchaseId +
+                                                     " does not exist."));
 
     purchase.getCheeseWheels().forEach(
         wheel -> { treatCheeseWheel(wheel, monthAged); });
