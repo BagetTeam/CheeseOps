@@ -14,20 +14,20 @@ public class CheECSEManagerApplication extends Application {
 
   @Override
   public void start(Stage stage) throws IOException {
-    FXMLLoader fxmlLoader = new FXMLLoader(CheECSEManagerApplication.class.getResource(
-        PACKAGE_ID.concat("view/page/cheecsemanager/CheECSEManagerTab.fxml")));
+    FXMLLoader fxmlLoader =
+        new FXMLLoader(CheECSEManagerApplication.class.getResource(
+            PACKAGE_ID.concat("view/page/cheecsemanager/Main.fxml")));
     Scene scene = new Scene(fxmlLoader.load(), 980, 640);
     scene.getStylesheets().add(
-        CheECSEManagerApplication.class.getResource(PACKAGE_ID.concat("style/main.css"))
+        CheECSEManagerApplication
+            .class.getResource(PACKAGE_ID.concat("style/main.css"))
             .toExternalForm());
     stage.setTitle("CheECSEManager");
     stage.setScene(scene);
     stage.show();
   }
 
-  public static void main(String[] args) {
-    launch();
-  }
+  public static void main(String[] args) { launch(); }
 
   public static CheECSEManager getCheecseManager() {
     if (cheecsemanager == null) {
