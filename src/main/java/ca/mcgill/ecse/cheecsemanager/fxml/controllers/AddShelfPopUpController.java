@@ -1,7 +1,9 @@
 package ca.mcgill.ecse.cheecsemanager.fxml.controllers;
 
+import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet2Controller;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 
@@ -21,6 +23,9 @@ public class AddShelfPopUpController {
 
     @FXML
     private Button addBtn;
+
+    @FXML
+    private Label errorLabel; // optional label in FXML to show errors
 
     private AnchorPane popupOverlay; // reference to the overlay added by main controller
     private ShelfController mainController;
@@ -46,14 +51,50 @@ public class AddShelfPopUpController {
     }
 
     private void submit() {
+        // Clear previous error
+        if (errorLabel != null) {
+            errorLabel.setText("");
+        }
+
         String id = idField.getText();
-        String rows = rowsField.getText();
-        String cols = colsField.getText();
+        String rowsText = rowsField.getText();
+        String colsText = colsField.getText();
 
-        System.out.println("ID: " + id + ", Rows: " + rows + ", Cols: " + cols);
+        if (id == null || id.isBlank() || rowsText == null || colsText == null) {
+            showError("Please fill in all fields.");
+            return;
+        }
 
-        // TODO: Add logic to handle these values in main controller
+        Integer rows;
+        Integer cols;
 
-        closePopup();
+        try {
+            rows = Integer.parseInt(rowsText);
+            cols = Integer.parseInt(colsText);
+        } catch (NumberFormatException e) {
+            showError("Rows and Columns must be integers.");
+            return;
+        }
+
+        // Call FeatureSet2Controller to add shelf
+        String result = CheECSEManagerFeatureSet2Controller.addShelf(id, cols, rows);
+
+        if (result != null) {
+            // Error occurred
+            showError(result);
+        } else {
+            // Success
+            mainController.refreshTable(); // refresh table immediately
+            closePopup();
+        }
+    }
+
+    private void showError(String message) {
+        if (errorLabel != null) {
+            errorLabel.setText(message);
+        } else {
+            // fallback: print to console
+            System.err.println("Add Shelf Error: " + message);
+        }
     }
 }
