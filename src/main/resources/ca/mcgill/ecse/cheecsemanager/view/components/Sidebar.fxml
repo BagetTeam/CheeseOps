@@ -13,19 +13,5 @@
     maxWidth="200"
     VBox.vgrow="ALWAYS"
 >
-    <padding>
-        <Insets top="20" right="10" bottom="20" left="10" />
-    </padding>
-    <Button
-        text="Dashboard"
-        styleClass="nav-button"
-        onAction="#handleDashboard"
-    />
-    <Button text="Users" styleClass="nav-button" onAction="#handleUsers" />
-    <Button
-        text="Settings"
-        styleClass="nav-button"
-        onAction="#handleSettings"
-    />
-    <Button text="Reports" styleClass="nav-button" onAction="#handleReports" />
+    <StyledButton />
 </VBox>

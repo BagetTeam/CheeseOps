@@ -71,13 +71,8 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
-// sourceSets {
-//     main {
-//         java {
-//             exclude 'ca/mcgill/ecse/cheecsemanager/fxml/**'
-//         }
-//         resources {
-//             exclude 'ca/mcgill/ecse/cheecsemanager/fxml/**'
-//         }
-//     }
-// }
+run {
+    standardInput = System.in
+    standardOutput = System.out
+    errorOutput = System.err
+}
