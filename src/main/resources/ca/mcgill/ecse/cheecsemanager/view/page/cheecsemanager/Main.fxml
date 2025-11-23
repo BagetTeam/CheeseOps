@@ -2,8 +2,8 @@
 
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
+<?import ca.mcgill.ecse.cheecsemanager.fxml.components.*?>
 
 <HBox spacing="10">
-	<Label text="Hello World!" />
-	<Button text="Click Me!" />
+	<StyledButton variant="MUTED" size="LG" text="Hello world!" />
 </HBox>

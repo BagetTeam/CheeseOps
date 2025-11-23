@@ -1,2 +1,51 @@
-.default {
+.button {
+  -fx-border-radius: 0;
+}
+
+.button-default {
+  -fx-background-color: transparent;
+  -fx-text-fill: -color-fg;
+}
+
+.button-primary {
+  -fx-background-color: -color-primary;
+  -fx-text-fill: -color-bg;
+}
+
+.button-destructive {
+  -fx-background-color: -color-destructive;
+  -fx-text-fill: -color-bg;
+}
+
+.button-muted {
+  -fx-background-color: transparent;
+  -fx-text-fill: -color-muted;
+  -fx-border-color: -color-muted;
+  -fx-border-width: 1px;
+  -fx-border-style: solid;
+}
+
+.button-xs {
+  -fx-font-size: -unit-xs;
+  -fx-padding: -unit-xs -unit-xs;
+}
+
+.button-sm {
+  -fx-font-size: -unit-sm;
+  -fx-padding: -unit-sm -unit-xs;
+}
+
+.button-base {
+  -fx-font-size: -unit-base;
+  -fx-padding: -unit-base -unit-sm;
+}
+
+.button-md {
+  -fx-font-size: -unit-md;
+  -fx-padding: -unit-md -unit-base;
+}
+
+.button-lg {
+  -fx-font-size: -unit-lg;
+  -fx-padding: -unit-lg -unit-md;
 }
