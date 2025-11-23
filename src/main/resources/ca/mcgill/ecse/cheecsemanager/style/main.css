@@ -13,4 +13,14 @@
   -font-size-base: 16px;
   -font-size-sm: 12px;
   -font-size-lg: 24px;
+
+  -fx-font-family: "Inter";
+  -fx-font-size: 16px;
+  -fx-font-weight: normal;
+  -fx-text-fill: -color-fg;
+  -fx-background-color: -color-bg;
+
+  font-family: "Inter";
+  font-size: 16px;
+  font-weight: normal;
 }
