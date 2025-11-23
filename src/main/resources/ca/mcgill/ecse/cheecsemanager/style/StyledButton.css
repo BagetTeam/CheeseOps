@@ -1,7 +1,8 @@
 .button {
-  -fx-background-radius: 12px;
-  -fx-padding: 16px 12px; /* Default padding */
+  -fx-background-radius: 8px;
+  -fx-border-radius: 8px;
   -fx-font-size: 16px; /* Default font size */
+  -fx-transition: all 0.2s ease-in-out;
 }
 
 .button-default {
@@ -27,27 +28,52 @@
   -fx-border-style: solid;
 }
 
+.button-default:hover {
+  -fx-background-color: -color-muted;
+}
+
+.button-muted:hover {
+  -fx-text-fill: -color-fg;
+  -fx-border-color: -color-fg;
+}
+
+.button-default .icon {
+  -fx-fill: -color-fg;
+}
+
+.button-primary .icon {
+  -fx-fill: -color-bg;
+}
+
+.button-destructive .icon {
+  -fx-fill: -color-bg;
+}
+
+.button-muted .icon {
+  -fx-fill: -color-muted;
+}
+
+.button-muted:hover .icon {
+  -fx-fill: -color-fg;
+}
+
 .button-xs {
-  -fx-font-size: 8px;
-  -fx-padding: 8px 8px;
+  -fx-font-size: 12px;
+  -fx-padding: 4px 8px;
 }
 
 .button-sm {
-  -fx-font-size: 12px;
-  -fx-padding: 12px 8px;
+  -fx-padding: 4px 8px;
 }
 
 .button-base {
-  -fx-font-size: 16px;
-  -fx-padding: 16px 12px;
+  -fx-padding: 8px 12px;
 }
 
 .button-md {
-  -fx-font-size: 20px;
-  -fx-padding: 20px 16px;
+  -fx-padding: 10px 20px;
 }
 
 .button-lg {
-  -fx-font-size: 24px;
-  -fx-padding: 24px 20px;
+  -fx-padding: 12px 24px;
 }

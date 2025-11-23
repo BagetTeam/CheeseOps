@@ -1,19 +1,59 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
+<?xml version="1.0" encoding="UTF-8" ?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
 <?import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton?>
-
-<AnchorPane maxHeight="-Infinity"
-            maxWidth="-Infinity"
-            minHeight="-Infinity"
-            minWidth="-Infinity"
-            prefHeight="400.0"
-            prefWidth="600.0"
-            xmlns="http://javafx.com/javafx/17.0.2-ea"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.MainController">
-
-            <StyledButton variant="PRIMARY" size="LG" text="Hello world!" />
-
+<AnchorPane
+    fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.MainController"
+    maxHeight="-Infinity"
+    maxWidth="-Infinity"
+    minHeight="-Infinity"
+    minWidth="-Infinity"
+    prefHeight="400.0"
+    prefWidth="600.0"
+    xmlns="http://javafx.com/javafx/17.0.2-ea"
+    xmlns:fx="http://javafx.com/fxml/1"
+>
+  <VBox spacing="10">
+    <StyledButton size="XS" text="xs" variant="PRIMARY" />
+    <StyledButton size="SM" text="sm" variant="PRIMARY" />
+    <StyledButton size="BASE" text="base" variant="PRIMARY" />
+    <StyledButton size="MD" text="md" variant="PRIMARY" />
+    <StyledButton size="LG" text="lg" variant="PRIMARY" />
+    <StyledButton text="default" />
+    <StyledButton text="primary" variant="PRIMARY" />
+    <StyledButton text="destructive" variant="DESTRUCTIVE" />
+    <StyledButton text="muted" variant="MUTED" />
+    <StyledButton text="default with icon">
+      <graphic>
+        <SVGPath
+                    content="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"
+                    styleClass="icon"
+                />
+      </graphic>
+    </StyledButton>
+    <StyledButton text="primary with icon" variant="PRIMARY">
+      <graphic>
+        <SVGPath
+                    content="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"
+                    styleClass="icon"
+                />
+      </graphic>
+    </StyledButton>
+    <StyledButton text="destructive with icon" variant="DESTRUCTIVE">
+      <graphic>
+        <SVGPath
+                    content="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"
+                    styleClass="icon"
+                />
+      </graphic>
+    </StyledButton>
+    <StyledButton text="muted with icon" variant="MUTED">
+      <graphic>
+        <SVGPath
+                    content="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"
+                    styleClass="icon"
+                />
+      </graphic>
+    </StyledButton>
+  </VBox>
 </AnchorPane>
-
