@@ -1,5 +1,6 @@
 package ca.mcgill.ecse.cheecsemanager.fxml.components;
 
+import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.Node;
@@ -33,7 +34,8 @@ public class StyledButton extends Button {
   public void initialize() {
     getStylesheets().add(
         getClass()
-            .getResource("view/components/StyledButton/StyledButton.css")
+            .getResource(CheECSEManagerApplication.PACKAGE_ID.concat(
+                "view/components/StyledButton/StyledButton.css"))
             .toExternalForm());
 
     this.variant.addListener((observable, oldValue, newValue) -> {

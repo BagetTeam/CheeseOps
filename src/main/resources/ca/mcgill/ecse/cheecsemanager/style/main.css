@@ -5,4 +5,12 @@
   -color-bg: #232001;
   -color-fg: #d7cdc4;
   -color-muted: rgba(215, 205, 196, 0.43);
+
+  -unit-base: 16px;
+  -unit-sm: 8px;
+  -unit-lg: 24px;
+
+  -font-size-base: 16px;
+  -font-size-sm: 12px;
+  -font-size-lg: 24px;
 }
