@@ -70,7 +70,7 @@ public class ViewShelfPopUpController implements Initializable {
                 final int row = r;
                 final int col = c;
                 VBox cell = new VBox(5);
-                cell.setStyle("-fx-border-color: #ccc; -fx-padding: 5; -fx-alignment: center;");
+                cell.getStyleClass().add("grid-cell");
 
                 TOCheeseWheel cheeseAtPos = allCheeses.stream()
                         .filter(ch -> shelfID.equals(ch.getShelfID()) && ch.getRow() == row && ch.getColumn() == col)
@@ -91,6 +91,10 @@ public class ViewShelfPopUpController implements Initializable {
                     );
                     info.setStyle("-fx-font-size: 10px; -fx-text-alignment: center;");
                     cell.getChildren().add(info);
+                } else {
+                    Label placeholder = new Label("");
+                    placeholder.setPrefSize(80, 80);
+                    cell.getChildren().add(placeholder);
                 }
 
                 shelfGrid.add(cell, col - 1, row - 1);

@@ -2,18 +2,21 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
+<?import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton?>
 
-<AnchorPane  fx:id="root"
-             xmlns="http://javafx.com/javafx"
-             xmlns:fx="http://javafx.com/fxml"
-             fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.ShelfController"
-             prefWidth="900" prefHeight="600">
+<AnchorPane fx:id="root"
+            xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.ShelfController"
+            prefWidth="900" prefHeight="600"
+            styleClass="root"
+            stylesheets="@/ca/mcgill/ecse/cheecsemanager/style/Shelf.css">
+
 
     <VBox fx:id="mainContainer"
           alignment="TOP_CENTER"
@@ -27,13 +30,13 @@
 
         <!-- Top Bar -->
         <HBox spacing="10" alignment="CENTER_LEFT" prefWidth="850">
-            <Button fx:id="backBtn" text="Back"/>
+            <StyledButton fx:id="backBtn" text="Back" variant="MUTED" size="BASE"/>
             <VBox alignment="CENTER" spacing="5">
-                <Label text="Shelf Management" style="-fx-font-size: 26px; -fx-font-weight: bold;"/>
-                <Label text="Manage your Shelves" style="-fx-font-size: 14px; -fx-text-fill: #555;"/>
+                <Label text="Shelf Management" style="-fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: -color-primary;"/>
+                <Label text="Manage your Shelves" style="-fx-font-size: 14px; -fx-text-fill: -color-secondary;"/>
             </VBox>
             <HBox HBox.hgrow="ALWAYS"/>
-            <Button fx:id="showPopupBtn" text="Add Shelf" graphicTextGap="10">
+            <StyledButton fx:id="showPopupBtn" text="Add Shelf" variant="PRIMARY" size="BASE" graphicTextGap="10">
                 <graphic>
                     <ImageView fitWidth="20" fitHeight="20">
                         <image>
@@ -41,18 +44,18 @@
                         </image>
                     </ImageView>
                 </graphic>
-            </Button>
+            </StyledButton>
         </HBox>
 
         <!-- Inventory Label -->
         <Label fx:id="inventoryLabel"
                text="Current Cheese Inventory: 0"
-               style="-fx-font-size: 16px; -fx-font-weight: bold;"
+               style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: -color-primary;"
                alignment="CENTER_LEFT"/>
 
-        <!-- Table centered in HBox with 75% width -->
-        <HBox alignment="CENTER" prefWidth="900">
-            <TableView fx:id="shelfTable" prefWidth="650">
+        <!-- Table centered -->
+        <HBox alignment="CENTER" prefHeight="100">
+            <TableView fx:id="shelfTable" styleClass="custom-table" VBox.vgrow="ALWAYS">
                 <columns>
                     <TableColumn fx:id="idColumn" text="Shelf ID" prefWidth="120"/>
                     <TableColumn fx:id="rowsColumn" text="Rows" prefWidth="95"/>
@@ -60,10 +63,9 @@
                     <TableColumn fx:id="numCheeseColumn" text="# Cheese Wheels" prefWidth="150"/>
                     <TableColumn fx:id="actionColumn" text="Actions" prefWidth="188"/>
                 </columns>
-
                 <placeholder>
                     <Label text="No shelves currently available"
-                           style="-fx-font-size: 16px; -fx-text-fill: #888; -fx-padding: 20;"
+                           style="-fx-font-size: 16px; -fx-text-fill: -color-muted; -fx-padding: 20;"
                            alignment="CENTER"/>
                 </placeholder>
             </TableView>

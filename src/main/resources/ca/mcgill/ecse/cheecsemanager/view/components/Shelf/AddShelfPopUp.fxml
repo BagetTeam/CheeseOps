@@ -6,11 +6,12 @@
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.AddShelfPopUpController"
-            prefWidth="300" prefHeight="200"
-            style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 1;">
+            prefWidth="300" prefHeight="220"
+            styleClass="add-shelf-popup">
 
     <VBox spacing="10" layoutX="20" layoutY="20">
-        <Label text="Enter details:" />
+
+        <Label text="Enter details:" styleClass="popup-title"/>
 
         <HBox spacing="10">
             <Label text="ID:"/>
@@ -27,9 +28,10 @@
             <TextField fx:id="colsField"/>
         </HBox>
 
-        <HBox spacing="20">
+        <HBox spacing="20" alignment="CENTER_RIGHT">
             <Button text="Cancel" fx:id="cancelBtn"/>
             <Button text="Add" fx:id="addBtn"/>
         </HBox>
+
     </VBox>
 </AnchorPane>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="root" styleClass="add-shelf-popup"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.AssignCheeseWheelController">
+
+    <VBox spacing="10" alignment="CENTER" padding="15">
+        <Label styleClass="popup-title" text="Assign Cheese Wheel"/>
+
+        <Label text="Select Shelf:"/>
+        <ComboBox fx:id="shelfComboBox"/>
+
+        <Label text="Select Cheese Wheel:"/>
+        <ComboBox fx:id="cheeseWheelComboBox"/>
+
+        <Label text="Enter Row:"/>
+        <TextField fx:id="rowField" promptText="Row number"/>
+
+        <Label text="Enter Column:"/>
+        <TextField fx:id="columnField" promptText="Column number"/>
+
+        <HBox spacing="10" alignment="CENTER">
+            <Button fx:id="cancelBtn" text="Cancel"/>
+            <Button fx:id="assignBtn" text="Assign"/>
+        </HBox>
+    </VBox>
+</AnchorPane>
