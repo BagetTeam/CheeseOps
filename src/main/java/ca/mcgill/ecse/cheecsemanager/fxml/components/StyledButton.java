@@ -5,6 +5,21 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.control.Button;
 
+/**
+ *
+ * <p>Custom styled button component</p>
+ * <p>Usage:</p>
+ *
+ * {@code
+ * <StyledButton variant="PRIMARY" size="BASE" text="Hello World" />
+ * }
+ *
+ * <p>All variants: DEFAULT, PRIMARY, DESTRUCTIVE, MUTED</p>
+ * <p>All sizes: XS, SM, BASE, MD, LG</p>
+ *
+ *
+ * @author Ming Li Liu
+ * */
 public class StyledButton extends Button {
   public enum Variant { DEFAULT, PRIMARY, DESTRUCTIVE, MUTED }
   public enum Size { XS, SM, BASE, MD, LG }
@@ -31,24 +46,28 @@ public class StyledButton extends Button {
     super(text);
     this.initialize();
 
-    this.variant.set(variant.name());
-    this.size.set(size.name());
+    if (variant != null) {
+      this.variant.set(variant.name());
+    }
+
+    if (size != null) {
+      this.size.set(size.name());
+    }
   }
 
   public void initialize() {
     getStyleClass().add("button");
+    getStyleClass().add("button-".concat(this.variant.get().toLowerCase()));
+    getStyleClass().add("button-".concat(this.size.get().toLowerCase()));
 
     this.variant.addListener((observable, oldValue, newValue) -> {
-      getStyleClass().removeAll("button-default", "button-primary",
-                                "button-destructive", "button-muted");
-      getStyleClass().add("button-".concat(this.variant.get().toLowerCase()));
+      getStyleClass().remove("button-".concat(oldValue.toLowerCase()));
+      getStyleClass().add("button-".concat(newValue.toLowerCase()));
     });
 
     this.size.addListener((observable, oldValue, newValue) -> {
-      getStyleClass().removeAll("button-base", "button-sm", "button-lg",
-                                "button-md", "button-xs");
-      String sizeClass = "button-".concat(this.size.get().toLowerCase());
-      getStyleClass().add(sizeClass);
+      getStyleClass().remove("button-".concat(oldValue.toLowerCase()));
+      getStyleClass().add("button-".concat(newValue.toLowerCase()));
     });
   }
 }

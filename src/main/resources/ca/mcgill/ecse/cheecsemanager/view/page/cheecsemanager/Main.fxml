@@ -13,7 +13,18 @@
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.MainController">
 
-            <StyledButton variant="PRIMARY" size="LG" text="Hello world!" />
+            <VBox spacing="10">
+                        <StyledButton variant="PRIMARY" size="XS" text="xs" />
+                        <StyledButton variant="PRIMARY" size="SM" text="sm" />
+                        <StyledButton variant="PRIMARY" size="BASE" text="base" />
+                        <StyledButton variant="PRIMARY" size="MD" text="md" />
+                        <StyledButton variant="PRIMARY" size="LG" text="lg" />
+
+                        <StyledButton text="default" />
+                        <StyledButton variant="PRIMARY" text="primary" />
+                        <StyledButton variant="DESTRUCTIVE" text="destructive" />
+                        <StyledButton variant="MUTED" text="muted" />
+            </VBox>
 
 </AnchorPane>
 

@@ -1,6 +1,6 @@
 .button {
   -fx-background-radius: 12px;
-  -fx-padding: 16px 12px; /* Default padding */
+  -fx-border-radius: 12px;
   -fx-font-size: 16px; /* Default font size */
 }
 
@@ -28,26 +28,22 @@
 }
 
 .button-xs {
-  -fx-font-size: 8px;
-  -fx-padding: 8px 8px;
+  -fx-font-size: 12px;
+  -fx-padding: 4px 8px;
 }
 
 .button-sm {
-  -fx-font-size: 12px;
-  -fx-padding: 12px 8px;
+  -fx-padding: 4px 8px;
 }
 
 .button-base {
-  -fx-font-size: 16px;
-  -fx-padding: 16px 12px;
+  -fx-padding: 8px 12px;
 }
 
 .button-md {
-  -fx-font-size: 20px;
-  -fx-padding: 20px 16px;
+  -fx-padding: 10px 20px;
 }
 
 .button-lg {
-  -fx-font-size: 24px;
-  -fx-padding: 24px 20px;
+  -fx-padding: 12px 24px;
 }
