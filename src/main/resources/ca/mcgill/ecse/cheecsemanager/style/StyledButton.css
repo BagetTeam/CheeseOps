@@ -1,10 +1,7 @@
 .button {
-  -fx-border-radius: 0;
-  -fx-background-radius: 0;
-  -fx-background-insets: 0;
+  -fx-background-radius: 12px;
   -fx-padding: 16px 12px; /* Default padding */
   -fx-font-size: 16px; /* Default font size */
-  -fx-cursor: hand;
 }
 
 .button-default {

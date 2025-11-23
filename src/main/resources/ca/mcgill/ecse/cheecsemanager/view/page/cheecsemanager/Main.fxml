@@ -13,7 +13,7 @@
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.MainController">
 
-            <StyledButton variant="PRIMARY" size="SM" text="Hello world!" />
+            <StyledButton variant="PRIMARY" size="LG" text="Hello world!" />
 
 </AnchorPane>
 
