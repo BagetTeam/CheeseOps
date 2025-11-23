@@ -1,7 +1,12 @@
-@import "../../../style/main.css";
+@import "main.css";
 
 .button {
   -fx-border-radius: 0;
+  -fx-background-radius: 0;
+  -fx-background-insets: 0;
+  -fx-padding: -unit-base -unit-sm; /* Default padding */
+  -fx-font-size: -unit-base; /* Default font size */
+  -fx-cursor: hand;
 }
 
 .button-default {
