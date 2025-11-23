@@ -39,7 +39,7 @@ public class CheECSEManagerApplication extends Application {
   private static void _loadStyleSheets(Scene scene) {
     String[] sheets = {
         "style/main.css",
-        "view/components/StyledButton/StyledButton.css",
+        "style/StyledButton.css",
     };
 
     for (String sheet : sheets) {

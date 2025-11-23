@@ -2,8 +2,10 @@
   -color-primary: #ffda6d;
   -color-secondary: #ba9b02;
   -color-tertiary: #ffefbf;
+  -color-destructive: #f07e68;
   -color-bg: #232001;
   -color-fg: #d7cdc4;
+  -color-darker-bg: #191701;
   -color-muted: rgba(215, 205, 196, 0.43);
 
   -unit-xs: 8px;
@@ -23,8 +25,4 @@
   -fx-font-weight: normal;
   -fx-text-fill: -color-fg;
   -fx-background-color: -color-bg;
-
-  font-family: "Inter";
-  font-size: 16px;
-  font-weight: normal;
 }

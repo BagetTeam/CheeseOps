@@ -23,11 +23,15 @@ public class StyledButton extends Button {
     this.initialize();
   }
 
+  public StyledButton(String text) {
+    super(text);
+    this.initialize();
+  }
+
   public StyledButton(@NamedArg("variant") Variant variant,
                       @NamedArg("size") Size size,
                       @NamedArg("text") String text) {
     super(text);
-    this.loadFXML();
     this.initialize();
 
     this.variant.set(variant.name());
