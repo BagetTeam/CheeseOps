@@ -1,3 +1,5 @@
+@import "../../../style/main.css";
+
 .button {
   -fx-border-radius: 0;
 }
