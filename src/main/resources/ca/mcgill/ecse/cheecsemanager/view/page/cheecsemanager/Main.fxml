@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.layout.*?>
+<?import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton?>
 
 <AnchorPane maxHeight="-Infinity"
             maxWidth="-Infinity"
@@ -11,5 +12,7 @@
             xmlns="http://javafx.com/javafx/17.0.2-ea"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.MainController">
+            <StyledButton variant="MUTED" size="LG" text="Hello world!" />
 
 </AnchorPane>
+

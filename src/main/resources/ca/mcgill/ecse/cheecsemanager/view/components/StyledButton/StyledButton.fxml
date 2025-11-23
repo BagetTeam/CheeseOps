@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Button?>
+<fx:root xmlns:fx="http://javafx.com/fxml/1" 
+         type="javafx.scene.control.Button">
+    <!-- You can define internal structure here if needed -->
+</fx:root>
