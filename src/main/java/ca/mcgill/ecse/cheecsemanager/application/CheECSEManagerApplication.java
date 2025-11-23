@@ -36,6 +36,7 @@ public class CheECSEManagerApplication extends Application {
     String[] sheets = {
         "style/main.css",
         "view/components/StyledButton/StyledButton.css",
+        "view/components/FarmerCard/FarmerCard.css",
     };
 
     for (String sheet : sheets) {
