@@ -42,27 +42,22 @@
 }
 
 .button-default .icon {
-    -fx-fill: -color-fg;
     -fx-stroke: -color-fg;
 }
 
 .button-primary .icon {
-    -fx-fill: -color-bg;
     -fx-stroke: -color-bg;
 }
 
 .button-destructive .icon {
-    -fx-fill: -color-bg;
     -fx-stroke: -color-bg;
 }
 
 .button-muted .icon {
-    -fx-fill: -color-muted;
     -fx-stroke: -color-muted;
 }
 
 .button-muted:hover .icon {
-    -fx-fill: -color-fg;
     -fx-stroke: -color-fg;
 }
 
