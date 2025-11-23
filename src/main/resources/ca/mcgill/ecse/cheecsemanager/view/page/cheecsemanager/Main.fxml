@@ -5,4 +5,5 @@
 
 <HBox spacing="10">
 	<Label text="Hello World!" />
+	<Button text="Click Me!" />
 </HBox>
