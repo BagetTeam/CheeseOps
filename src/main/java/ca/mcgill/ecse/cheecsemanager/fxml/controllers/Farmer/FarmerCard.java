@@ -1,4 +1,4 @@
-package ca.mcgill.ecse.cheecsemanager.fxml.components;
+package ca.mcgill.ecse.cheecsemanager.fxml.controllers.Farmer;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,7 +19,7 @@ public class FarmerCard extends VBox {
     
     public FarmerCard() {
         // Load the FXML. 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ca/mcgill/ecse/cheecsemanager/view/components/FarmerCard/FarmerCard.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ca/mcgill/ecse/cheecsemanager/view/components/Farmer/FarmerCard.fxml"));
         loader.setRoot(this);
         loader.setController(this);
         
