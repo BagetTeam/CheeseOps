@@ -372,7 +372,7 @@ public class RobotController {
   /**
    * Treat a cheese wheel when the robot is at a cheese wheel (i.e., upon being
    * asked to treat a cheese wheel, the robot picks up the cheese wheel, washes
-   * it, turns it, and places it back on the shelf)
+   * it, turns it, and places it backToMenu on the shelf)
    * @author Benjamin Curis-Friedman and Olivier Mao (modified)
    * @return whether action was successful
    */
@@ -403,10 +403,10 @@ public class RobotController {
 
   /**
    * @author Ayush Patel
-   * Go back to the entrance of the aisle when the robot is at a cheese wheel
+   * Go backToMenu to the entrance of the aisle when the robot is at a cheese wheel
    * (i.e., the robot determines how much to move straight backward and how much
    * to adjust its height down)
-   * When the robot goes back to the entrance of an aisle, its height must be
+   * When the robot goes backToMenu to the entrance of an aisle, its height must be
    * reset to row 1
    * @return whether action was successful
    */

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="640.0" maxWidth="980.0" minHeight="640.0" minWidth="980.0" prefHeight="640.0" prefWidth="980.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.RobotHandlingController">
+   <children>
+      <HBox alignment="CENTER" layoutX="220.0" layoutY="202.0" prefHeight="236.0" prefWidth="393.0" spacing="50.0">
+         <children>
+            <Button fx:id="activateRobot" mnemonicParsing="false" onAction="#activateRobot" prefHeight="85.0" prefWidth="107.0" style="-fx-background-radius: 200;">
+               <graphic>
+                  <ImageView fitHeight="141.0" fitWidth="131.0" pickOnBounds="true" preserveRatio="true" />
+               </graphic>
+            </Button>
+            <Button fx:id="initializeRobot" mnemonicParsing="false" onAction="#initializeRobot" prefHeight="85.0" prefWidth="107.0" style="-fx-background-radius: 200;">
+               <graphic>
+                  <ImageView fitHeight="141.0" fitWidth="131.0" pickOnBounds="true" preserveRatio="true" />
+               </graphic>
+            </Button>
+            <Button fx:id="deactivateRobot" mnemonicParsing="false" onAction="#deactivateRobot" prefHeight="85.0" prefWidth="107.0" style="-fx-background-radius: 200;">
+               <graphic>
+                  <ImageView fitHeight="141.0" fitWidth="131.0" pickOnBounds="true" preserveRatio="true" />
+               </graphic>
+            </Button>
+         </children>
+      </HBox>
+      <Label fx:id="statusDisplay" alignment="CENTER" contentDisplay="CENTER" layoutX="292.0" layoutY="438.0" prefHeight="60.0" prefWidth="397.0" text="Status: Active" textAlignment="CENTER" textOverrun="CENTER_WORD_ELLIPSIS">
+         <font>
+            <Font size="27.0" />
+         </font>
+      </Label>
+      <Button fx:id="backToMenu" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#returnToMenu" prefHeight="84.0" prefWidth="98.0" style="-fx-background-radius: 200;">
+         <graphic>
+            <ImageView fitHeight="53.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true" />
+         </graphic>
+      </Button>
+      <AnchorPane fx:id="activateScreen" maxHeight="640.0" maxWidth="980.0" minHeight="640.0" minWidth="980.0" prefHeight="640.0" prefWidth="980.0" style="-fx-background-color: #92e090;" visible="false" />
+      <AnchorPane fx:id="initializeScreen" maxHeight="640.0" maxWidth="980.0" minHeight="640.0" minWidth="980.0" prefHeight="640.0" prefWidth="980.0" style="-fx-background-color: #7dcad4;" visible="false" />
+      <AnchorPane fx:id="deactivateScreen" maxHeight="640.0" maxWidth="980.0" minHeight="640.0" minWidth="980.0" prefHeight="640.0" prefWidth="980.0" style="-fx-background-color: #d47d7d;" visible="false" />
+   </children>
+</AnchorPane>
