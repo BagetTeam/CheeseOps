@@ -9,7 +9,7 @@
 plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
     id 'application'
-    id 'org.openjfx.javafxplugin' version '0.0.12'
+    id 'org.openjfx.javafxplugin' version '0.1.0'
 }
 
 repositories {
@@ -18,7 +18,7 @@ repositories {
 }
 
 javafx {
-    version = "17"
+    version = "21"
     modules = [ 'javafx.controls', 'javafx.fxml' ]
 }
 
@@ -71,13 +71,13 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
-sourceSets {
-    main {
-        java {
-            exclude 'ca/mcgill/ecse/cheecsemanager/fxml/**'
-        }
-        resources {
-            exclude 'ca/mcgill/ecse/cheecsemanager/fxml/**'
-        }
-    }
-}
+// sourceSets {
+//     main {
+//         java {
+//             exclude 'ca/mcgill/ecse/cheecsemanager/fxml/**'
+//         }
+//         resources {
+//             exclude 'ca/mcgill/ecse/cheecsemanager/fxml/**'
+//         }
+//     }
+// }
