@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
-<?import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton?>
+<?import ca.mcgill.ecse.cheecsemanager.fxml.components.*?>
 <AnchorPane
     fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.MainController"
     maxHeight="-Infinity"
@@ -47,6 +47,7 @@
                 />
       </graphic>
     </StyledButton>
+
     <StyledButton text="muted with icon" variant="MUTED">
       <graphic>
         <SVGPath
@@ -55,5 +56,12 @@
                 />
       </graphic>
     </StyledButton>
+
+    <StyledButton text="muted with icon" variant="MUTED">
+      <graphic>
+        <Icon icon="X" />
+      </graphic>
+    </StyledButton>
+
   </VBox>
 </AnchorPane>
