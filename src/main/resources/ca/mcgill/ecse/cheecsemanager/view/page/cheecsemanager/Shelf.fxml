@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:id="root"
+            fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.ShelfController"
+            prefWidth="600" prefHeight="400">
+
+    <AnchorPane fx:id="contentPane" prefWidth="600" prefHeight="400">
+        <Button fx:id="showPopupBtn" text="Add Shelf" layoutX="200" layoutY="350"/>
+        <Button fx:id="deleteBtn" text="Delete Shelf" layoutX="350" layoutY="350"/>
+    </AnchorPane>
+
+</AnchorPane>

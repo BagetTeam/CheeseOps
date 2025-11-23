@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.ConfirmDeletePopUpController"
+            prefWidth="300" prefHeight="150"
+            style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 1;">
+
+    <VBox spacing="15" layoutX="20" layoutY="20">
+        <Label text="Are you sure you want to delete?" wrapText="true"/>
+        <Label text="This action cannot be undone." wrapText="true"/>
+
+        <HBox spacing="20" alignment="CENTER">
+            <Button text="Yes" fx:id="yesBtn"/>
+            <Button text="No" fx:id="noBtn"/>
+        </HBox>
+    </VBox>
+</AnchorPane>
