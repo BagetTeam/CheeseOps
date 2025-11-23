@@ -9,7 +9,6 @@ import javafx.scene.control.Button;
 /**
  *
  * <p>Custom styled button component</p>
- * <p>Usage:</p>
  *
  * {@code
  * <StyledButton variant="PRIMARY" size="BASE" text="Hello World" />
@@ -17,6 +16,56 @@ import javafx.scene.control.Button;
  *
  * <p>All variants: DEFAULT, PRIMARY, DESTRUCTIVE, MUTED</p>
  * <p>All sizes: XS, SM, BASE, MD, LG</p>
+ *
+ * <p>Example usage:</p>
+ *
+ * <pre>{@code
+ * <StyledButton size="XS" text="xs" variant="PRIMARY"></StyledButton>
+ *
+ * <StyledButton size="SM" text="sm" variant="PRIMARY"></StyledButton>
+ *
+ * <StyledButton size="BASE" text="base" variant="PRIMARY"></StyledButton>
+ *
+ * <StyledButton size="MD" text="md" variant="PRIMARY"></StyledButton>
+ *
+ * <StyledButton size="LG" text="lg" variant="PRIMARY"></StyledButton>
+ *
+ * <StyledButton text="default"></StyledButton>
+ *
+ * <StyledButton text="primary" variant="PRIMARY"></StyledButton>
+ *
+ * <StyledButton text="destructive" variant="DESTRUCTIVE"></StyledButton>
+ *
+ * <StyledButton text="muted" variant="MUTED"></StyledButton>
+ *
+ * <StyledButton text="default with icon">
+ *   <graphic>
+ *     <SVGPath content="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19
+ * 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" styleClass="icon"></SVGPath>
+ *   </graphic>
+ * </StyledButton>
+ *
+ * <StyledButton text="primary with icon" variant="PRIMARY">
+ *   <graphic>
+ *     <SVGPath content="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19
+ * 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" styleClass="icon"></SVGPath>
+ *   </graphic>
+ * </StyledButton>
+ *
+ * <StyledButton text="destructive with icon" variant="DESTRUCTIVE">
+ *   <graphic>
+ *     <SVGPath content="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19
+ * 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" styleClass="icon"></SVGPath>
+ *   </graphic>
+ * </StyledButton>
+ *
+ * <StyledButton text="muted with icon" variant="MUTED">
+ *   <graphic>
+ *     <SVGPath content="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9
+ * 2-2V7H6v12zM194h-3.5l-1-1h-5l-1 1H5v2h14V4z" styleClass="icon"></SVGPath>
+ *   </graphic>
+ * </StyledButton>
+ * }</pre>
  *
  *
  * @author Ming Li Liu
