@@ -1,0 +1,53 @@
+.button {
+  -fx-background-radius: 12px;
+  -fx-padding: 16px 12px; /* Default padding */
+  -fx-font-size: 16px; /* Default font size */
+}
+
+.button-default {
+  -fx-background-color: transparent;
+  -fx-text-fill: -color-fg;
+}
+
+.button-primary {
+  -fx-background-color: -color-primary;
+  -fx-text-fill: -color-bg;
+}
+
+.button-destructive {
+  -fx-background-color: -color-destructive;
+  -fx-text-fill: -color-bg;
+}
+
+.button-muted {
+  -fx-background-color: transparent;
+  -fx-text-fill: -color-muted;
+  -fx-border-color: -color-muted;
+  -fx-border-width: 1px;
+  -fx-border-style: solid;
+}
+
+.button-xs {
+  -fx-font-size: 8px;
+  -fx-padding: 8px 8px;
+}
+
+.button-sm {
+  -fx-font-size: 12px;
+  -fx-padding: 12px 8px;
+}
+
+.button-base {
+  -fx-font-size: 16px;
+  -fx-padding: 16px 12px;
+}
+
+.button-md {
+  -fx-font-size: 20px;
+  -fx-padding: 20px 16px;
+}
+
+.button-lg {
+  -fx-font-size: 24px;
+  -fx-padding: 24px 20px;
+}

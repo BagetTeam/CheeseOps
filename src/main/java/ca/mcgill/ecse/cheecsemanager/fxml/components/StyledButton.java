@@ -1,11 +1,8 @@
 package ca.mcgill.ecse.cheecsemanager.fxml.components;
 
-import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
-import java.io.IOException;
 import javafx.beans.NamedArg;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 
 public class StyledButton extends Button {
@@ -23,11 +20,15 @@ public class StyledButton extends Button {
     this.initialize();
   }
 
+  public StyledButton(String text) {
+    super(text);
+    this.initialize();
+  }
+
   public StyledButton(@NamedArg("variant") Variant variant,
                       @NamedArg("size") Size size,
                       @NamedArg("text") String text) {
     super(text);
-    this.loadFXML();
     this.initialize();
 
     this.variant.set(variant.name());
@@ -49,17 +50,5 @@ public class StyledButton extends Button {
       String sizeClass = "button-".concat(this.size.get().toLowerCase());
       getStyleClass().add(sizeClass);
     });
-  }
-
-  private void loadFXML() {
-    FXMLLoader loader = new FXMLLoader(CheECSEManagerApplication.getResource(
-        "view/components/StyledButton/StyledButton.fxml"));
-    loader.setRoot(this);
-    loader.setController(this);
-    try {
-      loader.load();
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
   }
 }
