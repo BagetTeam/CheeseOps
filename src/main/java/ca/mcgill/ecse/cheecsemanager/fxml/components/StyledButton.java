@@ -3,6 +3,7 @@ package ca.mcgill.ecse.cheecsemanager.fxml.components;
 import javafx.beans.NamedArg;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 
 /**
@@ -40,11 +41,18 @@ public class StyledButton extends Button {
     this.initialize();
   }
 
+  public StyledButton(String text, Node graphic) {
+    super(text, graphic);
+    this.initialize();
+  }
   public StyledButton(@NamedArg("variant") Variant variant,
                       @NamedArg("size") Size size,
-                      @NamedArg("text") String text) {
-    super(text);
+                      @NamedArg("text") String text,
+                      @NamedArg("graphic") Node graphic) {
+    super(text, graphic);
+
     this.initialize();
+    this.ensureIconStyleClass();
 
     if (variant != null) {
       this.variant.set(variant.name());
@@ -56,18 +64,26 @@ public class StyledButton extends Button {
   }
 
   public void initialize() {
-    getStyleClass().add("button");
-    getStyleClass().add("button-".concat(this.variant.get().toLowerCase()));
-    getStyleClass().add("button-".concat(this.size.get().toLowerCase()));
+    this.getStyleClass().add("button");
+    this.getStyleClass().add(
+        "button-".concat(this.variant.get().toLowerCase()));
+    this.getStyleClass().add("button-".concat(this.size.get().toLowerCase()));
 
     this.variant.addListener((observable, oldValue, newValue) -> {
-      getStyleClass().remove("button-".concat(oldValue.toLowerCase()));
-      getStyleClass().add("button-".concat(newValue.toLowerCase()));
+      this.getStyleClass().remove("button-".concat(oldValue.toLowerCase()));
+      this.getStyleClass().add("button-".concat(newValue.toLowerCase()));
     });
 
     this.size.addListener((observable, oldValue, newValue) -> {
-      getStyleClass().remove("button-".concat(oldValue.toLowerCase()));
-      getStyleClass().add("button-".concat(newValue.toLowerCase()));
+      this.getStyleClass().remove("button-".concat(oldValue.toLowerCase()));
+      this.getStyleClass().add("button-".concat(newValue.toLowerCase()));
     });
+  }
+
+  private void ensureIconStyleClass() {
+    var graphic = this.graphicProperty().get();
+    if (graphic != null && !graphic.getStyleClass().contains("icon")) {
+      graphic.getStyleClass().add("icon");
+    }
   }
 }

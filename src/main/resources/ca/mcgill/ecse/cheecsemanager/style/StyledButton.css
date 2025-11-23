@@ -1,7 +1,8 @@
 .button {
-  -fx-background-radius: 12px;
-  -fx-border-radius: 12px;
+  -fx-background-radius: 8px;
+  -fx-border-radius: 8px;
   -fx-font-size: 16px; /* Default font size */
+  -fx-transition: all 0.2s ease-in-out;
 }
 
 .button-default {
@@ -25,6 +26,35 @@
   -fx-border-color: -color-muted;
   -fx-border-width: 1px;
   -fx-border-style: solid;
+}
+
+.button-default:hover {
+  -fx-background-color: -color-muted;
+}
+
+.button-muted:hover {
+  -fx-text-fill: -color-fg;
+  -fx-border-color: -color-fg;
+}
+
+.button-default .icon {
+  -fx-fill: -color-fg;
+}
+
+.button-primary .icon {
+  -fx-fill: -color-bg;
+}
+
+.button-destructive .icon {
+  -fx-fill: -color-bg;
+}
+
+.button-muted .icon {
+  -fx-fill: -color-muted;
+}
+
+.button-muted:hover .icon {
+  -fx-fill: -color-fg;
 }
 
 .button-xs {

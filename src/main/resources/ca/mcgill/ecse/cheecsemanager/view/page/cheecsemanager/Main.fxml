@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
 <?import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton?>
 
 <AnchorPane maxHeight="-Infinity"
@@ -15,6 +16,7 @@
 
             <VBox spacing="10">
                         <StyledButton variant="PRIMARY" size="XS" text="xs" />
+
                         <StyledButton variant="PRIMARY" size="SM" text="sm" />
                         <StyledButton variant="PRIMARY" size="BASE" text="base" />
                         <StyledButton variant="PRIMARY" size="MD" text="md" />
@@ -24,6 +26,39 @@
                         <StyledButton variant="PRIMARY" text="primary" />
                         <StyledButton variant="DESTRUCTIVE" text="destructive" />
                         <StyledButton variant="MUTED" text="muted" />
+
+                        <StyledButton text="default with icon">
+                                    <graphic>
+                                                <SVGPath
+                                                            content="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"
+                                                            styleClass="icon"
+                                                />
+                                    </graphic>
+                        </StyledButton>
+                        <StyledButton text="primary with icon" variant="PRIMARY">
+                                    <graphic>
+                                                <SVGPath
+                                                            content="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"
+                                                            styleClass="icon"
+                                                />
+                                    </graphic>
+                        </StyledButton>
+                        <StyledButton text="destructive with icon" variant="DESTRUCTIVE">
+                                    <graphic>
+                                                <SVGPath
+                                                            content="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"
+                                                            styleClass="icon"
+                                                />
+                                    </graphic>
+                        </StyledButton>
+                        <StyledButton text="muted with icon" variant="MUTED">
+                                    <graphic>
+                                                <SVGPath
+                                                            content="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"
+                                                            styleClass="icon"
+                                                />
+                                    </graphic>
+                        </StyledButton>
             </VBox>
 
 </AnchorPane>
