@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.shape.SVGPath?>
-<Pane
-    xmlns="http://javafx.com/javafx/17"
-    xmlns:fx="http://javafx.com/fxml/1"
-    prefWidth="30"
-    prefHeight="30"
->
+<Pane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
    <SVGPath
         content="M7.5 27.5V5C7.5 4.33696 7.76339 3.70107 8.23223 3.23223C8.70107 2.76339 9.33696 2.5 10 2.5H20C20.663 2.5 21.2989 2.76339 21.7678 3.23223C22.2366 3.70107 22.5 4.33696 22.5 5V27.5H7.5Z"
         strokeWidth="2"

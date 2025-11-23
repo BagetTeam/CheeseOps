@@ -26,4 +26,5 @@
 .icon {
     -fx-stroke-width: 2px;
     -fx-stroke: -color-fg;
+    -fx-fill: transparent;
 }
