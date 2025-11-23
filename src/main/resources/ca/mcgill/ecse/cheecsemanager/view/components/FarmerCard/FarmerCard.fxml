@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import com.example.components.StyleButton?>
+
+<fx:root type="VBox" xmlns:fx="http://javafx.com/fxml/1" spacing="10" 
+         styleClass="farmer-card" prefWidth="250">
+    <padding>
+        <Insets top="15" right="15" bottom="15" left="15"/>
+    </padding>
+    
+    <Label fx:id="nameLabel" styleClass="name-label"/>
+    <Label fx:id="cheeseLabel" styleClass="cheese-label"/>
+    
+    <HBox spacing="10">
+        <Button text="view" onAction="#handleView"/>
+        <Button text="delete" onAction="#handleDelete"/>
+    </HBox>
+</fx:root>
