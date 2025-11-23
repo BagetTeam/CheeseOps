@@ -1,11 +1,9 @@
-@import "main.css";
-
 .button {
   -fx-border-radius: 0;
   -fx-background-radius: 0;
   -fx-background-insets: 0;
-  -fx-padding: -unit-base -unit-sm; /* Default padding */
-  -fx-font-size: -unit-base; /* Default font size */
+  -fx-padding: 16px 12px; /* Default padding */
+  -fx-font-size: 16px; /* Default font size */
   -fx-cursor: hand;
 }
 
@@ -33,26 +31,26 @@
 }
 
 .button-xs {
-  -fx-font-size: -unit-xs;
-  -fx-padding: -unit-xs -unit-xs;
+  -fx-font-size: 8px;
+  -fx-padding: 8px 8px;
 }
 
 .button-sm {
-  -fx-font-size: -unit-sm;
-  -fx-padding: -unit-sm -unit-xs;
+  -fx-font-size: 12px;
+  -fx-padding: 12px 8px;
 }
 
 .button-base {
-  -fx-font-size: -unit-base;
-  -fx-padding: -unit-base -unit-sm;
+  -fx-font-size: 16px;
+  -fx-padding: 16px 12px;
 }
 
 .button-md {
-  -fx-font-size: -unit-md;
-  -fx-padding: -unit-md -unit-base;
+  -fx-font-size: 20px;
+  -fx-padding: 20px 16px;
 }
 
 .button-lg {
-  -fx-font-size: -unit-lg;
-  -fx-padding: -unit-lg -unit-md;
+  -fx-font-size: 24px;
+  -fx-padding: 24px 20px;
 }
