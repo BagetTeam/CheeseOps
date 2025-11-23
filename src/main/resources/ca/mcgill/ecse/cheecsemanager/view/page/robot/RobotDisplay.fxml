@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:id="parentContainer"
+      fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controller.robot.RobotDisplayController" 
+      spacing="16"
+      VBox.vgrow="ALWAYS">
+    
+    <VBox spacing="12">
+        <Label text="Robot Status" styleClass="section-header"/>
+        <HBox spacing="16">
+            <Label fx:id="labelStatus" text="Status: " minWidth="100"/>
+            <Label fx:id="labelStatusValue" text="Not Activated"/>
+        </HBox>
+        <HBox spacing="16">
+            <Label fx:id="labelCurrentShelf" text="Current Shelf: " minWidth="100"/>
+            <Label fx:id="labelCurrentShelfValue" text="None"/>
+        </HBox>
+        <HBox spacing="16">
+            <Label fx:id="labelCurrentCheeseWheel" text="Current Cheese Wheel: " minWidth="100"/>
+            <Label fx:id="labelCurrentCheeseWheelValue" text="None"/>
+        </HBox>
+    </VBox>
+    
+    <Separator/>
+    
+    <VBox spacing="12">
+        <Label text="Robot Actions" styleClass="section-header"/>
+        <HBox spacing="12">
+            <Button fx:id="buttonActivate" text="Activate Robot" onAction="#onActivate" styleClass="add-button">
+                <graphic>
+                    <ImageView fitHeight="16" fitWidth="16" preserveRatio="true">
+                        <Image url="@../../../image/add.png"/>
+                    </ImageView>
+                </graphic>
+            </Button>
+            <Button fx:id="buttonInitialize" text="Initialize Robot" onAction="#onInitialize" styleClass="add-button">
+                <graphic>
+                    <ImageView fitHeight="16" fitWidth="16" preserveRatio="true">
+                        <Image url="@../../../image/add.png"/>
+                    </ImageView>
+                </graphic>
+            </Button>
+            <Button fx:id="buttonTriggerTreatment" text="Trigger Treatment" onAction="#onTriggerTreatment" styleClass="add-button">
+                <graphic>
+                    <ImageView fitHeight="16" fitWidth="16" preserveRatio="true">
+                        <Image url="@../../../image/add.png"/>
+                    </ImageView>
+                </graphic>
+            </Button>
+            <Button fx:id="buttonViewLog" text="View Log" onAction="#onViewLog" styleClass="add-button">
+                <graphic>
+                    <ImageView fitHeight="16" fitWidth="16" preserveRatio="true">
+                        <Image url="@../../../image/add.png"/>
+                    </ImageView>
+                </graphic>
+            </Button>
+            <Button fx:id="buttonDeactivate" text="Deactivate Robot" onAction="#onDeactivate" styleClass="add-button">
+                <graphic>
+                    <ImageView fitHeight="16" fitWidth="16" preserveRatio="true">
+                        <Image url="@../../../image/add.png"/>
+                    </ImageView>
+                </graphic>
+            </Button>
+        </HBox>
+    </VBox>
+    
+    <Text fx:id="textError"/>
+    
+    <VBox fx:id="childContainer" VBox.vgrow="ALWAYS" />
+</VBox>
+
