@@ -20,7 +20,7 @@ public class CheECSEManagerApplication extends Application {
 
     FXMLLoader fxmlLoader =
         new FXMLLoader(CheECSEManagerApplication.class.getResource(
-            PACKAGE_ID.concat("view/page/cheecsemanager/Robot.fxml")));
+            PACKAGE_ID.concat("view/page/cheecsemanager/Main.fxml")));
     Scene scene = new Scene(fxmlLoader.load(), 980, 640);
 
     _loadStyleSheets(scene);
