@@ -35,7 +35,7 @@
       </ImageView>
       <HBox alignment="CENTER" layoutX="7.0" layoutY="208.0" prefHeight="224.0" prefWidth="478.0" spacing="60.0" style="-fx-background-color: #191701; -fx-background-radius: 200;">
          <children>
-            <Button fx:id="activateRobot" maxHeight="100.0" maxWidth="100.0" minHeight="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#activateRobot" prefHeight="100.0" prefWidth="100.0" style="-fx-background-radius: 200; -fx-background-color: transparent;">
+            <Button fx:id="activateRobotButton" maxHeight="100.0" maxWidth="100.0" minHeight="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#onActivateRobot" prefHeight="100.0" prefWidth="100.0" style="-fx-background-radius: 200; -fx-background-color: transparent;">
                <graphic>
                   <ImageView fitHeight="137.0" fitWidth="131.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -43,7 +43,7 @@
                      </image></ImageView>
                </graphic>
             </Button>
-            <Button fx:id="initializeRobot" maxHeight="100.0" maxWidth="100.0" minHeight="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#initializeRobot" prefHeight="100.0" prefWidth="100.0" style="-fx-background-radius: 200; -fx-border-radius: 200; -fx-background-color: transparent;" translateY="5.0">
+            <Button fx:id="initializeRobotButton" maxHeight="100.0" maxWidth="100.0" minHeight="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#onInitializeRobot" prefHeight="100.0" prefWidth="100.0" style="-fx-background-radius: 200; -fx-border-radius: 200; -fx-background-color: transparent;" translateY="5.0">
                <graphic>
                   <ImageView fitHeight="131.0" fitWidth="125.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -52,7 +52,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="deactivateRobot" maxHeight="100.0" maxWidth="100.0" minHeight="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#deactivateRobot" prefHeight="100.0" prefWidth="100.0" style="-fx-background-radius: 200; -fx-background-color: transparent;">
+            <Button fx:id="deactivateRobotButton" maxHeight="100.0" maxWidth="100.0" minHeight="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#onDeactivateRobot" prefHeight="100.0" prefWidth="100.0" style="-fx-background-radius: 200; -fx-background-color: transparent;">
                <graphic>
                   <ImageView fitHeight="131.0" fitWidth="114.0" pickOnBounds="true" preserveRatio="true">
                      <image>

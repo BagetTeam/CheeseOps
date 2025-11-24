@@ -1,6 +1,7 @@
 package ca.mcgill.ecse.cheecsemanager.fxml.controllers;
 
 
+import ca.mcgill.ecse.cheecsemanager.controller.RobotController;
 import javafx.animation.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -16,23 +17,32 @@ public class RobotHandlingController {
 
     public Label statusDisplay;
 
-    public Button activateRobot;
-    public Button initializeRobot;
-    public Button deactivateRobot;
-
+    public Button activateRobotButton;
+    public Button initializeRobotButton;
+    public Button deactivateRobotButton;
     public Button backToMenu;
 
 
-    public void activateRobot(){
-        this.transition(activateScreen, "Status: Activated", "#92e090");
+    public void onActivateRobot(){
+        try {
+            RobotController.activateRobot();
+            this.transition(activateScreen, "Status: Activated", "#92e090");
+        }catch (Exception e){}
     }
 
-    public void initializeRobot(){
-        this.transition(initializeScreen, "Status: Initialized", "#ffda6d");
+    public void onInitializeRobot(){
+        try {
+            //don't know what arg to take in initialize robot
+            RobotController.initializeRobot(null);
+            this.transition(initializeScreen, "Status: Initialized", "#ffda6d");
+        }catch (Exception e){}
     }
 
-    public void deactivateRobot(){
-        this.transition(deactivateScreen, "Status: Deactivated","#f07e68");
+    public void onDeactivateRobot(){
+        try {
+            RobotController.deactivateRobot();
+            this.transition(deactivateScreen, "Status: Deactivated","#f07e68");
+        }catch (Exception e){}
     }
 
 
