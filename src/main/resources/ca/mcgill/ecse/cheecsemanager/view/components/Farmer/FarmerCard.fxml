@@ -21,7 +21,7 @@
     </HBox>
     
     <HBox spacing="10">
-        <Button text="View" onAction="#handleView"/>
-        <Button text="Delete" onAction="#handleDelete" style="-fx-background-color: #ffcccc;"/>
+        <Button fx:id="viewFarmerBtn" text="View"/>
+        <Button fx:id="deleteFarmerBtn" text="Delete" style="-fx-background-color: #ffcccc;"/>
     </HBox>
 </fx:root>

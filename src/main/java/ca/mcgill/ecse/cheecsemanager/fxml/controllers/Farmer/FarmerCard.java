@@ -4,8 +4,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import ca.mcgill.ecse.cheecsemanager.model.Farmer;
 import ca.mcgill.ecse.cheecsemanager.model.Purchase;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import java.io.IOException;
 
@@ -14,8 +14,13 @@ public class FarmerCard extends VBox {
     @FXML private Label emailLabel;
     @FXML private Label addressLabel;
     @FXML private Label cheeseLabel;
+
+    @FXML private Button viewFarmerBtn;
+    @FXML private Button deleteFarmerBtn;
     
     private Farmer farmerData; 
+    private FarmerController farmerController;
+
     
     public FarmerCard() {
         // Load the FXML. 
@@ -29,7 +34,17 @@ public class FarmerCard extends VBox {
             throw new RuntimeException("Failed to load FarmerCard.fxml", e);
         }
     }
+
+    public void setFarmerController(FarmerController farmerController) {
+        this.farmerController = farmerController;
+    }
     
+    @FXML
+    public void initialize() {
+        viewFarmerBtn.setOnAction(e -> handleView());
+        deleteFarmerBtn.setOnAction(e -> handleDelete());
+    }
+
     // set info for farmer
     public void setFarmer(Farmer farmer) {
         this.farmerData = farmer;
@@ -46,8 +61,11 @@ public class FarmerCard extends VBox {
             cheeseLabel.setText(String.valueOf(cheeseCount));
         }
     }
+
+    public Farmer getFarmer() {
+        return farmerData;
+    }
     
-    @FXML
     private void handleView() {
         if (farmerData != null) {
             System.out.println("View clicked for: " + farmerData.getName());
@@ -55,14 +73,9 @@ public class FarmerCard extends VBox {
         }
     }
     
-    @FXML
     private void handleDelete() {
-        if (farmerData != null) {
-            System.out.println("Delete clicked for: " + farmerData.getName());
-            // Remove from parent container
-            if (getParent() instanceof Pane) {
-                ((Pane) getParent()).getChildren().remove(this);
-            }
+        if (farmerController != null) {
+            farmerController.deleteFarmerPopup(this);
         }
     }
 }
