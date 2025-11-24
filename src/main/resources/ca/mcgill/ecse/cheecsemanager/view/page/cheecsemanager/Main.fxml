@@ -2,7 +2,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
 <?import ca.mcgill.ecse.cheecsemanager.fxml.components.*?>
-<AnchorPane
+<BorderPane
     fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.MainController"
     maxHeight="-Infinity"
     maxWidth="-Infinity"
@@ -13,52 +13,14 @@
     xmlns="http://javafx.com/javafx/17.0.2-ea"
     xmlns:fx="http://javafx.com/fxml/1"
 >
-  <HBox spacing="10">
-    <VBox spacing="10">
-      <StyledButton size="XS" text="xs" variant="PRIMARY" />
-      <StyledButton size="SM" text="sm" variant="PRIMARY" />
-      <StyledButton size="BASE" text="base" variant="PRIMARY" />
-      <StyledButton size="MD" text="md" variant="PRIMARY" />
-      <StyledButton size="LG" text="lg" variant="PRIMARY" />
-      <StyledButton text="default" />
-      <StyledButton text="primary" variant="PRIMARY" />
-      <StyledButton text="destructive" variant="DESTRUCTIVE" />
-      <StyledButton text="muted" variant="MUTED" />
-      <StyledButton text="default with icon">
-        <graphic>
-          <Icon icon="Cargo" />
-        </graphic>
-      </StyledButton>
-      <StyledButton text="primary with icon" variant="PRIMARY">
-        <graphic>
-          <Icon icon="Cargo" />
-        </graphic>
-      </StyledButton>
-      <StyledButton text="destructive with icon" variant="DESTRUCTIVE">
-        <graphic>
-          <Icon icon="Cheese" />
-        </graphic>
-      </StyledButton>
+  <left>
+    <fx:include
+            fx:id="sidebar"
+            source="/ca/mcgill/ecse/cheecsemanager/view/components/Sidebar.fxml"
+        />
+  </left>
 
-      <Icon icon="CheeseWheel" />
-
-    </VBox>
-    <VBox spacing="10">
-      <Icon icon="Cargo" />
-      <Icon icon="Cheese" />
-      <Icon icon="Eye" />
-      <Icon icon="Factory" />
-      <Icon icon="Farmer" />
-      <Icon icon="Gear" />
-      <Icon icon="icon" />
-      <Icon icon="Marker" />
-      <Icon icon="Money" />
-      <Icon icon="Search" />
-      <Icon icon="Upload" />
-      <Icon icon="User" />
-      <Icon icon="Warehouse" />
-      <Icon icon="X" />
-
-    </VBox>
-  </HBox>
-</AnchorPane>
+  <center>
+    <StackPane fx:id="contentArea" BorderPane.alignment="CENTER" />
+    </center>
+</BorderPane>
