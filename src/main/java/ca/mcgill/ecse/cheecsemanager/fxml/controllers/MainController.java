@@ -65,4 +65,3 @@ public class MainController {
     contentArea.getChildren().clear();
     contentArea.getChildren().add(errorLabel);
   }
-}
