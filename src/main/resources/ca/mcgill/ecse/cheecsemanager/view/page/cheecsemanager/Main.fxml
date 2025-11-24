@@ -54,6 +54,12 @@
         </graphic>
       </StyledButton>
 
+      <StyledButton text="Delete Wholesale Company" variant="PRIMARY" onAction="#handleDeleteCompany">
+        <graphic>
+          <Icon icon="Factory" />
+        </graphic>
+      </StyledButton>
+
       <Icon icon="CheeseWheel" />
 
     </VBox>
