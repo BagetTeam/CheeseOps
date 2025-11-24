@@ -40,6 +40,14 @@
 
 
 
+/* Farmer Card */
+.farmer-card {
+    -fx-background-color: -color-darker-bg;
+    -fx-background-radius: 12px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0, 0, 2);
+}
+
+/* Table Styles */
 .farmer-table {
     -fx-background-color: transparent;
 }
@@ -48,37 +56,86 @@
     -fx-background-color: transparent;
 }
 
+/* Table rows - center content vertically */
 .farmer-table .table-row-cell {
     -fx-background-color: transparent;
     -fx-border-color: -color-muted;
     -fx-border-width: 0 0 1 0;
     -fx-text-fill: -color-fg;
+    -fx-cell-size: 48px; /* Fixed row height for proper centering */
 }
 
 .farmer-table .table-row-cell:hover {
     -fx-background-color: rgba(255, 218, 109, 0.1);
 }
 
+/* Table cells - center content both horizontally and vertically */
 .farmer-table .table-cell {
     -fx-text-fill: -color-fg;
     -fx-alignment: CENTER;
+    -fx-border-width: 0;
+    -fx-padding: 0;
 }
 
+/* Column headers - add bold primary separator */
 .farmer-table .column-header {
     -fx-background-color: transparent;
-    -fx-border-color: -color-muted;
-    -fx-border-width: 0 0 1 0;
-}
-
-.farmer-table .column-header-background {
-    -fx-background-color: transparent;
+    -fx-border-color: transparent transparent -color-primary transparent;
+    -fx-border-width: 0 0 3 0;
+    -fx-padding: 0;
 }
 
 .farmer-table .column-header .label {
     -fx-text-fill: -color-fg;
     -fx-font-weight: normal;
+    -fx-padding: 12 8 12 8;
+    -fx-alignment: CENTER;
+}
+
+/* Header background and filler */
+.farmer-table .column-header-background {
+    -fx-background-color: transparent;
+}
+
+.farmer-table .column-header-background .filler {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent transparent -color-primary transparent;
+    -fx-border-width: 0 0 3 0;
+}
+
+/* Nested table header region */
+.farmer-table .nested-column-header {
+    -fx-border-color: transparent transparent -color-primary transparent;
+    -fx-border-width: 0 0 3 0;
+}
+
+/* Remove vertical separators */
+.farmer-table .table-column {
+    -fx-border-width: 0;
+}
+
+.farmer-table .table-view .column-resize-line {
+    -fx-background-color: transparent;
+}
+
+.farmer-table .table-view .column-overlay {
+    -fx-background-color: transparent;
+}
+
+/* Hide vertical lines between columns */
+.farmer-table .table-view .column-header .label {
+    -fx-border-width: 0;
 }
 
 .farmer-table .table-view .filler {
     -fx-background-color: transparent;
+}
+
+/* Remove the placeholder when table is empty */
+.farmer-table .table-view .placeholder {
+    -fx-background-color: transparent;
+}
+
+.farmer-table .table-view .placeholder .label {
+    -fx-text-fill: -color-muted;
 }
