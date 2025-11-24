@@ -1,5 +1,6 @@
 package ca.mcgill.ecse.cheecsemanager.fxml.controllers.Farmer;
 
+import ca.mcgill.ecse.cheecsemanager.fxml.controllers.PageNavigator;
 import ca.mcgill.ecse.cheecsemanager.model.CheeseWheel;
 import ca.mcgill.ecse.cheecsemanager.model.Farmer;
 import ca.mcgill.ecse.cheecsemanager.model.Purchase;
@@ -19,7 +20,9 @@ import javafx.util.Callback;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ViewFarmerController {
+public class ViewFarmerController implements PageNavigator.DataReceiver {
+    
+    @FXML private Button backBtn;
 
     @FXML private ImageView photoView;
     @FXML private Label nameLabel;
@@ -96,6 +99,18 @@ public class ViewFarmerController {
             ObservableList<CheeseWheel> observableWheels = FXCollections.observableArrayList(wheels);
             cheeseTable.setItems(observableWheels);
         }
+    }
+    
+    @Override
+    public void setData(Object data) {
+        if (data instanceof Farmer) {
+            setFarmer((Farmer) data);
+        }
+    }
+    
+    @FXML
+    private void handleBack() {
+        PageNavigator.getInstance().goBack();
     }
 }
 

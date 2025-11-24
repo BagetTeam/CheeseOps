@@ -14,7 +14,14 @@
 
 <AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.Farmer.ViewFarmerController">
    <children>
-      <SplitPane dividerPositions="0.3" layoutX="200.0" layoutY="120.0" prefHeight="600.0" prefWidth="900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <HBox style="-fx-padding: 10; -fx-background-color: #f0f0f0;">
+               <children>
+                  <Button fx:id="backBtn" mnemonicParsing="false" onAction="#handleBack" text="← Back" />
+               </children>
+            </HBox>
+            <SplitPane dividerPositions="0.3" VBox.vgrow="ALWAYS">
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
@@ -85,6 +92,7 @@
             </AnchorPane>
         </items>
       </SplitPane>
+         </children>
+      </VBox>
    </children>
 </AnchorPane>
-

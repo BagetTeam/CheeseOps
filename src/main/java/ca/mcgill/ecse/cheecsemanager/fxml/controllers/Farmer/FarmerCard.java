@@ -7,9 +7,6 @@ import ca.mcgill.ecse.cheecsemanager.model.Purchase;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
-import javafx.scene.Scene;
-import javafx.scene.Parent;
 import java.io.IOException;
 
 public class FarmerCard extends VBox {
@@ -71,21 +68,8 @@ public class FarmerCard extends VBox {
     
     private void handleView() {
         if (farmerData != null) {
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/ca/mcgill/ecse/cheecsemanager/view/page/farmer/ViewFarmerPage.fxml"));
-                Parent root = loader.load();
-                
-                ViewFarmerController controller = loader.getController();
-                controller.setFarmer(farmerData);
-                
-                Stage stage = new Stage();
-                stage.setTitle("View Farmer: " + farmerData.getName());
-                stage.setScene(new Scene(root));
-                stage.show();
-                
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            ca.mcgill.ecse.cheecsemanager.fxml.controllers.PageNavigator.getInstance()
+                .navigateTo("/ca/mcgill/ecse/cheecsemanager/view/page/farmers/viewFarmerPage.fxml", farmerData);
         }
     }
     
