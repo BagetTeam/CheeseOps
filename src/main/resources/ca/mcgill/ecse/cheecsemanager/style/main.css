@@ -28,3 +28,7 @@
     -fx-stroke: -color-fg;
     -fx-fill: transparent;
 }
+
+.page {
+    -fx-text-fill: -color-fg;
+}

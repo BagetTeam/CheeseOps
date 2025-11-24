@@ -24,7 +24,7 @@ public class MainController {
     sidebarController.setNavigationCallback(this::loadPage);
 
     // Load default page
-    loadPage("farmers");
+    loadPage("shelves");
   }
 
   private void loadPage(String pageName) {
@@ -36,9 +36,10 @@ public class MainController {
         return;
       }
 
+      String path = "view/page/" + pageName + "/page.fxml";
       // Load new page
-      FXMLLoader loader = new FXMLLoader(CheECSEManagerApplication.getResource(
-          "view/page/" + pageName + "/page.fxml"));
+      FXMLLoader loader =
+          new FXMLLoader(CheECSEManagerApplication.getResource(path));
       Pane page = loader.load();
 
       // Cache the page

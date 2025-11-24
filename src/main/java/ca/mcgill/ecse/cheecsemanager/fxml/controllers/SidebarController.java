@@ -6,13 +6,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
 public class SidebarController {
-  String page = "farmers";
+  String page = "shelves";
 
-  StyledButton buttonShelves;
-  StyledButton buttonFarmers;
-  StyledButton buttonCompanies;
-  StyledButton buttonRobot;
-  StyledButton buttonSettings;
+  @FXML StyledButton buttonShelves;
+  @FXML StyledButton buttonFarmers;
+  @FXML StyledButton buttonCompanies;
+  @FXML StyledButton buttonRobot;
+  @FXML StyledButton buttonSettings;
 
   // Callback for navigation - can be set by parent controller
   private Consumer<String> navigationCallback;
