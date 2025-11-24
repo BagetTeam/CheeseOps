@@ -21,6 +21,7 @@ public class RobotHandlingController {
     public Button initializeRobotButton;
     public Button deactivateRobotButton;
     public Button backToMenu;
+    public TextField shelfIDInput;
 
 
     public void onActivateRobot(){
@@ -33,9 +34,22 @@ public class RobotHandlingController {
     public void onInitializeRobot(){
         try {
             //don't know what arg to take in initialize robot
-            RobotController.initializeRobot(null);
-            this.transition(initializeScreen, "Status: Initialized", "#ffda6d");
-        }catch (Exception e){}
+            if (!shelfIDInput.getText().isEmpty()){
+                RobotController.initializeRobot(shelfIDInput.getText());
+                this.transition(initializeScreen, "Status: Initialized", "#ffda6d");
+            }
+            else{
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Initialization Error");
+                alert.setContentText("Error: no shelf ID provided for initialization.");
+                alert.showAndWait();
+            }
+        }catch (Exception e){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Initialization Error");
+            alert.setContentText(e.getMessage());
+            alert.showAndWait();
+        }
     }
 
     public void onDeactivateRobot(){
