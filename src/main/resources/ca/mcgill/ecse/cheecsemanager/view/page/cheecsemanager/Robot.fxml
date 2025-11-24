@@ -7,7 +7,7 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="640.0" maxWidth="980.0" minHeight="640.0" minWidth="980.0" prefHeight="640.0" prefWidth="980.0" stylesheets="@../../../style/main.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.RobotHandlingController">
+<AnchorPane maxHeight="640.0" maxWidth="980.0" minHeight="640.0" minWidth="980.0" prefHeight="640.0" prefWidth="980.0" stylesheets="@../../../style/main.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.RobotHandlingController">
    <children>
       <StyledButton fx:id="backToMenu" layoutX="23.0" layoutY="14.0" onAction="#returnToMenu" prefHeight="41.0" prefWidth="82.0" size="BASE" text="Return" variant="PRIMARY" />
       <HBox alignment="CENTER" layoutX="46.0" layoutY="508.0" prefHeight="100.0" prefWidth="400.0" spacing="20.0">
@@ -35,7 +35,7 @@
       </ImageView>
       <HBox alignment="CENTER" layoutX="7.0" layoutY="208.0" prefHeight="224.0" prefWidth="478.0" spacing="60.0" style="-fx-background-color: #191701; -fx-background-radius: 200;">
          <children>
-            <Button fx:id="activateRobot" maxHeight="100.0" maxWidth="100.0" minHeight="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#activateRobot" prefHeight="100.0" prefWidth="100.0" style="-fx-background-radius: 200; -fx-background-color: transparent;">
+            <Button fx:id="activateRobotButton" maxHeight="100.0" maxWidth="100.0" minHeight="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#onActivateRobot" prefHeight="100.0" prefWidth="100.0" style="-fx-background-radius: 200; -fx-background-color: transparent;">
                <graphic>
                   <ImageView fitHeight="137.0" fitWidth="131.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -43,16 +43,21 @@
                      </image></ImageView>
                </graphic>
             </Button>
-            <Button fx:id="initializeRobot" maxHeight="100.0" maxWidth="100.0" minHeight="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#initializeRobot" prefHeight="100.0" prefWidth="100.0" style="-fx-background-radius: 200; -fx-border-radius: 200; -fx-background-color: transparent;" translateY="5.0">
-               <graphic>
-                  <ImageView fitHeight="131.0" fitWidth="125.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../icons/initializeRobot.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button fx:id="deactivateRobot" maxHeight="100.0" maxWidth="100.0" minHeight="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#deactivateRobot" prefHeight="100.0" prefWidth="100.0" style="-fx-background-radius: 200; -fx-background-color: transparent;">
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0" translateY="30.0">
+               <children>
+                  <Button fx:id="initializeRobotButton" maxHeight="100.0" maxWidth="100.0" minHeight="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#onInitializeRobot" prefHeight="100.0" prefWidth="100.0" style="-fx-background-radius: 200; -fx-border-radius: 200; -fx-background-color: transparent;">
+                     <graphic>
+                        <ImageView fitHeight="131.0" fitWidth="125.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../icons/initializeRobot.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <TextField fx:id="shelfIDInput" promptText="Shelf ID" />
+               </children>
+            </VBox>
+            <Button fx:id="deactivateRobotButton" maxHeight="100.0" maxWidth="100.0" minHeight="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#onDeactivateRobot" prefHeight="100.0" prefWidth="100.0" style="-fx-background-radius: 200; -fx-background-color: transparent;">
                <graphic>
                   <ImageView fitHeight="131.0" fitWidth="114.0" pickOnBounds="true" preserveRatio="true">
                      <image>
