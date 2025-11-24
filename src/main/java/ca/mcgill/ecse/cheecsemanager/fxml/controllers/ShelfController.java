@@ -42,7 +42,6 @@ public class ShelfController {
     @FXML private TableColumn<TOShelf, Void> actionColumn;
 
     @FXML private StyledButton showPopupBtn;
-    @FXML private StyledButton backBtn;
 
     @FXML private Label inventoryLabel;
 
@@ -72,9 +71,6 @@ public class ShelfController {
 
         // Popup button
         showPopupBtn.setOnAction(e -> showAddShelfPopup());
-
-        // Back button
-        backBtn.setOnAction(e -> handleBack());
 
         // Load inventory + table
         refreshTable();
@@ -263,9 +259,6 @@ public class ShelfController {
         shelfTable.setMaxHeight(height);
     }
 
-    private void handleBack() {
-        System.out.println("Back button pressed");
-    }
 
     public AnchorPane getRoot() {
         return root;

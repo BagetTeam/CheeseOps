@@ -5,14 +5,17 @@ import ca.mcgill.ecse.cheecsemanager.controller.TOCheeseWheel;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import javafx.geometry.Insets;
+import javafx.geometry.HPos;
+import javafx.geometry.Pos;
+import javafx.geometry.VPos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.Node;
+import ca.mcgill.ecse.cheecsemanager.fxml.components.Icon;
 
 import java.net.URL;
 import java.util.List;
@@ -105,6 +108,7 @@ public class ViewShelfPopUpController implements Initializable {
 
     private void populateShelfGrid() {
         shelfGrid.getChildren().clear();
+
         List<TOCheeseWheel> cheeses = CheECSEManagerFeatureSet3Controller.getCheeseWheels();
 
         int maxRow = 0, maxCol = 0;
@@ -115,11 +119,24 @@ public class ViewShelfPopUpController implements Initializable {
             }
         }
 
+        if (maxRow == 0 || maxCol == 0) return;
+
+        double gridWidth = shelfGrid.getWidth() > 0 ? shelfGrid.getWidth() : 500;
+        double gridHeight = shelfGrid.getHeight() > 0 ? shelfGrid.getHeight() : 300;
+        double hGap = shelfGrid.getHgap();
+        double vGap = shelfGrid.getVgap();
+
+        double cellWidth = (gridWidth - hGap * (maxCol - 1)) / maxCol;
+        double cellHeight = (gridHeight - vGap * (maxRow - 1)) / maxRow;
+
+        double iconScale = Math.min(cellWidth, cellHeight) / 220.0; // 220 is base icon size
+
         // Column headers
         for (int c = 1; c <= maxCol; c++) {
             Label colLabel = new Label(String.valueOf(c));
             colLabel.setStyle("-fx-font-size: 12px; -fx-padding: 4; -fx-text-fill: #777;");
             shelfGrid.add(colLabel, c, 0);
+            GridPane.setHalignment(colLabel, HPos.CENTER);
         }
 
         // Row headers
@@ -127,13 +144,16 @@ public class ViewShelfPopUpController implements Initializable {
             Label rowLabel = new Label(String.valueOf(r));
             rowLabel.setStyle("-fx-font-size: 12px; -fx-padding: 4; -fx-text-fill: #777;");
             shelfGrid.add(rowLabel, 0, r);
+            GridPane.setValignment(rowLabel, VPos.CENTER);
         }
 
         // Cells
         for (int r = 1; r <= maxRow; r++) {
             for (int c = 1; c <= maxCol; c++) {
                 VBox cell = new VBox(5);
-                cell.setStyle("-fx-border-color: #ccc; -fx-border-width: 0.5; -fx-alignment: center;");
+                cell.setAlignment(Pos.CENTER);
+                cell.setPadding(new Insets(5));
+                cell.setStyle("-fx-border-color: #ccc; -fx-border-width: 0.5;");
 
                 final int cellR = r, cellC = c;
                 TOCheeseWheel cheese = cheeses.stream()
@@ -142,19 +162,20 @@ public class ViewShelfPopUpController implements Initializable {
                         .orElse(null);
 
                 if (cheese != null) {
-                    ImageView img = new ImageView(new Image(
-                            getClass().getResourceAsStream("/ca/mcgill/ecse/cheecsemanager/image/cheeseWheel.png")
-                    ));
-                    img.setFitWidth(50);
-                    img.setFitHeight(50);
+                    Icon img = new Icon("CheeseWheel");
+                    img.setScaleX(iconScale);
+                    img.setScaleY(iconScale);
+
                     Label info = new Label("ID: " + cheese.getId());
                     info.setStyle("-fx-font-size: 10px; -fx-text-fill: #777;");
-                    cell.getChildren().addAll(img, info);
 
+                    cell.getChildren().addAll(img, info);
                     cell.setOnMouseClicked(e -> showCheeseWheelPopup(cheese.getId()));
                 }
 
                 shelfGrid.add(cell, c, r);
+                GridPane.setHalignment(cell, HPos.CENTER);
+                GridPane.setValignment(cell, VPos.CENTER);
             }
         }
     }

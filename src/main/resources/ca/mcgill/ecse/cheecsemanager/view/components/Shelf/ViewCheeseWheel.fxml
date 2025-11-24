@@ -4,6 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton?>
+<?import ca.mcgill.ecse.cheecsemanager.fxml.components.Icon?>
 
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
@@ -27,11 +28,14 @@
             />
         </HBox>
 
-        <!-- Large cheese image -->
-        <ImageView fx:id="cheeseImage"
-                   fitWidth="220" fitHeight="220"
-                   preserveRatio="true"
-                   styleClass="cheese-image"/>
+        <!-- Large cheese icon -->
+        <Icon
+                fx:id="cheeseIcon"
+                icon="CheeseWheel"
+                prefWidth="220"
+                prefHeight="220"
+                style="-fx-padding: 20;"
+        />
 
         <!-- Info section -->
         <VBox spacing="6" alignment="CENTER_LEFT">

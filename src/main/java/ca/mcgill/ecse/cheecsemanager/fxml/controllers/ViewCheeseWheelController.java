@@ -1,23 +1,27 @@
 package ca.mcgill.ecse.cheecsemanager.fxml.controllers;
 
+import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
 import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet3Controller;
 import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet4Controller;
 import ca.mcgill.ecse.cheecsemanager.controller.TOCheeseWheel;
+import ca.mcgill.ecse.cheecsemanager.fxml.components.Icon;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton;
 
+import java.io.IOException;
+
 public class ViewCheeseWheelController {
 
     @FXML private AnchorPane rootPane;
-    @FXML private ImageView cheeseImage;
+    @FXML private Icon cheeseIcon;
 
     @FXML private Label idLabel;
     @FXML private Label monthsAgedLabel;
@@ -46,18 +50,11 @@ public class ViewCheeseWheelController {
     private TextField columnField;
     private TextField rowField;
 
-    // --------------------------
-    // Parent popup controller for shelf refresh
-    // --------------------------
     private ViewShelfPopUpController parentPopupController;
 
     public void setParentPopupController(ViewShelfPopUpController parent) {
         this.parentPopupController = parent;
     }
-
-    // ============================
-    //        SETUP METHODS
-    // ============================
 
     public void setMainController(ShelfController controller) {
         this.mainController = controller;
@@ -66,7 +63,6 @@ public class ViewCheeseWheelController {
     public void setPopupOverlay(AnchorPane overlay) {
         this.popupOverlay = overlay;
 
-        // Cancel button closes popup
         cancelBtn.setOnAction(e -> {
             if (mainController != null && popupOverlay != null) {
                 mainController.removePopup(popupOverlay);
@@ -76,13 +72,10 @@ public class ViewCheeseWheelController {
 
     public void setCheeseToView(int id) {
         this.cheeseWheelID = id;
+
         loadCheeseWheel();
         initializeEditButton();
     }
-
-    // ============================
-    //      LOAD CHEESE DATA
-    // ============================
 
     private void loadCheeseWheel() {
         TOCheeseWheel wheel = CheECSEManagerFeatureSet3Controller.getCheeseWheel(cheeseWheelID);
@@ -97,49 +90,54 @@ public class ViewCheeseWheelController {
         rowLabel.setText(String.valueOf(wheel.getRow()));
         orderedLabel.setText("Ordered: " + (wheel.isIsOrdered() ? "Yes" : "No"));
 
-        // Set cheese image
-        cheeseImage.setImage(new Image(
-                getClass().getResourceAsStream("/ca/mcgill/ecse/cheecsemanager/image/cheeseWheel.png")
-        ));
+        // Load Icon FXML manually (because setIcon() doesn't load it)
+        loadIconFXML("CheeseWheel");
 
-        // Remove button
         removeButton.setOnAction(e -> removeFromShelf());
     }
 
-    // ============================
-    //       EDIT & SAVE LOGIC
-    // ============================
+    private void loadIconFXML(String iconName) {
+        if (cheeseIcon == null) return;
+
+        var resource = CheECSEManagerApplication.getResource("view/icons/" + iconName + ".fxml");
+        if (resource == null) {
+            System.out.println("Icon FXML not found: " + iconName);
+            return;
+        }
+
+        try {
+            FXMLLoader loader = new FXMLLoader(resource);
+            Node node = loader.load();
+            cheeseIcon.getChildren().setAll(node);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     private void initializeEditButton() {
         monthsAgedCombo = new ComboBox<>();
         monthsAgedCombo.getItems().addAll("Six", "Twelve", "TwentyFour", "ThirtySix");
-
         editButton.setOnAction(e -> toggleEditMode());
     }
 
     private void toggleEditMode() {
         if (!editing) {
-            // Enter edit mode
             editing = true;
             editButton.setText("Save");
 
-            // Replace months label with combo
             monthsAgedCombo.setValue(monthsAgedLabel.getText().replace("Months Aged: ", ""));
             monthsAgedBox.getChildren().remove(monthsAgedLabel);
             monthsAgedBox.getChildren().add(monthsAgedCombo);
 
-            // Replace column label with text field
             columnField = new TextField(columnLabel.getText());
             columnBox.getChildren().remove(columnLabel);
             columnBox.getChildren().add(columnField);
 
-            // Replace row label with text field
             rowField = new TextField(rowLabel.getText());
             rowBox.getChildren().remove(rowLabel);
             rowBox.getChildren().add(rowField);
 
         } else {
-            // Save changes
             String newMonths = monthsAgedCombo.getValue();
             int newColumn;
             int newRow;
@@ -151,7 +149,6 @@ public class ViewCheeseWheelController {
                 return;
             }
 
-            // Update cheese wheel maturation
             String error = CheECSEManagerFeatureSet3Controller.updateCheeseWheel(
                     cheeseWheelID, newMonths, false
             );
@@ -160,7 +157,6 @@ public class ViewCheeseWheelController {
                 return;
             }
 
-            // Update shelf position
             TOCheeseWheel wheel = CheECSEManagerFeatureSet3Controller.getCheeseWheel(cheeseWheelID);
             error = CheECSEManagerFeatureSet4Controller.assignCheeseWheelToShelf(
                     cheeseWheelID, wheel.getShelfID(), newColumn, newRow
@@ -170,11 +166,9 @@ public class ViewCheeseWheelController {
                 return;
             }
 
-            // Exit edit mode
             editing = false;
             editButton.setText("Edit");
 
-            // Restore labels
             monthsAgedBox.getChildren().remove(monthsAgedCombo);
             monthsAgedLabel.setText("Months Aged: " + newMonths);
             monthsAgedBox.getChildren().add(monthsAgedLabel);
@@ -187,16 +181,11 @@ public class ViewCheeseWheelController {
             rowLabel.setText(String.valueOf(newRow));
             rowBox.getChildren().add(rowLabel);
 
-            // Refresh parent shelf popup
             if (parentPopupController != null) {
                 parentPopupController.refreshShelfGrid();
             }
         }
     }
-
-    // ============================
-    //      REMOVE CHEESE
-    // ============================
 
     private void removeFromShelf() {
         String error = CheECSEManagerFeatureSet4Controller.removeCheeseWheelFromShelf(cheeseWheelID);
@@ -205,7 +194,6 @@ public class ViewCheeseWheelController {
             return;
         }
 
-        // Close popup
         if (mainController != null && popupOverlay != null) {
             mainController.removePopup(popupOverlay);
         } else {
@@ -213,7 +201,6 @@ public class ViewCheeseWheelController {
             stage.close();
         }
 
-        // Refresh parent shelf popup
         if (parentPopupController != null) {
             parentPopupController.refreshShelfGrid();
         }

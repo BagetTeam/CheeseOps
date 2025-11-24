@@ -38,7 +38,7 @@ public class AssignCheeseWheelController {
         // Populate unassigned cheese wheels as "ID - Months"
         List<String> unassigned = CheECSEManagerFeatureSet3Controller.getCheeseWheels().stream()
                 .filter(c -> c.getShelfID() == null)
-                .map(c -> "Id:" + c.getId() + " - " + c.getMonthsAged() + " months")
+                .map(c -> "ID: " + c.getId() + " - " + c.getMonthsAged() + " months")
                 .collect(Collectors.toList());
         cheeseCombo.setItems(FXCollections.observableArrayList(unassigned));
 
