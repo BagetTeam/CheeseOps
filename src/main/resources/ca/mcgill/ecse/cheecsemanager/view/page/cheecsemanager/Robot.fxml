@@ -1,43 +1,70 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import ca.mcgill.ecse.cheecsemanager.fxml.components.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="640.0" maxWidth="980.0" minHeight="640.0" minWidth="980.0" prefHeight="640.0" prefWidth="980.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.RobotHandlingController">
+<AnchorPane maxHeight="640.0" maxWidth="980.0" minHeight="640.0" minWidth="980.0" prefHeight="640.0" prefWidth="980.0" stylesheets="@../../../style/main.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.RobotHandlingController">
    <children>
-      <HBox alignment="CENTER" layoutX="220.0" layoutY="202.0" prefHeight="236.0" prefWidth="393.0" spacing="50.0">
+      <StyledButton fx:id="backToMenu" layoutX="23.0" layoutY="14.0" onAction="#returnToMenu" prefHeight="41.0" prefWidth="82.0" size="BASE" text="Return" variant="PRIMARY" />
+      <HBox alignment="CENTER" layoutX="46.0" layoutY="508.0" prefHeight="100.0" prefWidth="400.0" spacing="20.0">
          <children>
-            <Button fx:id="activateRobot" mnemonicParsing="false" onAction="#activateRobot" prefHeight="85.0" prefWidth="107.0" style="-fx-background-radius: 200;">
+            <StyledButton size="BASE" text="Treatment Process" variant="PRIMARY" />
+            <StyledButton size="BASE" text="Robot Logs" variant="PRIMARY" />
+         </children>
+      </HBox>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#191701" height="54.0" layoutX="46.0" layoutY="441.0" stroke="BLACK" strokeType="INSIDE" width="400.0" />
+      <Label fx:id="statusDisplay" alignment="CENTER" contentDisplay="CENTER" layoutX="47.0" layoutY="438.0" prefHeight="60.0" prefWidth="400.0" style="-fx-border-radius: 200;" text="Status: off" textAlignment="CENTER" textFill="#f07e68" textOverrun="CENTER_WORD_ELLIPSIS">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="33.0" />
+         </font>
+      </Label>
+      <Label fx:id="statusDisplay1" alignment="CENTER" contentDisplay="CENTER" layoutX="218.0" layoutY="23.0" prefHeight="60.0" prefWidth="534.0" text="CheecseManager Robot Control Panel" textAlignment="CENTER" textFill="#ba9b02" textOverrun="CENTER_WORD_ELLIPSIS">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="27.0" />
+         </font>
+      </Label>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ffda6d" height="521.0" layoutX="496.0" layoutY="97.0" stroke="BLACK" strokeType="INSIDE" width="454.0" />
+      <ImageView fitHeight="596.0" fitWidth="471.0" layoutX="485.0" layoutY="83.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../icons/robotBlueprint.png" />
+         </image>
+      </ImageView>
+      <HBox alignment="CENTER" layoutX="7.0" layoutY="208.0" prefHeight="224.0" prefWidth="478.0" spacing="60.0" style="-fx-background-color: #191701; -fx-background-radius: 200;">
+         <children>
+            <Button fx:id="activateRobot" maxHeight="100.0" maxWidth="100.0" minHeight="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#activateRobot" prefHeight="100.0" prefWidth="100.0" style="-fx-background-radius: 200; -fx-background-color: transparent;">
                <graphic>
-                  <ImageView fitHeight="141.0" fitWidth="131.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="137.0" fitWidth="131.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../icons/activateRobot.png" />
+                     </image></ImageView>
                </graphic>
             </Button>
-            <Button fx:id="initializeRobot" mnemonicParsing="false" onAction="#initializeRobot" prefHeight="85.0" prefWidth="107.0" style="-fx-background-radius: 200;">
+            <Button fx:id="initializeRobot" maxHeight="100.0" maxWidth="100.0" minHeight="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#initializeRobot" prefHeight="100.0" prefWidth="100.0" style="-fx-background-radius: 200; -fx-border-radius: 200; -fx-background-color: transparent;" translateY="5.0">
                <graphic>
-                  <ImageView fitHeight="141.0" fitWidth="131.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="131.0" fitWidth="125.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../icons/initializeRobot.png" />
+                     </image>
+                  </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="deactivateRobot" mnemonicParsing="false" onAction="#deactivateRobot" prefHeight="85.0" prefWidth="107.0" style="-fx-background-radius: 200;">
+            <Button fx:id="deactivateRobot" maxHeight="100.0" maxWidth="100.0" minHeight="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#deactivateRobot" prefHeight="100.0" prefWidth="100.0" style="-fx-background-radius: 200; -fx-background-color: transparent;">
                <graphic>
-                  <ImageView fitHeight="141.0" fitWidth="131.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="131.0" fitWidth="114.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../icons/deactivateRobot.png" />
+                     </image>
+                  </ImageView>
                </graphic>
             </Button>
          </children>
       </HBox>
-      <Label fx:id="statusDisplay" alignment="CENTER" contentDisplay="CENTER" layoutX="292.0" layoutY="438.0" prefHeight="60.0" prefWidth="397.0" text="Status: Active" textAlignment="CENTER" textOverrun="CENTER_WORD_ELLIPSIS">
-         <font>
-            <Font size="27.0" />
-         </font>
-      </Label>
-      <Button fx:id="backToMenu" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#returnToMenu" prefHeight="84.0" prefWidth="98.0" style="-fx-background-radius: 200;">
-         <graphic>
-            <ImageView fitHeight="53.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true" />
-         </graphic>
-      </Button>
       <AnchorPane fx:id="activateScreen" maxHeight="640.0" maxWidth="980.0" minHeight="640.0" minWidth="980.0" prefHeight="640.0" prefWidth="980.0" style="-fx-background-color: #92e090;" visible="false" />
-      <AnchorPane fx:id="initializeScreen" maxHeight="640.0" maxWidth="980.0" minHeight="640.0" minWidth="980.0" prefHeight="640.0" prefWidth="980.0" style="-fx-background-color: #7dcad4;" visible="false" />
-      <AnchorPane fx:id="deactivateScreen" maxHeight="640.0" maxWidth="980.0" minHeight="640.0" minWidth="980.0" prefHeight="640.0" prefWidth="980.0" style="-fx-background-color: #d47d7d;" visible="false" />
+      <AnchorPane fx:id="initializeScreen" maxHeight="640.0" maxWidth="980.0" minHeight="640.0" minWidth="980.0" prefHeight="640.0" prefWidth="980.0" style="-fx-background-color: #ffda6d;" visible="false" />
+      <AnchorPane fx:id="deactivateScreen" maxHeight="640.0" maxWidth="980.0" minHeight="640.0" minWidth="980.0" prefHeight="640.0" prefWidth="980.0" style="-fx-background-color: #f07e68;" visible="false" />
    </children>
 </AnchorPane>

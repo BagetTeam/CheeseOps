@@ -1,31 +1,81 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.geometry.Insets?>
-<?import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+<?import ca.mcgill.ecse.cheecsemanager.fxml.components.*?>
 <VBox
     xmlns="http://javafx.com/javafx/21"
     xmlns:fx="http://javafx.com/fxml/1"
-    fx:controller="com.example.controller.SidebarController"
-    spacing="10"
+    fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.SidebarController"
+    spacing="16"
     styleClass="sidebar"
-    prefWidth="200"
-    maxWidth="200"
     VBox.vgrow="ALWAYS"
 >
-    <padding>
-        <Insets top="20" right="10" bottom="20" left="10" />
-    </padding>
-    <Button
-        text="Dashboard"
-        styleClass="nav-button"
-        onAction="#handleDashboard"
+    <HBox
+        style="-fx-background-color: -color-darker-bg"
+        spacing="10"
+        alignment="CENTER"
+    >
+        <Icon icon="icon" />
+        <Label
+            text="CheECSEManager"
+            style="-fx-text-fill: -color-fg; -fx-font-size: 20px;"
+        />
+    </HBox>
+    <StyledButton
+        fx:id="buttonShelves"
+        text="Shelves"
+        onAction="#handleShelves"
+        prefWidth="250"
+        graphicTextGap="8"
+        size="MD"
+    >
+        <graphic>
+            <Icon icon="Warehouse" />
+        </graphic>
+    </StyledButton>
+    <StyledButton
+        fx:id="buttonFarmers"
+        text="Farmers"
+        onAction="#handleFarmers"
+        prefWidth="250"
+        graphicTextGap="8"
+        size="MD"
+    >
+        <graphic>
+            <Icon icon="Farmer" />
+        </graphic>
+    </StyledButton>
+    <StyledButton
+        fx:id="buttonCompanies"
+        text="Companies"
+        onAction="#handleCompanies"
+        prefWidth="250"
+        graphicTextGap="8"
+        size="MD"
+    >
+        <graphic>
+            <Icon icon="Factory" />
+        </graphic>
+    </StyledButton>
+    <StyledButton
+        fx:id="buttonRobot"
+        text="Robot"
+        onAction="#handleRobot"
+        prefWidth="250"
+        graphicTextGap="8"
+        size="MD"
     />
-    <Button text="Users" styleClass="nav-button" onAction="#handleUsers" />
-    <Button
+    <StyledButton
+        fx:id="buttonSettings"
         text="Settings"
-        styleClass="nav-button"
         onAction="#handleSettings"
-    />
-    <Button text="Reports" styleClass="nav-button" onAction="#handleReports" />
+        prefWidth="250"
+        graphicTextGap="8"
+        size="MD"
+    >
+        <graphic>
+            <Icon icon="Gear" />
+        </graphic>
+    </StyledButton>
 </VBox>

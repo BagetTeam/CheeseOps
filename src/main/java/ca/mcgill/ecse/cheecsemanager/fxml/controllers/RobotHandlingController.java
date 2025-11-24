@@ -5,6 +5,7 @@ import javafx.animation.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Paint;
 import javafx.util.Duration;
 
 public class RobotHandlingController {
@@ -23,24 +24,20 @@ public class RobotHandlingController {
 
 
     public void activateRobot(){
-        this.transition(activateScreen);
-        statusDisplay.setText("Status: Activated");
-
+        this.transition(activateScreen, "Status: Activated", "#92e090");
     }
 
     public void initializeRobot(){
-        this.transition(initializeScreen);
-        statusDisplay.setText("Status: Initialized");
+        this.transition(initializeScreen, "Status: Initialized", "#ffda6d");
     }
 
     public void deactivateRobot(){
-        this.transition(deactivateScreen);
-        statusDisplay.setText("Status: Deactivated");
+        this.transition(deactivateScreen, "Status: Deactivated","#f07e68");
     }
 
 
 
-    public void transition(Pane coverPane){
+    public void transition(Pane coverPane, String newStatus, String paint){
         coverPane.setVisible(true);
         FadeTransition fade = new FadeTransition(new Duration(1500), coverPane);
         FadeTransition fade2 = new FadeTransition(new Duration(1500), coverPane);
@@ -53,6 +50,8 @@ public class RobotHandlingController {
             fade2.setFromValue(1);
             fade2.setToValue(0);
             fade2.play();
+            statusDisplay.setText(newStatus);
+            statusDisplay.setTextFill(Paint.valueOf(paint));
         });
 
         fade2.setOnFinished(e ->{
