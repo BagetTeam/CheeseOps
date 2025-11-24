@@ -6,12 +6,25 @@
 <VBox
     xmlns="http://javafx.com/javafx/21"
     xmlns:fx="http://javafx.com/fxml/1"
-    fx:controller="com.example.controller.SidebarController"
+    fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.SidebarController"
     spacing="10"
     styleClass="sidebar"
     prefWidth="200"
+    prefHeight="400"
     maxWidth="200"
     VBox.vgrow="ALWAYS"
 >
-    <StyledButton />
+    <StyledButton id="buttonShelves" text="Shelves" onAction="#handleShelves" />
+    <StyledButton id="buttonFarmers" text="Farmers" onAction="#handleFarmers" />
+    <StyledButton
+        id="buttonCompanies"
+        text="Companies"
+        onAction="#handleCompanies"
+    />
+    <StyledButton id="buttonRobot" text="Robot" onAction="#handleRobot" />
+    <StyledButton
+        id="buttonSettings"
+        text="Settings"
+        onAction="#handleSettings"
+    />
 </VBox>

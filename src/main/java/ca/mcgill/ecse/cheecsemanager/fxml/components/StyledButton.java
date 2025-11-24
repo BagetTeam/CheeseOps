@@ -80,6 +80,11 @@ public class StyledButton extends Button {
   private final StringProperty size =
       new SimpleStringProperty(Size.BASE.name());
 
+  public void setVariant(Variant variant) { this.variant.set(variant.name()); }
+  public String getVariant() { return this.variant.get(); }
+  public void setSize(Size size) { this.size.set(size.name()); }
+  public String getSize() { return this.size.get(); }
+
   public StyledButton() {
     super();
     this.initialize();
