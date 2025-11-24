@@ -1,13 +1,118 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.control.*?>
-<?import ca.mcgill.ecse.cheecsemanager.fxml.components.*?>
-<Pane>
-    <Label
-        text="Robot"
-        styleClass="page"
-        xmlns="http://javafx.com/javafx/17.0.2-ea"
-        xmlns:fx="http://javafx.com/fxml/1"
-    />
-</Pane>
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane stylesheets="@../../../style/main.css"
+            xmlns="http://javafx.com/javafx/17.0.2-ea"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.RobotHandlingController">
+
+    <children>
+        <VBox AnchorPane.topAnchor="24.0"
+              AnchorPane.bottomAnchor="24.0"
+              AnchorPane.rightAnchor="24.0"
+              AnchorPane.leftAnchor="24.0"
+              spacing="24.0">
+
+            <!-- Command Center -->
+            <HBox spacing="18.0" alignment="CENTER_LEFT">
+                <StackPane prefWidth="150.0" prefHeight="120.0">
+                    <StackPane prefWidth="150.0" prefHeight="120.0"
+                               styleClass="control-tile activate-tile"
+                               fx:id="activateTile">
+                        <VBox alignment="CENTER" spacing="10.0">
+                            <Label text="⏻">
+                                <font>
+                                    <Font name="Inter Bold" size="28.0"/>
+                                </font>
+                            </Label>
+                            <Label text="Activate">
+                                <font>
+                                    <Font name="Inter Medium" size="15.0"/>
+                                </font>
+                            </Label>
+                        </VBox>
+                    </StackPane>
+
+                    <StackPane prefWidth="150.0" prefHeight="120.0"
+                               styleClass="control-tile deactivate-tile"
+                               fx:id="deactivateTile"
+                               visible="false" managed="false">
+                        <VBox alignment="CENTER" spacing="10.0">
+                            <Label text="■">
+                                <font>
+                                    <Font name="Inter Bold" size="24.0"/>
+                                </font>
+                            </Label>
+                            <Label text="Deactivate">
+                                <font>
+                                    <Font name="Inter Medium" size="15.0"/>
+                                </font>
+                            </Label>
+                        </VBox>
+                    </StackPane>
+                </StackPane>
+
+                <StackPane prefWidth="150.0" prefHeight="120.0"
+                           styleClass="control-tile initialize-tile"
+                           fx:id="initializeTile" disable="true">
+                    <VBox alignment="CENTER" spacing="10.0">
+                        <Label text="⚙">
+                            <font>
+                                <Font name="Inter Bold" size="26.0"/>
+                            </font>
+                        </Label>
+                        <Label text="Initialize">
+                            <font>
+                                <Font name="Inter Medium" size="15.0"/>
+                            </font>
+                        </Label>
+                    </VBox>
+                </StackPane>
+
+                <StackPane prefWidth="240.0" prefHeight="120.0"
+                           styleClass="control-tile primary-tile"
+                           fx:id="startTile">
+                    <VBox alignment="CENTER" spacing="10.0">
+                        <Label text="▶">
+                            <font>
+                                <Font name="Inter Bold" size="28.0"/>
+                            </font>
+                        </Label>
+                        <Label text="Start Treatment">
+                            <font>
+                                <Font name="Inter Semibold" size="16.0"/>
+                            </font>
+                        </Label>
+                    </VBox>
+                </StackPane>
+            </HBox>
+
+            <!-- Live Action Log -->
+            <VBox spacing="10.0" VBox.vgrow="ALWAYS" styleClass="terminal-wrapper">
+                <Label text="Robot Log">
+                    <font>
+                        <Font name="Inter Medium" size="13.0"/>
+                    </font>
+                </Label>
+
+                <StackPane styleClass="terminal-container" VBox.vgrow="ALWAYS">
+                    <ListView fx:id="telemetryLog"
+                              focusTraversable="false"
+                              styleClass="terminal-list"
+                              StackPane.alignment="CENTER"
+                              VBox.vgrow="ALWAYS"/>
+                </StackPane>
+            </VBox>
+
+        </VBox>
+    </children>
+</AnchorPane>
