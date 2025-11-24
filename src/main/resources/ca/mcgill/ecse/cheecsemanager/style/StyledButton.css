@@ -1,0 +1,83 @@
+.button {
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-font-size: 16px; /* Default font size */
+    -fx-transition: all 0.2s ease-in-out;
+}
+
+.button-default {
+    -fx-background-color: transparent;
+    -fx-text-fill: -color-fg;
+}
+
+.button-primary {
+    -fx-background-color: -color-primary;
+    -fx-text-fill: -color-bg;
+}
+
+.button-destructive {
+    -fx-background-color: -color-destructive;
+    -fx-text-fill: -color-bg;
+}
+
+.button-muted {
+    -fx-background-color: transparent;
+    -fx-text-fill: -color-muted;
+    -fx-border-color: -color-muted;
+    -fx-border-width: 1px;
+    -fx-border-style: solid;
+}
+
+.button-default:hover {
+    -fx-background-color: -color-muted;
+}
+
+.button-muted:hover {
+    -fx-text-fill: -color-fg;
+    -fx-border-color: -color-fg;
+}
+
+.button .icon {
+    -fx-stroke-width: 2px;
+}
+
+.button-default .icon {
+    -fx-stroke: -color-fg;
+}
+
+.button-primary .icon {
+    -fx-stroke: -color-bg;
+}
+
+.button-destructive .icon {
+    -fx-stroke: -color-bg;
+}
+
+.button-muted .icon {
+    -fx-stroke: -color-muted;
+}
+
+.button-muted:hover .icon {
+    -fx-stroke: -color-fg;
+}
+
+.button-xs {
+    -fx-font-size: 12px;
+    -fx-padding: 4px 8px;
+}
+
+.button-sm {
+    -fx-padding: 4px 8px;
+}
+
+.button-base {
+    -fx-padding: 8px 12px;
+}
+
+.button-md {
+    -fx-padding: 10px 20px;
+}
+
+.button-lg {
+    -fx-padding: 12px 24px;
+}

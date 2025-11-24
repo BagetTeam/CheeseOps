@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?import javafx.scene.shape.SVGPath?>
+<SVGPath
+    content="M18 6 L6 18 M6 6 L18 18"
+    strokeWidth="2.0"
+    strokeLineCap="ROUND"
+    strokeLineJoin="ROUND"
+    fill="TRANSPARENT"
+    styleClass="icon"
+/>

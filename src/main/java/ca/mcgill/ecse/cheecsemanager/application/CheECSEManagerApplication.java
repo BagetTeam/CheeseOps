@@ -32,11 +32,15 @@ public class CheECSEManagerApplication extends Application {
 
   public static void main(String[] args) { launch(); }
 
+  public static URL getResource(String path) {
+    return CheECSEManagerApplication.class.getResource(PACKAGE_ID.concat(path));
+  }
+
   private static void _loadStyleSheets(Scene scene) {
     String[] sheets = {
         "style/main.css",
-        "view/components/StyledButton/StyledButton.css",
         "view/components/FarmerCard/FarmerCard.css",
+        "style/StyledButton.css",
     };
 
     for (String sheet : sheets) {
