@@ -3,6 +3,7 @@ package ca.mcgill.ecse.cheecsemanager.fxml.components;
 import javafx.beans.NamedArg;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 
@@ -80,6 +81,11 @@ public class StyledButton extends Button {
   private final StringProperty size =
       new SimpleStringProperty(Size.BASE.name());
 
+  public void setVariant(Variant variant) { this.variant.set(variant.name()); }
+  public String getVariant() { return this.variant.get(); }
+  public void setSize(Size size) { this.size.set(size.name()); }
+  public String getSize() { return this.size.get(); }
+
   public StyledButton() {
     super();
     this.initialize();
@@ -119,6 +125,7 @@ public class StyledButton extends Button {
     this.getStyleClass().add(
         "button-".concat(this.variant.get().toLowerCase()));
     this.getStyleClass().add("button-".concat(this.size.get().toLowerCase()));
+    this.setAlignment(Pos.BASELINE_LEFT);
 
     this.variant.addListener((observable, oldValue, newValue) -> {
       this.getStyleClass().remove("button-".concat(oldValue.toLowerCase()));
