@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import ca.mcgill.ecse.cheecsemanager.fxml.components.*?>
+
+<StackPane
+    fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.wholesaleCompany.DeleteErrorController"
+    prefHeight="640.0" 
+    prefWidth="980.0"
+    style="-fx-background-color: rgba(0, 0, 0, 0.5);"
+    xmlns="http://javafx.com/javafx/21"
+    xmlns:fx="http://javafx.com/fxml/1">
+    
+    <!-- Error Dialog Box -->
+    <VBox 
+        style="-fx-background-color: -color-darker-bg; -fx-background-radius: 12; -fx-padding: 30; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 30, 0, 0, 10);"
+        spacing="25"
+        prefWidth="500"
+        prefHeight="280"
+        minWidth="500"
+        minHeight="280"
+        maxWidth="500"
+        maxHeight="280">
+        
+        <!-- Error Header -->
+        <Label text="Error" 
+               style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: -color-destructive;" />
+        
+        <!-- Error Message -->
+        <Label fx:id="errorMessageLabel" 
+               text="Cannot remove company: previous orders have been made" 
+               wrapText="true"
+               style="-fx-text-fill: -color-fg; -fx-font-size: 16px; -fx-line-spacing: 4px;" />
+        
+        <!-- OK Button -->
+        <HBox alignment="CENTER">
+            <StyledButton
+                text="Ok"
+                variant="PRIMARY"
+                size="LG"
+                prefWidth="440"
+                onAction="#handleClose"
+            />
+        </HBox>
+        
+    </VBox>
+    
+</StackPane>
