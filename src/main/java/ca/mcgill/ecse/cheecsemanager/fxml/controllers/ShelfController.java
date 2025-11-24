@@ -204,7 +204,7 @@ public class ShelfController {
     //                  OVERLAY + CENTERING LOGIC
     // ===============================================================
 
-    private AnchorPane buildOverlay(AnchorPane popup) {
+    public AnchorPane buildOverlay(AnchorPane popup) {
 
         AnchorPane overlay = new AnchorPane();
         overlay.setPrefSize(root.getWidth(), root.getHeight());
@@ -232,7 +232,7 @@ public class ShelfController {
     //                          BLUR
     // ===============================================================
 
-    private void applyBlur() {
+    public void applyBlur() {
         if (contentRoot != null) {
             contentRoot.setEffect(new BoxBlur(5, 5, 3));
         } else if (mainContainer != null) {

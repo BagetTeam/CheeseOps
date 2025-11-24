@@ -157,6 +157,7 @@
     -fx-background-color: -color-destructive;
     -fx-text-fill: -color-bg;
 }
+
 /* ===========================
    ViewShelfPopUp styles
    =========================== */
@@ -208,4 +209,41 @@
     -fx-pref-width: 60px;
     -fx-pref-height: 60px;
     -fx-text-fill: white;
+}
+
+/* ===========================
+   ViewCheeseWheelPopUp styles
+   =========================== */
+.view-cheese-popup {
+    -fx-background-color: -color-bg;
+    -fx-border-color: -color-primary;
+    -fx-border-width: 2;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-padding: 15;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 10, 0, 0, 2);
+}
+
+.view-cheese-popup .popup-title {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -color-tertiary;
+}
+
+.view-cheese-popup .popup-close-btn {
+    -fx-background-color: -color-muted;
+    -fx-text-fill: -color-tertiary;
+    -fx-font-weight: bold;
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+    -fx-padding: 6 12;
+}
+
+.view-cheese-popup .cheese-image {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 10, 0, 0, 4);
+}
+
+.view-cheese-popup .info-label {
+    -fx-text-fill: -color-fg;
+    -fx-font-size: 14px;
 }

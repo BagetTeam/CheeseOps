@@ -3,6 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.AddShelfPopUpController"
@@ -29,8 +30,8 @@
         </HBox>
 
         <HBox spacing="20" alignment="CENTER_RIGHT">
-            <Button text="Cancel" fx:id="cancelBtn"/>
-            <Button text="Add" fx:id="addBtn"/>
+            <StyledButton variant="MUTED" text="Cancel" fx:id="cancelBtn"/>
+            <StyledButton variant="PRIMARY" text="Add" fx:id="addBtn"/>
         </HBox>
 
     </VBox>

@@ -3,6 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.ConfirmDeletePopUpController"
@@ -15,8 +16,8 @@
         <Label text="This action cannot be undone." wrapText="true" styleClass="popup-subtitle"/>
 
         <HBox spacing="20" alignment="CENTER_RIGHT">
-            <Button text="No" fx:id="noBtn"/>
-            <Button text="Yes" fx:id="yesBtn"/>
+            <StyledButton text="No" variant="MUTED" fx:id="noBtn"/>
+            <StyledButton text="Yes" variant="PRIMARY" fx:id="yesBtn"/>
         </HBox>
     </VBox>
 </AnchorPane>
