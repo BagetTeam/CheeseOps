@@ -35,6 +35,17 @@
         </graphic>
     </StyledButton>
     <StyledButton
+        text="Shelves"
+        onAction="#handleShelves"
+        prefWidth="250"
+        graphicTextGap="8"
+        size="MD"
+    >
+        <graphic>
+            <Icon icon="Warehouse" prefHeight="24" prefWidth="24" />
+        </graphic>
+    </StyledButton>
+    <StyledButton
         fx:id="buttonFarmers"
         text="Farmers"
         onAction="#handleFarmers"
@@ -65,7 +76,11 @@
         prefWidth="250"
         graphicTextGap="8"
         size="MD"
-    />
+    >
+        <graphic>
+            <Icon icon="Robot" />
+        </graphic>
+    </StyledButton>
     <StyledButton
         fx:id="buttonSettings"
         text="Settings"
