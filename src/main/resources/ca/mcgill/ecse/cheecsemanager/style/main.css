@@ -37,3 +37,48 @@
     -fx-background-color: -color-darker-bg;
     -fx-padding: 16px;
 }
+
+
+
+.farmer-table {
+    -fx-background-color: transparent;
+}
+
+.farmer-table .table-view {
+    -fx-background-color: transparent;
+}
+
+.farmer-table .table-row-cell {
+    -fx-background-color: transparent;
+    -fx-border-color: -color-muted;
+    -fx-border-width: 0 0 1 0;
+    -fx-text-fill: -color-fg;
+}
+
+.farmer-table .table-row-cell:hover {
+    -fx-background-color: rgba(255, 218, 109, 0.1);
+}
+
+.farmer-table .table-cell {
+    -fx-text-fill: -color-fg;
+    -fx-alignment: CENTER;
+}
+
+.farmer-table .column-header {
+    -fx-background-color: transparent;
+    -fx-border-color: -color-muted;
+    -fx-border-width: 0 0 1 0;
+}
+
+.farmer-table .column-header-background {
+    -fx-background-color: transparent;
+}
+
+.farmer-table .column-header .label {
+    -fx-text-fill: -color-fg;
+    -fx-font-weight: normal;
+}
+
+.farmer-table .table-view .filler {
+    -fx-background-color: transparent;
+}

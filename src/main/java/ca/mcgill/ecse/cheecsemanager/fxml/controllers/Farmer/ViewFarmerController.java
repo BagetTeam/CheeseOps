@@ -1,5 +1,6 @@
 package ca.mcgill.ecse.cheecsemanager.fxml.controllers.Farmer;
 
+import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton;
 import ca.mcgill.ecse.cheecsemanager.fxml.controllers.PageNavigator;
 import ca.mcgill.ecse.cheecsemanager.model.CheeseWheel;
 import ca.mcgill.ecse.cheecsemanager.model.Farmer;
@@ -9,12 +10,14 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.image.ImageView;
+import javafx.scene.shape.SVGPath;
 import javafx.util.Callback;
 
 import java.util.ArrayList;
@@ -28,7 +31,7 @@ public class ViewFarmerController implements PageNavigator.DataReceiver {
     @FXML private Label nameLabel;
     @FXML private Label emailLabel;
     @FXML private Label addressLabel;
-    @FXML private Button editBtn;
+    @FXML private Button updateBtn;
     @FXML private Button deleteBtn;
 
     @FXML private TableView<CheeseWheel> cheeseTable;
@@ -57,29 +60,37 @@ public class ViewFarmerController implements PageNavigator.DataReceiver {
         });
 
         // Add View Button column
-        actionColumn.setCellFactory(new Callback<>() {
+        actionColumn.setCellFactory(param -> new TableCell<>() {
+            private final StyledButton viewBtn = new StyledButton();
+            
+            {
+                viewBtn.setVariant(StyledButton.Variant.DEFAULT);
+                viewBtn.setSize(StyledButton.Size.SM);
+                viewBtn.setText("view");
+                
+                // Add eye icon
+                SVGPath eyeIcon = new SVGPath();
+                eyeIcon.setContent("M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z");
+                eyeIcon.getStyleClass().add("icon");
+                eyeIcon.setScaleX(0.6);
+                eyeIcon.setScaleY(0.6);
+                viewBtn.setGraphic(eyeIcon);
+                
+                viewBtn.setOnAction(event -> {
+                    CheeseWheel cheeseWheel = getTableView().getItems().get(getIndex());
+                    handleViewCheeseWheel(cheeseWheel);
+                });
+            }
+
             @Override
-            public TableCell<CheeseWheel, Void> call(final TableColumn<CheeseWheel, Void> param) {
-                return new TableCell<>() {
-                    private final Button btn = new Button("View");
-
-                    {
-                        btn.setOnAction(event -> {
-                            CheeseWheel cheeseWheel = getTableView().getItems().get(getIndex());
-                            System.out.println("View cheese wheel: " + cheeseWheel.getId());
-                        });
-                    }
-
-                    @Override
-                    public void updateItem(Void item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (empty) {
-                            setGraphic(null);
-                        } else {
-                            setGraphic(btn);
-                        }
-                    }
-                };
+            public void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    setGraphic(viewBtn);
+                    setAlignment(Pos.CENTER);
+                }
             }
         });
     }
@@ -111,6 +122,29 @@ public class ViewFarmerController implements PageNavigator.DataReceiver {
     @FXML
     private void handleBack() {
         PageNavigator.getInstance().goBack();
+    }
+
+    @FXML
+    private void handleEdit() {
+        System.out.println("Edit farmer: " + farmer.getName());
+        // TODO: Edit farmer popup
+    }
+    
+    @FXML
+    private void handleDelete() {
+        System.out.println("Delete farmer: " + farmer.getName());
+        // TODO: Show confirmation dialog and delete
+    }
+    
+    @FXML
+    private void handleBuy() {
+        System.out.println("Buy cheese for farmer: " + farmer.getName());
+        // TODO: Navigate to purchase page
+    }
+    
+    private void handleViewCheeseWheel(CheeseWheel cheeseWheel) {
+        System.out.println("View cheese wheel: " + cheeseWheel.getId());
+        // TODO: Navigate to cheese wheel details
     }
 }
 
