@@ -32,3 +32,8 @@
 .page {
     -fx-text-fill: -color-fg;
 }
+
+.sidebar {
+    -fx-background-color: -color-darker-bg;
+    -fx-padding: 16px;
+}
