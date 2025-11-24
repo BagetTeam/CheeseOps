@@ -40,13 +40,11 @@ public class DeleteFarmerPopup {
     }
 
     private void confirmDelete() {
-        System.out.println("Confirmed delete!");
         if (this.farmerCard != null) {
-            // TODO: Add deletion logic here
-            System.out.println("Delete clicked for: " + farmerCard.getFarmer().getName());
-            // Remove from cards container
+            // Remove from cards container and model
             farmerController.deleteFarmerCard(farmerCard, popupOverlay);
+        } else {
+            closePopup();
         }
-        closePopup();
     }
 }
