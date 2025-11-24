@@ -1,7 +1,6 @@
 package ca.mcgill.ecse.cheecsemanager.fxml.controllers;
 
 import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet1Controller;
-import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet2Controller;
 import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet3Controller;
 import ca.mcgill.ecse.cheecsemanager.controller.TOShelf;
 
@@ -15,6 +14,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -28,9 +28,6 @@ import javafx.util.Callback;
 
 import java.util.List;
 
-/**
- * ShelfController — handles shelves and popup UI with background blur.
- */
 public class ShelfController {
 
     @FXML private AnchorPane root;            // whole scene root
@@ -138,11 +135,10 @@ public class ShelfController {
     private void showAddShelfPopup() {
         applyBlur();
         try {
-
             FXMLLoader loader = new FXMLLoader(getClass().getResource(
                     "/ca/mcgill/ecse/cheecsemanager/view/components/Shelf/AddShelfPopUp.fxml"
             ));
-            AnchorPane popup = loader.load();
+            Node popup = loader.load();  // Node instead of AnchorPane
 
             AnchorPane overlay = buildOverlay(popup);
 
@@ -159,11 +155,10 @@ public class ShelfController {
     private void showDeleteConfirmPopupForRow(TOShelf shelf) {
         applyBlur();
         try {
-
             FXMLLoader loader = new FXMLLoader(getClass().getResource(
                     "/ca/mcgill/ecse/cheecsemanager/view/components/Shelf/ConfirmDelete.fxml"
             ));
-            AnchorPane popup = loader.load();
+            Node popup = loader.load();
 
             AnchorPane overlay = buildOverlay(popup);
 
@@ -181,11 +176,10 @@ public class ShelfController {
     private void showViewShelfPopup(TOShelf shelf) {
         applyBlur();
         try {
-
             FXMLLoader loader = new FXMLLoader(getClass().getResource(
                     "/ca/mcgill/ecse/cheecsemanager/view/components/Shelf/ViewShelfPopUp.fxml"
             ));
-            AnchorPane popup = loader.load();
+            Node popup = loader.load();
 
             AnchorPane overlay = buildOverlay(popup);
 
@@ -204,17 +198,15 @@ public class ShelfController {
     //                  OVERLAY + CENTERING LOGIC
     // ===============================================================
 
-    public AnchorPane buildOverlay(AnchorPane popup) {
+    public AnchorPane buildOverlay(Node popup) {  // accept any Node
 
         AnchorPane overlay = new AnchorPane();
         overlay.setPrefSize(root.getWidth(), root.getHeight());
         overlay.setStyle("-fx-background-color: rgba(0,0,0,0.3);");
 
-        // 🔥 your original exact centering logic preserved
-        popup.setMaxWidth(popup.getPrefWidth());
-        popup.setMaxHeight(popup.getPrefHeight());
-        popup.setLayoutX((overlay.getPrefWidth() - popup.getPrefWidth()) / 2);
-        popup.setLayoutY((overlay.getPrefHeight() - popup.getPrefHeight()) / 2);
+        // Center the popup
+        popup.setLayoutX((overlay.getPrefWidth() - popup.prefWidth(-1)) / 2);
+        popup.setLayoutY((overlay.getPrefHeight() - popup.prefHeight(-1)) / 2);
 
         overlay.getChildren().add(popup);
         root.getChildren().add(overlay);
@@ -240,7 +232,7 @@ public class ShelfController {
         }
     }
 
-    private void removeBlur() {
+    public void removeBlur() {
         if (contentRoot != null) {
             contentRoot.setEffect(null);
         } else if (mainContainer != null) {
@@ -273,5 +265,9 @@ public class ShelfController {
 
     private void handleBack() {
         System.out.println("Back button pressed");
+    }
+
+    public AnchorPane getRoot() {
+        return root;
     }
 }

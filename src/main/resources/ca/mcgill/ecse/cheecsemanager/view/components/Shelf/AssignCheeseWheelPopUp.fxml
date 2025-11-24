@@ -1,34 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
+<?import javafx.scene.control.*?>
 <?import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton?>
-<AnchorPane fx:id="root" styleClass="add-shelf-popup"
+
+<AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.AssignCheeseWheelController">
+            fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.AssignCheeseWheelController"
+            prefWidth="400" prefHeight="300"
+            styleClass="view-shelf-popup">
 
-    <VBox spacing="10" alignment="CENTER" padding="15">
-        <Label styleClass="popup-title" text="Assign Cheese Wheel"/>
+    <AnchorPane styleClass="popup-container"
+                AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0"
+                AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0">
 
-        <Label text="Select Shelf:"/>
-        <ComboBox fx:id="shelfComboBox"/>
+        <VBox spacing="15" alignment="TOP_CENTER"
+              AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20"
+              AnchorPane.rightAnchor="20" AnchorPane.bottomAnchor="20">
 
-        <Label text="Select Cheese Wheel:"/>
-        <ComboBox fx:id="cheeseWheelComboBox"/>
+            <!-- HEADER -->
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Assign Cheese Wheel"
+                       styleClass="popup-title"/>
+                <Pane HBox.hgrow="ALWAYS"/>
+                <StyledButton fx:id="cancelButton"
+                              text="Cancel"
+                              variant="MUTED"/>
+            </HBox>
 
-        <Label text="Enter Row:"/>
-        <TextField fx:id="rowField" promptText="Row number"/>
+            <!-- Cheese selection -->
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Cheese:"/>
+                <ComboBox fx:id="cheeseCombo" prefWidth="200"/>
+            </HBox>
 
-        <Label text="Enter Column:"/>
-        <TextField fx:id="columnField" promptText="Column number"/>
+            <!-- Shelf selection -->
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Shelf:"/>
+                <ComboBox fx:id="shelfCombo" prefWidth="200"/>
+            </HBox>
 
-        <HBox spacing="10" alignment="CENTER">
-            <StyledButton variant="MUTED" fx:id="cancelBtn" text="Cancel"/>
-            <StyledButton variant="PRIMARY" fx:id="assignBtn" text="Assign"/>
-        </HBox>
-    </VBox>
+            <!-- Row/Column selection -->
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Row:"/>
+                <ComboBox fx:id="rowCombo" prefWidth="80"/>
+                <Label text="Column:"/>
+                <ComboBox fx:id="colCombo" prefWidth="80"/>
+            </HBox>
+
+            <!-- Assign button -->
+            <HBox spacing="10" alignment="CENTER_RIGHT">
+                <StyledButton fx:id="assignButton"
+                              text="Assign"
+                              variant="PRIMARY"/>
+            </HBox>
+
+        </VBox>
+    </AnchorPane>
 </AnchorPane>
