@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
+<?import javafx.scene.control.*?>
 <?import ca.mcgill.ecse.cheecsemanager.fxml.components.*?>
 <AnchorPane
     fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.MainController"
@@ -40,6 +41,19 @@
         </graphic>
       </StyledButton>
 
+      <!-- Testing popover dialog -->
+      <StyledButton text="Add Wholesale Company" variant="PRIMARY" onAction="#handleAddCompany">
+        <graphic>
+          <Icon icon="Factory" />
+        </graphic>
+      </StyledButton>
+
+      <StyledButton text="Update Wholesale Company" variant="PRIMARY" onAction="#handleUpdateCompany">
+        <graphic>
+          <Icon icon="Factory" />
+        </graphic>
+      </StyledButton>
+
       <Icon icon="CheeseWheel" />
 
     </VBox>
@@ -58,7 +72,38 @@
       <Icon icon="User" />
       <Icon icon="Warehouse" />
       <Icon icon="X" />
+      <Icon icon="Error"/>
 
     </VBox>
   </HBox>
+
+    <StackPane 
+      fx:id="dialogContainer" 
+      AnchorPane.topAnchor="0" 
+      AnchorPane.bottomAnchor="0" 
+      AnchorPane.leftAnchor="0" 
+      AnchorPane.rightAnchor="0"
+      mouseTransparent="true" />
+
+    <StackPane
+        AnchorPane.topAnchor="20"
+        AnchorPane.leftAnchor="0"
+        AnchorPane.rightAnchor="0"
+        mouseTransparent="true">
+        <HBox fx:id="toastContainer" 
+            visible="false" 
+            managed="false"
+            spacing="10" 
+            alignment="CENTER_LEFT"
+            style="-fx-background-color: derive(-color-success, -60%); -fx-background-radius: 8; -fx-padding: 12 16; -fx-border-color: -color-success; -fx-border-width: 1.5; -fx-border-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0, 0, 4);"
+            maxWidth="400"
+            mouseTransparent="false">
+            <Icon icon="Cheese" style="-fx-stroke: -color-success;" />
+            <Label fx:id="toastLabel" 
+                text="" 
+                wrapText="true"
+                style="-fx-text-fill: -color-success; -fx-font-size: 14px; -fx-font-weight: 600;" 
+                HBox.hgrow="ALWAYS" />
+        </HBox>
+    </StackPane>
 </AnchorPane>
