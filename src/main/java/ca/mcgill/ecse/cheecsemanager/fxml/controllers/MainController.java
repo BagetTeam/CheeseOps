@@ -61,7 +61,7 @@ public class MainController {
             
             UpdateWholesaleCompanyController controller = loader.getController();
             controller.setMainController(this);
-            controller.setCompany("Skibidi"); // TO CHANGE: pass selected company's name
+            controller.setCompany("Ewen's Company"); // TO CHANGE: pass selected company's name
             controller.setOnClose(() -> closeDialog());
             
             showDialog(dialog);
@@ -84,6 +84,7 @@ public class MainController {
             
             DeleteWholesaleCompanyController controller = loader.getController();
             controller.setMainController(this); // Pass reference so it can show error dialog
+            controller.setCompany("Ewen's Company");
             controller.setOnClose(() -> {
                 closeDialog();
             });
