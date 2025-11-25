@@ -100,6 +100,10 @@
     -fx-background-color: -color-bg;
 }
 
+.bg-none {
+    -fx-background-color: transparent;
+}
+
 /* use units for border radius */
 .rounded-xs {
     -fx-border-radius: 8px;

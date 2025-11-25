@@ -38,6 +38,9 @@
     -fx-padding: 16px;
 }
 
+.text-fg {
+    -fx-text-fill: -color-fg;
+}
 
 
 .search-bar {

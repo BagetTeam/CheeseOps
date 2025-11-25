@@ -3,48 +3,46 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton?>
-<StackPane
+<BorderPane
     fx:id="root"
     xmlns="http://javafx.com/javafx"
     xmlns:fx="http://javafx.com/fxml"
     fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.shelf.ShelfController"
-    styleClass="root"
     stylesheets="@/ca/mcgill/ecse/cheecsemanager/style/Shelf.css"
-    alignment="CENTER"
-    style="-fx-padding: 16"
+    style="-fx-padding: 36 16"
 >
-    <VBox fx:id="mainContainer" spacing="20" maxWidth="768">
-        <Label
-            text="Shelf Management"
-            styleClass="text-lg, text-fg, text-bold"
-        />
-
-
-        <HBox alignment="CENTER">
+    <center>
+        <VBox fx:id="mainContainer" spacing="20" maxWidth="768">
             <Label
-                fx:id="inventoryLabel"
-                text="Current Cheese Inventory: 0"
-                styleClass="text-fg"
-                alignment="CENTER_LEFT"
+                text="Shelf Management"
+                styleClass="text-lg, text-fg, text-bold"
             />
-            <StyledButton
-                fx:id="showPopupBtn"
-                text="Add Shelf"
-                variant="PRIMARY"
-            />
-        </HBox>
-        <StyledButton
-            fx:id="assignCheeseFromMainBtn"
-            text="Assign Cheese Wheel"
-            variant="PRIMARY"
-            size="BASE"
-        />
 
 
-        <HBox alignment="CENTER" prefHeight="100">
+            <HBox alignment="CENTER_LEFT">
+                <Label
+                    fx:id="inventoryLabel"
+                    text="Current Cheese Inventory: 0"
+                    styleClass="text-fg"
+                />
+                <Region HBox.hgrow="ALWAYS" />
+                <StyledButton
+                    fx:id="showPopupBtn"
+                    text="Add Shelf"
+                    variant="PRIMARY"
+                />
+            </HBox>
+            <!-- <StyledButton -->
+            <!--     fx:id="assignCheeseFromMainBtn" -->
+            <!--     text="Assign Cheese Wheel" -->
+            <!--     variant="PRIMARY" -->
+            <!--     size="BASE" -->
+            <!-- /> -->
+
+
             <TableView
                 fx:id="shelfTable"
-                styleClass="custom-table"
+                styleClass="farmer-table"
                 VBox.vgrow="ALWAYS"
             >
                 <columns>
@@ -74,6 +72,11 @@
                         prefWidth="188"
                     />
                 </columns>
+
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
+
                 <placeholder>
                     <Label
                         text="No shelves currently available"
@@ -82,7 +85,8 @@
                     />
                 </placeholder>
             </TableView>
-        </HBox>
 
-    </VBox>
-</StackPane>
+        </VBox>
+
+    </center>
+</BorderPane>

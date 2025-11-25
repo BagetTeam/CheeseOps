@@ -17,7 +17,6 @@ public class Icon extends StackPane {
   public Icon(@NamedArg("icon") String icon) {
     this();
 
-
     var resource = CheECSEManagerApplication.getResource("view/icons/fxml/" +
                                                          icon + ".fxml");
 
@@ -40,5 +39,8 @@ public class Icon extends StackPane {
       this.getChildren().setAll(children);
       this.setPrefHeight(node.getPrefHeight());
       this.setPrefWidth(node.getPrefWidth());
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
   }
 }
