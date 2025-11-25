@@ -4,9 +4,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.shape.SVGPath?>
 <?import ca.mcgill.ecse.cheecsemanager.fxml.components.*?>
@@ -35,32 +33,34 @@
                </padding>
                <children>
                   <!-- Left Panel - Farmer Details Card -->
-                  <VBox fx:id="farmerDescriptionCard" alignment="TOP_CENTER" spacing="16" styleClass="farmer-description-card" prefWidth="300">
+                  <VBox fx:id="farmerDescriptionCard" alignment="TOP_CENTER" spacing="10" styleClass="farmer-description-card" prefWidth="300">
                      <padding>
                         <Insets top="32" right="32" bottom="32" left="32"/>
                      </padding>
                      <children>
                         <!-- Profile Image Circle -->
-                        <AnchorPane prefHeight="120.0" prefWidth="120.0">
+                        <StackPane>
                            <children>
                               <Circle centerX="60.0" centerY="60.0" radius="60.0" style="-fx-fill: transparent; -fx-stroke: -color-muted; -fx-stroke-width: 2;"/>
                               <SVGPath content="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" 
                                        style="-fx-fill: -color-muted;" layoutX="18" layoutY="24" scaleX="3.5" scaleY="3.5"/>
                            </children>
-                        </AnchorPane>
+                        </StackPane>
                         
-                        <VBox alignment="TOP_LEFT" maxWidth="Infinity" spacing="8">
+                        <VBox alignment="TOP_LEFT" maxWidth="Infinity" spacing="4">
                            <!-- Name -->
-                           <Label fx:id="nameLabel" text="Ewen Gueguen" style="-fx-text-fill: -color-fg; -fx-font-size: 24px; -fx-font-weight: bold;"/>
+                           <Label fx:id="nameLabel" text="Ewen Gueguen" styleClass="text-fg, text-bold, text-lg"/>
                            
                            <!-- Email -->
-                           <Label fx:id="emailLabel" text="tspmofrnight@gmail.com" style="-fx-text-fill: -color-fg; -fx-font-size: 14px;"/>
-                           
+                           <Label fx:id="emailLabel" text="tspmofrnight@gmail.com" styleClass="text-fg"/> 
+                        </VBox>
+
+                        <VBox alignment="TOP_LEFT" maxWidth="Infinity">
                            <!-- Address with icon -->
                            <HBox alignment="CENTER_LEFT" spacing="6">
                               <children>
                                  <Icon icon="Marker"></Icon>
-                                 <Label fx:id="addressLabel" text="123 Sigma Street, Montreal" style="-fx-text-fill: -color-fg; -fx-font-size: 14px;"/>
+                                 <Label fx:id="addressLabel" text="123 Sigma Street, Montreal" styleClass="text-fg"/>
                               </children>
                            </HBox>
                         </VBox>
