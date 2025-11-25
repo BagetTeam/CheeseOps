@@ -9,7 +9,8 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.shape.SVGPath?>
-<?import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton?>
+<?import ca.mcgill.ecse.cheecsemanager.fxml.components.*?>
+
 
 <AnchorPane prefHeight="600.0" prefWidth="900.0" styleClass="page" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.Farmer.ViewFarmerController">
    <children>
@@ -34,7 +35,7 @@
                </padding>
                <children>
                   <!-- Left Panel - Farmer Details Card -->
-                  <VBox fx:id="farmerDescriptionCard" alignment="TOP_LEFT" spacing="16" styleClass="farmer-description-card" prefWidth="300">
+                  <VBox fx:id="farmerDescriptionCard" alignment="TOP_CENTER" spacing="16" styleClass="farmer-description-card" prefWidth="300">
                      <padding>
                         <Insets top="32" right="32" bottom="32" left="32"/>
                      </padding>
@@ -48,21 +49,21 @@
                            </children>
                         </AnchorPane>
                         
-                        <!-- Name -->
-                        <Label fx:id="nameLabel" text="Ewen Gueguen" style="-fx-text-fill: -color-fg; -fx-font-size: 24px; -fx-font-weight: bold;"/>
-                        
-                        <!-- Email -->
-                        <Label fx:id="emailLabel" text="tspmofrnight@gmail.com" style="-fx-text-fill: -color-muted; -fx-font-size: 14px;"/>
-                        
-                        <!-- Address with icon -->
-                        <HBox alignment="CENTER" spacing="6">
-                           <children>
-                              <SVGPath content="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" 
-                                       style="-fx-fill: -color-muted;" scaleX="0.7" scaleY="0.7"/>
-                              <Label fx:id="addressLabel" text="123 Sigma Street, Montreal" style="-fx-text-fill: -color-muted; -fx-font-size: 14px;"/>
-                           </children>
-                        </HBox>
-                        
+                        <VBox alignment="TOP_LEFT" VBox.fillWidth="true" spacing="8">
+                           <!-- Name -->
+                           <Label fx:id="nameLabel" text="Ewen Gueguen" style="-fx-text-fill: -color-fg; -fx-font-size: 24px; -fx-font-weight: bold;"/>
+                           
+                           <!-- Email -->
+                           <Label fx:id="emailLabel" text="tspmofrnight@gmail.com" style=" -fx-font-size: 14px;"/>
+                           
+                           <!-- Address with icon -->
+                           <HBox alignment="CENTER_LEFT" spacing="6">
+                              <children>
+                                 <Icon icon="Marker"></Icon>
+                                 <Label fx:id="addressLabel" text="123 Sigma Street, Montreal" style="-fx-font-size: 14px;"/>
+                              </children>
+                           </HBox>
+                        </VBox>
                         <!-- Action Buttons -->
                         <HBox alignment="CENTER" spacing="12">
                            <VBox.margin>
