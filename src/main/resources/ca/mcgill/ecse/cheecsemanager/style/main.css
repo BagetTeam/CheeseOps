@@ -38,4 +38,53 @@
     -fx-padding: 16px;
 }
 
+.text-fg {
+    -fx-text-fill: -color-fg;
+}
+
+
+.search-bar {
+    -fx-background-color: transparent;
+    -fx-border-color: -color-muted;
+    -fx-border-width: 1;
+    -fx-border-radius: 24;
+    -fx-background-radius: 24;
+}
+
+.search-input {
+    -fx-background-color: transparent;
+    -fx-text-fill: -color-fg;
+    -fx-prompt-text-fill: -color-muted;
+    -fx-border-width: 0;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+.search-input:focused {
+    -fx-background-color: transparent;
+    -fx-border-width: 0;
+}
+
+/* ScrollPane transparent */
+.scroll-pane {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane > .scroll-bar {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane > .scroll-bar > .thumb {
+    -fx-background-color: -color-muted;
+    -fx-background-radius: 5;
+}
+
+.scroll-pane > .scroll-bar > .increment-button,
+.scroll-pane > .scroll-bar > .decrement-button {
+    -fx-background-color: transparent;
+}
 

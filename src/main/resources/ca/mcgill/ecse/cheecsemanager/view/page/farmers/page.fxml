@@ -1,13 +1,63 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.control.*?>
-<?import ca.mcgill.ecse.cheecsemanager.fxml.components.*?>
-<Pane>
-    <Label
-        text="Farmers"
-        styleClass="page"
-        xmlns="http://javafx.com/javafx/17.0.2-ea"
-        xmlns:fx="http://javafx.com/fxml/1"
-    />
-</Pane>
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.SVGPath?>
+<?import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton?>
+
+<AnchorPane 
+            prefHeight="600.0"
+            prefWidth="900.0"
+            styleClass="page"
+            xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:id="farmerRoot"
+            fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.Farmer.FarmerController">
+    <VBox AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+        <padding>
+            <Insets top="24" right="24" bottom="24" left="24"/>
+        </padding>
+        <children>
+            <!-- Header Section -->
+            <VBox spacing="24">
+                <!-- Title -->
+                <VBox spacing="4">
+                    <Label text="Farmer Management" style="-fx-text-fill: -color-fg; -fx-font-size: 28px; -fx-font-weight: bold;"/>
+                    <Label text="Manage registered farmers" style="-fx-text-fill: -color-primary; -fx-font-size: 14px;"/>
+                </VBox>
+                
+                <!-- Search and Add Button -->
+                <HBox spacing="16" alignment="CENTER_LEFT">
+                    <!-- Search Bar -->
+                    <HBox styleClass="search-bar" alignment="CENTER_LEFT" spacing="8" HBox.hgrow="ALWAYS" maxWidth="400">
+                        <padding>
+                            <Insets top="10" right="16" bottom="10" left="16"/>
+                        </padding>
+                        <SVGPath content="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" 
+                                 styleClass="icon" scaleX="0.8" scaleY="0.8"/>
+                        <TextField fx:id="searchField" promptText="Search farmers" styleClass="search-input" HBox.hgrow="ALWAYS"/>
+                    </HBox>
+                    
+                    <!-- Add Farmer Button -->
+                    <StyledButton fx:id="addFarmerBtn" variant="PRIMARY" size="BASE" text="Add Farmer" onAction="#addFarmer"/>
+                </HBox>
+            </VBox>
+            
+            <!-- Farmer Cards Grid -->
+            <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" style="-fx-background-color: transparent; -fx-background: transparent;">
+                <VBox.margin>
+                    <Insets top="24"/>
+                </VBox.margin>
+                <content>
+                    <FlowPane fx:id="cardsContainer" hgap="24" vgap="24" style="-fx-background-color: transparent;"/>
+                </content>
+            </ScrollPane>
+        </children>
+    </VBox>
+</AnchorPane>
