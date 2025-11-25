@@ -1,4 +1,4 @@
-package ca.mcgill.ecse.cheecsemanager.fxml.controllers;
+package ca.mcgill.ecse.cheecsemanager.fxml.controllers.shelf;
 
 import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet2Controller;
 import javafx.fxml.FXML;
@@ -6,6 +6,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+/*
+* @author Ayush
+* */
 
 public class AddShelfPopUpController {
 
@@ -25,9 +28,9 @@ public class AddShelfPopUpController {
     private Button addBtn;
 
     @FXML
-    private Label errorLabel; // optional label in FXML to show errors
+    private Label errorLabel;
 
-    private AnchorPane popupOverlay; // reference to the overlay added by main controller
+    private AnchorPane popupOverlay;
     private ShelfController mainController;
 
     public void setPopupOverlay(AnchorPane popupOverlay) {
@@ -51,7 +54,6 @@ public class AddShelfPopUpController {
     }
 
     private void submit() {
-        // Clear previous error
         if (errorLabel != null) {
             errorLabel.setText("");
         }
@@ -76,15 +78,12 @@ public class AddShelfPopUpController {
             return;
         }
 
-        // Call FeatureSet2Controller to add shelf
         String result = CheECSEManagerFeatureSet2Controller.addShelf(id, cols, rows);
 
         if (result != null) {
-            // Error occurred
             showError(result);
         } else {
-            // Success
-            mainController.refreshTable(); // refresh table immediately
+            mainController.refreshTable();
             closePopup();
         }
     }
@@ -93,7 +92,6 @@ public class AddShelfPopUpController {
         if (errorLabel != null) {
             errorLabel.setText(message);
         } else {
-            // fallback: print to console
             System.err.println("Add Shelf Error: " + message);
         }
     }

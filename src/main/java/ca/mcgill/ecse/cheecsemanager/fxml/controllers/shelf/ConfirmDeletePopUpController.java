@@ -1,4 +1,4 @@
-package ca.mcgill.ecse.cheecsemanager.fxml.controllers;
+package ca.mcgill.ecse.cheecsemanager.fxml.controllers.shelf;
 
 import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet2Controller;
 import ca.mcgill.ecse.cheecsemanager.controller.TOShelf;

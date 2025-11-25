@@ -6,7 +6,7 @@
 <?import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.ConfirmDeletePopUpController"
+            fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.shelf.ConfirmDeletePopUpController"
             prefWidth="320" prefHeight="160"
             styleClass="confirm-delete-popup">
 

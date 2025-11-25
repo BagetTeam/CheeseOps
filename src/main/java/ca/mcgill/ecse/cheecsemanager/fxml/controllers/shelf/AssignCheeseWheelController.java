@@ -1,11 +1,10 @@
-package ca.mcgill.ecse.cheecsemanager.fxml.controllers;
+package ca.mcgill.ecse.cheecsemanager.fxml.controllers.shelf;
 
 import ca.mcgill.ecse.cheecsemanager.controller.*;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,18 +14,24 @@ import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton;
 
 public class AssignCheeseWheelController {
 
-    @FXML private ComboBox<String> cheeseCombo; // Format: "ID - Months"
+    @FXML private ComboBox<String> cheeseCombo;
     @FXML private ComboBox<String> shelfCombo;
     @FXML private ComboBox<Integer> rowCombo;
     @FXML private ComboBox<Integer> colCombo;
     @FXML private StyledButton assignButton;
     @FXML private StyledButton cancelButton;
 
+    // References for closing the popup
+    private ShelfController mainController;
     private ViewShelfPopUpController parentPopup;
     private AnchorPane overlay;
 
-    public void setParentPopup(ViewShelfPopUpController parent) {
-        this.parentPopup = parent;
+    public void setMainController(ShelfController controller) {
+        this.mainController = controller;
+    }
+
+    public void setParentPopup(ViewShelfPopUpController popup) {
+        this.parentPopup = popup;
     }
 
     public void setOverlay(AnchorPane overlay) {
@@ -35,20 +40,17 @@ public class AssignCheeseWheelController {
 
     @FXML
     public void initialize() {
-        // Populate unassigned cheese wheels as "ID - Months"
         List<String> unassigned = CheECSEManagerFeatureSet3Controller.getCheeseWheels().stream()
                 .filter(c -> c.getShelfID() == null)
                 .map(c -> "ID: " + c.getId() + " - " + c.getMonthsAged() + " months")
                 .collect(Collectors.toList());
         cheeseCombo.setItems(FXCollections.observableArrayList(unassigned));
 
-        // Populate shelves
         List<String> shelves = CheECSEManagerFeatureSet1Controller.getShelves().stream()
                 .map(TOShelf::getShelfID)
                 .collect(Collectors.toList());
         shelfCombo.setItems(FXCollections.observableArrayList(shelves));
 
-        // Listeners
         shelfCombo.setOnAction(e -> populateRowsCols());
         cheeseCombo.setOnAction(e -> checkEnableAssign());
         rowCombo.setOnAction(e -> checkEnableAssign());
@@ -56,7 +58,6 @@ public class AssignCheeseWheelController {
 
         assignButton.setDisable(true);
 
-        // Cancel button closes popup
         cancelButton.setOnAction(e -> closePopup());
     }
 
@@ -111,7 +112,7 @@ public class AssignCheeseWheelController {
 
     @FXML
     private void assignCheeseWheel() {
-        String selected = cheeseCombo.getValue(); // format: "ID - Months"
+        String selected = cheeseCombo.getValue();
         if (selected == null) return;
 
         int cheeseId = Integer.parseInt(selected.split(" - ")[0].trim());
@@ -132,15 +133,18 @@ public class AssignCheeseWheelController {
 
         if (parentPopup != null) {
             parentPopup.refreshShelfGrid();
+        } else if (mainController != null) {
+            mainController.refreshTable();
         }
     }
 
     private void closePopup() {
-        if (overlay != null && parentPopup != null) {
-            parentPopup.getMainController().removePopup(overlay);
-        } else {
-            Stage stage = (Stage) assignButton.getScene().getWindow();
-            stage.close();
+        if (overlay != null) {
+            if (mainController != null) {
+                mainController.removePopup(overlay);
+            } else if (parentPopup != null) {
+                parentPopup.getMainController().removePopup(overlay);
+            }
         }
     }
 }

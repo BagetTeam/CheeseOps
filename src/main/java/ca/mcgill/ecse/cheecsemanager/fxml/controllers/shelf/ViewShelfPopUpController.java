@@ -1,4 +1,4 @@
-package ca.mcgill.ecse.cheecsemanager.fxml.controllers;
+package ca.mcgill.ecse.cheecsemanager.fxml.controllers.shelf;
 
 import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet3Controller;
 import ca.mcgill.ecse.cheecsemanager.controller.TOCheeseWheel;
@@ -21,12 +21,15 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+/*
+* @author Ayush
+* */
+
 public class ViewShelfPopUpController implements Initializable {
 
     @FXML private Label shelfHeader;
     @FXML private GridPane shelfGrid;
     @FXML private Button closeBtn;
-    @FXML private Button assignCheeseButton;
 
     private ShelfController mainController;
     private AnchorPane popupOverlay;
@@ -57,7 +60,6 @@ public class ViewShelfPopUpController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         closeBtn.setOnAction(e -> closePopup());
-        assignCheeseButton.setOnAction(e -> showAssignCheeseWheelPopup());
     }
 
     private void closePopup() {
@@ -86,26 +88,6 @@ public class ViewShelfPopUpController implements Initializable {
         }
     }
 
-    private void showAssignCheeseWheelPopup() {
-        mainController.applyBlur();
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(
-                    "/ca/mcgill/ecse/cheecsemanager/view/components/Shelf/AssignCheeseWheelPopUp.fxml"
-            ));
-
-            Node popup = loader.load();
-            AnchorPane overlay = mainController.buildOverlay(popup);
-
-            AssignCheeseWheelController controller = loader.getController();
-            controller.setParentPopup(this);
-            controller.setOverlay(overlay);
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            mainController.removeBlur();
-        }
-    }
-
     private void populateShelfGrid() {
         shelfGrid.getChildren().clear();
 
@@ -129,9 +111,8 @@ public class ViewShelfPopUpController implements Initializable {
         double cellWidth = (gridWidth - hGap * (maxCol - 1)) / maxCol;
         double cellHeight = (gridHeight - vGap * (maxRow - 1)) / maxRow;
 
-        double iconScale = Math.min(cellWidth, cellHeight) / 220.0; // 220 is base icon size
+        double iconScale = Math.min(cellWidth, cellHeight) / 220.0;
 
-        // Column headers
         for (int c = 1; c <= maxCol; c++) {
             Label colLabel = new Label(String.valueOf(c));
             colLabel.setStyle("-fx-font-size: 12px; -fx-padding: 4; -fx-text-fill: #777;");
@@ -139,7 +120,6 @@ public class ViewShelfPopUpController implements Initializable {
             GridPane.setHalignment(colLabel, HPos.CENTER);
         }
 
-        // Row headers
         for (int r = 1; r <= maxRow; r++) {
             Label rowLabel = new Label(String.valueOf(r));
             rowLabel.setStyle("-fx-font-size: 12px; -fx-padding: 4; -fx-text-fill: #777;");

@@ -1,25 +1,19 @@
-package ca.mcgill.ecse.cheecsemanager.fxml.controllers;
+package ca.mcgill.ecse.cheecsemanager.fxml.controllers.shelf;
 
 import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet1Controller;
 import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet3Controller;
 import ca.mcgill.ecse.cheecsemanager.controller.TOShelf;
-
-import ca.mcgill.ecse.cheecsemanager.fxml.controllers.AddShelfPopUpController;
-import ca.mcgill.ecse.cheecsemanager.fxml.controllers.ConfirmDeletePopUpController;
-import ca.mcgill.ecse.cheecsemanager.fxml.controllers.ViewShelfPopUpController;
 import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -30,9 +24,10 @@ import java.util.List;
 
 public class ShelfController {
 
-    @FXML private AnchorPane root;            // whole scene root
-    @FXML private AnchorPane contentRoot;     // ONLY this blurs (popup stays sharp)
+    @FXML private AnchorPane root;
+    @FXML private AnchorPane contentRoot;
     @FXML private VBox mainContainer;
+    @FXML private StyledButton assignCheeseFromMainBtn;
 
     @FXML private TableView<TOShelf> shelfTable;
     @FXML private TableColumn<TOShelf, String> idColumn;
@@ -42,19 +37,15 @@ public class ShelfController {
     @FXML private TableColumn<TOShelf, Void> actionColumn;
 
     @FXML private StyledButton showPopupBtn;
-
     @FXML private Label inventoryLabel;
 
     @FXML
     private void initialize() {
-
-        // Column bindings
         idColumn.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getShelfID()));
         rowsColumn.setCellValueFactory(c -> new SimpleIntegerProperty(c.getValue().getMaxRows()).asObject());
         colsColumn.setCellValueFactory(c -> new SimpleIntegerProperty(c.getValue().getMaxColumns()).asObject());
         numCheeseColumn.setCellValueFactory(c -> new SimpleIntegerProperty(c.getValue().numberOfCheeseWheelIDs()).asObject());
 
-        // Padding style
         String pad = "-fx-padding: 0 10 0 10;";
         idColumn.setStyle(pad);
         rowsColumn.setStyle(pad);
@@ -62,17 +53,13 @@ public class ShelfController {
         numCheeseColumn.setStyle(pad);
         actionColumn.setStyle(pad);
 
-        // Fit columns
         shelfTable.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
         shelfTable.getColumns().forEach(tc -> tc.setMinWidth(tc.getPrefWidth()));
 
-        // Row action buttons
         setupActionButtons();
 
-        // Popup button
         showPopupBtn.setOnAction(e -> showAddShelfPopup());
-
-        // Load inventory + table
+        assignCheeseFromMainBtn.setOnAction(e -> showAssignCheeseWheelPopup());
         refreshTable();
     }
 
@@ -81,21 +68,12 @@ public class ShelfController {
             @Override
             public TableCell<TOShelf, Void> call(TableColumn<TOShelf, Void> param) {
                 return new TableCell<>() {
-
                     private final StyledButton viewBtn = new StyledButton(
-                            StyledButton.Variant.PRIMARY,
-                            StyledButton.Size.SM,
-                            "View",
-                            null
+                            StyledButton.Variant.PRIMARY, StyledButton.Size.SM, "View", null
                     );
-
                     private final StyledButton deleteBtn = new StyledButton(
-                            StyledButton.Variant.DESTRUCTIVE,
-                            StyledButton.Size.SM,
-                            "Delete",
-                            null
+                            StyledButton.Variant.DESTRUCTIVE, StyledButton.Size.SM, "Delete", null
                     );
-
                     private final HBox box = new HBox(10, viewBtn, deleteBtn);
 
                     {
@@ -124,9 +102,24 @@ public class ShelfController {
         });
     }
 
-    // ===============================================================
-    //                       POPUP HELPERS
-    // ===============================================================
+    private void showAssignCheeseWheelPopup() {
+        applyBlur();
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(
+                    "/ca/mcgill/ecse/cheecsemanager/view/components/Shelf/AssignCheeseWheelPopUp.fxml"
+            ));
+            Node popup = loader.load();
+            AnchorPane overlay = buildOverlay(popup);
+
+            AssignCheeseWheelController controller = loader.getController();
+            controller.setOverlay(overlay);
+            controller.setMainController(this); // set reference to this controller
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            removeBlur();
+        }
+    }
 
     private void showAddShelfPopup() {
         applyBlur();
@@ -134,8 +127,7 @@ public class ShelfController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(
                     "/ca/mcgill/ecse/cheecsemanager/view/components/Shelf/AddShelfPopUp.fxml"
             ));
-            Node popup = loader.load();  // Node instead of AnchorPane
-
+            Node popup = loader.load();
             AnchorPane overlay = buildOverlay(popup);
 
             AddShelfPopUpController controller = loader.getController();
@@ -155,7 +147,6 @@ public class ShelfController {
                     "/ca/mcgill/ecse/cheecsemanager/view/components/Shelf/ConfirmDelete.fxml"
             ));
             Node popup = loader.load();
-
             AnchorPane overlay = buildOverlay(popup);
 
             ConfirmDeletePopUpController controller = loader.getController();
@@ -176,7 +167,6 @@ public class ShelfController {
                     "/ca/mcgill/ecse/cheecsemanager/view/components/Shelf/ViewShelfPopUp.fxml"
             ));
             Node popup = loader.load();
-
             AnchorPane overlay = buildOverlay(popup);
 
             ViewShelfPopUpController controller = loader.getController();
@@ -190,17 +180,11 @@ public class ShelfController {
         }
     }
 
-    // ===============================================================
-    //                  OVERLAY + CENTERING LOGIC
-    // ===============================================================
-
-    public AnchorPane buildOverlay(Node popup) {  // accept any Node
-
+    public AnchorPane buildOverlay(Node popup) {
         AnchorPane overlay = new AnchorPane();
         overlay.setPrefSize(root.getWidth(), root.getHeight());
         overlay.setStyle("-fx-background-color: rgba(0,0,0,0.3);");
 
-        // Center the popup
         popup.setLayoutX((overlay.getPrefWidth() - popup.prefWidth(-1)) / 2);
         popup.setLayoutY((overlay.getPrefHeight() - popup.prefHeight(-1)) / 2);
 
@@ -215,10 +199,6 @@ public class ShelfController {
         removeBlur();
         refreshTable();
     }
-
-    // ===============================================================
-    //                          BLUR
-    // ===============================================================
 
     public void applyBlur() {
         if (contentRoot != null) {
@@ -235,10 +215,6 @@ public class ShelfController {
             mainContainer.setEffect(null);
         }
     }
-
-    // ===============================================================
-    //                     TABLE + INVENTORY
-    // ===============================================================
 
     public void refreshTable() {
         List<TOShelf> shelves = CheECSEManagerFeatureSet1Controller.getShelves();
@@ -258,7 +234,6 @@ public class ShelfController {
         shelfTable.setMinHeight(height);
         shelfTable.setMaxHeight(height);
     }
-
 
     public AnchorPane getRoot() {
         return root;

@@ -1,4 +1,4 @@
-package ca.mcgill.ecse.cheecsemanager.fxml.controllers;
+package ca.mcgill.ecse.cheecsemanager.fxml.controllers.shelf;
 
 import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
 import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet3Controller;
@@ -17,6 +17,10 @@ import javafx.stage.Stage;
 import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton;
 
 import java.io.IOException;
+/*
+*
+* @author Ayush
+* */
 
 public class ViewCheeseWheelController {
 

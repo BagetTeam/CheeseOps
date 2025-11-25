@@ -12,7 +12,7 @@
 <AnchorPane fx:id="root"
             xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.ShelfController"
+            fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.shelf.ShelfController"
             prefWidth="900" prefHeight="600"
             styleClass="root"
             stylesheets="@/ca/mcgill/ecse/cheecsemanager/style/Shelf.css">
@@ -28,7 +28,6 @@
           AnchorPane.leftAnchor="0"
           AnchorPane.rightAnchor="0">
 
-        <!-- Top Bar -->
         <HBox spacing="10" alignment="CENTER_LEFT" prefWidth="850">
             <VBox alignment="CENTER" spacing="5">
                 <Label text="Shelf Management" style="-fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: -color-primary;"/>
@@ -44,15 +43,14 @@
                     </ImageView>
                 </graphic>
             </StyledButton>
+            <StyledButton fx:id="assignCheeseFromMainBtn" text="Assign Cheese Wheel" variant="PRIMARY" size="BASE"/>
         </HBox>
 
-        <!-- Inventory Label -->
         <Label fx:id="inventoryLabel"
                text="Current Cheese Inventory: 0"
                style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: -color-primary;"
                alignment="CENTER_LEFT"/>
 
-        <!-- Table centered -->
         <HBox alignment="CENTER" prefHeight="100">
             <TableView fx:id="shelfTable" styleClass="custom-table" VBox.vgrow="ALWAYS">
                 <columns>

@@ -3,14 +3,12 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Button?>
 
 <?import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.ViewShelfPopUpController"
+            fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.shelf.ViewShelfPopUpController"
             prefWidth="600" prefHeight="400"
             styleClass="view-shelf-popup">
 
@@ -21,18 +19,14 @@
           AnchorPane.rightAnchor="0"
           styleClass="popup-container">
 
-        <!-- Header with dynamic shelf label -->
         <HBox alignment="CENTER_LEFT" spacing="10">
             <Label fx:id="shelfHeader" styleClass="popup-title"/>
             <HBox HBox.hgrow="ALWAYS"/>
             <StyledButton fx:id="closeBtn" text="Close" variant="MUTED"/>
-            <StyledButton fx:id="assignCheeseButton" text="Assign Cheese Wheel" variant="PRIMARY"/>
         </HBox>
 
-        <!-- Wrapper GridPane for axis labels -->
         <GridPane fx:id="wrapperGrid" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS" alignment="CENTER">
 
-            <!-- Shelf grid placed at row 1, column 1 to leave space for headers -->
             <GridPane fx:id="shelfGrid"
                       styleClass="shelf-grid"
                       GridPane.rowIndex="1"
