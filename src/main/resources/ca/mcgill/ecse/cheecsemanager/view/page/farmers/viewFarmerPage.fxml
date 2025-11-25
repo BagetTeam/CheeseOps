@@ -49,18 +49,18 @@
                            </children>
                         </AnchorPane>
                         
-                        <VBox alignment="TOP_LEFT" VBox.fillWidth="true" spacing="8">
+                        <VBox alignment="TOP_LEFT" maxWidth="Infinity" spacing="8">
                            <!-- Name -->
                            <Label fx:id="nameLabel" text="Ewen Gueguen" style="-fx-text-fill: -color-fg; -fx-font-size: 24px; -fx-font-weight: bold;"/>
                            
                            <!-- Email -->
-                           <Label fx:id="emailLabel" text="tspmofrnight@gmail.com" style=" -fx-font-size: 14px;"/>
+                           <Label fx:id="emailLabel" text="tspmofrnight@gmail.com" style="-fx-text-fill: -color-fg; -fx-font-size: 14px;"/>
                            
                            <!-- Address with icon -->
                            <HBox alignment="CENTER_LEFT" spacing="6">
                               <children>
                                  <Icon icon="Marker"></Icon>
-                                 <Label fx:id="addressLabel" text="123 Sigma Street, Montreal" style="-fx-font-size: 14px;"/>
+                                 <Label fx:id="addressLabel" text="123 Sigma Street, Montreal" style="-fx-text-fill: -color-fg; -fx-font-size: 14px;"/>
                               </children>
                            </HBox>
                         </VBox>
