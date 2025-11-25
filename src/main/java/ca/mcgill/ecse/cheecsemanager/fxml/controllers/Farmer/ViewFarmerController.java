@@ -23,57 +23,87 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class ViewFarmerController implements PageNavigator.DataReceiver {
+  @FXML private Button backBtn;
 
-        farmerDescriptionCard.setMaxHeight(Region.USE_PREF_SIZE);
-        
-        // Set placeholder for empty table
-        Label placeholder = new Label("No cheese wheels purchased yet");
-        placeholder.setStyle("-fx-text-fill: -color-muted; -fx-font-size: 14px;");
-        cheeseTable.setPlaceholder(placeholder);
-        
-        // Hide empty rows
-        cheeseTable.setRowFactory(tv -> {
-            javafx.scene.control.TableRow<CheeseWheel> row = new javafx.scene.control.TableRow<>();
-            row.emptyProperty().addListener((obs, wasEmpty, isNowEmpty) -> {
-                if (isNowEmpty) {
-                    row.setStyle("-fx-background-color: transparent; -fx-opacity: 0; -fx-pref-height: 0; -fx-max-height: 0; -fx-min-height: 0;");
-                } else {
-                    row.setStyle("");
-                }
-            });
-            return row;
-        });
+  @FXML private VBox farmerDescriptionCard;
 
-        // Add View Button column
-        actionColumn.setCellFactory(param -> new TableCell<>() {
-            private final StyledButton viewBtn;
-            {
-                Icon eyeIcon = new Icon("Eye");
-                
-                viewBtn = new StyledButton("view", eyeIcon);
-                viewBtn.setVariant(StyledButton.Variant.PRIMARY);
-                viewBtn.setSize(StyledButton.Size.SM);
-                
-                viewBtn.setOnAction(event -> {
-                    CheeseWheel cheeseWheel = getTableView().getItems().get(getIndex());
-                    handleViewCheeseWheel(cheeseWheel);
-                });
-            }
+  @FXML private ImageView photoView;
+  @FXML private Label nameLabel;
+  @FXML private Label emailLabel;
+  @FXML private Label addressLabel;
+  @FXML private Button updateBtn;
+  @FXML private Button deleteBtn;
 
-            @Override
-            public void updateItem(Void item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty) {
-                    setGraphic(null);
-                } else {
-                    setGraphic(viewBtn);
-                    setAlignment(Pos.CENTER);
-                }
-            }
+  @FXML private TableView<CheeseWheel> cheeseTable;
+  @FXML private TableColumn<CheeseWheel, Integer> idColumn;
+  @FXML private TableColumn<CheeseWheel, String> ageColumn;
+  @FXML private TableColumn<CheeseWheel, String> spoiledColumn;
+  @FXML private TableColumn<CheeseWheel, String> dateColumn;
+  @FXML private TableColumn<CheeseWheel, Void> actionColumn;
+
+  private Farmer farmer;
+
+  @FXML
+  public void initialize() {
+    // Initialize columns
+    idColumn.setCellValueFactory(
+        cellData -> new SimpleObjectProperty<>(cellData.getValue().getId()));
+
+    ageColumn.setCellValueFactory(
+        cellData
+        -> new SimpleStringProperty(
+            cellData.getValue().getMonthsAged().toString()));
+
+    spoiledColumn.setCellValueFactory(
+        cellData
+        -> new SimpleStringProperty(cellData.getValue().getIsSpoiled() ? "Yes"
+                                                                       : "No"));
+
+    dateColumn.setCellValueFactory(cellData -> {
+      Purchase p = cellData.getValue().getPurchase();
+      return new SimpleStringProperty(p != null &&
+                                              p.getTransactionDate() != null
+                                          ? p.getTransactionDate().toString()
+                                          : "N/A");
+    });
+
+    farmerDescriptionCard.setMaxHeight(Region.USE_PREF_SIZE);
+
+    // Set placeholder for empty table
+    Label placeholder = new Label("No cheese wheels purchased yet");
+    placeholder.setStyle("-fx-text-fill: -color-muted; -fx-font-size: 14px;");
+    cheeseTable.setPlaceholder(placeholder);
+
+    // Hide empty rows
+    cheeseTable.setRowFactory(tv -> {
+      javafx.scene.control.TableRow<CheeseWheel> row =
+          new javafx.scene.control.TableRow<>();
+      row.emptyProperty().addListener((obs, wasEmpty, isNowEmpty) -> {
+        if (isNowEmpty) {
+          row.setStyle(
+              "-fx-background-color: transparent; -fx-opacity: 0; "
+              + "-fx-pref-height: 0; -fx-max-height: 0; -fx-min-height: 0;");
+        } else {
+          row.setStyle("");
+        }
+      });
+      return row;
+    });
+
+    // Add View Button column
+    actionColumn.setCellFactory(param -> new TableCell<>() {
+      private final StyledButton viewBtn;
+      {
+        Icon eyeIcon = new Icon("Eye");
+
+        viewBtn = new StyledButton("view", eyeIcon);
+        viewBtn.setVariant(StyledButton.Variant.PRIMARY);
+        viewBtn.setSize(StyledButton.Size.SM);
+
+        viewBtn.setOnAction(event -> {
+          CheeseWheel cheeseWheel = getTableView().getItems().get(getIndex());
+          handleViewCheeseWheel(cheeseWheel);
         });
       }
 
