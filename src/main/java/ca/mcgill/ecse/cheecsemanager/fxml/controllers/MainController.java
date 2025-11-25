@@ -24,7 +24,7 @@ public class MainController {
     sidebarController.setNavigationCallback(this::loadPage);
 
     // Load default page
-    loadPage("shelves");
+    loadPage("settings");
   }
 
   private void loadPage(String pageName) {
