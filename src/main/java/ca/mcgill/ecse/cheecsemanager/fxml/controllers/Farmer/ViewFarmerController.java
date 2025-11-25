@@ -20,7 +20,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import javafx.scene.shape.SVGPath;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,20 +62,35 @@ public class ViewFarmerController implements PageNavigator.DataReceiver {
             return new SimpleStringProperty(p != null && p.getTransactionDate() != null ? p.getTransactionDate().toString() : "N/A");
         });
 
-            farmerDescriptionCard.setMaxHeight(Region.USE_PREF_SIZE);
+        farmerDescriptionCard.setMaxHeight(Region.USE_PREF_SIZE);
+        
+        // Set placeholder for empty table
+        Label placeholder = new Label("No cheese wheels purchased yet");
+        placeholder.setStyle("-fx-text-fill: -color-muted; -fx-font-size: 14px;");
+        cheeseTable.setPlaceholder(placeholder);
+        
+        // Hide empty rows
+        cheeseTable.setRowFactory(tv -> {
+            javafx.scene.control.TableRow<CheeseWheel> row = new javafx.scene.control.TableRow<>();
+            row.emptyProperty().addListener((obs, wasEmpty, isNowEmpty) -> {
+                if (isNowEmpty) {
+                    row.setStyle("-fx-background-color: transparent; -fx-opacity: 0; -fx-pref-height: 0; -fx-max-height: 0; -fx-min-height: 0;");
+                } else {
+                    row.setStyle("");
+                }
+            });
+            return row;
+        });
 
         // Add View Button column
         actionColumn.setCellFactory(param -> new TableCell<>() {
-            private final StyledButton viewBtn = new StyledButton();
-            
+            private final StyledButton viewBtn;
             {
-                viewBtn.setVariant(StyledButton.Variant.DEFAULT);
-                viewBtn.setSize(StyledButton.Size.SM);
-                viewBtn.setText("view");
-                
-                // Add eye icon
                 Icon eyeIcon = new Icon("Eye");
-                viewBtn.setGraphic(eyeIcon);
+                
+                viewBtn = new StyledButton("view", eyeIcon);
+                viewBtn.setVariant(StyledButton.Variant.PRIMARY);
+                viewBtn.setSize(StyledButton.Size.SM);
                 
                 viewBtn.setOnAction(event -> {
                     CheeseWheel cheeseWheel = getTableView().getItems().get(getIndex());

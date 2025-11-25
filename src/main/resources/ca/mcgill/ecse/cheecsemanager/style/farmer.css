@@ -40,6 +40,21 @@
     -fx-background-color: rgba(255, 218, 109, 0.1);
 }
 
+/* Hide empty rows (rows with no data) */
+.farmer-table .table-row-cell .empty {
+    -fx-opacity: 0;
+}
+
+.farmer-table .table-row-cell:empty,
+.farmer-table .empty {
+    -fx-background-color: transparent;
+    -fx-opacity: 0;
+    -fx-pref-height: 0;
+    -fx-max-height: 0;
+    -fx-min-height: 0;
+    -fx-padding: 0;
+}
+
 /* Table cells - center content both horizontally and vertically */
 .farmer-table .table-cell {
     -fx-text-fill: -color-fg;
