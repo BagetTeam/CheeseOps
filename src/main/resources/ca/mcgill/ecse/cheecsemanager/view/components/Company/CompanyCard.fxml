@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.shape.Circle?>
+<?import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton?>
+<?import ca.mcgill.ecse.cheecsemanager.fxml.components.Icon?>
+
+<fx:root type="javafx.scene.layout.VBox"
+         xmlns:fx="http://javafx.com/fxml/1"
+         xmlns="http://javafx.com/javafx/21"
+         styleClass="company-card"
+         spacing="16"
+         alignment="TOP_CENTER"
+         prefWidth="280"
+         maxWidth="280"
+         minWidth="280">
+    <padding>
+        <Insets top="24" right="24" bottom="24" left="24"/>
+    </padding>
+    
+    <!-- Profile Icon - Factory -->
+    <StackPane prefHeight="100.0" prefWidth="100.0">
+        <Circle radius="50.0" style="-fx-fill: transparent; -fx-stroke: -color-muted; -fx-stroke-width: 2;"/>
+        <Icon icon="Factory" style="-fx-stroke: -color-muted; -fx-scale-x: 2.5; -fx-scale-y: 2.5;"/>
+    </StackPane>
+    
+    <Label fx:id="nameLabel" styleClass="name-label" style="-fx-text-fill: -color-fg; -fx-font-size: 18px; -fx-font-weight: bold;" wrapText="true" alignment="CENTER"/>
+    
+    <!-- Address with Icon -->
+    <HBox alignment="CENTER" spacing="6">
+        <Icon icon="Marker" style="-fx-stroke: -color-muted; -fx-scale-x: 0.8; -fx-scale-y: 0.8;"/>
+        <Label fx:id="addressLabel" style="-fx-text-fill: -color-muted; -fx-font-size: 13px;" wrapText="true"/>
+    </HBox>
+    
+    <!-- Orders Count with Icon -->
+    <HBox alignment="CENTER" spacing="6">
+        <Icon icon="Cargo" style="-fx-stroke: -color-muted; -fx-scale-x: 0.8; -fx-scale-y: 0.8;"/>
+        <Label fx:id="ordersLabel" style="-fx-text-fill: -color-muted; -fx-font-size: 13px;"/>
+    </HBox>
+    
+    <!-- Action Buttons -->
+    <HBox alignment="CENTER" spacing="12">
+        <VBox.margin>
+            <Insets top="8"/>
+        </VBox.margin>
+        <StyledButton fx:id="updateCompanyBtn" variant="DEFAULT" size="SM" text="Update"/>
+        <StyledButton fx:id="deleteCompanyBtn" variant="DESTRUCTIVE" size="SM" text="Delete"/>
+    </HBox>
+</fx:root>
