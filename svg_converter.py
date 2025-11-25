@@ -87,6 +87,8 @@ def convert_path(element, svg_name):
     stroke_width = get_attribute(element, "stroke-width", "1")
     opacity = get_attribute(element, "opacity", "1")
     transform = get_attribute(element, "transform", "")
+    fill_rule = get_attribute(element, "fill-rule")
+    clip_rule = get_attribute(element, "clip-rule")
 
     # Handle style attribute
     style = parse_style(get_attribute(element, "style", ""))
@@ -104,7 +106,7 @@ def convert_path(element, svg_name):
         fill = "TRANSPARENT"
         stroke = None
 
-    return f'<SVGPath styleClass="icon" content="{d}" fill="{fill}" {f'stroke="{stroke}"' if stroke else ""} strokeWidth="{stroke_width}" opacity="{opacity}"{transform_attr} />'
+    return f'<SVGPath styleClass="icon" content="{d}" fill="{fill}" {f'stroke="{stroke}"' if stroke else ""} strokeWidth="{stroke_width}" opacity="{opacity}"{transform_attr} {f'fillRule="{fill_rule}"' if fill_rule else ""} {f'clipRule="{clip_rule}"' if clip_rule else ""} />'
 
 
 def convert_circle(element, svg_name):
