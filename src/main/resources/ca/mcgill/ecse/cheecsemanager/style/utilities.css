@@ -1,0 +1,252 @@
+.text-bg {
+    -fx-text-fill: -color-bg;
+}
+
+.text-fg {
+    -fx-text-fill: -color-fg;
+}
+
+.text-primary {
+    -fx-text-fill: -color-primary;
+}
+
+.text-secondary {
+    -fx-text-fill: -color-secondary;
+}
+
+.text-tertiary {
+    -fx-text-fill: -color-tertiary;
+}
+
+.text-muted {
+    -fx-text-fill: -color-muted;
+}
+
+.text-destructive {
+    -fx-text-fill: -color-destructive;
+}
+
+.text-bold {
+    -fx-font-weight: bold;
+}
+
+.text-italic {
+    -fx-font-style: italic;
+}
+
+.text-underline {
+    -fx-underline: true;
+}
+
+.text-underline-dotted {
+    -fx-underline: true;
+    -fx-underline-style: dotted;
+}
+
+.text-underline-dashed {
+    -fx-underline: true;
+    -fx-underline-style: dashed;
+}
+
+.text-underline-wavy {
+    -fx-underline: true;
+    -fx-underline-style: wavy;
+}
+
+.text-underline-wavy-dashed {
+    -fx-underline: true;
+    -fx-underline-style: wavy dashed;
+}
+
+.text-underline-wavy-dotted {
+    -fx-underline: true;
+    -fx-underline-style: wavy dotted;
+}
+
+.text-underline-wavy-dotted-dashed {
+    -fx-underline: true;
+    -fx-underline-style: wavy dotted dashed;
+}
+
+.bg-primary {
+    -fx-background-color: -color-primary;
+}
+
+.bg-secondary {
+    -fx-background-color: -color-secondary;
+}
+
+.bg-tertiary {
+    -fx-background-color: -color-tertiary;
+}
+
+.bg-muted {
+    -fx-background-color: -color-muted;
+}
+
+.bg-destructive {
+    -fx-background-color: -color-destructive;
+}
+
+.bg-darker-bg {
+    -fx-background-color: -color-darker-bg;
+}
+
+.bg-fg {
+    -fx-background-color: -color-fg;
+}
+
+.bg-bg {
+    -fx-background-color: -color-bg;
+}
+
+.bg-none {
+    -fx-background-color: transparent;
+}
+
+/* use units for border radius */
+.rounded-xs {
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+}
+
+.rounded-sm {
+    -fx-border-radius: 12px;
+    -fx-background-radius: 12px;
+}
+
+.rounded-base {
+    -fx-border-radius: 16px;
+    -fx-background-radius: 16px;
+}
+
+.rounded-md {
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+}
+
+.rounded-lg {
+    -fx-border-radius: 24px;
+    -fx-background-radius: 24px;
+}
+
+.rounded-full {
+    -fx-border-radius: 9999px;
+    -fx-background-radius: 9999px;
+}
+
+.font-thin {
+    -fx-font-weight: thin;
+}
+
+.font-extralight {
+    -fx-font-weight: extra-light;
+}
+
+.font-light {
+    -fx-font-weight: light;
+}
+
+.font-normal {
+    -fx-font-weight: normal;
+}
+
+.font-medium {
+    -fx-font-weight: medium;
+}
+
+.font-semibold {
+    -fx-font-weight: semi-bold;
+}
+
+.font-bold {
+    -fx-font-weight: bold;
+}
+
+.font-extrabold {
+    -fx-font-weight: extra-bold;
+}
+
+.font-black {
+    -fx-font-weight: black;
+}
+
+.font-italic {
+    -fx-font-style: italic;
+}
+
+.font-oblique {
+    -fx-font-style: oblique;
+}
+
+.font-normal {
+    -fx-font-style: normal;
+}
+
+.font-overline {
+    -fx-font-style: overline;
+}
+
+.font-underline {
+    -fx-font-style: underline;
+}
+
+.font-line-through {
+    -fx-font-style: line-through;
+}
+
+.font-strikethrough {
+    -fx-font-style: strikethrough;
+}
+
+.text-xs {
+    -fx-font-size: 8px;
+}
+
+.text-sm {
+    -fx-font-size: 12px;
+}
+
+.text-base {
+    -fx-font-size: 16px;
+}
+
+.text-md {
+    -fx-font-size: 20px;
+}
+
+.text-lg {
+    -fx-font-size: 24px;
+}
+
+.text-xl {
+    -fx-font-size: 32px;
+}
+
+.text-2xl {
+    -fx-font-size: 40px;
+}
+
+.text-3xl {
+    -fx-font-size: 48px;
+}
+
+.text-4xl {
+    -fx-font-size: 64px;
+}
+
+.text-5xl {
+    -fx-font-size: 80px;
+}
+
+.text-6xl {
+    -fx-font-size: 96px;
+}
+
+.text-7xl {
+    -fx-font-size: 112px;
+}
+
+.text-8xl {
+    -fx-font-size: 128px;
+}

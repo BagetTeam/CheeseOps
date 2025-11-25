@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.control.*?>
+<?import ca.mcgill.ecse.cheecsemanager.fxml.components.*?>
+<StackPane alignment="CENTER">
+    <VBox spacing="16" maxWidth="768" style="-fx-padding: 16px;">
+        <Label
+            text="Settings"
+            xmlns="http://javafx.com/javafx/17.0.2-ea"
+            xmlns:fx="http://javafx.com/fxml/1"
+            styleClass="text-fg, font-bold, text-lg"
+        />
+    </VBox>
+</StackPane>

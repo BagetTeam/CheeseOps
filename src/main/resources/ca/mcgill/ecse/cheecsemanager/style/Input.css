@@ -1,0 +1,48 @@
+.input {
+    -fx-alignment: center-left;
+    -fx-padding: 6 12;
+    -fx-background-insets: 0;
+    -fx-border-width: 0;
+    -fx-spacing: 8px;
+}
+
+.input-default {
+    -fx-background-color: -color-darker-bg;
+    -fx-background-radius: 12px;
+    -fx-border-color: -color-darker-bg;
+    -fx-border-width: 1px;
+    -fx-border-radius: 12px;
+}
+
+.input-default.input-focused {
+    -fx-border-color: -color-muted;
+}
+
+.input-outlined {
+    -fx-background-color: transparent;
+    -fx-border-color: -color-muted;
+    -fx-border-width: 1px;
+    -fx-border-radius: 12px;
+    -fx-background-radius: 12px;
+}
+
+.input-outlined.input-focused {
+    -fx-border-color: -color-primary;
+}
+
+.input-text-field {
+    -fx-background-color: transparent;
+    -fx-border-width: 0;
+    -fx-background-insets: 0;
+    -fx-text-fill: -color-fg;
+    -fx-prompt-text-fill: -color-muted;
+    -fx-padding: 4 0 4 0;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+.input-icon {
+    -fx-alignment: center;
+    -fx-padding: 0;
+    -fx-min-width: 20px;
+}

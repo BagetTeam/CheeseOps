@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton?>
+<?import ca.mcgill.ecse.cheecsemanager.fxml.components.Icon?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.shelf.ViewCheeseWheelController"
+            fx:id="rootPane"
+            prefHeight="500" prefWidth="450"
+            styleClass="view-cheese-popup">
+
+    <VBox spacing="20" alignment="TOP_CENTER"
+          AnchorPane.topAnchor="10" AnchorPane.leftAnchor="10"
+          AnchorPane.rightAnchor="10" AnchorPane.bottomAnchor="10">
+
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="Cheese Wheel Details"
+                   styleClass="popup-title"/>
+            <Pane HBox.hgrow="ALWAYS"/>
+            <StyledButton fx:id="cancelBtn"
+                          text="Cancel"
+                          variant="MUTED"
+            />
+        </HBox>
+
+        <Icon
+                fx:id="cheeseIcon"
+                icon="CheeseWheel"
+                prefWidth="220"
+                prefHeight="220"
+                style="-fx-padding: 20;"
+        />
+
+        <VBox spacing="6" alignment="CENTER_LEFT">
+            <Label fx:id="idLabel" styleClass="info-label"/>
+
+            <HBox fx:id="monthsAgedBox" spacing="10" alignment="CENTER_LEFT">
+                <Label fx:id="monthsAgedLabel" styleClass="info-label"/>
+            </HBox>
+
+            <Label fx:id="spoiledLabel" styleClass="info-label"/>
+            <Label fx:id="purchaseDateLabel" styleClass="info-label"/>
+            <Label fx:id="locationLabel" styleClass="info-label"/>
+
+            <HBox fx:id="columnBox" spacing="10" alignment="CENTER_LEFT">
+                <Label text="Column:" styleClass="info-label"/>
+                <Label fx:id="columnLabel" styleClass="info-label"/>
+            </HBox>
+
+            <HBox fx:id="rowBox" spacing="10" alignment="CENTER_LEFT">
+                <Label text="Row:" styleClass="info-label"/>
+                <Label fx:id="rowLabel" styleClass="info-label"/>
+            </HBox>
+
+            <Label fx:id="orderedLabel" styleClass="info-label"/>
+        </VBox>
+
+        <StyledButton
+                fx:id="editButton"
+                variant="PRIMARY"
+                text="Edit"
+                size="BASE"
+        />
+
+        <StyledButton fx:id="removeButton"
+                      text="Remove From Shelf"
+                      variant="DESTRUCTIVE"
+                      size="BASE"/>
+
+    </VBox>
+</AnchorPane>

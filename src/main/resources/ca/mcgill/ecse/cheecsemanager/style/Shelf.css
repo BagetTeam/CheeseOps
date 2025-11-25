@@ -1,0 +1,230 @@
+/* ===========================
+   AddShelfPopUp styles
+   =========================== */
+.add-shelf-popup {
+    -fx-background-color: -color-bg;
+    -fx-border-color: -color-primary;
+    -fx-border-width: 2;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-padding: 15;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 0, 2);
+}
+
+.add-shelf-popup .popup-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -color-primary;
+}
+
+.add-shelf-popup .label {
+    -fx-text-fill: -color-fg;
+}
+
+.add-shelf-popup .text-field {
+    -fx-background-color: -color-darker-bg;
+    -fx-text-fill: -color-fg;
+    -fx-border-color: -color-secondary;
+    -fx-border-width: 1;
+    -fx-background-radius: 4;
+    -fx-border-radius: 4;
+    -fx-padding: 4 6;
+}
+
+.add-shelf-popup .button {
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+    -fx-font-weight: bold;
+    -fx-padding: 6 12;
+}
+
+.add-shelf-popup #cancelBtn {
+    -fx-background-color: -color-muted;
+    -fx-text-fill: -color-tertiary;
+}
+
+.add-shelf-popup #addBtn {
+    -fx-background-color: -color-primary;
+    -fx-text-fill: -color-darker-bg;
+}
+
+/* ===========================
+   ConfirmDeletePopUp styles
+   =========================== */
+.confirm-delete-popup {
+    -fx-background-color: -color-bg;
+    -fx-border-color: -color-destructive;
+    -fx-border-width: 2;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-padding: 15;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 0, 2);
+}
+
+.confirm-delete-popup .popup-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -color-destructive;
+}
+
+.confirm-delete-popup .popup-subtitle {
+    -fx-font-size: 14px;
+    -fx-text-fill: -color-fg;
+}
+
+.confirm-delete-popup .label {
+    -fx-text-fill: -color-fg;
+}
+
+.confirm-delete-popup .button {
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+    -fx-font-weight: bold;
+    -fx-padding: 6 12;
+}
+
+.confirm-delete-popup #noBtn {
+    -fx-background-color: -color-darker-bg;
+    -fx-text-fill: -color-primary;
+    -fx-border-color: -color-primary;
+    -fx-border-width: 1;
+}
+
+.confirm-delete-popup #yesBtn {
+    -fx-background-color: -color-destructive;
+    -fx-text-fill: -color-bg;
+}
+
+/* ===========================
+   ViewShelfPopUp styles
+   =========================== */
+.view-shelf-popup {
+    -fx-background-color: transparent;
+}
+
+.view-shelf-popup .popup-container {
+    -fx-background-color: -color-bg;
+    -fx-border-color: -color-primary;
+    -fx-border-width: 2;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-padding: 15;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 0, 2);
+}
+
+.view-shelf-popup .popup-title {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -color-tertiary;
+}
+
+.view-shelf-popup .popup-close-btn {
+    -fx-background-color: -color-muted;
+    -fx-text-fill: -color-tertiary;
+    -fx-font-weight: bold;
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+    -fx-padding: 6 12;
+}
+
+.view-shelf-popup .shelf-grid {
+    -fx-background-color: -color-darker-bg;
+    -fx-padding: 10;
+    -fx-border-color: -color-tertiary;
+    -fx-border-width: 1;
+    -fx-hgap: 10;
+    -fx-vgap: 10;
+}
+
+.view-shelf-popup .grid-cell {
+    -fx-background-color: -color-bg;
+    -fx-border-color: -color-tertiary;
+    -fx-border-width: 1;
+    -fx-alignment: center;
+    -fx-font-weight: bold;
+    -fx-pref-width: 60px;
+    -fx-pref-height: 60px;
+    -fx-text-fill: white;
+}
+
+/* ===========================
+   ViewCheeseWheelPopUp styles
+   =========================== */
+.view-cheese-popup {
+    -fx-background-color: -color-bg;
+    -fx-border-color: -color-primary;
+    -fx-border-width: 2;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-padding: 15;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 0, 2);
+}
+
+.view-cheese-popup .popup-title {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -color-tertiary;
+}
+
+.view-cheese-popup .popup-close-btn {
+    -fx-background-color: -color-muted;
+    -fx-text-fill: -color-tertiary;
+    -fx-font-weight: bold;
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+    -fx-padding: 6 12;
+}
+
+.view-cheese-popup .cheese-image {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 10, 0, 0, 4);
+}
+
+.view-cheese-popup .info-label {
+    -fx-text-fill: -color-fg;
+    -fx-font-size: 14px;
+}
+
+/* ===========================
+   AssignCheeseWheelPopUp styles
+   =========================== */
+.assign-cheese-popup {
+    -fx-background-color: -color-bg;
+    -fx-border-color: -color-primary;
+    -fx-border-width: 2;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-padding: 15;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 0, 2);
+}
+
+.assign-cheese-popup .popup-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -color-tertiary;
+}
+
+.assign-cheese-popup .combo-box {
+    -fx-background-color: -color-darker-bg;
+    -fx-text-fill: -color-fg;
+    -fx-border-color: -color-secondary;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+    -fx-padding: 4 6;
+}
+
+.assign-cheese-popup .button {
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+    -fx-font-weight: bold;
+    -fx-padding: 6 12;
+}
+
+.assign-cheese-popup #cancelButton {
+    -fx-background-color: -color-muted;
+    -fx-text-fill: -color-tertiary;
+}
+
+.assign-cheese-popup #assignButton {
+    -fx-background-color: -color-primary;
+    -fx-text-fill: -color-darker-bg;
+}

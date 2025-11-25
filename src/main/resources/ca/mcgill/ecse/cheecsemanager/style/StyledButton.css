@@ -78,9 +78,9 @@
 }
 
 .button-md {
-    -fx-padding: 10px 20px;
+    -fx-padding: 12px 16px;
 }
 
 .button-lg {
-    -fx-padding: 12px 24px;
+    -fx-padding: 18px 24px;
 }

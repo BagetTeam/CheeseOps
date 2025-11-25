@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.SVGPath?>
+<?import ca.mcgill.ecse.cheecsemanager.fxml.components.*?>
+<BorderPane
+    prefHeight="600.0"
+    prefWidth="900.0"
+    styleClass="page"
+    xmlns="http://javafx.com/javafx/21"
+    xmlns:fx="http://javafx.com/fxml/1"
+    fx:id="farmerRoot"
+    fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.Farmer.FarmerController"
+    style="-fx-padding: 36 16"
+>
+    <center>
+        <VBox maxWidth="768">
+            <children>
+                <!-- Header Section -->
+                <VBox spacing="24">
+                    <!-- Title -->
+                    <Label
+                        text="Farmer Management"
+                        styleClass="text-lg, text-fg, text-bold"
+                    />
+                    
+                    <!-- Search and Add Button -->
+                    <HBox spacing="16" alignment="CENTER_LEFT">
+                        <Input
+                            fx:id="searchInput"
+                            placeholder="Search farmers"
+                            HBox.hgrow="ALWAYS"
+                            variant="OUTLINED"
+                        >
+                            <icon>
+                                <Icon icon="Search" />
+                            </icon>
+                        </Input>
+                        
+                        <!-- Add Farmer Button -->
+                        <StyledButton
+                            fx:id="addFarmerBtn"
+                            variant="PRIMARY"
+                            size="BASE"
+                            text="Add Farmer"
+                            onAction="#addFarmer"
+                        />
+                    </HBox>
+                </VBox>
+                
+                <!-- Farmer Cards Grid -->
+                <ScrollPane
+                    fitToWidth="true"
+                    VBox.vgrow="ALWAYS"
+                    style="-fx-background-color: transparent; -fx-background: transparent;"
+                >
+                    <VBox.margin>
+                        <Insets top="24" />
+                    </VBox.margin>
+                    <content>
+                        <FlowPane
+                            fx:id="cardsContainer"
+                            hgap="24"
+                            vgap="24"
+                            style="-fx-background-color: transparent;"
+                        />
+                    </content>
+                </ScrollPane>
+            </children>
+        </VBox>
+    </center>
+</BorderPane>
+
