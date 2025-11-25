@@ -1,0 +1,5 @@
+
+
+.control-tile .label {
+    -fx-text-fill: #d83d1e;   /* or whatever bright color you need */
+}
