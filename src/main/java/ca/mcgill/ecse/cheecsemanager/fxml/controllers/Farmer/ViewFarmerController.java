@@ -18,6 +18,8 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.SVGPath;
 
 import java.util.ArrayList;
@@ -26,6 +28,8 @@ import java.util.List;
 public class ViewFarmerController implements PageNavigator.DataReceiver {
     
     @FXML private Button backBtn;
+
+    @FXML private VBox farmerDescriptionCard;
 
     @FXML private ImageView photoView;
     @FXML private Label nameLabel;
@@ -58,6 +62,8 @@ public class ViewFarmerController implements PageNavigator.DataReceiver {
             Purchase p = cellData.getValue().getPurchase();
             return new SimpleStringProperty(p != null && p.getTransactionDate() != null ? p.getTransactionDate().toString() : "N/A");
         });
+
+            farmerDescriptionCard.setMaxHeight(Region.USE_PREF_SIZE);
 
         // Add View Button column
         actionColumn.setCellFactory(param -> new TableCell<>() {

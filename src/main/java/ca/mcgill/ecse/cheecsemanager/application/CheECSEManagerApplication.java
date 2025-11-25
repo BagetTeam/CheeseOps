@@ -20,7 +20,7 @@ public class CheECSEManagerApplication extends Application {
 
     FXMLLoader fxmlLoader =
         new FXMLLoader(CheECSEManagerApplication.class.getResource(
-            PACKAGE_ID.concat("view/page/cheecsemanager/Robot.fxml")));
+            PACKAGE_ID.concat("view/page/cheecsemanager/Main.fxml")));
     Scene scene = new Scene(fxmlLoader.load(), 980, 640);
 
     _loadStyleSheets(scene);
@@ -39,7 +39,7 @@ public class CheECSEManagerApplication extends Application {
   private static void _loadStyleSheets(Scene scene) {
     String[] sheets = {
         "style/main.css",
-        "view/components/FarmerCard/FarmerCard.css",
+        "style/farmer.css",
         "style/StyledButton.css",
     };
 
