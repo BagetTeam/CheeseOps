@@ -2,7 +2,6 @@ package ca.mcgill.ecse.cheecsemanager.fxml.components;
 
 import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
 import java.io.IOException;
-import java.util.HashMap;
 import javafx.beans.NamedArg;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.StackPane;
@@ -34,9 +33,9 @@ public class Icon extends StackPane {
   }
 
   private void setChildren(StackPane node) {
-      var children = node.getChildren();
-      this.getChildren().setAll(children);
-      this.setPrefHeight(node.getPrefHeight());
-      this.setPrefWidth(node.getPrefWidth());
+    var children = node.getChildren();
+    this.getChildren().setAll(children);
+    this.setPrefHeight(node.getPrefHeight());
+    this.setPrefWidth(node.getPrefWidth());
   }
 }
