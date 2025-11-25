@@ -11,13 +11,6 @@
 }
 
 
-/* Farmer description Card */
-.farmer-description-card {
-    -fx-background-color: -color-darker-bg;
-    -fx-background-radius: 12px;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0, 0, 2);
-}
-
 /* Table Styles */
 .farmer-table {
     -fx-background-color: transparent;
