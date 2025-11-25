@@ -13,6 +13,8 @@ public class RobotHandlingController {
     private StackPane deactivateTile;
     @FXML
     private StackPane initializeTile;
+    @FXML
+    private StackPane startTile;
 
     private final BooleanProperty robotActive = new SimpleBooleanProperty(false);
 
@@ -30,6 +32,7 @@ public class RobotHandlingController {
         deactivateTile.managedProperty().bind(robotActive);
 
         initializeTile.disableProperty().bind(robotActive.not());
+        startTile.disableProperty().bind(robotActive.not());
     }
 
     private void wireTileInteractions() {

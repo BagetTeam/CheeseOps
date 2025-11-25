@@ -37,3 +37,7 @@
     -fx-background-color: -color-darker-bg;
     -fx-padding: 16px;
 }
+
+.text-fg {
+    -fx-text-fill: -color-fg;
+}

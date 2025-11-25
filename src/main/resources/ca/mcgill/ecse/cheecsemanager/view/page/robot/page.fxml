@@ -29,12 +29,12 @@
                                styleClass="control-tile activate-tile"
                                fx:id="activateTile">
                         <VBox alignment="CENTER" spacing="10.0">
-                            <Label text="⏻">
+                            <Label styleClass="text-fg" text="⏻">
                                 <font>
                                     <Font name="Inter Bold" size="28.0"/>
                                 </font>
                             </Label>
-                            <Label text="Activate">
+                            <Label text="Activate" styleClass="text-fg">
                                 <font>
                                     <Font name="Inter Medium" size="15.0"/>
                                 </font>
@@ -47,12 +47,12 @@
                                fx:id="deactivateTile"
                                visible="false" managed="false">
                         <VBox alignment="CENTER" spacing="10.0">
-                            <Label text="■">
+                            <Label text="■" styleClass="text-fg">
                                 <font>
                                     <Font name="Inter Bold" size="24.0"/>
                                 </font>
                             </Label>
-                            <Label text="Deactivate">
+                            <Label text="Deactivate" styleClass="text-fg">
                                 <font>
                                     <Font name="Inter Medium" size="15.0"/>
                                 </font>
@@ -65,12 +65,12 @@
                            styleClass="control-tile initialize-tile"
                            fx:id="initializeTile" disable="true">
                     <VBox alignment="CENTER" spacing="10.0">
-                        <Label text="⚙">
+                        <Label text="⚙" styleClass="text-fg">
                             <font>
                                 <Font name="Inter Bold" size="26.0"/>
                             </font>
                         </Label>
-                        <Label text="Initialize">
+                        <Label text="Initialize" styleClass="text-fg">
                             <font>
                                 <Font name="Inter Medium" size="15.0"/>
                             </font>
@@ -82,12 +82,12 @@
                            styleClass="control-tile primary-tile"
                            fx:id="startTile">
                     <VBox alignment="CENTER" spacing="10.0">
-                        <Label text="▶">
+                        <Label text="▶" styleClass="text-fg">
                             <font>
                                 <Font name="Inter Bold" size="28.0"/>
                             </font>
                         </Label>
-                        <Label text="Start Treatment">
+                        <Label text="Start Treatment" styleClass="text-fg">
                             <font>
                                 <Font name="Inter Semibold" size="16.0"/>
                             </font>
@@ -98,7 +98,7 @@
 
             <!-- Live Action Log -->
             <VBox spacing="10.0" VBox.vgrow="ALWAYS" styleClass="terminal-wrapper">
-                <Label text="Robot Log">
+                <Label text="Robot Log" styleClass="text-fg">
                     <font>
                         <Font name="Inter Medium" size="13.0"/>
                     </font>
