@@ -106,7 +106,7 @@ def convert_path(element, svg_name):
         fill = "TRANSPARENT"
         stroke = None
 
-    return f'<SVGPath styleClass="icon" content="{d}" fill="{fill}" {f'stroke="{stroke}"' if stroke else ""} strokeWidth="{stroke_width}" opacity="{opacity}"{transform_attr} {f'fillRule="{fill_rule}"' if fill_rule else ""} {f'clipRule="{clip_rule}"' if clip_rule else ""} />'
+    return f'<SVGPath styleClass="icon" content="{d}" fill="{fill}" {f'stroke="{stroke}"' if stroke else ""} strokeWidth="{stroke_width}" opacity="{opacity}"{transform_attr} {f'fillRule="{fill_rule.upper()}"' if fill_rule else ""} {f'clipRule="{clip_rule.upper()}"' if clip_rule else ""} />'
 
 
 def convert_circle(element, svg_name):
