@@ -27,7 +27,7 @@
         fx:id="buttonShelves"
         onAction="#handleShelves"
         prefWidth="250"
-        graphicTextGap="8"
+        graphicTextGap="12"
         size="MD"
     >
         <graphic>
@@ -39,7 +39,7 @@
         text="Farmers"
         onAction="#handleFarmers"
         prefWidth="250"
-        graphicTextGap="8"
+        graphicTextGap="12"
         size="MD"
     >
         <graphic>
@@ -51,7 +51,7 @@
         text="Companies"
         onAction="#handleCompanies"
         prefWidth="250"
-        graphicTextGap="8"
+        graphicTextGap="12"
         size="MD"
     >
         <graphic>
@@ -63,7 +63,7 @@
         text="Robot"
         onAction="#handleRobot"
         prefWidth="250"
-        graphicTextGap="8"
+        graphicTextGap="12"
         size="MD"
     >
         <graphic>
@@ -75,7 +75,7 @@
         text="Settings"
         onAction="#handleSettings"
         prefWidth="250"
-        graphicTextGap="8"
+        graphicTextGap="12"
         size="MD"
     >
         <graphic>

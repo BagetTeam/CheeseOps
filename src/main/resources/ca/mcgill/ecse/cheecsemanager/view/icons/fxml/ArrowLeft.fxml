@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.effect.*?>
+
+<?import javafx.scene.layout.*?>
+
+<!-- Original SVG: ArrowLeft.svg -->
+<!-- ViewBox: 0 0 24 24 -->
+<StackPane xmlns:fx="http://javafx.com/fxml" prefHeight="24" prefWidth="24">
+<Group xmlns:fx="http://javafx.com/fxml">
+  <SVGPath styleClass="icon" content="M12 19L5 12L12 5" strokeWidth="2" />
+  <SVGPath styleClass="icon" content="M19 12H5" strokeWidth="2" />
+</Group>
+</StackPane>
