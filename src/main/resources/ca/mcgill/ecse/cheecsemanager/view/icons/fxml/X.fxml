@@ -10,7 +10,7 @@
 <!-- ViewBox: 0 0 24 24 -->
 <StackPane xmlns:fx="http://javafx.com/fxml" prefHeight="24" prefWidth="24">
 <Group xmlns:fx="http://javafx.com/fxml">
-  <SVGPath styleClass="icon" content="M18 6L6 18" fill="TRANSPARENT"  strokeWidth="2" opacity="1"   />
-  <SVGPath styleClass="icon" content="M6 6L18 18" fill="TRANSPARENT"  strokeWidth="2" opacity="1"   />
+  <SVGPath styleClass="icon" content="M18 6L6 18" stroke="#D7CDC4" strokeWidth="2" />
+  <SVGPath styleClass="icon" content="M6 6L18 18" stroke="#D7CDC4" strokeWidth="2" />
 </Group>
 </StackPane>

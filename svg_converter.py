@@ -9,12 +9,12 @@ SVG_NS = "{http://www.w3.org/2000/svg}"
 special_icons = ["logo", "CheeseWheel"]
 
 
-def parse_transform(transform_str):
+def parse_transform(transform_str: str) -> str:
     """Parse SVG transform attribute and return JavaFX transform string"""
     if not transform_str:
         return ""
 
-    transforms = []
+    transforms: list[str] = []
 
     # Parse translate
     for match in re.finditer(r"translate\(([^)]+)\)", transform_str):
@@ -45,11 +45,11 @@ def parse_transform(transform_str):
     return ""
 
 
-def parse_style(style_str):
+def parse_style(style_str: str) -> dict[str, str]:
     """Parse inline CSS style and return dictionary"""
     if not style_str:
         return {}
-    styles = {}
+    styles: dict[str, str] = {}
     for declaration in style_str.split(";"):
         if ":" in declaration:
             prop, value = declaration.split(":", 1)
@@ -57,7 +57,7 @@ def parse_style(style_str):
     return styles
 
 
-def get_attribute(element, name, default=None):
+def get_attribute(element: ET.Element, name: str, default: str | None = None):
     """Get attribute from element, handling namespaces"""
     # Try without namespace first
     value = element.get(name)
@@ -67,7 +67,7 @@ def get_attribute(element, name, default=None):
     return element.get(f"{SVG_NS}{name}", default)
 
 
-def escape_xml(value):
+def escape_xml(value: str) -> str:
     """Escape XML special characters"""
     if not value:
         return value
@@ -79,97 +79,127 @@ def escape_xml(value):
     )
 
 
-def convert_path(element, svg_name):
+def convert_to_pascal_case(name: str) -> str:
+    """Convert a string to PascalCase"""
+    words = name.split("-")
+    return words[0] + "".join(word.title() for word in words[1:])
+
+
+def convert_path(element: ET.Element, svg_name: str) -> str:
     """Convert SVG path to JavaFX SVGPath"""
-    d = escape_xml(get_attribute(element, "d", ""))
-    fill = get_attribute(element, "fill", "BLACK")
-    stroke = get_attribute(element, "stroke", "NONE")
-    stroke_width = get_attribute(element, "stroke-width", "1")
-    opacity = get_attribute(element, "opacity", "1")
+    fxml = '<SVGPath styleClass="icon"'
+
+    attributes = [
+        "d",
+        "fill",
+        "stroke",
+        "stroke-width",
+        "opacity",
+        "fill-rule",
+        "clip-rule",
+    ]
+
+    for attr in attributes:
+        if (attr == "fill" or attr == "stroke") and svg_name in special_icons:
+            continue
+
+        value = get_attribute(element, attr)
+        if attr == "d":
+            attr = "content"
+        if value:
+            fxml += f' {convert_to_pascal_case(attr)}="{value}"'
+
     transform = get_attribute(element, "transform", "")
-    fill_rule = get_attribute(element, "fill-rule")
-    clip_rule = get_attribute(element, "clip-rule")
+    if transform:
+        transform_attr = parse_transform(transform)
 
-    # Handle style attribute
-    style = parse_style(get_attribute(element, "style", ""))
-    fill = style.get("fill", fill)
-    stroke = style.get("stroke", stroke)
-    stroke_width = style.get("stroke-width", stroke_width)
+        fxml += f" {transform_attr}"
 
-    # Convert colors
-    fill = "TRANSPARENT" if fill in ("none", "None") else fill.upper()
-    stroke = "TRANSPARENT" if stroke in ("none", "None") else stroke.upper()
+    fxml += " />"
 
-    transform_attr = parse_transform(transform)
-
-    if svg_name not in special_icons:
-        fill = "TRANSPARENT"
-        stroke = None
-
-    return f'<SVGPath styleClass="icon" content="{d}" fill="{fill}" {f'stroke="{stroke}"' if stroke else ""} strokeWidth="{stroke_width}" opacity="{opacity}"{transform_attr} {f'fillRule="{fill_rule.upper()}"' if fill_rule else ""} {f'clipRule="{clip_rule.upper()}"' if clip_rule else ""} />'
+    return fxml
 
 
-def convert_circle(element, svg_name):
+def convert_circle(element: ET.Element, svg_name: str):
     """Convert SVG circle to JavaFX Circle"""
-    cx = get_attribute(element, "cx", "0")
-    cy = get_attribute(element, "cy", "0")
-    r = get_attribute(element, "r", "0")
-    fill = get_attribute(element, "fill", "BLACK")
-    stroke = get_attribute(element, "stroke", "NONE")
-    stroke_width = get_attribute(element, "stroke-width", "1")
-    opacity = get_attribute(element, "opacity", "1")
+    fxml = '<Circle styleClass="icon"'
+
+    attributes = [
+        "cx",
+        "cy",
+        "r",
+        "fill",
+        "stroke",
+        "stroke-width",
+        "opacity",
+    ]
+
+    for attr in attributes:
+        if (attr == "fill" or attr == "stroke") and svg_name in special_icons:
+            continue
+
+        value = get_attribute(element, attr)
+        if attr == "d":
+            attr = "content"
+        if value:
+            fxml += f' {convert_to_pascal_case(attr)}="{value}"'
+
     transform = get_attribute(element, "transform", "")
+    if transform:
+        transform_attr = parse_transform(transform)
 
-    style = parse_style(get_attribute(element, "style", ""))
-    fill = style.get("fill", fill)
-    stroke = style.get("stroke", stroke)
-    stroke_width = style.get("stroke-width", stroke_width)
+        fxml += f" {transform_attr}"
 
-    fill = "TRANSPARENT" if fill in ("none", "None") else fill.upper()
-    stroke = "TRANSPARENT" if stroke in ("none", "None") else stroke.upper()
+    fxml += " />"
 
-    transform_attr = parse_transform(transform)
-
-    if svg_name not in special_icons:
-        fill = "TRANSPARENT"
-        stroke = None
-
-    return f'<Circle styleClass="icon" centerX="{cx}" centerY="{cy}" radius="{r}" fill="{fill}" {f'stroke="{stroke}"' if stroke else ""} strokeWidth="{stroke_width}" opacity="{opacity}"{transform_attr} />'
+    return fxml
 
 
-def convert_rect(element, svg_name):
+def convert_rect(element: ET.Element, svg_name: str):
     """Convert SVG rect to JavaFX Rectangle"""
-    x = get_attribute(element, "x", "0")
-    y = get_attribute(element, "y", "0")
-    width = get_attribute(element, "width", "0")
-    height = get_attribute(element, "height", "0")
-    fill = get_attribute(element, "fill", "BLACK")
-    stroke = get_attribute(element, "stroke", "NONE")
-    stroke_width = get_attribute(element, "stroke-width", "1")
-    opacity = get_attribute(element, "opacity", "1")
+    fxml = '<Rectangle styleClass="icon"'
+
+    attributes = [
+        "x",
+        "y",
+        "width",
+        "height",
+        "fill",
+        "stroke",
+        "stroke-width",
+        "opacity",
+        "rx",
+        "ry",
+        "arc-width",
+        "arc-height",
+    ]
+    for attr in attributes:
+        if (attr == "fill" or attr == "stroke") and svg_name in special_icons:
+            continue
+        value = get_attribute(element, attr)
+
+        if attr == "rx":
+            attr = "arcWidth"
+        elif attr == "ry":
+            attr = "arcHeight"
+        elif attr == "d":
+            attr = "content"
+
+        if value:
+            fxml += f' {convert_to_pascal_case(attr)}="{value}"'
+
     transform = get_attribute(element, "transform", "")
-    rx = get_attribute(element, "rx", "0")
-    ry = get_attribute(element, "ry", "0")
+    if transform:
+        transform_attr = parse_transform(transform)
 
-    style = parse_style(get_attribute(element, "style", ""))
-    fill = style.get("fill", fill)
-    stroke = style.get("stroke", stroke)
-    stroke_width = style.get("stroke-width", stroke_width)
+        fxml += f" {transform_attr}"
 
-    fill = "TRANSPARENT" if fill in ("none", "None") else fill.upper()
-    stroke = "TRANSPARENT" if stroke in ("none", "None") else stroke.upper()
+    fxml += " />"
 
-    transform_attr = parse_transform(transform)
-    arc_attrs = f' arcWidth="{rx}" arcHeight="{ry}"' if rx != "0" or ry != "0" else ""
-
-    if svg_name not in special_icons:
-        fill = "TRANSPARENT"
-        stroke = None
-
-    return f'<Rectangle styleClass="icon" x="{x}" y="{y}" width="{width}" height="{height}" fill="{fill}" {f'stroke="{stroke}"' if stroke else ""} strokeWidth="{stroke_width}" opacity="{opacity}"{transform_attr}{arc_attrs} />'
+    return fxml
 
 
-def process_element(element, svg_name, level=1):
+def process_element(element: ET.Element, svg_name: str, level: int = 1) -> str:
     """Recursively process SVG elements and return FXML string"""
     indent = "  " * level
 
@@ -209,7 +239,7 @@ def process_element(element, svg_name, level=1):
         return f"{indent}<!-- Unsupported element: {tag} -->\n"
 
 
-def svg_to_fxml(svg_file, output_dir):
+def svg_to_fxml(svg_file: Path, output_dir: Path):
     """Convert a single SVG file to FXML"""
     try:
         # Parse SVG
@@ -218,8 +248,6 @@ def svg_to_fxml(svg_file, output_dir):
 
         # Get viewBox for reference
         viewBox = get_attribute(root, "viewBox", "0 0 24 24")
-        height = viewBox.split(" ")[3]
-        width = viewBox.split(" ")[2]
 
         # Create FXML content
         fxml_content = '<?xml version="1.0" encoding="UTF-8"?>\n\n'
@@ -229,7 +257,10 @@ def svg_to_fxml(svg_file, output_dir):
         fxml_content += "<?import javafx.scene.layout.*?>\n\n"
         fxml_content += f"<!-- Original SVG: {svg_file.name} -->\n"
         fxml_content += f"<!-- ViewBox: {viewBox} -->\n"
-        fxml_content += f'<StackPane xmlns:fx="http://javafx.com/fxml" prefHeight="{height}" prefWidth="{width}">\n'
+        if viewBox:
+            height = viewBox.split(" ")[3]
+            width = viewBox.split(" ")[2]
+            fxml_content += f'<StackPane xmlns:fx="http://javafx.com/fxml" prefHeight="{height}" prefWidth="{width}">\n'
         fxml_content += '<Group xmlns:fx="http://javafx.com/fxml">\n'
 
         # Process all child elements
@@ -242,7 +273,7 @@ def svg_to_fxml(svg_file, output_dir):
         # Write to file
         output_file = output_dir / f"{svg_file.stem}.fxml"
         with open(output_file, "w", encoding="utf-8") as f:
-            f.write(fxml_content)
+            _ = f.write(fxml_content)
 
         print(f"✓ Converted {svg_file.name} -> {output_file.name}")
 
