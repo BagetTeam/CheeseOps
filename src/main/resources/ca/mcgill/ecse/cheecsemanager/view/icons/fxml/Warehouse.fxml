@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.effect.*?>
+
+<!-- Original SVG: Warehouse.svg -->
+<!-- ViewBox: 0 0 24 24 -->
+<Group xmlns:fx="http://javafx.com/fxml" styleClass="icon">
+  <SVGPath styleClass="icon" content="M18 21V10C18 9.73478 17.8946 9.48043 17.7071 9.29289C17.5196 9.10536 17.2652 9 17 9H7C6.73478 9 6.48043 9.10536 6.29289 9.29289C6.10536 9.48043 6 9.73478 6 10V21" fill="TRANSPARENT" stroke="#D7CDC4" strokeWidth="2" opacity="1" />
+  <SVGPath styleClass="icon" content="M22 19C22 19.5305 21.7893 20.0392 21.4142 20.4142C21.0391 20.7893 20.5304 21 20 21H4C3.46957 21 2.96086 20.7893 2.58579 20.4142C2.21071 20.0392 2 19.5305 2 19V8.00002C1.99978 7.62339 2.10591 7.25436 2.30617 6.93539C2.50643 6.61642 2.79269 6.36048 3.132 6.19702L11.082 2.22302C11.3659 2.07624 11.6809 1.99963 12.0005 1.99963C12.3201 1.99963 12.6351 2.07624 12.919 2.22302L20.867 6.19702C21.2065 6.36033 21.493 6.61621 21.6934 6.9352C21.8939 7.25418 22.0001 7.62329 22 8.00002V19Z" fill="TRANSPARENT" stroke="#D7CDC4" strokeWidth="2" opacity="1" />
+  <SVGPath styleClass="icon" content="M6 13H18" fill="TRANSPARENT" stroke="#D7CDC4" strokeWidth="2" opacity="1" />
+  <SVGPath styleClass="icon" content="M6 17H18" fill="TRANSPARENT" stroke="#D7CDC4" strokeWidth="2" opacity="1" />
+</Group>

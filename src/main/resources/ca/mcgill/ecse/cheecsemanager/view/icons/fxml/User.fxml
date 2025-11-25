@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.effect.*?>
+
+<!-- Original SVG: User.svg -->
+<!-- ViewBox: 0 0 86 86 -->
+<Group xmlns:fx="http://javafx.com/fxml" styleClass="icon">
+  <SVGPath styleClass="icon" content="M68.0834 75.25V68.0833C68.0834 64.2819 66.5733 60.6362 63.8853 57.9481C61.1973 55.2601 57.5515 53.75 53.7501 53.75H32.2501C28.4486 53.75 24.8029 55.2601 22.1149 57.9481C19.4269 60.6362 17.9167 64.2819 17.9167 68.0833V75.25" fill="TRANSPARENT" stroke="#D7CDC4" strokeWidth="2" opacity="1" />
+  <SVGPath styleClass="icon" content="M43.0001 39.4167C50.9162 39.4167 57.3334 32.9994 57.3334 25.0833C57.3334 17.1673 50.9162 10.75 43.0001 10.75C35.084 10.75 28.6667 17.1673 28.6667 25.0833C28.6667 32.9994 35.084 39.4167 43.0001 39.4167Z" fill="TRANSPARENT" stroke="#D7CDC4" strokeWidth="2" opacity="1" />
+</Group>

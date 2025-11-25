@@ -16,15 +16,15 @@
         spacing="10"
         alignment="CENTER"
     >
-        <Icon icon="icon" />
+        <Icon icon="logo" />
         <Label
             text="CheECSEManager"
             style="-fx-text-fill: -color-fg; -fx-font-size: 20px;"
         />
     </HBox>
     <StyledButton
-        fx:id="buttonShelves"
         text="Shelves"
+        fx:id="buttonShelves"
         onAction="#handleShelves"
         prefWidth="250"
         graphicTextGap="8"
@@ -32,17 +32,6 @@
     >
         <graphic>
             <Icon icon="Warehouse" />
-        </graphic>
-    </StyledButton>
-    <StyledButton
-        text="Shelves"
-        onAction="#handleShelves"
-        prefWidth="250"
-        graphicTextGap="8"
-        size="MD"
-    >
-        <graphic>
-            <Icon icon="Warehouse" prefHeight="24" prefWidth="24" />
         </graphic>
     </StyledButton>
     <StyledButton
