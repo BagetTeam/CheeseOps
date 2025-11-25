@@ -3,7 +3,6 @@ package ca.mcgill.ecse.cheecsemanager.fxml.controllers.wholesaleCompany;
 import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet5Controller;
 import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet6Controller;
 import ca.mcgill.ecse.cheecsemanager.controller.TOWholesaleCompany;
-import ca.mcgill.ecse.cheecsemanager.fxml.controllers.MainController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -28,13 +27,13 @@ public class UpdateWholesaleCompanyController {
 
   private String currentCompanyName;
   private Runnable onCloseCallback;
-  private MainController mainController;
+  private WholesaleCompanyPageController mainController;
 
   public void setOnClose(Runnable callback) {
   this.onCloseCallback = callback;
   }
 
-  public void setMainController(MainController controller) {
+  public void setMainController(WholesaleCompanyPageController controller) {
     this.mainController = controller;
   }
 
