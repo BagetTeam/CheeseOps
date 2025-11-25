@@ -16,14 +16,14 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 
 public class ShelfController {
 
-  @FXML private StackPane root;
+  @FXML private BorderPane root;
   @FXML private AnchorPane contentRoot;
   @FXML private VBox mainContainer;
   // @FXML private StyledButton assignCheeseFromMainBtn;
@@ -221,18 +221,7 @@ public class ShelfController {
 
     int cheese = CheECSEManagerFeatureSet3Controller.getCheeseWheels().size();
     inventoryLabel.setText("Current Cheese Inventory: " + cheese);
-
-    adjustTableHeight();
   }
 
-  private void adjustTableHeight() {
-    int rows = shelfTable.getItems().size();
-    double height = 28 + rows * 35 + 5;
-
-    shelfTable.setPrefHeight(height);
-    shelfTable.setMinHeight(height);
-    shelfTable.setMaxHeight(height);
-  }
-
-  public StackPane getRoot() { return root; }
+  public BorderPane getRoot() { return root; }
 }

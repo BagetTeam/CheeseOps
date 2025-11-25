@@ -3,83 +3,95 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton?>
-<StackPane
+<BorderPane
     fx:id="root"
     xmlns="http://javafx.com/javafx"
     xmlns:fx="http://javafx.com/fxml"
     fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.shelf.ShelfController"
-    styleClass="root"
     stylesheets="@/ca/mcgill/ecse/cheecsemanager/style/Shelf.css"
-    alignment="CENTER"
     style="-fx-padding: 36 16"
 >
-    <VBox
-        fx:id="mainContainer"
-        spacing="20"
-        maxWidth="768"
-        styleClass="bg-darker-bg"
-        prefHeight="Infinity"
-    >
-        <Label
-            text="Shelf Management"
-            styleClass="text-lg, text-fg, text-bold"
-        />
-
-
-        <HBox alignment="CENTER_LEFT">
-            <Label
-                fx:id="inventoryLabel"
-                text="Current Cheese Inventory: 0"
-                styleClass="text-fg"
-            />
-            <Region HBox.hgrow="ALWAYS" />
-            <StyledButton
-                fx:id="showPopupBtn"
-                text="Add Shelf"
-                variant="PRIMARY"
-            />
-        </HBox>
-        <!-- <StyledButton -->
-        <!--     fx:id="assignCheeseFromMainBtn" -->
-        <!--     text="Assign Cheese Wheel" -->
-        <!--     variant="PRIMARY" -->
-        <!--     size="BASE" -->
-        <!-- /> -->
-
-
-        <TableView
-            fx:id="shelfTable"
-            styleClass="farmer-table, bg-muted"
-            VBox.vgrow="ALWAYS"
+    <center>
+        <VBox
+            fx:id="mainContainer"
+            spacing="20"
+            maxWidth="768"
+            styleClass="bg-darker-bg"
         >
-            <columns>
-                <TableColumn fx:id="idColumn" text="Shelf ID" prefWidth="120" />
-                <TableColumn fx:id="rowsColumn" text="Rows" prefWidth="95" />
-                <TableColumn fx:id="colsColumn" text="Columns" prefWidth="95" />
-                <TableColumn
-                    fx:id="numCheeseColumn"
-                    text="# Cheese Wheels"
-                    prefWidth="150"
-                />
-                <TableColumn
-                    fx:id="actionColumn"
-                    text="Actions"
-                    prefWidth="188"
-                />
-            </columns>
+            <Label
+                text="Shelf Management"
+                styleClass="text-lg, text-fg, text-bold"
+            />
 
-           <columnResizePolicy>
-              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-           </columnResizePolicy>
 
-            <placeholder>
+            <HBox alignment="CENTER_LEFT">
                 <Label
-                    text="No shelves currently available"
-                    style="-fx-font-size: 16px; -fx-text-fill: -color-muted; -fx-padding: 20;"
-                    alignment="CENTER"
+                    fx:id="inventoryLabel"
+                    text="Current Cheese Inventory: 0"
+                    styleClass="text-fg"
                 />
-            </placeholder>
-        </TableView>
+                <Region HBox.hgrow="ALWAYS" />
+                <StyledButton
+                    fx:id="showPopupBtn"
+                    text="Add Shelf"
+                    variant="PRIMARY"
+                />
+            </HBox>
+            <!-- <StyledButton -->
+            <!--     fx:id="assignCheeseFromMainBtn" -->
+            <!--     text="Assign Cheese Wheel" -->
+            <!--     variant="PRIMARY" -->
+            <!--     size="BASE" -->
+            <!-- /> -->
 
-    </VBox>
-</StackPane>
+
+            <TableView
+                fx:id="shelfTable"
+                styleClass="farmer-table"
+                VBox.vgrow="ALWAYS"
+            >
+                <columns>
+                    <TableColumn
+                        fx:id="idColumn"
+                        text="Shelf ID"
+                        prefWidth="120"
+                    />
+                    <TableColumn
+                        fx:id="rowsColumn"
+                        text="Rows"
+                        prefWidth="95"
+                    />
+                    <TableColumn
+                        fx:id="colsColumn"
+                        text="Columns"
+                        prefWidth="95"
+                    />
+                    <TableColumn
+                        fx:id="numCheeseColumn"
+                        text="# Cheese Wheels"
+                        prefWidth="150"
+                    />
+                    <TableColumn
+                        fx:id="actionColumn"
+                        text="Actions"
+                        prefWidth="188"
+                    />
+                </columns>
+
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
+
+                <placeholder>
+                    <Label
+                        text="No shelves currently available"
+                        style="-fx-font-size: 16px; -fx-text-fill: -color-muted; -fx-padding: 20;"
+                        alignment="CENTER"
+                    />
+                </placeholder>
+            </TableView>
+
+        </VBox>
+
+    </center>
+</BorderPane>

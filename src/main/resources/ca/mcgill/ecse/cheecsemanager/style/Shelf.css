@@ -1,40 +1,4 @@
 /* ===========================
-   TableView styles
-   =========================== */
-.table-view.custom-table {
-    -fx-background-color: -color-bg;
-    -fx-control-inner-background: -color-bg;
-    -fx-text-fill: -color-fg;
-    -fx-table-cell-border-color: transparent;
-    -fx-border-color: -color-primary;
-    -fx-border-width: 0 0 2 0;
-}
-
-.table-view.custom-table .column-header-background {
-    -fx-background-color: -color-bg;
-    -fx-border-color: -color-primary;
-    -fx-border-width: 0 0 3 0;
-}
-
-.table-view.custom-table .column-header,
-.table-view.custom-table .column-header .label {
-    -fx-text-fill: -color-fg;
-    -fx-font-weight: bold;
-    -fx-background-color: -color-bg;
-}
-
-.table-view.custom-table .table-row-cell {
-    -fx-border-color: transparent transparent -color-tertiary transparent;
-    -fx-border-width: 0 0 1 0;
-    -fx-background-color: -color-bg;
-}
-
-.table-view.custom-table .table-cell {
-    -fx-text-fill: -color-fg;
-    -fx-background-color: -color-bg;
-}
-
-/* ===========================
    AddShelfPopUp styles
    =========================== */
 .add-shelf-popup {
@@ -264,4 +228,3 @@
     -fx-background-color: -color-primary;
     -fx-text-fill: -color-darker-bg;
 }
-
