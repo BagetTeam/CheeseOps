@@ -4,6 +4,7 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
+import ca.mcgill.ecse.cheecsemanager.controller.RobotController;
 
 public class RobotHandlingController {
 
@@ -20,7 +21,7 @@ public class RobotHandlingController {
         wireTileInteractions();
         
         // TODO: check if robot is already active on load (e.g., from saved state)
-        // robotActive.set(checkRobotInitialState());
+        robotActive.set(RobotController.isRobotActivated());
     }
 
     private void bindPowerTiles() {
@@ -43,21 +44,28 @@ public class RobotHandlingController {
 
     private void handleActivate() {
         // TODO: send “power on” command to robot, log action, etc.
+        RobotController.activateRobot();
+        System.out.println("Robot activated.");
         robotActive.set(true);
     }
 
     private void handleDeactivate() {
         // TODO: send “power off” command, ensure safe shutdown, log action
+        // RobotController.deactivateRobot();
+        RobotController.deactivateRobot();
+        System.out.println("Robot deactivated.");
         robotActive.set(false);
     }
 
     private void handleInitialize() {
-        if (!robotActive.get()) return; // guard if somehow triggered while inactive
-        // TODO: run diagnostics / calibration routines
+        // TODO: 
+        // RobotController.initializeRobot(pass something);
+        System.out.println("Initializing robot...");
     }
 
     private void handleTreatment() {
-        if (!robotActive.get()) return;
-        // TODO: kick off treatment workflow
+        // TODO: Create a modal to allow user to enter purchaseID (int) and choose a aging time (Six, Twelve, TwentyFour, or ThirtySix) and get user input
+        // TODO: RobotController.initializeTreatment(pass something);
+        System.out.println("Starting treatment...");
     }
 }

@@ -21,6 +21,11 @@ public class RobotController {
     return robot;
   }
 
+  public static boolean isRobotActivated() {
+    // return getManager().hasRobot() && getManager().getRobot().getIsActivated();
+    return getManager().hasRobot();
+  }
+
   /* =================================================== */
   /**
    * @author Ayush Patel, Ming Li Liu
