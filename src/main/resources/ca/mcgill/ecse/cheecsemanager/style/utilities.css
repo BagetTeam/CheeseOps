@@ -130,3 +130,119 @@
     -fx-border-radius: 9999px;
     -fx-background-radius: 9999px;
 }
+
+.font-thin {
+    -fx-font-weight: thin;
+}
+
+.font-extralight {
+    -fx-font-weight: extra-light;
+}
+
+.font-light {
+    -fx-font-weight: light;
+}
+
+.font-normal {
+    -fx-font-weight: normal;
+}
+
+.font-medium {
+    -fx-font-weight: medium;
+}
+
+.font-semibold {
+    -fx-font-weight: semi-bold;
+}
+
+.font-bold {
+    -fx-font-weight: bold;
+}
+
+.font-extrabold {
+    -fx-font-weight: extra-bold;
+}
+
+.font-black {
+    -fx-font-weight: black;
+}
+
+.font-italic {
+    -fx-font-style: italic;
+}
+
+.font-oblique {
+    -fx-font-style: oblique;
+}
+
+.font-normal {
+    -fx-font-style: normal;
+}
+
+.font-overline {
+    -fx-font-style: overline;
+}
+
+.font-underline {
+    -fx-font-style: underline;
+}
+
+.font-line-through {
+    -fx-font-style: line-through;
+}
+
+.font-strikethrough {
+    -fx-font-style: strikethrough;
+}
+
+.text-xs {
+    -fx-font-size: 8px;
+}
+
+.text-sm {
+    -fx-font-size: 12px;
+}
+
+.text-base {
+    -fx-font-size: 16px;
+}
+
+.text-md {
+    -fx-font-size: 20px;
+}
+
+.text-lg {
+    -fx-font-size: 24px;
+}
+
+.text-xl {
+    -fx-font-size: 32px;
+}
+
+.text-2xl {
+    -fx-font-size: 40px;
+}
+
+.text-3xl {
+    -fx-font-size: 48px;
+}
+
+.text-4xl {
+    -fx-font-size: 64px;
+}
+
+.text-5xl {
+    -fx-font-size: 80px;
+}
+
+.text-6xl {
+    -fx-font-size: 96px;
+}
+
+.text-7xl {
+    -fx-font-size: 112px;
+}
+
+.text-8xl {
+    -fx-font-size: 128px;
+}
