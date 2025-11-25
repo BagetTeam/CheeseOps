@@ -4,9 +4,12 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.effect.*?>
 
+<?import javafx.scene.layout.*?>
+
 <!-- Original SVG: Robot.svg -->
 <!-- ViewBox: 0 0 24 24 -->
-<Group xmlns:fx="http://javafx.com/fxml" styleClass="icon">
+<StackPane xmlns:fx="http://javafx.com/fxml" prefHeight="24" prefWidth="24">
+<Group xmlns:fx="http://javafx.com/fxml">
   <SVGPath styleClass="icon" content="M12 8V4H8" fill="TRANSPARENT"  strokeWidth="1" opacity="1" />
   <Rectangle styleClass="icon" x="4" y="8" width="16" height="12" fill="TRANSPARENT"  strokeWidth="1" opacity="1" arcWidth="2" arcHeight="0" />
   <SVGPath styleClass="icon" content="M2 14h2" fill="TRANSPARENT"  strokeWidth="1" opacity="1" />
@@ -14,3 +17,4 @@
   <SVGPath styleClass="icon" content="M15 13v2" fill="TRANSPARENT"  strokeWidth="1" opacity="1" />
   <SVGPath styleClass="icon" content="M9 13v2" fill="TRANSPARENT"  strokeWidth="1" opacity="1" />
 </Group>
+</StackPane>

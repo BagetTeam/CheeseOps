@@ -216,21 +216,26 @@ def svg_to_fxml(svg_file, output_dir):
 
         # Get viewBox for reference
         viewBox = get_attribute(root, "viewBox", "0 0 24 24")
+        height = viewBox.split(" ")[3]
+        width = viewBox.split(" ")[2]
 
         # Create FXML content
         fxml_content = '<?xml version="1.0" encoding="UTF-8"?>\n\n'
         fxml_content += "<?import javafx.scene.*?>\n"
         fxml_content += "<?import javafx.scene.shape.*?>\n"
         fxml_content += "<?import javafx.scene.effect.*?>\n\n"
+        fxml_content += "<?import javafx.scene.layout.*?>\n\n"
         fxml_content += f"<!-- Original SVG: {svg_file.name} -->\n"
         fxml_content += f"<!-- ViewBox: {viewBox} -->\n"
-        fxml_content += '<Group xmlns:fx="http://javafx.com/fxml" styleClass="icon">\n'
+        fxml_content += f'<StackPane xmlns:fx="http://javafx.com/fxml" prefHeight="{height}" prefWidth="{width}">\n'
+        fxml_content += '<Group xmlns:fx="http://javafx.com/fxml">\n'
 
         # Process all child elements
         for element in root:
             fxml_content += process_element(element, svg_file.name.replace(".svg", ""))
 
         fxml_content += "</Group>\n"
+        fxml_content += "</StackPane>\n"
 
         # Write to file
         output_file = output_dir / f"{svg_file.stem}.fxml"

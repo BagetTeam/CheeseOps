@@ -7,9 +7,10 @@ import javafx.beans.NamedArg;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.layout.StackPane;
 
-public class Icon extends Group {
-  static HashMap<String, Group> iconCache = new HashMap<>();
+public class Icon extends StackPane {
+  static HashMap<String, StackPane> iconCache = new HashMap<>();
 
   private String icon;
   public String getIcon() { return icon; }
@@ -22,6 +23,9 @@ public class Icon extends Group {
 
     if (iconCache.containsKey(icon)) {
       this.getChildren().setAll(iconCache.get(icon).getChildren());
+      this.setPrefHeight(iconCache.get(icon).getPrefHeight());
+      this.setPrefWidth(iconCache.get(icon).getPrefWidth());
+
       return;
     }
 
@@ -35,9 +39,12 @@ public class Icon extends Group {
     FXMLLoader loader = new FXMLLoader(resource);
 
     try {
-      Group node = loader.load();
+      StackPane node = loader.load();
       var children = node.getChildren();
       this.getChildren().setAll(children);
+      this.setPrefHeight(node.getPrefHeight());
+      this.setPrefWidth(node.getPrefWidth());
+      iconCache.put(icon, node);
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
