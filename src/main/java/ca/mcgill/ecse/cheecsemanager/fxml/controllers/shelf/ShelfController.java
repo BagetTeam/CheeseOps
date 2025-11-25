@@ -9,6 +9,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
@@ -52,11 +53,9 @@ public class ShelfController {
         -> new SimpleIntegerProperty(c.getValue().numberOfCheeseWheelIDs())
                .asObject());
 
-    shelfTable.setColumnResizePolicy(
-        TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
     shelfTable.getColumns().forEach(tc -> tc.setMinWidth(tc.getPrefWidth()));
 
-    // setupActionButtons();
+    setupActionButtons();
 
     showPopupBtn.setOnAction(e -> showAddShelfPopup());
     // assignCheeseFromMainBtn.setOnAction(e -> showAssignCheeseWheelPopup());
@@ -64,39 +63,33 @@ public class ShelfController {
   }
 
   private void setupActionButtons() {
-    actionColumn.setCellFactory(new Callback<>() {
+    actionColumn.setCellFactory(param -> new TableCell<>() {
+      private final StyledButton viewBtn = new StyledButton(
+          StyledButton.Variant.MUTED, StyledButton.Size.SM, "View", null);
+      private final StyledButton deleteBtn =
+          new StyledButton(StyledButton.Variant.DESTRUCTIVE,
+                           StyledButton.Size.SM, "Delete", null);
+
+      private final HBox box = new HBox(10, viewBtn, deleteBtn);
+
+      {
+        box.setAlignment(Pos.CENTER);
+
+        viewBtn.setOnAction(e -> {
+          TOShelf shelf = getTableView().getItems().get(getIndex());
+          showViewShelfPopup(shelf);
+        });
+        deleteBtn.setOnAction(e -> {
+          TOShelf shelf = getTableView().getItems().get(getIndex());
+          showDeleteConfirmPopupForRow(shelf);
+        });
+      }
+
       @Override
-      public TableCell<TOShelf, Void> call(TableColumn<TOShelf, Void> param) {
-        return new TableCell<>() {
-          private final StyledButton viewBtn = new StyledButton(
-              StyledButton.Variant.PRIMARY, StyledButton.Size.SM, "View", null);
-          private final StyledButton deleteBtn =
-              new StyledButton(StyledButton.Variant.DESTRUCTIVE,
-                               StyledButton.Size.SM, "Delete", null);
-          private final HBox box = new HBox(10, viewBtn, deleteBtn);
-
-          {
-            viewBtn.setOnAction(e -> {
-              int i = getIndex();
-              if (i >= 0 && i < getTableView().getItems().size()) {
-                showViewShelfPopup(getTableView().getItems().get(i));
-              }
-            });
-
-            deleteBtn.setOnAction(e -> {
-              int i = getIndex();
-              if (i >= 0 && i < getTableView().getItems().size()) {
-                showDeleteConfirmPopupForRow(getTableView().getItems().get(i));
-              }
-            });
-          }
-
-          @Override
-          protected void updateItem(Void item, boolean empty) {
-            super.updateItem(item, empty);
-            setGraphic(empty ? null : box);
-          }
-        };
+      protected void updateItem(Void item, boolean empty) {
+        super.updateItem(item, empty);
+        setGraphic(empty ? null : box);
+        setAlignment(Pos.CENTER);
       }
     });
   }

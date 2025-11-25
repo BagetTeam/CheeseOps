@@ -12,12 +12,7 @@
     style="-fx-padding: 36 16"
 >
     <center>
-        <VBox
-            fx:id="mainContainer"
-            spacing="20"
-            maxWidth="768"
-            styleClass="bg-darker-bg"
-        >
+        <VBox fx:id="mainContainer" spacing="20" maxWidth="768">
             <Label
                 text="Shelf Management"
                 styleClass="text-lg, text-fg, text-bold"
