@@ -1,31 +1,4 @@
 /* ===========================
-   Root / global styles
-   =========================== */
-.root {
-    -color-primary: #ffda6d;
-    -color-secondary: #ba9b02;
-    -color-tertiary: #ffefbf;
-    -color-destructive: #f07e68;
-    -color-bg: #232001;
-    -color-fg: #d7cdc4;
-    -color-darker-bg: #191701;
-    -color-muted: rgba(215, 205, 196, 0.43);
-
-    /* reference units */
-    -unit-xs: 8px;
-    -unit-sm: 12px;
-    -unit-base: 16px;
-    -unit-md: 20px;
-    -unit-lg: 24px;
-
-    -fx-font-family: "Inter";
-    -fx-font-size: 16px;
-    -fx-font-weight: normal;
-    -fx-text-fill: -color-fg;
-    -fx-background-color: -color-bg;
-}
-
-/* ===========================
    TableView styles
    =========================== */
 .table-view.custom-table {
@@ -71,7 +44,7 @@
     -fx-background-radius: 8;
     -fx-border-radius: 8;
     -fx-padding: 15;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 10, 0, 0, 2);
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 0, 2);
 }
 
 .add-shelf-popup .popup-title {
@@ -121,7 +94,7 @@
     -fx-background-radius: 8;
     -fx-border-radius: 8;
     -fx-padding: 15;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 10, 0, 0, 2);
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 0, 2);
 }
 
 .confirm-delete-popup .popup-title {
@@ -172,7 +145,7 @@
     -fx-background-radius: 8;
     -fx-border-radius: 8;
     -fx-padding: 15;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 10, 0, 0, 2);
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 0, 2);
 }
 
 .view-shelf-popup .popup-title {
@@ -220,7 +193,7 @@
     -fx-background-radius: 8;
     -fx-border-radius: 8;
     -fx-padding: 15;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 10, 0, 0, 2);
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 0, 2);
 }
 
 .view-cheese-popup .popup-title {
@@ -239,7 +212,7 @@
 }
 
 .view-cheese-popup .cheese-image {
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 10, 0, 0, 4);
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 10, 0, 0, 4);
 }
 
 .view-cheese-popup .info-label {
@@ -257,7 +230,7 @@
     -fx-background-radius: 8;
     -fx-border-radius: 8;
     -fx-padding: 15;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 10, 0, 0, 2);
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 0, 2);
 }
 
 .assign-cheese-popup .popup-title {
@@ -291,3 +264,4 @@
     -fx-background-color: -color-primary;
     -fx-text-fill: -color-darker-bg;
 }
+
