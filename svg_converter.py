@@ -102,8 +102,9 @@ def convert_path(element, svg_name):
 
     if svg_name not in special_icons:
         fill = "TRANSPARENT"
+        stroke = None
 
-    return f'<SVGPath styleClass="icon" content="{d}" fill="{fill}" stroke="{stroke}" strokeWidth="{stroke_width}" opacity="{opacity}"{transform_attr} />'
+    return f'<SVGPath styleClass="icon" content="{d}" fill="{fill}" {f'stroke="{stroke}"' if stroke else ""} strokeWidth="{stroke_width}" opacity="{opacity}"{transform_attr} />'
 
 
 def convert_circle(element, svg_name):
@@ -129,8 +130,9 @@ def convert_circle(element, svg_name):
 
     if svg_name not in special_icons:
         fill = "TRANSPARENT"
+        stroke = None
 
-    return f'<Circle styleClass="icon" centerX="{cx}" centerY="{cy}" radius="{r}" fill="{fill}" stroke="{stroke}" strokeWidth="{stroke_width}" opacity="{opacity}"{transform_attr} />'
+    return f'<Circle styleClass="icon" centerX="{cx}" centerY="{cy}" radius="{r}" fill="{fill}" {f'stroke="{stroke}"' if stroke else ""} strokeWidth="{stroke_width}" opacity="{opacity}"{transform_attr} />'
 
 
 def convert_rect(element, svg_name):
@@ -160,8 +162,9 @@ def convert_rect(element, svg_name):
 
     if svg_name not in special_icons:
         fill = "TRANSPARENT"
+        stroke = None
 
-    return f'<Rectangle styleClass="icon" x="{x}" y="{y}" width="{width}" height="{height}" fill="{fill}" stroke="{stroke}" strokeWidth="{stroke_width}" opacity="{opacity}"{transform_attr}{arc_attrs} />'
+    return f'<Rectangle styleClass="icon" x="{x}" y="{y}" width="{width}" height="{height}" fill="{fill}" {f'stroke="{stroke}"' if stroke else ""} strokeWidth="{stroke_width}" opacity="{opacity}"{transform_attr}{arc_attrs} />'
 
 
 def process_element(element, svg_name, level=1):
@@ -243,10 +246,10 @@ def svg_to_fxml(svg_file, output_dir):
 def main():
     # Configuration - change these paths as needed
     svg_folder = Path(
-        "../src/main/resources/ca/mcgill/ecse/cheecsemanager/view/icons"
+        "./src/main/resources/ca/mcgill/ecse/cheecsemanager/view/icons"
     )  # Folder containing SVG files
     output_folder = Path(
-        "../src/main/resources/ca/mcgill/ecse/cheecsemanager/view/icons/fxml"
+        "./src/main/resources/ca/mcgill/ecse/cheecsemanager/view/icons/fxml"
     )  # Output folder for FXML files
 
     # Create output folder if it doesn't exist

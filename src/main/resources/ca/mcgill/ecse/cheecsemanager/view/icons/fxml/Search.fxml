@@ -7,6 +7,6 @@
 <!-- Original SVG: Search.svg -->
 <!-- ViewBox: 0 0 14 14 -->
 <Group xmlns:fx="http://javafx.com/fxml" styleClass="icon">
-  <SVGPath styleClass="icon" content="M1.75007 12.2499L4.28174 9.71826" fill="TRANSPARENT" stroke="#FFEFBF" strokeWidth="2" opacity="1" />
-  <SVGPath styleClass="icon" content="M7.58333 11.0833C5.006 11.0833 2.91667 8.994 2.91667 6.41667C2.91667 3.83934 5.006 1.75 7.58333 1.75C10.1607 1.75 12.25 3.83934 12.25 6.41667C12.25 8.994 10.1607 11.0833 7.58333 11.0833Z" fill="TRANSPARENT" stroke="#FFEFBF" strokeWidth="2" opacity="1" />
+  <SVGPath styleClass="icon" content="M1.75007 12.2499L4.28174 9.71826" fill="TRANSPARENT"  strokeWidth="2" opacity="1" />
+  <SVGPath styleClass="icon" content="M7.58333 11.0833C5.006 11.0833 2.91667 8.994 2.91667 6.41667C2.91667 3.83934 5.006 1.75 7.58333 1.75C10.1607 1.75 12.25 3.83934 12.25 6.41667C12.25 8.994 10.1607 11.0833 7.58333 11.0833Z" fill="TRANSPARENT"  strokeWidth="2" opacity="1" />
 </Group>

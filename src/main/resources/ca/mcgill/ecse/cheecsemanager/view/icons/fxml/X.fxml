@@ -7,6 +7,6 @@
 <!-- Original SVG: X.svg -->
 <!-- ViewBox: 0 0 24 24 -->
 <Group xmlns:fx="http://javafx.com/fxml" styleClass="icon">
-  <SVGPath styleClass="icon" content="M18 6L6 18" fill="TRANSPARENT" stroke="#D7CDC4" strokeWidth="2" opacity="1" />
-  <SVGPath styleClass="icon" content="M6 6L18 18" fill="TRANSPARENT" stroke="#D7CDC4" strokeWidth="2" opacity="1" />
+  <SVGPath styleClass="icon" content="M18 6L6 18" fill="TRANSPARENT"  strokeWidth="2" opacity="1" />
+  <SVGPath styleClass="icon" content="M6 6L18 18" fill="TRANSPARENT"  strokeWidth="2" opacity="1" />
 </Group>
