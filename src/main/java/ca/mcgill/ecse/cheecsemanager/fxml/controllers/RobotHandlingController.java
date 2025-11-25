@@ -7,14 +7,10 @@ import javafx.scene.layout.StackPane;
 
 public class RobotHandlingController {
 
-    @FXML
-    private StackPane activateTile;
-    @FXML
-    private StackPane deactivateTile;
-    @FXML
-    private StackPane initializeTile;
-    @FXML
-    private StackPane startTile;
+    @FXML private StackPane activateTile;
+    @FXML private StackPane deactivateTile;
+    @FXML private StackPane initializeTile;
+    @FXML private StackPane startTile;        // if you need it later
 
     private final BooleanProperty robotActive = new SimpleBooleanProperty(false);
 
@@ -22,6 +18,9 @@ public class RobotHandlingController {
     private void initialize() {
         bindPowerTiles();
         wireTileInteractions();
+        
+        // TODO: check if robot is already active on load (e.g., from saved state)
+        // robotActive.set(checkRobotInitialState());
     }
 
     private void bindPowerTiles() {
@@ -36,7 +35,29 @@ public class RobotHandlingController {
     }
 
     private void wireTileInteractions() {
-        activateTile.setOnMouseClicked(event -> robotActive.set(true));
-        deactivateTile.setOnMouseClicked(event -> robotActive.set(false));
+        activateTile.setOnMouseClicked(event -> handleActivate());
+        deactivateTile.setOnMouseClicked(event -> handleDeactivate());
+        initializeTile.setOnMouseClicked(event -> handleInitialize());
+        startTile.setOnMouseClicked(event -> handleTreatment());
+    }
+
+    private void handleActivate() {
+        // TODO: send “power on” command to robot, log action, etc.
+        robotActive.set(true);
+    }
+
+    private void handleDeactivate() {
+        // TODO: send “power off” command, ensure safe shutdown, log action
+        robotActive.set(false);
+    }
+
+    private void handleInitialize() {
+        if (!robotActive.get()) return; // guard if somehow triggered while inactive
+        // TODO: run diagnostics / calibration routines
+    }
+
+    private void handleTreatment() {
+        if (!robotActive.get()) return;
+        // TODO: kick off treatment workflow
     }
 }
