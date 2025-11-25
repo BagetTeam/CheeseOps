@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.effect.*?>
+
+<?import javafx.scene.layout.*?>
+
+<!-- Original SVG: Robot.svg -->
+<!-- ViewBox: 0 0 24 24 -->
+<StackPane xmlns:fx="http://javafx.com/fxml" prefHeight="24" prefWidth="24">
+<Group xmlns:fx="http://javafx.com/fxml">
+  <SVGPath styleClass="icon" content="M12 8V4H8" />
+  <Rectangle styleClass="icon" x="4" y="8" width="16" height="12" arcWidth="2" />
+  <SVGPath styleClass="icon" content="M2 14h2" />
+  <SVGPath styleClass="icon" content="M20 14h2" />
+  <SVGPath styleClass="icon" content="M15 13v2" />
+  <SVGPath styleClass="icon" content="M9 13v2" />
+</Group>
+</StackPane>
