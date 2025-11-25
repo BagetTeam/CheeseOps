@@ -87,7 +87,7 @@ def convert_to_pascal_case(name: str) -> str:
 
 def convert_path(element: ET.Element, svg_name: str) -> str:
     """Convert SVG path to JavaFX SVGPath"""
-    fxml = '<SVGPath styleClass="icon"'
+    fxml = "<SVGPath" + (' styleClass="icon"' if svg_name not in special_icons else "")
 
     attributes = [
         "d",
@@ -97,16 +97,24 @@ def convert_path(element: ET.Element, svg_name: str) -> str:
         "opacity",
         "fill-rule",
         "clip-rule",
+        "fill-opacity",
     ]
 
     for attr in attributes:
-        if (attr == "fill" or attr == "stroke") and svg_name in special_icons:
+        if (attr == "fill" or attr == "stroke") and svg_name not in special_icons:
             continue
 
         value = get_attribute(element, attr)
-        if attr == "d":
-            attr = "content"
+
         if value:
+            if attr == "d":
+                attr = "content"
+
+            if attr == "fill-rule":
+                value = "EVEN_ODD" if value == "evenodd" else "NON_ZERO"
+
+            if attr == "clip-rule":
+                value = "EVEN_ODD" if value == "evenodd" else "NON_ZERO"
             fxml += f' {convert_to_pascal_case(attr)}="{value}"'
 
     transform = get_attribute(element, "transform", "")
@@ -122,7 +130,7 @@ def convert_path(element: ET.Element, svg_name: str) -> str:
 
 def convert_circle(element: ET.Element, svg_name: str):
     """Convert SVG circle to JavaFX Circle"""
-    fxml = '<Circle styleClass="icon"'
+    fxml = "<Circle" + (' styleClass="icon"' if svg_name not in special_icons else "")
 
     attributes = [
         "cx",
@@ -135,13 +143,19 @@ def convert_circle(element: ET.Element, svg_name: str):
     ]
 
     for attr in attributes:
-        if (attr == "fill" or attr == "stroke") and svg_name in special_icons:
+        if (attr == "fill" or attr == "stroke") and svg_name not in special_icons:
             continue
 
         value = get_attribute(element, attr)
-        if attr == "d":
-            attr = "content"
         if value:
+            if attr == "d":
+                attr = "content"
+            if attr == "cx":
+                attr = "centerX"
+            if attr == "cy":
+                attr = "centerY"
+            if attr == "r":
+                attr = "radius"
             fxml += f' {convert_to_pascal_case(attr)}="{value}"'
 
     transform = get_attribute(element, "transform", "")
@@ -157,7 +171,9 @@ def convert_circle(element: ET.Element, svg_name: str):
 
 def convert_rect(element: ET.Element, svg_name: str):
     """Convert SVG rect to JavaFX Rectangle"""
-    fxml = '<Rectangle styleClass="icon"'
+    fxml = "<Rectangle" + (
+        ' styleClass="icon"' if svg_name not in special_icons else ""
+    )
 
     attributes = [
         "x",
@@ -174,7 +190,7 @@ def convert_rect(element: ET.Element, svg_name: str):
         "arc-height",
     ]
     for attr in attributes:
-        if (attr == "fill" or attr == "stroke") and svg_name in special_icons:
+        if (attr == "fill" or attr == "stroke") and svg_name not in special_icons:
             continue
         value = get_attribute(element, attr)
 
@@ -310,6 +326,9 @@ def main():
 
     # Convert each file
     for svg_file in svg_files:
+        if svg_file.name.replace(".svg", "") in special_icons:
+            continue
+
         svg_to_fxml(svg_file, output_folder)
 
     print(f"\n✓ Conversion complete! FXML files saved to '{output_folder}'")
