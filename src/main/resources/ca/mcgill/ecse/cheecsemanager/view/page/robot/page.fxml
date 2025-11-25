@@ -13,7 +13,7 @@
 <AnchorPane stylesheets="@../../../style/main.css"
             xmlns="http://javafx.com/javafx/17.0.2-ea"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.RobotHandlingController">
+            fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.RobotPageController">
 
     <children>
         <VBox AnchorPane.topAnchor="24.0"

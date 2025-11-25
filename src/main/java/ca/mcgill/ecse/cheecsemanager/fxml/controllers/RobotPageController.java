@@ -30,7 +30,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
 
-public class RobotHandlingController {
+public class RobotPageController {
 
     @FXML private StackPane activateTile;
     @FXML private StackPane deactivateTile;
