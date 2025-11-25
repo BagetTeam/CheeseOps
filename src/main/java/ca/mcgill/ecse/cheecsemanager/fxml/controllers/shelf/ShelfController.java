@@ -52,17 +52,11 @@ public class ShelfController {
         -> new SimpleIntegerProperty(c.getValue().numberOfCheeseWheelIDs())
                .asObject());
 
-    String pad = "-fx-padding: 0 10 0 10;";
-    idColumn.setStyle(pad);
-    rowsColumn.setStyle(pad);
-    colsColumn.setStyle(pad);
-    numCheeseColumn.setStyle(pad);
-    actionColumn.setStyle(pad);
-
-    shelfTable.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
+    shelfTable.setColumnResizePolicy(
+        TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
     shelfTable.getColumns().forEach(tc -> tc.setMinWidth(tc.getPrefWidth()));
 
-    setupActionButtons();
+    // setupActionButtons();
 
     showPopupBtn.setOnAction(e -> showAddShelfPopup());
     // assignCheeseFromMainBtn.setOnAction(e -> showAssignCheeseWheelPopup());
