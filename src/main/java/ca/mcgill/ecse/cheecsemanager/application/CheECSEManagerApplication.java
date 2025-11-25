@@ -74,6 +74,10 @@ public class CheECSEManagerApplication extends Application {
   private static void _loadFont(String path) {
     Font font = Font.loadFont(
         CheECSEManagerApplication.class.getResourceAsStream(path), 12);
+
+    System.out.println("===========================");
+    System.out.println("Loaded font: " + font.getFamily());
+
     if (font == null) {
       System.err.println("Failed to load font: " + path);
     }
