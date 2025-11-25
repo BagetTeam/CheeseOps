@@ -11,7 +11,7 @@
     styleClass="root"
     stylesheets="@/ca/mcgill/ecse/cheecsemanager/style/Shelf.css"
     alignment="CENTER"
-    style="-fx-padding: 16"
+    style="-fx-padding: 36 16"
 >
     <VBox fx:id="mainContainer" spacing="20" maxWidth="768">
         <Label
@@ -20,25 +20,25 @@
         />
 
 
-        <HBox alignment="CENTER">
+        <HBox alignment="CENTER_LEFT">
             <Label
                 fx:id="inventoryLabel"
                 text="Current Cheese Inventory: 0"
                 styleClass="text-fg"
-                alignment="CENTER_LEFT"
             />
+            <Region HBox.hgrow="ALWAYS" />
             <StyledButton
                 fx:id="showPopupBtn"
                 text="Add Shelf"
                 variant="PRIMARY"
             />
         </HBox>
-        <StyledButton
-            fx:id="assignCheeseFromMainBtn"
-            text="Assign Cheese Wheel"
-            variant="PRIMARY"
-            size="BASE"
-        />
+        <!-- <StyledButton -->
+        <!--     fx:id="assignCheeseFromMainBtn" -->
+        <!--     text="Assign Cheese Wheel" -->
+        <!--     variant="PRIMARY" -->
+        <!--     size="BASE" -->
+        <!-- /> -->
 
 
         <HBox alignment="CENTER" prefHeight="100">

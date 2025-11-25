@@ -106,8 +106,6 @@ public class StyledButton extends Button {
                       @NamedArg("graphic") Node graphic) {
     super(text, graphic);
 
-    System.out.println("============== Styled Button ================");
-
     this.initialize();
     this.ensureIconStyleClass();
 

@@ -26,7 +26,7 @@ public class ShelfController {
   @FXML private StackPane root;
   @FXML private AnchorPane contentRoot;
   @FXML private VBox mainContainer;
-  @FXML private StyledButton assignCheeseFromMainBtn;
+  // @FXML private StyledButton assignCheeseFromMainBtn;
 
   @FXML private TableView<TOShelf> shelfTable;
   @FXML private TableColumn<TOShelf, String> idColumn;
@@ -65,7 +65,7 @@ public class ShelfController {
     setupActionButtons();
 
     showPopupBtn.setOnAction(e -> showAddShelfPopup());
-    assignCheeseFromMainBtn.setOnAction(e -> showAssignCheeseWheelPopup());
+    // assignCheeseFromMainBtn.setOnAction(e -> showAssignCheeseWheelPopup());
     refreshTable();
   }
 
