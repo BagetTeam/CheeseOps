@@ -20,7 +20,7 @@ public class CheECSEManagerApplication extends Application {
 
     FXMLLoader fxmlLoader =
         new FXMLLoader(CheECSEManagerApplication.class.getResource(
-            PACKAGE_ID.concat("view/page/cheecsemanager/Robot.fxml")));
+            PACKAGE_ID.concat("view/page/cheecsemanager/Main.fxml")));
     Scene scene = new Scene(fxmlLoader.load(), 980, 640);
 
     _loadStyleSheets(scene);
@@ -39,6 +39,7 @@ public class CheECSEManagerApplication extends Application {
   private static void _loadStyleSheets(Scene scene) {
     String[] sheets = {
         "style/main.css",
+        "style/utilities.css",
         "style/StyledButton.css",
     };
 
@@ -75,12 +76,12 @@ public class CheECSEManagerApplication extends Application {
     Font font = Font.loadFont(
         CheECSEManagerApplication.class.getResourceAsStream(path), 12);
 
-    System.out.println("===========================");
-    System.out.println("Loaded font: " + font.getFamily());
-
     if (font == null) {
       System.err.println("Failed to load font: " + path);
     }
+
+    // System.out.println("===========================");
+    // System.out.println("Loaded font: " + font.getFamily());
   }
 
   public static CheECSEManager getCheecseManager() {

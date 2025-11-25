@@ -6,7 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
 public class SidebarController {
-  String page = "shelves";
+  String page = "settings";
 
   @FXML StyledButton buttonShelves;
   @FXML StyledButton buttonFarmers;
