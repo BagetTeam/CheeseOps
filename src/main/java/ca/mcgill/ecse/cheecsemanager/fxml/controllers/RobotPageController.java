@@ -24,11 +24,7 @@ import ca.mcgill.ecse.cheecsemanager.controller.TOLogEntry; // Import your TO
 import java.util.stream.Collectors;
 
 
-// stuff to autorefresh logs
-import javafx.animation.Animation;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.util.Duration;
+// log-change listening (replaces polling)
 
 public class RobotPageController {
 
@@ -56,13 +52,11 @@ public class RobotPageController {
         treatmentActive.set(RobotController.isTreatmentActive());
         robotInitialized.set(RobotController.isRobotInitialized());
 
-        // Sync logs every 5 seconds
-        Timeline timeline = new Timeline(
-            new KeyFrame(Duration.seconds(0), e -> refreshLogs()),
-            new KeyFrame(Duration.seconds(5))
-        );
-        timeline.setCycleCount(Animation.INDEFINITE);
-        timeline.play();
+        // Listen for log updates (incremented by RobotController.logAction)
+        RobotController.logVersionProperty().addListener((obs, oldV, newV) -> refreshLogs());
+
+        // initial load
+        refreshLogs();
     }
 
     private void bindPowerTiles() {
@@ -97,7 +91,6 @@ public class RobotPageController {
         RobotController.activateRobot();
         System.out.println("Robot activated.");
         robotActive.set(true);
-        refreshLogs();
     }
 
     private void handleDeactivate() {
@@ -106,14 +99,12 @@ public class RobotPageController {
         RobotController.deactivateRobot();
         System.out.println("Robot deactivated.");
         robotActive.set(false);
-        refreshLogs();
     }
 
     private void handleInitialize() {
         // TODO: 
         // RobotController.initializeRobot(pass something);
         System.out.println("Initializing robot...");
-        refreshLogs();
     }
 
     private void refreshLogs() {

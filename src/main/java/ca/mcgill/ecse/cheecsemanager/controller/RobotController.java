@@ -3,11 +3,23 @@ import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
 import ca.mcgill.ecse.cheecsemanager.model.*;
 import ca.mcgill.ecse.cheecsemanager.model.CheeseWheel.MaturationPeriod;
 import ca.mcgill.ecse.cheecsemanager.persistence.CheECSEManagerPersistence;
+// import javafx.beans.property.BooleanProperty;
+// import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class RobotController {
+
+  // private final BooleanProperty robotActive = new SimpleBooleanProperty(false);
+  // Observable counter that increments when the robot log changes.
+  private static final SimpleIntegerProperty logVersion = new SimpleIntegerProperty(0);
+  public static IntegerProperty logVersionProperty() {
+    return logVersion;
+  }
+
   private static CheECSEManager getManager() {
     return CheECSEManagerApplication.getCheecseManager();
   }
@@ -503,6 +515,8 @@ public class RobotController {
   public static void logAction(LogAction action) {
     Robot robot = getRobot();
     robot.addLog(action.toString());
+    // notify observers that the log changed
+    logVersion.set(logVersion.get() + 1);
 
     // Save changes
     try {
