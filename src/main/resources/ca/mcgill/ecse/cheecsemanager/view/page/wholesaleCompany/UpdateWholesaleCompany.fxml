@@ -93,7 +93,7 @@
                 size="SM"
                 onAction="#handleClose"/>
             <StyledButton
-                text="Add"
+                text="Save"
                 variant="PRIMARY"
                 size="SM"
                 onAction="#handleSave"
