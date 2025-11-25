@@ -1,72 +1,88 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.image.Image?>
+<?xml version="1.0" encoding="UTF-8" ?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton?>
+<StackPane
+    fx:id="root"
+    xmlns="http://javafx.com/javafx"
+    xmlns:fx="http://javafx.com/fxml"
+    fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.shelf.ShelfController"
+    styleClass="root"
+    stylesheets="@/ca/mcgill/ecse/cheecsemanager/style/Shelf.css"
+    alignment="CENTER"
+    style="-fx-padding: 16"
+>
+    <VBox fx:id="mainContainer" spacing="20" maxWidth="768">
+        <Label
+            text="Shelf Management"
+            styleClass="text-lg, text-fg, text-bold"
+        />
 
-<AnchorPane fx:id="root"
-            xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.shelf.ShelfController"
-            prefWidth="900" prefHeight="600"
-            styleClass="root"
-            stylesheets="@/ca/mcgill/ecse/cheecsemanager/style/Shelf.css">
 
-
-    <VBox fx:id="mainContainer"
-          alignment="TOP_CENTER"
-          spacing="20"
-          prefWidth="850"
-          prefHeight="550"
-          AnchorPane.topAnchor="0"
-          AnchorPane.bottomAnchor="0"
-          AnchorPane.leftAnchor="0"
-          AnchorPane.rightAnchor="0">
-
-        <HBox spacing="10" alignment="CENTER_LEFT" prefWidth="850">
-            <VBox alignment="CENTER" spacing="5">
-                <Label text="Shelf Management" style="-fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: -color-primary;"/>
-                <Label text="Manage your Shelves" style="-fx-font-size: 14px; -fx-text-fill: -color-secondary;"/>
-            </VBox>
-            <HBox HBox.hgrow="ALWAYS"/>
-            <StyledButton fx:id="showPopupBtn" text="Add Shelf" variant="PRIMARY" size="BASE" graphicTextGap="10">
-                <graphic>
-                    <ImageView fitWidth="20" fitHeight="20">
-                        <image>
-                            <Image url="@/ca/mcgill/ecse/cheecsemanager/image/add.png"/>
-                        </image>
-                    </ImageView>
-                </graphic>
-            </StyledButton>
-            <StyledButton fx:id="assignCheeseFromMainBtn" text="Assign Cheese Wheel" variant="PRIMARY" size="BASE"/>
+        <HBox alignment="CENTER">
+            <Label
+                fx:id="inventoryLabel"
+                text="Current Cheese Inventory: 0"
+                styleClass="text-fg"
+                alignment="CENTER_LEFT"
+            />
+            <StyledButton
+                fx:id="showPopupBtn"
+                text="Add Shelf"
+                variant="PRIMARY"
+            />
         </HBox>
+        <StyledButton
+            fx:id="assignCheeseFromMainBtn"
+            text="Assign Cheese Wheel"
+            variant="PRIMARY"
+            size="BASE"
+        />
 
-        <Label fx:id="inventoryLabel"
-               text="Current Cheese Inventory: 0"
-               style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: -color-primary;"
-               alignment="CENTER_LEFT"/>
 
         <HBox alignment="CENTER" prefHeight="100">
-            <TableView fx:id="shelfTable" styleClass="custom-table" VBox.vgrow="ALWAYS">
+            <TableView
+                fx:id="shelfTable"
+                styleClass="custom-table"
+                VBox.vgrow="ALWAYS"
+            >
                 <columns>
-                    <TableColumn fx:id="idColumn" text="Shelf ID" prefWidth="120"/>
-                    <TableColumn fx:id="rowsColumn" text="Rows" prefWidth="95"/>
-                    <TableColumn fx:id="colsColumn" text="Columns" prefWidth="95"/>
-                    <TableColumn fx:id="numCheeseColumn" text="# Cheese Wheels" prefWidth="150"/>
-                    <TableColumn fx:id="actionColumn" text="Actions" prefWidth="188"/>
+                    <TableColumn
+                        fx:id="idColumn"
+                        text="Shelf ID"
+                        prefWidth="120"
+                    />
+                    <TableColumn
+                        fx:id="rowsColumn"
+                        text="Rows"
+                        prefWidth="95"
+                    />
+                    <TableColumn
+                        fx:id="colsColumn"
+                        text="Columns"
+                        prefWidth="95"
+                    />
+                    <TableColumn
+                        fx:id="numCheeseColumn"
+                        text="# Cheese Wheels"
+                        prefWidth="150"
+                    />
+                    <TableColumn
+                        fx:id="actionColumn"
+                        text="Actions"
+                        prefWidth="188"
+                    />
                 </columns>
                 <placeholder>
-                    <Label text="No shelves currently available"
-                           style="-fx-font-size: 16px; -fx-text-fill: -color-muted; -fx-padding: 20;"
-                           alignment="CENTER"/>
+                    <Label
+                        text="No shelves currently available"
+                        style="-fx-font-size: 16px; -fx-text-fill: -color-muted; -fx-padding: 20;"
+                        alignment="CENTER"
+                    />
                 </placeholder>
             </TableView>
         </HBox>
 
     </VBox>
-</AnchorPane>
+</StackPane>
