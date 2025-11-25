@@ -3,6 +3,7 @@ package ca.mcgill.ecse.cheecsemanager.fxml.controllers.Farmer;
 import ca.mcgill.ecse.cheecsemanager.model.CheECSEManager;
 import ca.mcgill.ecse.cheecsemanager.model.Farmer;
 import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
+import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton;
 import ca.mcgill.ecse.cheecsemanager.persistence.CheECSEManagerPersistence;
 
 import java.io.IOException;
@@ -10,17 +11,15 @@ import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.control.TextField;
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.layout.AnchorPane;
 
 public class FarmerController {
-
-    @FXML
-    private AnchorPane farmerRoot;
-
-    @FXML
-    private FlowPane cardsContainer;
-
+    @FXML private AnchorPane farmerRoot;
+    @FXML private FlowPane cardsContainer;
+    @FXML private TextField searchField;
+    @FXML private StyledButton addFarmerBtn;
 
     @FXML
     public void addFarmer(javafx.event.ActionEvent event) {
@@ -51,6 +50,33 @@ public class FarmerController {
         CheECSEManager manager = CheECSEManagerApplication.getCheecseManager();
         for (Farmer farmer : manager.getFarmers()) {
             addFarmerCard(farmer);
+        }
+
+        if (searchField != null) {
+            searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+                filterFarmers(newValue);
+            });
+        }
+    }
+
+    private void filterFarmers(String searchText) {
+        if (searchText == null || searchText.trim().isEmpty()) {
+            // Show all farmers
+            cardsContainer.getChildren().forEach(node -> node.setVisible(true));
+            cardsContainer.getChildren().forEach(node -> node.setManaged(true));
+        } else {
+            String lowerCaseSearch = searchText.toLowerCase();
+            cardsContainer.getChildren().forEach(node -> {
+                if (node instanceof FarmerCard) {
+                    FarmerCard card = (FarmerCard) node;
+                    Farmer farmer = card.getFarmer();
+                    boolean matches = farmer.getName().toLowerCase().contains(lowerCaseSearch) ||
+                                    farmer.getEmail().toLowerCase().contains(lowerCaseSearch) ||
+                                    farmer.getAddress().toLowerCase().contains(lowerCaseSearch);
+                    node.setVisible(matches);
+                    node.setManaged(matches);
+                }
+            });
         }
     }
 

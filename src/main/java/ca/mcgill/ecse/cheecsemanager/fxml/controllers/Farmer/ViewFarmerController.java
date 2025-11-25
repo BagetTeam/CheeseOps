@@ -1,5 +1,6 @@
 package ca.mcgill.ecse.cheecsemanager.fxml.controllers.Farmer;
 
+import ca.mcgill.ecse.cheecsemanager.fxml.components.Icon;
 import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton;
 import ca.mcgill.ecse.cheecsemanager.fxml.controllers.PageNavigator;
 import ca.mcgill.ecse.cheecsemanager.model.CheeseWheel;
@@ -18,7 +19,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.SVGPath;
-import javafx.util.Callback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,11 +69,7 @@ public class ViewFarmerController implements PageNavigator.DataReceiver {
                 viewBtn.setText("view");
                 
                 // Add eye icon
-                SVGPath eyeIcon = new SVGPath();
-                eyeIcon.setContent("M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z");
-                eyeIcon.getStyleClass().add("icon");
-                eyeIcon.setScaleX(0.6);
-                eyeIcon.setScaleY(0.6);
+                Icon eyeIcon = new Icon("Eye");
                 viewBtn.setGraphic(eyeIcon);
                 
                 viewBtn.setOnAction(event -> {
