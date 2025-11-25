@@ -1,6 +1,8 @@
 package ca.mcgill.ecse.cheecsemanager.fxml.controllers.wholesaleCompany;
 
 import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet5Controller;
+import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet6Controller;
+import ca.mcgill.ecse.cheecsemanager.controller.TOWholesaleCompany;
 import ca.mcgill.ecse.cheecsemanager.fxml.controllers.MainController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -36,13 +38,21 @@ public class UpdateWholesaleCompanyController {
     this.mainController = controller;
   }
 
-    /**
-   * Set the company to be updated
-   * @param companyName The current name of the company
+  /**
+   * Set the company to be deleted and populate the dialog with company info
+   * @param companyName The name of the company to delete
    */
   public void setCompany(String companyName) {
     this.currentCompanyName = companyName;
-    this.currentCompanyLabel.setText(companyName);
+    
+    // Fetch company details from backend
+    TOWholesaleCompany company = CheECSEManagerFeatureSet6Controller.getWholesaleCompany(companyName);
+    
+    if (company != null) {
+      currentCompanyLabel.setText(company.getName());
+      nameField.setText(company.getName());
+      addressField.setText(company.getAddress());
+    }
   }
 
   @FXML
