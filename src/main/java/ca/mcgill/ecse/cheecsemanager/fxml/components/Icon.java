@@ -8,7 +8,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.StackPane;
 
 public class Icon extends StackPane {
-
   private String icon;
   public String getIcon() { return icon; }
   public void setIcon(String icon) { this.icon = icon; }
@@ -29,6 +28,13 @@ public class Icon extends StackPane {
 
     try {
       StackPane node = loader.load();
+      setChildren(node);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  private void setChildren(StackPane node) {
       var children = node.getChildren();
       this.getChildren().setAll(children);
       this.setPrefHeight(node.getPrefHeight());
