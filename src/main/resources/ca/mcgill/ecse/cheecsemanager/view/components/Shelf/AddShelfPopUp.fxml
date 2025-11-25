@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--@author Ayush-->
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.shelf.AddShelfPopUpController"
+            prefWidth="300" prefHeight="220"
+            styleClass="add-shelf-popup">
+
+    <VBox spacing="10" layoutX="20" layoutY="20">
+
+        <Label text="Enter details:" styleClass="popup-title"/>
+
+        <HBox spacing="10">
+            <Label text="ID:"/>
+            <TextField fx:id="idField"/>
+        </HBox>
+
+        <HBox spacing="10">
+            <Label text="Rows:"/>
+            <TextField fx:id="rowsField"/>
+        </HBox>
+
+        <HBox spacing="10">
+            <Label text="Cols:"/>
+            <TextField fx:id="colsField"/>
+        </HBox>
+
+        <HBox spacing="20" alignment="CENTER_RIGHT">
+            <StyledButton variant="MUTED" text="Cancel" fx:id="cancelBtn"/>
+            <StyledButton variant="PRIMARY" text="Add" fx:id="addBtn"/>
+        </HBox>
+
+    </VBox>
+</AnchorPane>

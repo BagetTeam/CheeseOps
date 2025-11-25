@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Label?>
+
+<?import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.shelf.ViewShelfPopUpController"
+            prefWidth="600" prefHeight="400"
+            styleClass="view-shelf-popup">
+
+    <VBox fx:id="mainContainer" spacing="15"
+          AnchorPane.topAnchor="0"
+          AnchorPane.bottomAnchor="0"
+          AnchorPane.leftAnchor="0"
+          AnchorPane.rightAnchor="0"
+          styleClass="popup-container">
+
+        <HBox alignment="CENTER_LEFT" spacing="10">
+            <Label fx:id="shelfHeader" styleClass="popup-title"/>
+            <HBox HBox.hgrow="ALWAYS"/>
+            <StyledButton fx:id="closeBtn" text="Close" variant="MUTED"/>
+        </HBox>
+
+        <GridPane fx:id="wrapperGrid" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS" alignment="CENTER">
+
+            <GridPane fx:id="shelfGrid"
+                      styleClass="shelf-grid"
+                      GridPane.rowIndex="1"
+                      GridPane.columnIndex="1"
+                      hgap="10"
+                      vgap="10"
+                      alignment="CENTER"/>
+
+        </GridPane>
+    </VBox>
+</AnchorPane>
