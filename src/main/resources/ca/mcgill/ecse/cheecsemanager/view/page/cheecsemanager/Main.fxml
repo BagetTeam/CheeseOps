@@ -13,7 +13,12 @@
     prefWidth="600.0"
     xmlns="http://javafx.com/javafx/17.0.2-ea"
     xmlns:fx="http://javafx.com/fxml/1"
->
+> 
+  <StackPane fx:id="contentContainer"
+             AnchorPane.topAnchor="0" 
+             AnchorPane.bottomAnchor="0" 
+             AnchorPane.leftAnchor="0" 
+             AnchorPane.rightAnchor="0">
   <HBox spacing="10">
     <VBox spacing="10">
       <StyledButton size="XS" text="xs" variant="PRIMARY" />
@@ -60,6 +65,12 @@
         </graphic>
       </StyledButton>
 
+      <StyledButton text="View Companies" variant="PRIMARY" onAction="#handleViewCompanies">
+        <graphic>
+          <Icon icon="Factory" />
+        </graphic>
+      </StyledButton>
+
       <Icon icon="CheeseWheel" />
 
     </VBox>
@@ -82,7 +93,7 @@
 
     </VBox>
   </HBox>
-
+  </StackPane>
     <StackPane 
       fx:id="dialogContainer" 
       AnchorPane.topAnchor="0" 
