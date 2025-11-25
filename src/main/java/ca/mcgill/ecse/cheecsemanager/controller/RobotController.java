@@ -26,6 +26,30 @@ public class RobotController {
     return getManager().hasRobot();
   }
 
+  public static boolean isTreatmentActive() {
+    Robot robot = getManager().getRobot();
+    if (robot == null || !robot.getIsActivated()) {
+      return false;
+    }
+
+    switch (robot.getStatus()) {
+      case AtEntranceFacingAisle:
+      case AtCheeseWheel:
+        return true;
+      default:
+        return false;
+    }
+  }
+
+  public static boolean isRobotInitialized() {
+    Robot robot = getManager().getRobot();
+    if (robot == null || !robot.getIsActivated()) {
+      return false;
+    }
+
+    return robot.getCurrentShelf() != null;
+  }
+
   /* =================================================== */
   /**
    * @author Ayush Patel, Ming Li Liu
