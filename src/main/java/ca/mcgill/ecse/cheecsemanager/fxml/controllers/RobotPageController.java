@@ -1,13 +1,18 @@
 package ca.mcgill.ecse.cheecsemanager.fxml.controllers;
 
+import ca.mcgill.ecse.cheecsemanager.fxml.controllers.Robot.ShelfIDPopUpController;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
 // import javafx.scene.layout.*;
 import ca.mcgill.ecse.cheecsemanager.controller.RobotController;
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.Node;
@@ -16,6 +21,8 @@ import javafx.beans.value.ChangeListener;
 import java.util.Optional;
 import java.util.List;
 import ca.mcgill.ecse.cheecsemanager.controller.TOLogEntry; // Import your TO
+import javafx.stage.Stage;
+
 import java.util.stream.Collectors;
 
 
@@ -27,6 +34,7 @@ public class RobotPageController {
     public Label initButton;
     public Label deactivateButton;
     public Label treatmentButton;
+    public AnchorPane rootPane;
     @FXML private StackPane activateTile;
     @FXML private StackPane deactivateTile;
     @FXML private StackPane initializeTile;
@@ -117,9 +125,14 @@ public class RobotPageController {
     }
     @FXML
     private void handleInitialize() {
-        // TODO: 
+        // TODO:
+        rootPane.setDisable(true);
         try {
-            //RobotController.initializeRobot(pass something);
+            String id = openPopUp();
+            if (id == null) {
+                rootPane.setDisable(false);
+                return;}
+            RobotController.initializeRobot(id);
             System.out.println("Initializing robot...");
         } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -127,6 +140,7 @@ public class RobotPageController {
             alert.setContentText(e.getMessage());
             alert.showAndWait();
         }
+        rootPane.setDisable(false);
     }
 
     private void refreshLogs() {
@@ -209,5 +223,37 @@ public class RobotPageController {
 
         return dialog.showAndWait();
     }
+
+    private String openPopUp() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(
+                    "/ca/mcgill/ecse/cheecsemanager/view/"
+                            + "components/Robot/InitializeRobotPopUp.fxml"
+            ));
+            Parent popupRoot = loader.load();
+
+            // Get the controller (useful if you want to read input after close)
+            ShelfIDPopUpController controller = loader.getController();
+
+            Stage popupStage = new Stage();
+            popupStage.setTitle("Enter Shelf ID");
+            popupStage.setScene(new Scene(popupRoot));
+            popupStage.initModality(Modality.APPLICATION_MODAL);
+            popupStage.initOwner(rootPane.getScene().getWindow());
+
+            controller.setStage(popupStage); // <-- Allow controller to close itself
+
+            popupStage.showAndWait(); // Blocks until user closes popup
+
+            // You can access user input after close:
+            String shelfId = controller.getShelfIdEntered();
+            System.out.println("User entered shelf ID: " + shelfId);
+            return shelfId;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
 }
