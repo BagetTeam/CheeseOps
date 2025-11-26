@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.FlowPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.SVGPath?>
-<?import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton?>
+<?import ca.mcgill.ecse.cheecsemanager.fxml.components.*?>
 <BorderPane
     prefHeight="600.0"
     prefWidth="900.0"
@@ -18,48 +13,45 @@
     fx:id="farmerRoot"
     fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.Farmer.FarmerController"
 >
-    <VBox
-        AnchorPane.topAnchor="0.0"
-        AnchorPane.bottomAnchor="0.0"
-        AnchorPane.leftAnchor="0.0"
-        AnchorPane.rightAnchor="0.0"
-    >
-        <padding>
-            <Insets top="24" right="24" bottom="24" left="24" />
-        </padding>
-        <children>
-            <!-- Header Section -->
-            <VBox spacing="24">
-                <!-- Title -->
-                <VBox spacing="4">
-                    <Label
-                        text="Farmer Management"
-                        style="-fx-text-fill: -color-fg; -fx-font-size: 28px; -fx-font-weight: bold;"
-                    />
-                    <Label
-                        text="Manage registered farmers"
-                        style="-fx-text-fill: -color-primary; -fx-font-size: 14px;"
-                    />
-                </VBox>
-                
-                <!-- Farmer Cards Grid -->
-                <ScrollPane
-                    fitToWidth="true"
-                    VBox.vgrow="ALWAYS"
-                    style="-fx-background-color: transparent; -fx-background: transparent;"
-                >
-                    <VBox.margin>
-                        <Insets top="24" />
-                    </VBox.margin>
-                    <content>
-                        <FlowPane
-                            fx:id="cardsContainer"
-                            hgap="24"
-                            vgap="24"
-                            style="-fx-background-color: transparent;"
+    <center>
+        <VBox>
+            <padding>
+                <Insets top="24" right="24" bottom="24" left="24" />
+            </padding>
+            <children>
+                <!-- Header Section -->
+                <VBox spacing="24">
+                    <!-- Title -->
+                    <VBox spacing="4">
+                        <Label
+                            text="Farmer Management"
+                            style="-fx-text-fill: -color-fg; -fx-font-size: 28px; -fx-font-weight: bold;"
                         />
-                    </content>
-                </ScrollPane>
+                        <Label
+                            text="Manage registered farmers"
+                            style="-fx-text-fill: -color-primary; -fx-font-size: 14px;"
+                        />
+                    </VBox>
+                    
+                    <!-- Farmer Cards Grid -->
+                    <ScrollPane
+                        fitToWidth="true"
+                        VBox.vgrow="ALWAYS"
+                        style="-fx-background-color: transparent; -fx-background: transparent;"
+                    >
+                        <VBox.margin>
+                            <Insets top="24" />
+                        </VBox.margin>
+                        <content>
+                            <FlowPane
+                                fx:id="cardsContainer"
+                                hgap="24"
+                                vgap="24"
+                                style="-fx-background-color: transparent;"
+                            />
+                        </content>
+                    </ScrollPane>
+                </VBox>
             </children>
         </VBox>
     </center>
