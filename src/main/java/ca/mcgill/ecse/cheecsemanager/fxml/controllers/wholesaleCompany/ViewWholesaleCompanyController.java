@@ -160,6 +160,30 @@ public class ViewWholesaleCompanyController implements ToastProvider {
             System.err.println("Error loading DeleteWholesaleCompany dialog: " + e.getMessage());
         }
     }
+
+    @FXML
+    private void handlePlaceOrder() {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                CheECSEManagerApplication.class.getResource(
+                    "/ca/mcgill/ecse/cheecsemanager/view/components/Company/CompanyOrderPlacement.fxml"));
+            Parent dialog = loader.load();
+
+            CompanyOrderPlacementController controller = loader.getController();
+            controller.setMainController(this);
+            controller.setCompany(companyName);
+            controller.setOnClose(() -> {
+                closeDialog();
+                setCompany(companyName);
+            });
+
+            showDialog(dialog);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Error loading CompanyOrderPlacement dialog: " + e.getMessage());
+        }
+    }
     
     @Override
     public void showDialog(Parent dialog) {

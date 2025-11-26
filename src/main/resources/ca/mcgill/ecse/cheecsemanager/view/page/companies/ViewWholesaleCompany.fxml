@@ -54,6 +54,15 @@
                             <Label
                                 text="Orders"
                                 style="-fx-text-fill: -color-fg; -fx-font-size: 20px; -fx-font-weight: bold;" />
+                            <StyledButton
+                                text="Place Order"
+                                variant="PRIMARY"
+                                size="SM"
+                                onAction="#handlePlaceOrder">
+                            <graphic>
+                                <Icon icon="Plus" />
+                            </graphic>
+                            </StyledButton>
                             <TableView fx:id="ordersTable" VBox.vgrow="ALWAYS" styleClass="farmer-table">
                                 <columns>
                                 <TableColumn fx:id="transactionDateColumn" text="Transaction Date" prefWidth="140" />
