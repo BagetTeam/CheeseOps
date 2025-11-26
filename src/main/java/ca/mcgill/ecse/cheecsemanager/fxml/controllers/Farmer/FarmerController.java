@@ -83,8 +83,8 @@ public class FarmerController
     }
     try {
       FXMLLoader loader = new FXMLLoader(
-          getClass().getResource("/ca/mcgill/ecse/cheecsemanager/view/" +
-                                 "components/Farmer/AddFarmer.fxml"));
+          getClass().getResource("/ca/mcgill/ecse/cheecsemanager/view/"
+                                 + "components/Farmer/AddFarmer.fxml"));
       AnchorPane popup = loader.load();
 
       popup.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
@@ -119,8 +119,8 @@ public class FarmerController
     }
     try {
       FXMLLoader loader = new FXMLLoader(
-          getClass().getResource("/ca/mcgill/ecse/cheecsemanager/view/" +
-                                 "components/Farmer/DeleteFarmerPopup.fxml"));
+          getClass().getResource("/ca/mcgill/ecse/cheecsemanager/view/"
+                                 + "components/Farmer/DeleteFarmerPopup.fxml"));
       AnchorPane popup = loader.load();
       popup.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
 

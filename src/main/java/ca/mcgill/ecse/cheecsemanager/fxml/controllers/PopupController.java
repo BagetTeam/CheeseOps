@@ -7,8 +7,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 public class PopupController {
@@ -52,5 +54,23 @@ public class PopupController {
   private void handleClose() {
     // Fire hide event that bubbles up to root
     popup.fireEvent(new HidePopupEvent());
+  }
+
+  public StackPane createOverlay() {
+    StackPane overlay = new StackPane();
+    overlay.setStyle("-fx-background-color: rgba(0,0,0,0.3);");
+
+    AnchorPane.setTopAnchor(overlay, 0.0);
+    AnchorPane.setBottomAnchor(overlay, 0.0);
+    AnchorPane.setLeftAnchor(overlay, 0.0);
+    AnchorPane.setRightAnchor(overlay, 0.0);
+
+    return overlay;
+  }
+
+  // Remove popup and clear blur
+  public void removePopup(StackPane overlay, AnchorPane root) {
+    root.setEffect(null);
+    root.getChildren().remove(overlay);
   }
 }
