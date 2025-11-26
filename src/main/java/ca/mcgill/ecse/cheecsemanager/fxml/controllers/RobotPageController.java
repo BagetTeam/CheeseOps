@@ -6,15 +6,10 @@ import javafx.fxml.FXML;
 // import javafx.scene.layout.*;
 import ca.mcgill.ecse.cheecsemanager.controller.RobotController;
 
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.control.ListView;
 import javafx.scene.Node;
 import javafx.stage.Modality;
 import javafx.beans.value.ChangeListener;
@@ -28,11 +23,16 @@ import java.util.stream.Collectors;
 
 public class RobotPageController {
 
+    public Label activateButton;
+    public Label initButton;
+    public Label deactivateButton;
+    public Label treatmentButton;
     @FXML private StackPane activateTile;
     @FXML private StackPane deactivateTile;
     @FXML private StackPane initializeTile;
     @FXML private StackPane startTile;
     @FXML private ListView<String> telemetryLog;
+
 
     private record TreatmentRequest(int purchaseId, String maturationPeriod) {}
 
@@ -86,25 +86,47 @@ public class RobotPageController {
         startTile.setOnMouseClicked(event -> handleTreatment());
     }
 
+    @FXML
     private void handleActivate() {
         // TODO: send “power on” command to robot, log action, etc.
-        RobotController.activateRobot();
-        System.out.println("Robot activated.");
-        robotActive.set(true);
+        try {
+            RobotController.activateRobot();
+            System.out.println("Robot activated.");
+            robotActive.set(true);
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Activation Error");
+            alert.setContentText(e.getMessage());
+            alert.showAndWait();
+        }
     }
-
+    @FXML
     private void handleDeactivate() {
         // TODO: send “power off” command, ensure safe shutdown, log action
-        // RobotController.deactivateRobot();
-        RobotController.deactivateRobot();
-        System.out.println("Robot deactivated.");
-        robotActive.set(false);
-    }
+        try {
+            RobotController.deactivateRobot();
+            System.out.println("Robot deactivated.");
+            robotActive.set(false);
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Deactivation Error");
+            alert.setContentText(e.getMessage());
+            alert.showAndWait();
+        }
 
+    }
+    @FXML
     private void handleInitialize() {
         // TODO: 
-        // RobotController.initializeRobot(pass something);
-        System.out.println("Initializing robot...");
+        try {
+            //RobotController.initializeRobot(pass something);
+            System.out.println("Initializing robot...");
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Initialization Error");
+            alert.setContentText(e.getMessage());
+            alert.showAndWait();
+        }
     }
 
     private void refreshLogs() {
@@ -125,13 +147,12 @@ public class RobotPageController {
         //     telemetryLog.scrollTo(logMessages.size() - 1);
         // }
     }
-
+    @FXML
     private void handleTreatment() {
         showTreatmentDialog()
             .ifPresent(request -> {
                 try {
-                    RobotController.initializeTreatment(
-                            request.purchaseId(), request.maturationPeriod());
+                    RobotController.initializeTreatment(request.purchaseId(), request.maturationPeriod());
                 } catch (RuntimeException ex) {
                     // showError(ex.getMessage()); // your own alert helper
                     System.err.println("Error starting treatment: " + ex.getMessage());
