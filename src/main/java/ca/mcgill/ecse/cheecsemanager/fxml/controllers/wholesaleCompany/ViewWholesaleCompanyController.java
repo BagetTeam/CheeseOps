@@ -12,37 +12,26 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
 public class ViewWholesaleCompanyController implements ToastProvider {
-    @FXML
-    private Label nameLabel;
 
-    @FXML
-    private Label addressLabel;
-
-    @FXML
-    private Label ordersCountLabel;
-
-    @FXML
-    private TableView<?> ordersTable;
-
-    @FXML
-    private VBox companyDescriptionCard;
-
-    @FXML
-    private StackPane dialogContainer;
-
-    @FXML
-    private HBox toastContainer;
-
-    @FXML
-    private Label toastLabel;
+    @FXML private CompanyCardController companyCard;
+    @FXML private TableView<?> ordersTable;
+    @FXML private StackPane dialogContainer;
+    @FXML private HBox toastContainer;
+    @FXML private Label toastLabel;
 
     private String companyName;
     private Runnable onBackCallback;
-  
+
+    @FXML
+    public void initialize() {
+        // Set up the card to use Edit instead of View
+        companyCard.setOnEdit(this::handleEdit);
+        companyCard.setOnDelete(this::handleDelete);
+    }
+
     /**
      * Set the company to display
      */
@@ -54,13 +43,8 @@ public class ViewWholesaleCompanyController implements ToastProvider {
             CheECSEManagerFeatureSet6Controller.getWholesaleCompany(companyName);
 
         if (company != null) {
-            nameLabel.setText(company.getName());
-            addressLabel.setText(company.getAddress());
-
-            int ordersCount = company.numberOfOrderDates();
-            ordersCountLabel.setText(ordersCount + " order" + (ordersCount != 1 ? "s" : ""));
-
-            // TODO: Populate orders table when order data is available
+          companyCard.setCompany(company);
+        // TODO: Populate orders table when order data is available
         }
     }
     

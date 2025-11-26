@@ -1,6 +1,7 @@
 package ca.mcgill.ecse.cheecsemanager.fxml.controllers.wholesaleCompany;
 
 import ca.mcgill.ecse.cheecsemanager.controller.TOWholesaleCompany;
+import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton;
 import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,7 +19,11 @@ public class CompanyCardController extends VBox {
     @FXML
     private Label ordersLabel;
 
+    @FXML private StyledButton updateCompanyBtn;
+    @FXML private StyledButton deleteCompanyBtn;
+
     private Runnable onViewCallback;
+    private Runnable onEditCallback;
     private Runnable onDeleteCallback;
 
     public CompanyCardController() {
@@ -47,6 +52,11 @@ public class CompanyCardController extends VBox {
         this.onViewCallback = callback;
     }
 
+    public void setOnEdit(Runnable callback) {
+        this.onEditCallback = callback;
+        updateCompanyBtn.setText("Edit");
+    }
+
     public void setOnDelete(Runnable callback) {
         this.onDeleteCallback = callback;
     }
@@ -55,6 +65,8 @@ public class CompanyCardController extends VBox {
     private void handleView() {
         if (onViewCallback != null) {
             onViewCallback.run();
+        } else if (onEditCallback != null) {
+            onEditCallback.run();
         }
     }
 
