@@ -18,7 +18,6 @@ public class Icon extends StackPane {
 
   public Icon(@NamedArg("icon") String icon) {
     this();
-
     var resource = CheECSEManagerApplication.getResource("view/icons/fxml/" +
                                                          icon + ".fxml");
 

@@ -61,6 +61,12 @@ public class PageNavigator {
             Pane previousPage = navigationStack.pop();
             contentArea.getChildren().clear();
             contentArea.getChildren().add(previousPage);
+            
+            // If the page supports refresh, call it
+            Object userData = previousPage.getUserData();
+            if (userData instanceof PageRefreshable) {
+                ((PageRefreshable) userData).onPageAppear();
+            }
         }
     }
     
@@ -75,6 +81,11 @@ public class PageNavigator {
     // Interface for controllers that can receive data
     public interface DataReceiver {
         void setData(Object data);
+    }
+    
+    // Interface for pages that need to refresh when they become visible
+    public interface PageRefreshable {
+        void onPageAppear();
     }
 }
 

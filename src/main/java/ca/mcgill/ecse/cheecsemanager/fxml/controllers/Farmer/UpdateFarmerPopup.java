@@ -1,45 +1,50 @@
 package ca.mcgill.ecse.cheecsemanager.fxml.controllers.Farmer;
 
-import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
-import ca.mcgill.ecse.cheecsemanager.model.CheECSEManager;
-import ca.mcgill.ecse.cheecsemanager.persistence.CheECSEManagerPersistence;
+import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet7Controller;
 import ca.mcgill.ecse.cheecsemanager.model.Farmer;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 
-public class AddFarmerPopup {
-
+public class UpdateFarmerPopup {
     @FXML private TextField nameField;
     @FXML private TextField emailField;
-    @FXML private PasswordField passwordField;
+    @FXML private TextField passwordField;
     @FXML private TextField addressField;
     @FXML private Label errorLabel;
     @FXML private ImageView photoView;
     @FXML private Label photoPlaceholder;
 
     private StackPane popupOverlay;
-    private FarmerController farmerController;
+    private ViewFarmerController farmerViewController;
+
+    private Farmer farmerData;
+
+    public void setFarmerData(Farmer farmer) {
+        this.farmerData = farmer;
+        nameField.setText(farmerData.getName());
+        emailField.setText(farmerData.getEmail());
+        passwordField.setText(farmerData.getPassword());
+        addressField.setText(farmerData.getAddress());
+    }
 
     public void setPopupOverlay(StackPane overlay) {
         this.popupOverlay = overlay;
     }
 
-    public void setFarmerController(FarmerController controller) {
-        this.farmerController = controller;
+    public void setViewFarmerController(ViewFarmerController controller) {
+        this.farmerViewController = controller;
     }
 
     @FXML
     public void initialize() {
-        errorLabel.setText("");
+      errorLabel.setText("");
     }
 
     @FXML
     private void onUploadPhoto() {
-        // Logic not implemented as requested
         System.out.println("Upload photo clicked");
     }
 
@@ -49,16 +54,11 @@ public class AddFarmerPopup {
     }
 
     @FXML
-    private void onAdd() {
+    private void onSave() {
         String name = nameField.getText();
-        String email = emailField.getText();
         String password = passwordField.getText();
         String address = addressField.getText();
 
-        if (email == null || email.trim().isEmpty()) {
-            errorLabel.setText("Email is required.");
-            return;
-        }
         if (password == null || password.trim().isEmpty()) {
             errorLabel.setText("Password is required.");
             return;
@@ -69,19 +69,15 @@ public class AddFarmerPopup {
         }
 
         
-        if (farmerController != null) {
+        if (farmerViewController != null) {
              try {
-                 CheECSEManager manager = CheECSEManagerApplication.getCheecseManager();
-                 
-                 Farmer newFarmer = new Farmer(email, password, address, manager);
-                 if (name != null && !name.trim().isEmpty()) {
-                     newFarmer.setName(name);
+                 // Note: Email cannot be changed as it's immutable in the User model
+                 String error = CheECSEManagerFeatureSet7Controller.updateFarmer(farmerData.getEmail(), password, name != null && !name.trim().isEmpty() ? name : null, address);
+                 if (error != null && !error.isEmpty()) {
+                    errorLabel.setText(error);
+                    return;
                  }
-                 
-                 CheECSEManagerPersistence.save();
-                 
-                 // Pass back to controller to display
-                 farmerController.addNewFarmerToList(newFarmer);
+                 farmerViewController.refreshFarmerCard(farmerData);
                  closePopup();
              } catch (RuntimeException e) {
                  errorLabel.setText(e.getMessage());
@@ -92,8 +88,8 @@ public class AddFarmerPopup {
     }
 
     private void closePopup() {
-        if (farmerController != null && popupOverlay != null) {
-            farmerController.removePopup(popupOverlay);
+        if (farmerViewController != null && popupOverlay != null) {
+            farmerViewController.removePopup(popupOverlay);
         }
     }
 }
