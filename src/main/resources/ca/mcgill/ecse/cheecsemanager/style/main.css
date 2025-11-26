@@ -96,19 +96,19 @@
 
 /* Title text */
 .dialog-pane .header-panel .label {
-    -fx-text-fill: #ffefbf;
+    -fx-text-fill: -color-tertiary;
     -fx-font-size: 18px;
     -fx-font-weight: bold;
 }
 
  .dialog-pane .content.label {
-    -fx-text-fill: #ffefbf;  /* change to any color */
+    -fx-text-fill: -color-tertiary;  /* change to any color */
     -fx-font-size: 18px;
     -fx-font-weight: bold;
 }
 
 .dialog-pane .button-bar .button {
-    -fx-background-color: -color-secondary;
+    -fx-background-color: -color-primary;
     -fx-text-fill: -color-bg;
     -fx-font-weight: bold;
     -fx-background-radius: 8px;
@@ -118,7 +118,7 @@
 }
 
 .popup-button{
-    -fx-background-color: -color-secondary;
+    -fx-background-color: -color-primary;
     -fx-text-fill: -color-bg;
     -fx-font-weight: bold;
     -fx-background-radius: 8px;
