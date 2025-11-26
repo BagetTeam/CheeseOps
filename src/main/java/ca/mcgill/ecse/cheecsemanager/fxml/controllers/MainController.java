@@ -1,18 +1,24 @@
 package ca.mcgill.ecse.cheecsemanager.fxml.controllers;
 
 import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
+import ca.mcgill.ecse.cheecsemanager.fxml.components.PopupManager;
+import ca.mcgill.ecse.cheecsemanager.fxml.events.HidePopupEvent;
+import ca.mcgill.ecse.cheecsemanager.fxml.events.ShowPopupEvent;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 
 public class MainController {
-
+  @FXML private StackPane popupRoot;
+  @FXML private Region veil;
   @FXML private StackPane contentArea;
-
   @FXML private SidebarController sidebarController;
 
   // Cache for loaded pages
@@ -22,12 +28,44 @@ public class MainController {
   public void initialize() {
     // Set up navigation callback
     sidebarController.setNavigationCallback(this::loadPage);
-    
+
     // Initialize PageNavigator with content area
     PageNavigator.getInstance().setContentArea(contentArea);
 
     // Load default page
     loadPage("shelves");
+
+    PopupManager.getInstance().initialize(popupRoot, veil);
+    popupRoot.addEventFilter(ShowPopupEvent.SHOW_POPUP, this::handleShowPopup);
+    popupRoot.addEventFilter(HidePopupEvent.HIDE_POPUP, this::handleHidePopup);
+  }
+
+  private void handleShowPopup(ShowPopupEvent event) {
+    System.out.println(
+        "============= received show popup event ====================");
+
+    try {
+      // Load popup FXML
+      FXMLLoader loader = new FXMLLoader(
+          CheECSEManagerApplication.getResource("view/components/Popup.fxml"));
+      Node popupContent = loader.load();
+
+      // Configure popup controller
+      PopupController controller = loader.getController();
+      controller.setContent(event.getContent());
+
+      // Show popup
+      PopupManager.getInstance().showPopup(popupContent);
+
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  private void handleHidePopup(HidePopupEvent event) {
+    System.out.println(
+        "============= received hide popup event ====================");
+    PopupManager.getInstance().hidePopup();
   }
 
   private void loadPage(String pageName) {

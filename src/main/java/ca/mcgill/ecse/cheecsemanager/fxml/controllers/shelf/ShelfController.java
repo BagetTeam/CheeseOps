@@ -4,6 +4,7 @@ import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet1Control
 import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet3Controller;
 import ca.mcgill.ecse.cheecsemanager.controller.TOShelf;
 import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton;
+import ca.mcgill.ecse.cheecsemanager.fxml.events.ShowPopupEvent;
 import java.util.List;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -15,19 +16,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.effect.BoxBlur;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.util.Callback;
 
 public class ShelfController {
-
   @FXML private BorderPane root;
-  @FXML private AnchorPane contentRoot;
-  @FXML private VBox mainContainer;
-  // @FXML private StyledButton assignCheeseFromMainBtn;
 
   @FXML private TableView<TOShelf> shelfTable;
   @FXML private TableColumn<TOShelf, String> idColumn;
@@ -36,7 +30,7 @@ public class ShelfController {
   @FXML private TableColumn<TOShelf, Integer> numCheeseColumn;
   @FXML private TableColumn<TOShelf, Void> actionColumn;
 
-  @FXML private StyledButton showPopupBtn;
+  @FXML private StyledButton openPopupBtn;
   @FXML private Label inventoryLabel;
 
   @FXML
@@ -57,9 +51,12 @@ public class ShelfController {
 
     setupActionButtons();
 
-    showPopupBtn.setOnAction(e -> showAddShelfPopup());
-    // assignCheeseFromMainBtn.setOnAction(e -> showAssignCheeseWheelPopup());
+    openPopupBtn.setOnAction(
+        e -> { this.root.fireEvent(new ShowPopupEvent("Add Shelf")); });
+
     refreshTable();
+
+    // loadAddShelfPopup();
   }
 
   private void setupActionButtons() {
@@ -95,7 +92,7 @@ public class ShelfController {
   }
 
   private void showAssignCheeseWheelPopup() {
-    applyBlur();
+    // applyBlur();
     try {
       FXMLLoader loader = new FXMLLoader(getClass().getResource(
           "/ca/mcgill/ecse/cheecsemanager/view/components/Shelf/"
@@ -109,31 +106,12 @@ public class ShelfController {
 
     } catch (Exception ex) {
       ex.printStackTrace();
-      removeBlur();
-    }
-  }
-
-  private void showAddShelfPopup() {
-    applyBlur();
-    try {
-      FXMLLoader loader = new FXMLLoader(
-          getClass().getResource("/ca/mcgill/ecse/cheecsemanager/view/"
-                                 + "components/Shelf/AddShelfPopUp.fxml"));
-      Node popup = loader.load();
-      AnchorPane overlay = buildOverlay(popup);
-
-      AddShelfPopUpController controller = loader.getController();
-      controller.setMainController(this);
-      controller.setPopupOverlay(overlay);
-
-    } catch (Exception ex) {
-      ex.printStackTrace();
-      removeBlur();
+      // removeBlur();
     }
   }
 
   private void showDeleteConfirmPopupForRow(TOShelf shelf) {
-    applyBlur();
+    // applyBlur();
     try {
       FXMLLoader loader = new FXMLLoader(
           getClass().getResource("/ca/mcgill/ecse/cheecsemanager/view/"
@@ -148,12 +126,12 @@ public class ShelfController {
 
     } catch (Exception ex) {
       ex.printStackTrace();
-      removeBlur();
+      // removeBlur();
     }
   }
 
   private void showViewShelfPopup(TOShelf shelf) {
-    applyBlur();
+    // applyBlur();
     try {
       FXMLLoader loader = new FXMLLoader(
           getClass().getResource("/ca/mcgill/ecse/cheecsemanager/view/"
@@ -165,10 +143,9 @@ public class ShelfController {
       controller.setMainController(this);
       controller.setPopupOverlay(overlay);
       controller.setShelfToView(shelf.getShelfID());
-
     } catch (Exception ex) {
       ex.printStackTrace();
-      removeBlur();
+      // removeBlur();
     }
   }
 
@@ -193,19 +170,19 @@ public class ShelfController {
   }
 
   public void applyBlur() {
-    if (contentRoot != null) {
-      contentRoot.setEffect(new BoxBlur(5, 5, 3));
-    } else if (mainContainer != null) {
-      mainContainer.setEffect(new BoxBlur(5, 5, 3));
-    }
+    // if (contentRoot != null) {
+    //   contentRoot.setEffect(new BoxBlur(5, 5, 3));
+    // } else if (mainContainer != null) {
+    //   mainContainer.setEffect(new BoxBlur(5, 5, 3));
+    // }
   }
 
   public void removeBlur() {
-    if (contentRoot != null) {
-      contentRoot.setEffect(null);
-    } else if (mainContainer != null) {
-      mainContainer.setEffect(null);
-    }
+    // if (contentRoot != null) {
+    //   contentRoot.setEffect(null);
+    // } else if (mainContainer != null) {
+    //   mainContainer.setEffect(null);
+    // }
   }
 
   public void refreshTable() {

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import ca.mcgill.ecse.cheecsemanager.fxml.components.*?>
+<VBox
+    alignment="CENTER"
+    spacing="15"
+    xmlns="http://javafx.com/javafx"
+    xmlns:fx="http://javafx.com/fxml"
+    fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.PopupController"
+>    
+    <VBox styleClass="bg-fg, rounded, border-2, border-muted, p-base">
+        <StyledButton text="Close" onAction="#handleClose" graphicTextGap="10">
+            <graphic>
+                <Icon icon="X" />
+            </graphic>
+        </StyledButton>
+        <Label
+            fx:id="messageLabel"
+            text="Popup Message"
+            style="-fx-font-size: 18px;"
+        />
+    </VBox>
+
+</VBox>

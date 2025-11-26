@@ -38,10 +38,8 @@ public class CheECSEManagerApplication extends Application {
 
   private static void _loadStyleSheets(Scene scene) {
     String[] sheets = {
-        "style/main.css",
-        "style/farmer.css",
-        "style/utilities.css",
-        "style/StyledButton.css",
+        "style/main.css",         "style/farmer.css", "style/utilities.css",
+        "style/StyledButton.css", "style/Input.css",  "style/Popup.css",
     };
 
     for (String sheet : sheets) {

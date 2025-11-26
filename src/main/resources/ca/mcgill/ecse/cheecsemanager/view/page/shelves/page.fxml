@@ -2,14 +2,15 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
-<?import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton?>
+<?import ca.mcgill.ecse.cheecsemanager.fxml.components.*?>
 <BorderPane
+    stylesheets="@/ca/mcgill/ecse/cheecsemanager/style/Shelf.css"
+    style="-fx-padding: 36 16"
     fx:id="root"
+    id="root"
     xmlns="http://javafx.com/javafx"
     xmlns:fx="http://javafx.com/fxml"
     fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.shelf.ShelfController"
-    stylesheets="@/ca/mcgill/ecse/cheecsemanager/style/Shelf.css"
-    style="-fx-padding: 36 16"
 >
     <center>
         <VBox fx:id="mainContainer" spacing="20" maxWidth="768">
@@ -18,7 +19,6 @@
                 styleClass="text-lg, text-fg, text-bold"
             />
 
-
             <HBox alignment="CENTER_LEFT">
                 <Label
                     fx:id="inventoryLabel"
@@ -26,18 +26,14 @@
                     styleClass="text-fg"
                 />
                 <Region HBox.hgrow="ALWAYS" />
+
                 <StyledButton
-                    fx:id="showPopupBtn"
+                    fx:id="openPopupBtn"
                     text="Add Shelf"
                     variant="PRIMARY"
                 />
+
             </HBox>
-            <!-- <StyledButton -->
-            <!--     fx:id="assignCheeseFromMainBtn" -->
-            <!--     text="Assign Cheese Wheel" -->
-            <!--     variant="PRIMARY" -->
-            <!--     size="BASE" -->
-            <!-- /> -->
 
 
             <TableView

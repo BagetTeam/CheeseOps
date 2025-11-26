@@ -250,3 +250,184 @@
 .text-8xl {
     -fx-font-size: 128px;
 }
+
+.border-none {
+    -fx-border-color: transparent;
+}
+
+.border-bg {
+    -fx-border-color: -color-bg;
+}
+
+.border-fg {
+    -fx-border-color: -color-fg;
+}
+
+.border-primary {
+    -fx-border-color: -color-primary;
+}
+
+.border-secondary {
+    -fx-border-color: -color-secondary;
+}
+
+.border-tertiary {
+    -fx-border-color: -color-tertiary;
+}
+
+.border-muted {
+    -fx-border-color: -color-muted;
+}
+
+.border-destructive {
+    -fx-border-color: -color-destructive;
+}
+
+.border-darker-bg {
+    -fx-border-color: -color-darker-bg;
+}
+
+.border-1 {
+    -fx-border-width: 1px;
+}
+
+.border-2 {
+    -fx-border-width: 2px;
+}
+
+.border-4 {
+    -fx-border-width: 4px;
+}
+
+.border-8 {
+    -fx-border-width: 8px;
+}
+
+.p-none {
+    -fx-padding: 0;
+}
+
+.p-xs {
+    -fx-padding: 8px;
+}
+
+.p-sm {
+    -fx-padding: 12px;
+}
+
+.p-base {
+    -fx-padding: 16px;
+}
+
+.p-md {
+    -fx-padding: 20px;
+}
+
+.p-lg {
+    -fx-padding: 24px;
+}
+
+.p-xl {
+    -fx-padding: 32px;
+}
+
+.p-2xl {
+    -fx-padding: 40px;
+}
+
+.p-3xl {
+    -fx-padding: 48px;
+}
+
+.p-4xl {
+    -fx-padding: 64px;
+}
+
+.p-5xl {
+    -fx-padding: 80px;
+}
+
+.p-6xl {
+    -fx-padding: 96px;
+}
+
+.p-7xl {
+    -fx-padding: 112px;
+}
+
+.p-8xl {
+    -fx-padding: 128px;
+}
+
+/* increase width by 32px for each increment */
+.w-3xs {
+    -fx-max-width: 256px;
+}
+
+.w-2xs {
+    -fx-max-width: 288px;
+}
+
+.w-xs {
+    -fx-max-width: 320px;
+}
+
+.w-sm {
+    -fx-max-width: 384px;
+}
+
+.w-md {
+    -fx-max-width: 448px;
+}
+
+.w-lg {
+    -fx-max-width: 512px;
+}
+
+.w-xl {
+    -fx-max-width: 576px;
+}
+
+.w-2xl {
+    -fx-max-width: 640px;
+}
+
+.w-3xl {
+    -fx-max-width: 704px;
+}
+
+.w-4xl {
+    -fx-max-width: 768px;
+}
+
+.w-5xl {
+    -fx-max-width: 832px;
+}
+
+.w-6xl {
+    -fx-max-width: 896px;
+}
+
+.w-7xl {
+    -fx-max-width: 960px;
+}
+
+.w-8xl {
+    -fx-max-width: 1024px;
+}
+
+.w-9xl {
+    -fx-max-width: 1088px;
+}
+
+.w-10xl {
+    -fx-max-width: 1152px;
+}
+
+.w-11xl {
+    -fx-max-width: 1216px;
+}
+
+.w-12xl {
+    -fx-max-width: 1280px;
+}
