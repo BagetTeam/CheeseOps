@@ -10,7 +10,6 @@ import java.util.Map;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
@@ -24,6 +23,8 @@ public class MainController {
   // Cache for loaded pages
   private Map<String, Pane> pageCache = new HashMap<>();
 
+  private PopupManager popupManager = new PopupManager();
+
   @FXML
   public void initialize() {
     // Set up navigation callback
@@ -35,12 +36,13 @@ public class MainController {
     // Load default page
     loadPage("shelves");
 
-    PopupManager.getInstance().initialize(popupRoot, veil);
+    this.popupManager.initialize(popupRoot, veil);
     popupRoot.addEventFilter(ShowPopupEvent.SHOW_POPUP, this::handleShowPopup);
     popupRoot.addEventFilter(HidePopupEvent.HIDE_POPUP, this::handleHidePopup);
   }
 
   private void handleShowPopup(ShowPopupEvent event) {
+    event.consume();
     try {
       // Load popup FXML
       FXMLLoader loader = new FXMLLoader(
@@ -60,7 +62,7 @@ public class MainController {
       }
 
       // Show popup
-      PopupManager.getInstance().showPopup(popupContent);
+      this.popupManager.showPopup(popupContent);
 
     } catch (Exception e) {
       e.printStackTrace();
@@ -68,7 +70,8 @@ public class MainController {
   }
 
   private void handleHidePopup(HidePopupEvent event) {
-    PopupManager.getInstance().hidePopup();
+    event.consume();
+    this.popupManager.hidePopup();
   }
 
   private void loadPage(String pageName) {

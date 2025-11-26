@@ -6,21 +6,12 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 
 public class PopupManager {
-  private static PopupManager instance;
-
   private StackPane rootStackPane;
   private Region veil;
   private Node currentPopup;
   private BoxBlur blurEffect;
 
-  private PopupManager() { blurEffect = new BoxBlur(5, 5, 3); }
-
-  public static PopupManager getInstance() {
-    if (instance == null) {
-      instance = new PopupManager();
-    }
-    return instance;
-  }
+  public PopupManager() { blurEffect = new BoxBlur(5, 5, 3); }
 
   public void initialize(StackPane rootStackPane, Region veil) {
     this.rootStackPane = rootStackPane;
