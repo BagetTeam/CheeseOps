@@ -1,33 +1,77 @@
 package ca.mcgill.ecse.cheecsemanager.fxml.controllers;
 
 import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
+import ca.mcgill.ecse.cheecsemanager.fxml.components.PopupManager;
+import ca.mcgill.ecse.cheecsemanager.fxml.events.HidePopupEvent;
+import ca.mcgill.ecse.cheecsemanager.fxml.events.ShowPopupEvent;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 
 public class MainController {
-
+  @FXML private StackPane popupRoot;
+  @FXML private Region veil;
   @FXML private StackPane contentArea;
-
   @FXML private SidebarController sidebarController;
 
   // Cache for loaded pages
   private Map<String, Pane> pageCache = new HashMap<>();
 
+  private PopupManager popupManager = new PopupManager();
+
   @FXML
   public void initialize() {
     // Set up navigation callback
     sidebarController.setNavigationCallback(this::loadPage);
-    
+
     // Initialize PageNavigator with content area
     PageNavigator.getInstance().setContentArea(contentArea);
 
     // Load default page
     loadPage("shelves");
+
+    this.popupManager.initialize(popupRoot, veil);
+    popupRoot.addEventFilter(ShowPopupEvent.SHOW_POPUP, this::handleShowPopup);
+    popupRoot.addEventFilter(HidePopupEvent.HIDE_POPUP, this::handleHidePopup);
+  }
+
+  private void handleShowPopup(ShowPopupEvent event) {
+    event.consume();
+    try {
+      // Load popup FXML
+      FXMLLoader loader = new FXMLLoader(
+          CheECSEManagerApplication.getResource("view/components/Popup.fxml"));
+      Node popupContent = loader.load();
+
+      // Configure popup controller
+      PopupController controller = loader.getController();
+
+      String fxml = event.getContent();
+      String title = event.getTitle();
+
+      if (title != null) {
+        controller.setContent(fxml, title);
+      } else {
+        controller.setContent(fxml);
+      }
+
+      // Show popup
+      this.popupManager.showPopup(popupContent);
+
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  private void handleHidePopup(HidePopupEvent event) {
+    event.consume();
+    this.popupManager.hidePopup();
   }
 
   private void loadPage(String pageName) {

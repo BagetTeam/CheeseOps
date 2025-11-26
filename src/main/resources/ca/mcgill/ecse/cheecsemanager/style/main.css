@@ -6,6 +6,7 @@
     -color-bg: #232001;
     -color-fg: #d7cdc4;
     -color-darker-bg: #191701;
+    -color-darker-bg-70: rgba(25, 23, 1, 0.7);
     -color-muted: rgba(215, 205, 196, 0.43);
 
     /* for reference only */
@@ -41,7 +42,6 @@
 .text-fg {
     -fx-text-fill: -color-fg;
 }
-
 
 .search-bar {
     -fx-background-color: transparent;
@@ -88,3 +88,50 @@
     -fx-background-color: transparent;
 }
 
+.veil {
+    -fx-background-color: -color-darker-bg-70;
+}
+/* Header panel background */
+.dialog-pane .header-panel {
+    -fx-background-color: -color-darker-bg;
+    -fx-padding: 10px;
+}
+
+/* Title text */
+.dialog-pane .header-panel .label {
+    -fx-text-fill: -color-tertiary;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+.dialog-pane .content.label {
+    -fx-text-fill: -color-tertiary; /* change to any color */
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+.dialog-pane .button-bar .button {
+    -fx-background-color: -color-primary;
+    -fx-text-fill: -color-bg;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-padding: 6px 14px;
+    -fx-border-width: 0;
+}
+
+.popup-button {
+    -fx-background-color: -color-primary;
+    -fx-text-fill: -color-bg;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-padding: 6px 14px;
+    -fx-border-width: 0;
+}
+
+/* Remove hover visual change */
+.dialog-pane .button-bar .button:hover {
+    -fx-background-color: -color-secondary; /* stays same */
+    -fx-text-fill: -color-bg; /* stays same */
+}

@@ -21,6 +21,9 @@
   </left>
 
   <center>
-    <StackPane fx:id="contentArea" BorderPane.alignment="CENTER" />
-    </center>
+    <StackPane fx:id="popupRoot">
+      <StackPane fx:id="contentArea" />
+      <Region fx:id="veil" visible="false" managed="false" styleClass="veil" />
+    </StackPane>
+  </center>
 </BorderPane>

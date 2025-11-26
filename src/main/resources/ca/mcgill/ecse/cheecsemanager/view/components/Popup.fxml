@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- @author Ming Li Liu -->
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import ca.mcgill.ecse.cheecsemanager.fxml.components.*?>
+<VBox
+    alignment="CENTER"
+    spacing="15"
+    xmlns="http://javafx.com/javafx"
+    xmlns:fx="http://javafx.com/fxml"
+    fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.PopupController"
+    fx:id="popup"
+>    
+    <VBox
+        styleClass="bg-bg, rounded-base, border-1, border-muted, p-lg"
+        fx:id="popupContainer"
+        spacing="16"
+    >
+        <HBox spacing="8" alignment="CENTER_LEFT" fx:id="popupHeader">
+            <StyledButton
+                onAction="#handleClose"
+                graphicTextGap="10"
+                fx:id="closeButton"
+                size="SM"
+            >
+                <graphic>
+                    <Icon icon="X" />
+                </graphic>
+            </StyledButton>
+        </HBox>
+    </VBox>
+
+</VBox>
