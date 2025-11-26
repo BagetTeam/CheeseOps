@@ -31,10 +31,7 @@ import java.util.stream.Collectors;
 
 public class RobotPageController {
 
-    public Label activateButton;
-    public Label initButton;
-    public Label deactivateButton;
-    public Label treatmentButton;
+
     public AnchorPane rootPane;
     @FXML private StackPane activateTile;
     @FXML private StackPane deactivateTile;
@@ -113,6 +110,7 @@ public class RobotPageController {
             RobotController.deactivateRobot();
             System.out.println("Robot deactivated.");
             robotActive.set(false);
+            System.out.println("Robot deactivated.");
         } catch (Exception e) {
             makeAlert("Deactivation Error", e);
         }
