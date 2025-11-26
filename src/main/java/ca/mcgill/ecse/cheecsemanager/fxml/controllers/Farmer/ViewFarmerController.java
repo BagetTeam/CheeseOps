@@ -4,12 +4,15 @@ import ca.mcgill.ecse.cheecsemanager.fxml.components.Icon;
 import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton;
 import ca.mcgill.ecse.cheecsemanager.fxml.controllers.PageNavigator;
 import ca.mcgill.ecse.cheecsemanager.fxml.controllers.PopupController;
-import ca.mcgill.ecse.cheecsemanager.model.CheeseWheel;
-import ca.mcgill.ecse.cheecsemanager.model.Farmer;
-import ca.mcgill.ecse.cheecsemanager.model.Purchase;
+
+import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet7Controller;
+import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet3Controller;
+import ca.mcgill.ecse.cheecsemanager.controller.TOFarmer;
+import ca.mcgill.ecse.cheecsemanager.controller.TOCheeseWheel;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javafx.beans.property.SimpleObjectProperty;
@@ -43,18 +46,18 @@ public class ViewFarmerController extends PopupController implements PageNavigat
   @FXML private Button updateBtn;
   @FXML private Button deleteBtn;
 
-  @FXML private TableView<CheeseWheel> cheeseTable;
-  @FXML private TableColumn<CheeseWheel, Integer> idColumn;
-  @FXML private TableColumn<CheeseWheel, String> ageColumn;
-  @FXML private TableColumn<CheeseWheel, String> spoiledColumn;
-  @FXML private TableColumn<CheeseWheel, String> dateColumn;
-  @FXML private TableColumn<CheeseWheel, Void> actionColumn;
+  @FXML private TableView<TOCheeseWheel> cheeseTable;
+  @FXML private TableColumn<TOCheeseWheel, Integer> idColumn;
+  @FXML private TableColumn<TOCheeseWheel, String> ageColumn;
+  @FXML private TableColumn<TOCheeseWheel, String> spoiledColumn;
+  @FXML private TableColumn<TOCheeseWheel, String> dateColumn;
+  @FXML private TableColumn<TOCheeseWheel, Void> actionColumn;
 
   @FXML private AnchorPane viewFarmerRoot;
 
   private Region contentToBlur;
 
-  private Farmer farmer;
+  private TOFarmer farmer;
 
   @FXML
   public void initialize() {
@@ -77,13 +80,7 @@ public class ViewFarmerController extends PopupController implements PageNavigat
         -> new SimpleStringProperty(cellData.getValue().getIsSpoiled() ? "Yes"
                                                                        : "No"));
 
-    dateColumn.setCellValueFactory(cellData -> {
-      Purchase p = cellData.getValue().getPurchase();
-      return new SimpleStringProperty(p != null &&
-                                              p.getTransactionDate() != null
-                                          ? p.getTransactionDate().toString()
-                                          : "N/A");
-    });
+    dateColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPurchaseDate().toString()));
 
     farmerDescriptionCard.setMaxHeight(Region.USE_PREF_SIZE);
 
@@ -94,7 +91,7 @@ public class ViewFarmerController extends PopupController implements PageNavigat
 
     // Hide empty rows
     cheeseTable.setRowFactory(tv -> {
-      javafx.scene.control.TableRow<CheeseWheel> row =
+      javafx.scene.control.TableRow<TOCheeseWheel> row =
           new javafx.scene.control.TableRow<>();
       row.emptyProperty().addListener((obs, wasEmpty, isNowEmpty) -> {
         if (isNowEmpty) {
@@ -119,7 +116,7 @@ public class ViewFarmerController extends PopupController implements PageNavigat
         viewBtn.setSize(StyledButton.Size.SM);
 
         viewBtn.setOnAction(event -> {
-          CheeseWheel cheeseWheel = getTableView().getItems().get(getIndex());
+          TOCheeseWheel cheeseWheel = getTableView().getItems().get(getIndex());
           handleViewCheeseWheel(cheeseWheel);
         });
       }
@@ -137,7 +134,7 @@ public class ViewFarmerController extends PopupController implements PageNavigat
     });
   }
 
-  public void setFarmer(Farmer farmer) {
+  public void setFarmer(TOFarmer farmer) {
     this.farmer = farmer;
     if (farmer != null) {
       nameLabel.setText(farmer.getName());
@@ -145,20 +142,17 @@ public class ViewFarmerController extends PopupController implements PageNavigat
       addressLabel.setText(farmer.getAddress());
 
       // Populate table
-      List<CheeseWheel> wheels = new ArrayList<>();
-      for (Purchase p : farmer.getPurchases()) {
-        wheels.addAll(p.getCheeseWheels());
-      }
-      ObservableList<CheeseWheel> observableWheels =
-          FXCollections.observableArrayList(wheels);
+      TOCheeseWheel[] wheels = Arrays.stream(farmer.getCheeseWheelIDs()).map(id -> CheECSEManagerFeatureSet3Controller.getCheeseWheel(id)).toArray(TOCheeseWheel[]::new);
+      ObservableList<TOCheeseWheel> observableWheels =
+          FXCollections.observableArrayList(Arrays.asList(wheels));
       cheeseTable.setItems(observableWheels);
     }
   }
 
   @Override
   public void setData(Object data) {
-    if (data instanceof Farmer) {
-      setFarmer((Farmer)data);
+    if (data instanceof TOFarmer) {
+      setFarmer((TOFarmer)data);
     }
   }
 
@@ -245,12 +239,12 @@ public class ViewFarmerController extends PopupController implements PageNavigat
     // TODO: Navigate to purchase page
   }
 
-  private void handleViewCheeseWheel(CheeseWheel cheeseWheel) {
+  private void handleViewCheeseWheel(TOCheeseWheel cheeseWheel) {
     System.out.println("View cheese wheel: " + cheeseWheel.getId());
     // TODO: Navigate to cheese wheel details
   }
 
-  public String deleteFarmer(Farmer farmer, StackPane overlay) {
+  public String deleteFarmer(TOFarmer farmer, StackPane overlay) {
         String error = ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet7Controller.deleteFarmer(farmer.getEmail());
         
         if (error == null || error.isEmpty()) {
@@ -272,7 +266,7 @@ public class ViewFarmerController extends PopupController implements PageNavigat
         viewFarmerRoot.getChildren().remove(overlay);
     }
 
-  public void refreshFarmerCard(Farmer farmer) {
+  public void refreshFarmerCard(TOFarmer farmer) {
     if (farmer != null) {
       setFarmer(farmer);
       nameLabel.setText(farmer.getName());
@@ -280,12 +274,9 @@ public class ViewFarmerController extends PopupController implements PageNavigat
       addressLabel.setText(farmer.getAddress());
 
       // Populate table
-      List<CheeseWheel> wheels = new ArrayList<>();
-      for (Purchase p : farmer.getPurchases()) {
-        wheels.addAll(p.getCheeseWheels());
-      }
-      ObservableList<CheeseWheel> observableWheels =
-          FXCollections.observableArrayList(wheels);
+      TOCheeseWheel[] wheels = Arrays.stream(farmer.getCheeseWheelIDs()).map(id -> CheECSEManagerFeatureSet3Controller.getCheeseWheel(id)).toArray(TOCheeseWheel[]::new);
+      ObservableList<TOCheeseWheel> observableWheels =
+          FXCollections.observableArrayList(Arrays.asList(wheels));
       cheeseTable.setItems(observableWheels);
     }
   }

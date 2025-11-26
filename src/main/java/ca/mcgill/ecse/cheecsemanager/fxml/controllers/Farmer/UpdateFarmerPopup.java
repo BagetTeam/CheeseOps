@@ -1,7 +1,7 @@
 package ca.mcgill.ecse.cheecsemanager.fxml.controllers.Farmer;
 
 import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet7Controller;
-import ca.mcgill.ecse.cheecsemanager.model.Farmer;
+import ca.mcgill.ecse.cheecsemanager.controller.TOFarmer;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -20,9 +20,9 @@ public class UpdateFarmerPopup {
     private StackPane popupOverlay;
     private ViewFarmerController farmerViewController;
 
-    private Farmer farmerData;
+    private TOFarmer farmerData;
 
-    public void setFarmerData(Farmer farmer) {
+    public void setFarmerData(TOFarmer farmer) {
         this.farmerData = farmer;
         nameField.setText(farmerData.getName());
         emailField.setText(farmerData.getEmail());

@@ -1,9 +1,11 @@
 package ca.mcgill.ecse.cheecsemanager.controller;
 
 import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
+import ca.mcgill.ecse.cheecsemanager.model.CheeseWheel;
 import ca.mcgill.ecse.cheecsemanager.model.Farmer;
 import ca.mcgill.ecse.cheecsemanager.model.Purchase;
 import ca.mcgill.ecse.cheecsemanager.persistence.CheECSEManagerPersistence;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -100,10 +102,19 @@ public class CheECSEManagerFeatureSet7Controller {
    * @author Ewen Gueguen
    */
   public static TOFarmer getFarmer(String email) {
-    Optional<Farmer> farmer = findFarmerWithEmail(email);
-    if (farmer.isPresent()) {
-      return new TOFarmer(farmer.get().getEmail(), farmer.get().getPassword(),
-          farmer.get().getName(), farmer.get().getAddress());
+    Optional<Farmer> optFarmer = findFarmerWithEmail(email);
+    if (optFarmer.isPresent()) {
+      Farmer farmer = optFarmer.get();
+      TOFarmer toFarmer = new TOFarmer(farmer.getEmail(), farmer.getPassword(), farmer.getName(), farmer.getAddress());
+      for (Purchase purchase : farmer.getPurchases()) {
+        for (CheeseWheel cheeseWheel : purchase.getCheeseWheels()) {
+          toFarmer.addCheeseWheelID(cheeseWheel.getId());
+          toFarmer.addPurchaseDate(purchase.getTransactionDate());
+          toFarmer.addMonthsAged(cheeseWheel.getMonthsAged().toString());
+          toFarmer.addIsSpoiled(cheeseWheel.getIsSpoiled() ? "Yes" : "No");
+        }
+      }
+      return toFarmer;
     }
     return null;
   }
@@ -118,11 +129,13 @@ public class CheECSEManagerFeatureSet7Controller {
   public static List<TOFarmer> getFarmers() {
     var app = CheECSEManagerApplication.getCheecseManager();
     List<Farmer> farmers = app.getFarmers();
-    List<TOFarmer> toFarmers = farmers.stream()
-                                   .map(farmer
-                                       -> new TOFarmer(farmer.getEmail(), farmer.getPassword(),
-                                           farmer.getName(), farmer.getAddress()))
-                                   .toList();
+    List<TOFarmer> toFarmers = new ArrayList<>();
+    for (Farmer farmer : farmers) {
+      TOFarmer toFarmer = getFarmer(farmer.getEmail());
+      if (toFarmer != null) {
+        toFarmers.add(toFarmer);
+      }
+    }
     return toFarmers;
   }
 
