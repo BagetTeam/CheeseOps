@@ -7,9 +7,11 @@ import ca.mcgill.ecse.cheecsemanager.fxml.controllers.PopupController;
 import ca.mcgill.ecse.cheecsemanager.model.CheeseWheel;
 import ca.mcgill.ecse.cheecsemanager.model.Farmer;
 import ca.mcgill.ecse.cheecsemanager.model.Purchase;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -17,18 +19,17 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.effect.BoxBlur;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.effect.BoxBlur;
+import javafx.scene.image.ImageView;
 
 public class ViewFarmerController extends PopupController implements PageNavigator.DataReceiver{
   @FXML private Button backBtn;
@@ -57,6 +58,11 @@ public class ViewFarmerController extends PopupController implements PageNavigat
 
   @FXML
   public void initialize() {
+    // Get the first child of viewFarmerRoot (the VBox containing all content)
+    if (!viewFarmerRoot.getChildren().isEmpty()) {
+      contentToBlur = (Region) viewFarmerRoot.getChildren().get(0);
+    }
+    
     // Initialize columns
     idColumn.setCellValueFactory(
         cellData -> new SimpleObjectProperty<>(cellData.getValue().getId()));
@@ -172,7 +178,6 @@ public class ViewFarmerController extends PopupController implements PageNavigat
                     "/ca/mcgill/ecse/cheecsemanager/view/components/Farmer/UpdateFarmer.fxml"
             ));
             AnchorPane popup = loader.load();
-
             popup.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
         
             // Create overlay FIRST
@@ -193,22 +198,22 @@ public class ViewFarmerController extends PopupController implements PageNavigat
 
   @FXML
   private void handleDelete() {
-    System.out.println("Delete farmer: " + farmer.getName());
-    if (farmer.getPurchases().size() > 0) {
-        int numCheeseWheels = 0;
-        for (Purchase p : farmer.getPurchases()) {
-            numCheeseWheels += p.numberOfCheeseWheels();
-        }
-        if (numCheeseWheels > 0) {
-            // TODO Ewen: Implement alert popup
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("Cannot delete farmer with purchases.");
-            alert.setContentText("The farmer has " + numCheeseWheels + " cheese wheels.");
-            alert.showAndWait();
-            return;
-        }
-    }
+    // System.out.println("Delete farmer: " + farmer.getName());
+    // if (farmer.getPurchases().size() > 0) {
+    //     int numCheeseWheels = 0;
+    //     for (Purchase p : farmer.getPurchases()) {
+    //         numCheeseWheels += p.numberOfCheeseWheels();
+    //     }
+    //     if (numCheeseWheels > 0) {
+    //         // TODO Ewen: Implement alert popup
+    //         Alert alert = new Alert(Alert.AlertType.ERROR);
+    //         alert.setTitle("Error");
+    //         alert.setHeaderText("Cannot delete farmer with purchases.");
+    //         alert.setContentText("The farmer has " + numCheeseWheels + " cheese wheels.");
+    //         alert.showAndWait();
+    //         return;
+    //     }
+    // }
 
     if (contentToBlur != null) {
             contentToBlur.setEffect(new BoxBlur(5, 5, 3));
@@ -261,6 +266,27 @@ public class ViewFarmerController extends PopupController implements PageNavigat
 
 
   public void removePopup(StackPane overlay) {
-        super.removePopup(overlay, viewFarmerRoot);
+        if (contentToBlur != null) {
+            contentToBlur.setEffect(null);
+        }
+        viewFarmerRoot.getChildren().remove(overlay);
     }
+
+  public void refreshFarmerCard(Farmer farmer) {
+    if (farmer != null) {
+      setFarmer(farmer);
+      nameLabel.setText(farmer.getName());
+      emailLabel.setText(farmer.getEmail());
+      addressLabel.setText(farmer.getAddress());
+
+      // Populate table
+      List<CheeseWheel> wheels = new ArrayList<>();
+      for (Purchase p : farmer.getPurchases()) {
+        wheels.addAll(p.getCheeseWheels());
+      }
+      ObservableList<CheeseWheel> observableWheels =
+          FXCollections.observableArrayList(wheels);
+      cheeseTable.setItems(observableWheels);
+    }
+  }
 }
