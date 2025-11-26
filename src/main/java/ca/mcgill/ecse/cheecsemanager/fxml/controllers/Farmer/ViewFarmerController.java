@@ -7,7 +7,6 @@ import ca.mcgill.ecse.cheecsemanager.fxml.controllers.PopupController;
 import ca.mcgill.ecse.cheecsemanager.model.CheeseWheel;
 import ca.mcgill.ecse.cheecsemanager.model.Farmer;
 import ca.mcgill.ecse.cheecsemanager.model.Purchase;
-import ca.mcgill.ecse.cheecsemanager.persistence.CheECSEManagerPersistence;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +17,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
@@ -194,7 +194,44 @@ public class ViewFarmerController extends PopupController implements PageNavigat
   @FXML
   private void handleDelete() {
     System.out.println("Delete farmer: " + farmer.getName());
-    // TODO: Show confirmation dialog and delete
+    if (farmer.getPurchases().size() > 0) {
+        int numCheeseWheels = 0;
+        for (Purchase p : farmer.getPurchases()) {
+            numCheeseWheels += p.numberOfCheeseWheels();
+        }
+        if (numCheeseWheels > 0) {
+            // TODO Ewen: Implement alert popup
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Cannot delete farmer with purchases.");
+            alert.setContentText("The farmer has " + numCheeseWheels + " cheese wheels.");
+            alert.showAndWait();
+            return;
+        }
+    }
+
+    if (contentToBlur != null) {
+            contentToBlur.setEffect(new BoxBlur(5, 5, 3));
+        }
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(
+                    "/ca/mcgill/ecse/cheecsemanager/view/components/Farmer/DeleteFarmerPopup.fxml"
+            ));
+            AnchorPane popup = loader.load();
+            popup.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+
+            StackPane overlay = createOverlay();
+
+            overlay.getChildren().add(popup);
+            viewFarmerRoot.getChildren().add(overlay);
+    
+            DeleteFarmerPopup controller = loader.getController();
+            controller.setFarmer(farmer);
+            controller.setViewFarmerController(this);
+            controller.setPopupOverlay(overlay);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
   }
 
   @FXML
@@ -207,6 +244,20 @@ public class ViewFarmerController extends PopupController implements PageNavigat
     System.out.println("View cheese wheel: " + cheeseWheel.getId());
     // TODO: Navigate to cheese wheel details
   }
+
+  public String deleteFarmer(Farmer farmer, StackPane overlay) {
+        String error = ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet7Controller.deleteFarmer(farmer.getEmail());
+        
+        if (error == null || error.isEmpty()) {
+            // Success - close popup and go back to farmer list
+            removePopup(overlay);
+            PageNavigator.getInstance().goBack();
+            return "";
+        } else {
+            // Error - keep popup open and return error message
+            return error;
+        }
+    }
 
 
   public void removePopup(StackPane overlay) {

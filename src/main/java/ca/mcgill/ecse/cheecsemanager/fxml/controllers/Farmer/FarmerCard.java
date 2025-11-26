@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import ca.mcgill.ecse.cheecsemanager.model.Farmer;
 import ca.mcgill.ecse.cheecsemanager.model.Purchase;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
@@ -90,6 +91,22 @@ public class FarmerCard extends VBox {
     }
     
     private void handleDelete() {
+        // if (farmerData.getPurchases().size() > 0) {
+        //     int numCheeseWheels = 0;
+        //     for (Purchase p : farmerData.getPurchases()) {
+        //         numCheeseWheels += p.numberOfCheeseWheels();
+        //     }
+        //     if (numCheeseWheels > 0) {
+        //         // TODO Ewen: Implement alert popup
+        //         Alert alert = new Alert(Alert.AlertType.ERROR);
+        //         alert.setTitle("Error");
+        //         alert.setHeaderText("Cannot delete farmer with purchases.");
+        //         alert.setContentText("The farmer has " + numCheeseWheels + " cheese wheels.");
+        //         alert.showAndWait();
+        //         return;
+        //     }
+        // }
+
         if (farmerController != null) {
             farmerController.deleteFarmerPopup(this);
         }

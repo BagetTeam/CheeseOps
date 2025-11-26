@@ -5,10 +5,11 @@ import ca.mcgill.ecse.cheecsemanager.model.Farmer;
 import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
 import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton;
 import ca.mcgill.ecse.cheecsemanager.fxml.controllers.PopupController;
-import ca.mcgill.ecse.cheecsemanager.persistence.CheECSEManagerPersistence;
 import ca.mcgill.ecse.cheecsemanager.fxml.controllers.PageNavigator;
+import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet7Controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -146,19 +147,50 @@ public class FarmerController extends PopupController implements PageNavigator.P
         farmerRoot.getChildren().remove(overlay);
     }
 
-    public void deleteFarmerCard(FarmerCard card, StackPane overlay) {
-        removePopup(overlay);
-        cardsContainer.getChildren().remove(card);
+    public String deleteFarmerCard(Farmer farmer, FarmerCard card, StackPane overlay) {
+        String error = CheECSEManagerFeatureSet7Controller.deleteFarmer(farmer.getEmail());
         
-        card.getFarmer().delete();
-        CheECSEManagerPersistence.save();
+        if (error == null || error.isEmpty()) {
+            // Success - remove the card from UI and close popup
+            if (card != null) {
+                System.out.println("Farmer deleted successfully");
+                cardsContainer.getChildren().remove(card);
+            }
+            removePopup(overlay);
+            return "";
+        } else {
+            // Error - keep popup open and return error message
+            return error;
+        }
     }
 
     public void refreshAllCards() {
+        CheECSEManager manager = CheECSEManagerApplication.getCheecseManager();
+        List<Farmer> currentFarmers = manager.getFarmers();
+        
+        // Collect cards to remove (farmers that no longer exist)
+        List<javafx.scene.Node> cardsToRemove = new java.util.ArrayList<>();
+        
         cardsContainer.getChildren().forEach(node -> {
             if (node instanceof FarmerCard) {
-                ((FarmerCard) node).refresh();
+                FarmerCard card = (FarmerCard) node;
+                Farmer cardFarmer = card.getFarmer();
+                
+                // Check if this farmer still exists in the manager
+                boolean farmerStillExists = currentFarmers.stream()
+                    .anyMatch(f -> f.getEmail().equals(cardFarmer.getEmail()));
+                
+                if (farmerStillExists) {
+                    // Farmer exists, just refresh the card
+                    card.refresh();
+                } else {
+                    // Farmer was deleted, mark card for removal
+                    cardsToRemove.add(node);
+                }
             }
         });
+        
+        // Remove cards for deleted farmers
+        cardsContainer.getChildren().removeAll(cardsToRemove);
     }
 }

@@ -17,6 +17,8 @@
     <VBox spacing="15" layoutX="20" layoutY="20" alignment="TOP_CENTER">
         <Label text="Are you sure you want to delete?" wrapText="true" styleClass="text-bold, text-fg, text-lg"/>
         <Label text="This action cannot be undone." wrapText="true" styleClass="text-fg"/>
+        
+        <Label fx:id="errorLabel" wrapText="true" style="-fx-text-fill: #f07e68; -fx-font-size: 12px;"/>
 
         <HBox spacing="20" alignment="CENTER">
             <StyledButton text="Delete" fx:id="yesBtn" variant="DESTRUCTIVE" size="BASE"/>
