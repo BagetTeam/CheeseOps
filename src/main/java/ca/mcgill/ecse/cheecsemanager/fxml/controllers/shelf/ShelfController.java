@@ -20,10 +20,13 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 
 public class ShelfController {
-  @FXML private BorderPane root;
 
   private final ShelfDataProvider shelfDataProvider =
       ShelfDataProvider.getInstance();
+
+  public static String selectedShelfId = null;
+
+  @FXML private BorderPane root;
 
   @FXML private TableView<TOShelf> shelfTable;
   @FXML private TableColumn<TOShelf, String> idColumn;
@@ -117,19 +120,11 @@ public class ShelfController {
   }
 
   private void showDeleteConfirmPopupForRow(TOShelf shelf) {
-    // applyBlur();
     try {
-      FXMLLoader loader = new FXMLLoader(
-          getClass().getResource("/ca/mcgill/ecse/cheecsemanager/view/"
-                                 + "components/Shelf/ConfirmDelete.fxml"));
-      Node popup = loader.load();
-      AnchorPane overlay = buildOverlay(popup);
+      selectedShelfId = shelf.getShelfID();
 
-      ConfirmDeletePopUpController controller = loader.getController();
-      controller.setMainController(this);
-      controller.setPopupOverlay(overlay);
-      controller.setShelfToDelete(shelf);
-
+      this.root.fireEvent(new ShowPopupEvent(
+          "view/components/Shelf/ConfirmDelete.fxml", "Confirm delete"));
     } catch (Exception ex) {
       ex.printStackTrace();
       // removeBlur();
@@ -169,16 +164,15 @@ public class ShelfController {
     return overlay;
   }
 
-  public void refreshTable() {
-    shelfDataProvider.refresh();
-  }
+  public void refreshTable() { shelfDataProvider.refresh(); }
 
   public BorderPane getRoot() { return root; }
 
   private void bindInventoryLabel() {
     inventoryLabel.textProperty().bind(Bindings.createStringBinding(
-        () -> "Current Cheese Inventory: "
-              + shelfDataProvider.getCheeseInventory(),
+        ()
+            -> "Current Cheese Inventory: " +
+                   shelfDataProvider.getCheeseInventory(),
         shelfDataProvider.cheeseInventoryProperty()));
   }
 }

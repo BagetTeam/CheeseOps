@@ -1,23 +1,25 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
+<?xml version="1.0" encoding="UTF-8" ?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
 <?import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton?>
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.shelf.ConfirmDeletePopUpController"
-            prefWidth="320" prefHeight="160"
-            styleClass="confirm-delete-popup">
+<BorderPane
+    xmlns="http://javafx.com/javafx"
+    xmlns:fx="http://javafx.com/fxml"
+    fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.shelf.ConfirmDeletePopUpController"
+    fx:id="root"
+>
+     <center>
+        <VBox spacing="15" layoutX="20" layoutY="20">
+            <Label wrapText="true" styleClass="text-fg" fx:id="warningLabel" />
+            <HBox spacing="12" alignment="CENTER_RIGHT">
+                <StyledButton text="No" variant="MUTED" fx:id="noBtn" />
+                <StyledButton
+                    text="Delete"
+                    variant="DESTRUCTIVE"
+                    fx:id="yesBtn"
+                />
+            </HBox>
+        </VBox>
+     </center>
+</BorderPane>
 
-    <VBox spacing="15" layoutX="20" layoutY="20">
-
-        <Label text="Are you sure you want to delete?" wrapText="true" styleClass="popup-title"/>
-        <Label text="This action cannot be undone." wrapText="true" styleClass="popup-subtitle"/>
-
-        <HBox spacing="20" alignment="CENTER_RIGHT">
-            <StyledButton text="No" variant="MUTED" fx:id="noBtn"/>
-            <StyledButton text="Yes" variant="PRIMARY" fx:id="yesBtn"/>
-        </HBox>
-    </VBox>
-</AnchorPane>
