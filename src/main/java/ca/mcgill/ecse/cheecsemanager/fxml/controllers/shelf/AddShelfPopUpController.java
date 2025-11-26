@@ -12,6 +12,7 @@ import javafx.scene.control.TextField;
  * @author Ayush
  * */
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 
 public class AddShelfPopUpController {
 
@@ -28,7 +29,7 @@ public class AddShelfPopUpController {
   @FXML private Button addBtn;
 
   @FXML private Label errorLabel;
-  @FXML private BorderPane root;
+  @FXML private VBox root;
 
   @FXML
   public void initialize() {

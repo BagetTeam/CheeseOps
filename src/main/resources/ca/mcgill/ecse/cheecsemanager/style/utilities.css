@@ -373,73 +373,73 @@
 
 /* increase width by 32px for each increment */
 .w-3xs {
-    -fx-max-width: 256px;
+    -fx-pref-width: 256px;
 }
 
 .w-2xs {
-    -fx-max-width: 288px;
+    -fx-pref-width: 288px;
 }
 
 .w-xs {
-    -fx-max-width: 320px;
+    -fx-pref-width: 320px;
 }
 
 .w-sm {
-    -fx-max-width: 384px;
+    -fx-pref-width: 384px;
 }
 
 .w-md {
-    -fx-max-width: 448px;
+    -fx-pref-width: 448px;
 }
 
 .w-lg {
-    -fx-max-width: 512px;
+    -fx-pref-width: 512px;
 }
 
 .w-xl {
-    -fx-max-width: 576px;
+    -fx-pref-width: 576px;
 }
 
 .w-2xl {
-    -fx-max-width: 640px;
+    -fx-pref-width: 640px;
 }
 
 .w-3xl {
-    -fx-max-width: 704px;
+    -fx-pref-width: 704px;
 }
 
 .w-4xl {
-    -fx-max-width: 768px;
+    -fx-pref-width: 768px;
 }
 
 .w-5xl {
-    -fx-max-width: 832px;
+    -fx-pref-width: 832px;
 }
 
 .w-6xl {
-    -fx-max-width: 896px;
+    -fx-pref-width: 896px;
 }
 
 .w-7xl {
-    -fx-max-width: 960px;
+    -fx-pref-width: 960px;
 }
 
 .w-8xl {
-    -fx-max-width: 1024px;
+    -fx-pref-width: 1024px;
 }
 
 .w-9xl {
-    -fx-max-width: 1088px;
+    -fx-pref-width: 1088px;
 }
 
 .w-10xl {
-    -fx-max-width: 1152px;
+    -fx-pref-width: 1152px;
 }
 
 .w-11xl {
-    -fx-max-width: 1216px;
+    -fx-pref-width: 1216px;
 }
 
 .w-12xl {
-    -fx-max-width: 1280px;
+    -fx-pref-width: 1280px;
 }

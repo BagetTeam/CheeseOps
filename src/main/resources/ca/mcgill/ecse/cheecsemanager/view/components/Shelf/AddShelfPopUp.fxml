@@ -3,30 +3,22 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import ca.mcgill.ecse.cheecsemanager.fxml.components.*?>
-<BorderPane
+<VBox
+    spacing="16"
     xmlns="http://javafx.com/javafx"
     xmlns:fx="http://javafx.com/fxml"
     fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.shelf.AddShelfPopUpController"
-    styleClass="add-shelf-popup"
+    styleClass="w-3xs"
     fx:id="root"
 >
-    <center>
-        <VBox spacing="10" layoutX="20" layoutY="20">
-            <Input
-                placeholder="Shelf ID"
-                label="Shelf Id"
-                fx:id="shelfIdInput"
-            />
-            <Input placeholder="Rows" label="Rows" fx:id="rowsInput" />
-            <Input placeholder="Columns" label="Columns" fx:id="colsInput" />
+    <Input placeholder="Shelf ID" label="Shelf Id" fx:id="shelfIdInput" />
+    <Input placeholder="Rows" label="Rows" fx:id="rowsInput" />
+    <Input placeholder="Columns" label="Columns" fx:id="colsInput" />
 
-            <Label fx:id="errorLabel" styleClass="text-destructive" text="" />
+    <Label fx:id="errorLabel" styleClass="text-destructive" text="" />
 
-            <HBox spacing="20" alignment="CENTER_RIGHT">
-                <StyledButton variant="MUTED" text="Cancel" fx:id="cancelBtn" />
-                <StyledButton variant="PRIMARY" text="Add" fx:id="addBtn" />
-            </HBox>
-
-        </VBox>
-    </center>
-</BorderPane>
+    <HBox spacing="20" alignment="CENTER_RIGHT">
+        <StyledButton variant="MUTED" text="Cancel" fx:id="cancelBtn" />
+        <StyledButton variant="PRIMARY" text="Add" fx:id="addBtn" />
+    </HBox>
+</VBox>

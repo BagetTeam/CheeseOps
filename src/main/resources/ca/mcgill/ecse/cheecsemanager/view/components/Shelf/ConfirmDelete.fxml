@@ -2,24 +2,17 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton?>
-<BorderPane
+<VBox
+    spacing="16"
     xmlns="http://javafx.com/javafx"
     xmlns:fx="http://javafx.com/fxml"
     fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.shelf.ConfirmDeletePopUpController"
     fx:id="root"
+    styleClass="w-sm"
 >
-     <center>
-        <VBox spacing="15" layoutX="20" layoutY="20">
-            <Label wrapText="true" styleClass="text-fg" fx:id="warningLabel" />
-            <HBox spacing="12" alignment="CENTER_RIGHT">
-                <StyledButton text="No" variant="MUTED" fx:id="noBtn" />
-                <StyledButton
-                    text="Delete"
-                    variant="DESTRUCTIVE"
-                    fx:id="yesBtn"
-                />
-            </HBox>
-        </VBox>
-     </center>
-</BorderPane>
-
+    <Label wrapText="true" styleClass="text-fg" fx:id="warningLabel" />
+    <HBox spacing="12" alignment="CENTER_RIGHT">
+        <StyledButton text="No" variant="MUTED" fx:id="noBtn" />
+        <StyledButton text="Delete" variant="DESTRUCTIVE" fx:id="yesBtn" />
+    </HBox>
+</VBox>

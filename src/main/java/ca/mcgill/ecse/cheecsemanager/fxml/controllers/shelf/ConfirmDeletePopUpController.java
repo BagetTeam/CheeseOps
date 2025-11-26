@@ -5,7 +5,7 @@ import ca.mcgill.ecse.cheecsemanager.fxml.store.ShelfDataProvider;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 
 public class ConfirmDeletePopUpController {
   private final ShelfDataProvider shelfDataProvider =
@@ -13,7 +13,7 @@ public class ConfirmDeletePopUpController {
 
   @FXML private Button yesBtn;
   @FXML private Button noBtn;
-  @FXML private BorderPane root;
+  @FXML private VBox root;
   @FXML private Label warningLabel;
 
   @FXML
