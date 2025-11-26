@@ -1,5 +1,6 @@
 package ca.mcgill.ecse.cheecsemanager.fxml.controllers.wholesaleCompany;
 
+import java.util.function.Consumer;
 import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet5Controller;
 import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet6Controller;
 import ca.mcgill.ecse.cheecsemanager.controller.TOWholesaleCompany;
@@ -26,14 +27,14 @@ public class UpdateWholesaleCompanyController {
   private Label currentCompanyLabel;
 
   private String currentCompanyName;
-  private Runnable onCloseCallback;
-  private WholesaleCompanyPageController mainController;
+  private Consumer<String> onCloseCallback;
+  private ToastProvider mainController;
 
-  public void setOnClose(Runnable callback) {
+  public void setOnClose(Consumer<String> callback) {
   this.onCloseCallback = callback;
   }
 
-  public void setMainController(WholesaleCompanyPageController controller) {
+  public void setMainController(ToastProvider controller) {
     this.mainController = controller;
   }
 
@@ -57,7 +58,7 @@ public class UpdateWholesaleCompanyController {
   @FXML
   private void handleClose() {
     if (onCloseCallback != null) {
-      onCloseCallback.run();
+      onCloseCallback.accept(null);
     }
   }
 
@@ -73,6 +74,9 @@ public class UpdateWholesaleCompanyController {
     if (error.isEmpty()) {
       if (mainController != null) {
         mainController.showSuccessToast("✓ Company \"" + currentCompanyName + "\" updated successfully!");
+      }
+      if (onCloseCallback != null) {
+          onCloseCallback.accept(newName);
       }
       handleClose();
     } else {

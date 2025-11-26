@@ -42,7 +42,7 @@
         <VBox alignment="CENTER" 
               style="-fx-border-color: -color-muted; -fx-border-width: 2; -fx-border-style: dashed; -fx-border-radius: 8; -fx-background-color: transparent; -fx-padding: 40 60;">
             <StackPane prefWidth="60" prefHeight="60">
-                <Icon icon="Upload" style="-fx-scale-x: 2; -fx-scale-y: 2; -fx-stroke: -color-fg;" />
+                <Icon icon="Upload"/>
             </StackPane>
             <Label text="Upload Photo" 
                    style="-fx-text-fill: -color-muted; -fx-font-size: 16px; -fx-padding: 10 0 5 0;" />

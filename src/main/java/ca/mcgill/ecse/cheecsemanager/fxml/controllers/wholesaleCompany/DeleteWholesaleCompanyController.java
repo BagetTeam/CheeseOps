@@ -20,13 +20,13 @@ public class DeleteWholesaleCompanyController {
 
   private String companyName;
   private Runnable onCloseCallback;
-  private WholesaleCompanyPageController mainController;
+  private ToastProvider mainController;
 
   public void setOnClose(Runnable callback) {
     this.onCloseCallback = callback;
   }
   
-  public void setMainController(WholesaleCompanyPageController controller) {
+  public void setMainController(ToastProvider controller) {
     this.mainController = controller;
   }
 
@@ -52,9 +52,9 @@ public class DeleteWholesaleCompanyController {
 
   @FXML
   private void handleClose() {
-    if (onCloseCallback != null) {
-      onCloseCallback.run();
-    }
+      if (mainController != null) {
+          mainController.closeDialog();
+      }
   }
 
   @FXML
@@ -65,10 +65,12 @@ public class DeleteWholesaleCompanyController {
     if (error.isEmpty()) {
       if (mainController != null) {
         mainController.showSuccessToast("✓ Company \"" + companyName + "\" deleted successfully!");
+        mainController.closeDialog();
       }
-      handleClose();
+      if (onCloseCallback != null) {
+        onCloseCallback.run();
+      }
     } else {
-      handleClose();
       showErrorDialog(error);
     }
   }
@@ -77,7 +79,7 @@ public class DeleteWholesaleCompanyController {
     try {
       FXMLLoader loader = new FXMLLoader(
           CheECSEManagerApplication.class.getResource(
-              "/ca/mcgill/ecse/cheecsemanager/view/page/wholesaleCompany/DeleteError.fxml"
+              "/ca/mcgill/ecse/cheecsemanager/view/page/companies/DeleteError.fxml"
           )
       );
       Parent dialog = loader.load();
@@ -87,6 +89,9 @@ public class DeleteWholesaleCompanyController {
       controller.setOnClose(() -> {
         if (mainController != null) {
           mainController.closeDialog();
+        }
+        if (onCloseCallback != null) {
+          onCloseCallback.run();
         }
       });
       

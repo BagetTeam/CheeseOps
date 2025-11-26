@@ -17,11 +17,11 @@
         style="-fx-background-color: -color-darker-bg; -fx-background-radius: 12; -fx-padding: 30; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 30, 0, 0, 10);"
         spacing="25"
         prefWidth="500"
-        prefHeight="280"
+        prefHeight="230"
         minWidth="500"
-        minHeight="280"
+        minHeight="230"
         maxWidth="500"
-        maxHeight="280">
+        maxHeight="230">
         
         <!-- Error Header -->
         <Label text="Error" 
@@ -38,7 +38,7 @@
             <StyledButton
                 text="Ok"
                 variant="PRIMARY"
-                size="LG"
+                size="MD"
                 prefWidth="440"
                 onAction="#handleClose"
             />

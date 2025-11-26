@@ -1,171 +1,190 @@
 package ca.mcgill.ecse.cheecsemanager.fxml.controllers.wholesaleCompany;
 
 import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
+import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet6Controller;
+import ca.mcgill.ecse.cheecsemanager.controller.TOWholesaleCompany;
+import java.util.List;
 import javafx.animation.FadeTransition;
 import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
-public class WholesaleCompanyPageController {
-    
-    @FXML
-    private StackPane dialogContainer;
-    
-    @FXML
-    private StackPane contentContainer;
-    
-    @FXML
-    private HBox toastContainer;
+public class WholesaleCompanyPageController implements ToastProvider {
+
+    @FXML private AnchorPane companiesPageRoot;
+
+    @FXML private FlowPane cardsContainer;
+
+    @FXML private StackPane dialogContainer;
+
+    @FXML private TextField searchField;
+
+    @FXML private HBox toastContainer;
+
+    @FXML private Label toastLabel;
 
     @FXML
-    private Label toastLabel;
-    
-    @FXML
-    private void handleViewCompanies() {
+    public void initialize() {
+        loadCompanies();
+    }
+
+    private void loadCompanies() {
+        cardsContainer.getChildren().clear();
+
+        List<TOWholesaleCompany> companies =
+            CheECSEManagerFeatureSet6Controller.getWholesaleCompanies();
+
+        for (TOWholesaleCompany company : companies) {
+            CompanyCardController card = new CompanyCardController();
+            card.setCompany(company);
+
+            card.setOnView(() -> handleViewCompany(company));
+            card.setOnDelete(() -> handleDeleteCompanyCard(company));
+
+            cardsContainer.getChildren().add(card);
+        }
+    }
+
+    private void handleViewCompany(TOWholesaleCompany company) {
         try {
-            FXMLLoader loader = new FXMLLoader(
-                CheECSEManagerApplication.class.getResource(
-                    "/ca/mcgill/ecse/cheecsemanager/view/page/wholesaleCompany/page.fxml"
-                )
-            );
-            Parent page = loader.load();
-            
-            // Replace current content with the companies page
-            // Assuming you have a content container in Main.fxml
-            contentContainer.getChildren().clear();
-            contentContainer.getChildren().add(page);
-            
+            FXMLLoader loader =
+                new FXMLLoader(
+                    CheECSEManagerApplication.class.getResource(
+                        "/ca/mcgill/ecse/cheecsemanager/view/page/companies/ViewWholesaleCompany.fxml"));
+            Parent viewPage = loader.load();
+
+            ViewWholesaleCompanyController controller = loader.getController();
+            controller.setCompany(company.getName());
+            controller.setOnBack(() -> navigateBackToCompaniesPage());
+
+            // Replace this entire page with the view page
+            companiesPageRoot.getChildren().clear();
+            companiesPageRoot.getChildren().add(viewPage);
+            AnchorPane.setTopAnchor(viewPage, 0.0);
+            AnchorPane.setBottomAnchor(viewPage, 0.0);
+            AnchorPane.setLeftAnchor(viewPage, 0.0);
+            AnchorPane.setRightAnchor(viewPage, 0.0);
+
         } catch (Exception e) {
             e.printStackTrace();
-            System.err.println("Error loading WholesaleCompanies page: " + e.getMessage());
+        }
+    }
+
+    private void navigateBackToCompaniesPage() {
+        try {
+            FXMLLoader loader =
+                new FXMLLoader(
+                    CheECSEManagerApplication.class.getResource(
+                        "/ca/mcgill/ecse/cheecsemanager/view/page/companies/page.fxml"));
+            Parent companiesPage = loader.load();
+
+            // Replace current content with companies page
+            companiesPageRoot.getChildren().clear();
+            companiesPageRoot.getChildren().add(companiesPage);
+            AnchorPane.setTopAnchor(companiesPage, 0.0);
+            AnchorPane.setBottomAnchor(companiesPage, 0.0);
+            AnchorPane.setLeftAnchor(companiesPage, 0.0);
+            AnchorPane.setRightAnchor(companiesPage, 0.0);
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
     @FXML
     private void handleAddCompany() {
         try {
-            // Load the AddWholesaleCompany.fxml dialog
-            FXMLLoader loader = new FXMLLoader(
-                CheECSEManagerApplication.class.getResource(
-                    "/ca/mcgill/ecse/cheecsemanager/view/page/wholesaleCompany/AddWholesaleCompany.fxml"
-                )
-            );
+            FXMLLoader loader =
+                new FXMLLoader(
+                    CheECSEManagerApplication.class.getResource(
+                        "/ca/mcgill/ecse/cheecsemanager/view/page/companies/AddWholesaleCompany.fxml"));
             Parent dialog = loader.load();
-            
-            // Get controller of AddWholesaleCompanyController
+
             AddWholesaleCompanyController controller = loader.getController();
             controller.setMainController(this);
-            controller.setOnClose(() -> closeDialog());
+            controller.setOnClose(
+                () -> {
+                    closeDialog();
+                    loadCompanies();
+                });
 
             showDialog(dialog);
-            
+
         } catch (Exception e) {
             e.printStackTrace();
-            System.err.println("Error loading AddWholesaleCompany dialog: " + e.getMessage());
         }
     }
 
     @FXML
-    private void handleUpdateCompany() {
+    private void handleDeleteCompanyCard(TOWholesaleCompany company) {
         try {
-            FXMLLoader loader = new FXMLLoader(
-                CheECSEManagerApplication.class.getResource(
-                    "/ca/mcgill/ecse/cheecsemanager/view/page/wholesaleCompany/UpdateWholesaleCompany.fxml"
-                )
-            );
+            FXMLLoader loader =
+                new FXMLLoader(
+                    CheECSEManagerApplication.class.getResource(
+                        "/ca/mcgill/ecse/cheecsemanager/view/page/companies/DeleteWholesaleCompany.fxml"));
             Parent dialog = loader.load();
-            
-            UpdateWholesaleCompanyController controller = loader.getController();
-            controller.setMainController(this);
-            controller.setCompany("Ewen's Company"); // TO CHANGE: pass selected company's name
-            controller.setOnClose(() -> closeDialog());
-            
-            showDialog(dialog);
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.err.println("Error loading UpdateWholesaleCompany dialog: " + e.getMessage());
-        }
-    }
 
-    @FXML
-    private void handleDeleteCompany() {
-        try {
-            FXMLLoader loader = new FXMLLoader(
-                CheECSEManagerApplication.class.getResource(
-                    "/ca/mcgill/ecse/cheecsemanager/view/page/wholesaleCompany/DeleteWholesaleCompany.fxml"
-                )
-            );
-            Parent dialog = loader.load();
-            
             DeleteWholesaleCompanyController controller = loader.getController();
-            controller.setMainController(this); // Pass reference so it can show error dialog
-            controller.setCompany("Ewen's Company");
-            controller.setOnClose(() -> {
-                closeDialog();
-            });
-            
+            controller.setMainController(this);
+            controller.setCompany(company.getName());
+            controller.setOnClose(
+                () -> {
+                    closeDialog();
+                    loadCompanies();
+                });
+
             showDialog(dialog);
-            
+
         } catch (Exception e) {
             e.printStackTrace();
-            System.err.println("Error loading DeleteWholesaleCompany dialog: " + e.getMessage());
         }
     }
 
-    /**
-     * Show a dialog in the dialogContainer
-     */
+    @Override
     public void showDialog(Parent dialog) {
         dialogContainer.getChildren().clear();
         dialogContainer.getChildren().add(dialog);
         dialogContainer.setMouseTransparent(false);
     }
 
-    /**
-     * Close the current dialog
-     */
+    @Override
     public void closeDialog() {
         dialogContainer.getChildren().clear();
         dialogContainer.setMouseTransparent(true);
     }
 
-    /**
-     * Show a success toast notification
-     * @param message The success message to display
-     */
+    @Override
     public void showSuccessToast(String message) {
-      showToast(message, 3.0);
+        showToast(message, 3.0);
     }
-        /**
-     * Show a toast notification that fades away
-     * @param message The message to display
-     * @param durationSeconds How long to show before fading (in seconds)
-     */
-    
+
     public void showToast(String message, double durationSeconds) {
         toastLabel.setText(message);
         toastContainer.setVisible(true);
         toastContainer.setManaged(true);
         toastContainer.setOpacity(1.0);
-        
-        // Wait for specified duration, then fade out
+
         PauseTransition pause = new PauseTransition(Duration.seconds(durationSeconds));
-        pause.setOnFinished(e -> {
-            FadeTransition fade = new FadeTransition(Duration.seconds(0.5), toastContainer);
-            fade.setFromValue(1.0);
-            fade.setToValue(0.0);
-            fade.setOnFinished(evt -> {
-                toastContainer.setVisible(false);
-                toastContainer.setManaged(false);
+        pause.setOnFinished(
+            e -> {
+                FadeTransition fade = new FadeTransition(Duration.seconds(0.5), toastContainer);
+                fade.setFromValue(1.0);
+                fade.setToValue(0.0);
+                fade.setOnFinished(
+                    evt -> {
+                        toastContainer.setVisible(false);
+                        toastContainer.setManaged(false);
+                    });
+                fade.play();
             });
-            fade.play();
-        });
         pause.play();
     }
 }
