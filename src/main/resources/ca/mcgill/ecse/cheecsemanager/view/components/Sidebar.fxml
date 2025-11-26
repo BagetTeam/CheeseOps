@@ -7,7 +7,7 @@
     xmlns="http://javafx.com/javafx/21"
     xmlns:fx="http://javafx.com/fxml/1"
     fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.SidebarController"
-    spacing="16"
+    spacing="8"
     styleClass="sidebar"
     VBox.vgrow="ALWAYS"
 >

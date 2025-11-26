@@ -42,6 +42,7 @@ public class CheECSEManagerApplication extends Application {
         "style/farmer.css",
         "style/utilities.css",
         "style/StyledButton.css",
+        "style/Input.css",
     };
 
     for (String sheet : sheets) {
