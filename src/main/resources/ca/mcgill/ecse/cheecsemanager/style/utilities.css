@@ -303,6 +303,18 @@
     -fx-border-width: 8px;
 }
 
+.border-solid {
+    -fx-border-style: solid;
+}
+
+.border-dashed {
+    -fx-border-style: dashed;
+}
+
+.border-dotted {
+    -fx-border-style: dotted;
+}
+
 .p-none {
     -fx-padding: 0;
 }

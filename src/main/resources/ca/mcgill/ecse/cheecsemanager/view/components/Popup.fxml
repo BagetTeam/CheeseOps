@@ -11,7 +11,7 @@
     fx:id="popup"
 >    
     <VBox
-        styleClass="bg-darker-bg, rounded-base, border-2, border-muted, p-base, w-lg"
+        styleClass="bg-darker-bg, rounded-base, border-2, border-muted, p-lg, w-lg"
         fx:id="popupContainer"
         spacing="16"
     >
