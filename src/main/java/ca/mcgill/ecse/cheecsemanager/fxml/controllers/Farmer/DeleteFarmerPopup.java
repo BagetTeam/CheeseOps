@@ -4,18 +4,19 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.StackPane;
 
 public class DeleteFarmerPopup {
     @FXML private Button yesBtn;
     @FXML private Button noBtn;
     @FXML private FlowPane cardsContainer;
 
-    private AnchorPane popupOverlay;
+    private StackPane popupOverlay;
     private FarmerController farmerController;
 
     private FarmerCard farmerCard;
 
-    public void setPopupOverlay(AnchorPane overlay) {
+    public void setPopupOverlay(StackPane overlay) {
         this.popupOverlay = overlay;
     }
 

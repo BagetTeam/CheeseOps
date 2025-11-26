@@ -10,6 +10,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 
 public class AddFarmerPopup {
 
@@ -21,10 +22,10 @@ public class AddFarmerPopup {
     @FXML private ImageView photoView;
     @FXML private Label photoPlaceholder;
 
-    private AnchorPane popupOverlay;
+    private StackPane popupOverlay;
     private FarmerController farmerController;
 
-    public void setPopupOverlay(AnchorPane overlay) {
+    public void setPopupOverlay(StackPane overlay) {
         this.popupOverlay = overlay;
     }
 
