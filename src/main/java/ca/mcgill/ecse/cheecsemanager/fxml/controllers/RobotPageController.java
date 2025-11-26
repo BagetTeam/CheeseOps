@@ -110,7 +110,6 @@ public class RobotPageController {
             RobotController.deactivateRobot();
             System.out.println("Robot deactivated.");
             robotActive.set(false);
-            System.out.println("Robot deactivated.");
         } catch (Exception e) {
             makeAlert("Deactivation Error", e);
         }
