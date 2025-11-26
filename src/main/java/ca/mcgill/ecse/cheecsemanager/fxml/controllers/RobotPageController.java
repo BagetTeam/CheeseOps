@@ -22,6 +22,7 @@ import java.util.Optional;
 import java.util.List;
 import ca.mcgill.ecse.cheecsemanager.controller.TOLogEntry; // Import your TO
 import javafx.stage.Stage;
+import javafx.stage.Window;
 
 import java.util.stream.Collectors;
 
@@ -102,10 +103,7 @@ public class RobotPageController {
             System.out.println("Robot activated.");
             robotActive.set(true);
         } catch (Exception e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Activation Error");
-            alert.setContentText(e.getMessage());
-            alert.showAndWait();
+            makeAlert("Activation Error", e);
         }
     }
     @FXML
@@ -116,10 +114,7 @@ public class RobotPageController {
             System.out.println("Robot deactivated.");
             robotActive.set(false);
         } catch (Exception e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Deactivation Error");
-            alert.setContentText(e.getMessage());
-            alert.showAndWait();
+            makeAlert("Deactivation Error", e);
         }
 
     }
@@ -135,10 +130,7 @@ public class RobotPageController {
             RobotController.initializeRobot(id);
             System.out.println("Initializing robot...");
         } catch (Exception e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Initialization Error");
-            alert.setContentText(e.getMessage());
-            alert.showAndWait();
+            makeAlert("Initialization Error", e);
         }
         rootPane.setDisable(false);
     }
@@ -168,7 +160,7 @@ public class RobotPageController {
                 try {
                     RobotController.initializeTreatment(request.purchaseId(), request.maturationPeriod());
                 } catch (RuntimeException ex) {
-                    // showError(ex.getMessage()); // your own alert helper
+                    makeAlert("Treatment Error", ex);
                     System.err.println("Error starting treatment: " + ex.getMessage());
                 }
             });
@@ -224,6 +216,24 @@ public class RobotPageController {
         return dialog.showAndWait();
     }
 
+    private void makeAlert(String title, Exception e) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Initialization Error");
+        alert.setContentText(e.getMessage());
+
+
+        // Apply your CSS file
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.getStylesheets().add(
+                getClass().getResource("/ca/mcgill/ecse/cheecsemanager/style/main.css").toExternalForm()
+
+        );
+
+        // Add a style class if you want specific styling
+        //dialogPane.getStyleClass().add("popup-button");
+        alert.showAndWait();
+    }
+
     private String openPopUp() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(
@@ -232,28 +242,34 @@ public class RobotPageController {
             ));
             Parent popupRoot = loader.load();
 
-            // Get the controller (useful if you want to read input after close)
             ShelfIDPopUpController controller = loader.getController();
 
             Stage popupStage = new Stage();
             popupStage.setTitle("Enter Shelf ID");
             popupStage.setScene(new Scene(popupRoot));
+
             popupStage.initModality(Modality.APPLICATION_MODAL);
             popupStage.initOwner(rootPane.getScene().getWindow());
 
-            controller.setStage(popupStage); // <-- Allow controller to close itself
+            controller.setStage(popupStage);
 
-            popupStage.showAndWait(); // Blocks until user closes popup
+            //centering the popup
+            popupStage.setOnShowing(e -> {
+                Window parent = rootPane.getScene().getWindow();
+                popupStage.setX(parent.getX() + parent.getWidth()/2 - popupStage.getWidth()/2);
+                popupStage.setY(parent.getY() + parent.getHeight()/2 - popupStage.getHeight()/2);
+            });
 
-            // You can access user input after close:
+            popupStage.showAndWait();
             String shelfId = controller.getShelfIdEntered();
-            System.out.println("User entered shelf ID: " + shelfId);
             return shelfId;
+
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
+
 
 
 }
