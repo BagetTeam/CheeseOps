@@ -2,8 +2,8 @@
     -fx-background-insets: 0;
     -fx-border-width: 1;
     -fx-padding: 6 14;
-    -fx-background-radius: 28;
-    -fx-border-radius: 28;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
     -fx-alignment: center-left;
     -fx-min-height: 40px;
 }
@@ -23,7 +23,7 @@
 }
 
 .input-focused.input-default {
-    -fx-border-color: -color-primary;
+    -fx-border-color: -color-muted;
 }
 
 .input .input-field {
@@ -53,4 +53,15 @@
 
 .input-focused .input-icon .icon {
     -fx-stroke: -color-primary;
+}
+
+.input-label {
+    -fx-text-fill: -color-muted;
+    -fx-font-size: 12px;
+    -fx-font-weight: 600;
+}
+
+.input-inline .input-label {
+    -fx-padding: 0 8 0 0;
+    -fx-alignment: center-left;
 }

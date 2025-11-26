@@ -13,24 +13,13 @@
 >
     <center>
         <VBox spacing="10" layoutX="20" layoutY="20">
-            <Input placeholder="Shelf ID" variant="OUTLINED" />
-
-            <Label text="Enter details:" styleClass="popup-title" />
-
-            <HBox spacing="10">
-                <Label text="ID:" />
-                <TextField fx:id="idField" />
-            </HBox>
-
-            <HBox spacing="10">
-                <Label text="Rows:" />
-                <TextField fx:id="rowsField" />
-            </HBox>
-
-            <HBox spacing="10">
-                <Label text="Cols:" />
-                <TextField fx:id="colsField" />
-            </HBox>
+            <Input
+                placeholder="Shelf ID"
+                label="Shelf Id"
+                fx:id="shelfIdInput"
+            />
+            <Input placeholder="Rows" label="Rows" fx:id="rowsInput" />
+            <Input placeholder="Columns" label="Columns" fx:id="colsInput" />
 
             <HBox spacing="20" alignment="CENTER_RIGHT">
                 <StyledButton variant="MUTED" text="Cancel" fx:id="cancelBtn" />

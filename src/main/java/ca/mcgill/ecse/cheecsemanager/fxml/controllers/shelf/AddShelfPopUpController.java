@@ -1,6 +1,7 @@
 package ca.mcgill.ecse.cheecsemanager.fxml.controllers.shelf;
 
 import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet2Controller;
+import ca.mcgill.ecse.cheecsemanager.fxml.components.Input;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -12,11 +13,13 @@ import javafx.scene.layout.AnchorPane;
 
 public class AddShelfPopUpController {
 
-  @FXML private TextField idField;
+  @FXML private Input shelfIdInput;
+  @FXML private Input rowsInput;
+  @FXML private Input colsInput;
 
-  @FXML private TextField rowsField;
-
-  @FXML private TextField colsField;
+  private TextField idField;
+  private TextField rowsField;
+  private TextField colsField;
 
   @FXML private Button cancelBtn;
 
@@ -39,6 +42,10 @@ public class AddShelfPopUpController {
   public void initialize() {
     cancelBtn.setOnAction(e -> closePopup());
     addBtn.setOnAction(e -> submit());
+
+    idField = shelfIdInput.getTextField();
+    rowsField = rowsInput.getTextField();
+    colsField = colsInput.getTextField();
   }
 
   private void closePopup() {
