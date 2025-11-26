@@ -3,6 +3,7 @@ package ca.mcgill.ecse.cheecsemanager.fxml.controllers;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 
+
 public class PopupController {
     // Create a semi-transparent overlay behind the popup
     public StackPane createOverlay() {

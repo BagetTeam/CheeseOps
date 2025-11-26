@@ -1,13 +1,11 @@
 package ca.mcgill.ecse.cheecsemanager.fxml.controllers.Farmer;
 
-import ca.mcgill.ecse.cheecsemanager.model.CheECSEManager;
-import ca.mcgill.ecse.cheecsemanager.model.Farmer;
 import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
 import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton;
 import ca.mcgill.ecse.cheecsemanager.fxml.controllers.PopupController;
 import ca.mcgill.ecse.cheecsemanager.fxml.controllers.PageNavigator;
 import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet7Controller;
-
+import ca.mcgill.ecse.cheecsemanager.controller.TOFarmer;
 import java.io.IOException;
 import java.util.List;
 
@@ -38,8 +36,7 @@ public class FarmerController extends PopupController implements PageNavigator.P
         // Store this controller in the root pane's userData for later refresh
         farmerRoot.setUserData(this);
         
-        CheECSEManager manager = CheECSEManagerApplication.getCheecseManager();
-        for (Farmer farmer : manager.getFarmers()) {
+        for (TOFarmer farmer : CheECSEManagerFeatureSet7Controller.getFarmers()) {
             addFarmerCard(farmer);
         }
 
@@ -65,7 +62,7 @@ public class FarmerController extends PopupController implements PageNavigator.P
             cardsContainer.getChildren().forEach(node -> {
                 if (node instanceof FarmerCard) {
                     FarmerCard card = (FarmerCard) node;
-                    Farmer farmer = card.getFarmer();
+                    TOFarmer farmer = card.getFarmer();
                     boolean matches = farmer.getName().toLowerCase().contains(lowerCaseSearch) ||
                                     farmer.getEmail().toLowerCase().contains(lowerCaseSearch) ||
                                     farmer.getAddress().toLowerCase().contains(lowerCaseSearch);
@@ -104,11 +101,11 @@ public class FarmerController extends PopupController implements PageNavigator.P
         }
     }
 
-    public void addNewFarmerToList(Farmer farmer) {
+    public void addNewFarmerToList(TOFarmer farmer) {
         addFarmerCard(farmer);
     }
 
-    private void addFarmerCard(Farmer farmer) {
+    private void addFarmerCard(TOFarmer farmer) {
         FarmerCard card = new FarmerCard();
         card.setFarmer(farmer);
         card.setFarmerController(this);
@@ -147,7 +144,7 @@ public class FarmerController extends PopupController implements PageNavigator.P
         farmerRoot.getChildren().remove(overlay);
     }
 
-    public String deleteFarmerCard(Farmer farmer, FarmerCard card, StackPane overlay) {
+    public String deleteFarmerCard(TOFarmer farmer, FarmerCard card, StackPane overlay) {
         String error = CheECSEManagerFeatureSet7Controller.deleteFarmer(farmer.getEmail());
         
         if (error == null || error.isEmpty()) {
@@ -165,8 +162,7 @@ public class FarmerController extends PopupController implements PageNavigator.P
     }
 
     public void refreshAllCards() {
-        CheECSEManager manager = CheECSEManagerApplication.getCheecseManager();
-        List<Farmer> currentFarmers = manager.getFarmers();
+        List<TOFarmer> currentFarmers = CheECSEManagerFeatureSet7Controller.getFarmers();
         
         // Collect cards to remove (farmers that no longer exist)
         List<javafx.scene.Node> cardsToRemove = new java.util.ArrayList<>();
@@ -174,7 +170,7 @@ public class FarmerController extends PopupController implements PageNavigator.P
         cardsContainer.getChildren().forEach(node -> {
             if (node instanceof FarmerCard) {
                 FarmerCard card = (FarmerCard) node;
-                Farmer cardFarmer = card.getFarmer();
+                TOFarmer cardFarmer = card.getFarmer();
                 
                 // Check if this farmer still exists in the manager
                 boolean farmerStillExists = currentFarmers.stream()

@@ -2,8 +2,7 @@ package ca.mcgill.ecse.cheecsemanager.fxml.controllers.Farmer;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import ca.mcgill.ecse.cheecsemanager.model.Farmer;
-import ca.mcgill.ecse.cheecsemanager.model.Purchase;
+import ca.mcgill.ecse.cheecsemanager.controller.TOFarmer;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
@@ -18,7 +17,7 @@ public class FarmerCard extends VBox {
     @FXML private Button viewFarmerBtn;
     @FXML private Button deleteFarmerBtn;
     
-    private Farmer farmerData; 
+    private TOFarmer farmerData; 
     private FarmerController farmerController;
 
     
@@ -46,23 +45,18 @@ public class FarmerCard extends VBox {
     }
 
     // set info for farmer
-    public void setFarmer(Farmer farmer) {
+    public void setFarmer(TOFarmer farmer) {
         this.farmerData = farmer;
         if (farmer != null) {
             nameLabel.setText("Name: " + farmer.getName());
             emailLabel.setText("Email: " + farmer.getEmail());
             addressLabel.setText("Address: " + farmer.getAddress());
             
-            // Calculate cheese wheels
-            int cheeseCount = 0;
-            for (Purchase p : farmer.getPurchases()) {
-                cheeseCount += p.numberOfCheeseWheels();
-            }
-            cheeseLabel.setText(String.valueOf(cheeseCount));
+            cheeseLabel.setText(String.valueOf(farmer.numberOfCheeseWheelIDs()));
         }
     }
 
-    public Farmer getFarmer() {
+    public TOFarmer getFarmer() {
         return farmerData;
     }
     
@@ -73,12 +67,7 @@ public class FarmerCard extends VBox {
             emailLabel.setText("Email: " + farmerData.getEmail());
             addressLabel.setText("Address: " + farmerData.getAddress());
             
-            // Recalculate cheese wheels
-            int cheeseCount = 0;
-            for (Purchase p : farmerData.getPurchases()) {
-                cheeseCount += p.numberOfCheeseWheels();
-            }
-            cheeseLabel.setText(String.valueOf(cheeseCount));
+            cheeseLabel.setText(String.valueOf(farmerData.numberOfCheeseWheelIDs()));
         }
     }
     
