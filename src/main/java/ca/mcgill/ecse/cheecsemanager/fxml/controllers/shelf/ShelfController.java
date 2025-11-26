@@ -51,8 +51,10 @@ public class ShelfController {
 
     setupActionButtons();
 
-    openPopupBtn.setOnAction(
-        e -> { this.root.fireEvent(new ShowPopupEvent("Add Shelf")); });
+    openPopupBtn.setOnAction(e -> {
+      this.root.fireEvent(new ShowPopupEvent(
+          "view/components/Shelf/AddShelfPopUp.fxml", "Add Shelf"));
+    });
 
     refreshTable();
 

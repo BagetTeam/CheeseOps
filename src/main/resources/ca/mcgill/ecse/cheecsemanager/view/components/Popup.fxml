@@ -8,18 +8,25 @@
     xmlns="http://javafx.com/javafx"
     xmlns:fx="http://javafx.com/fxml"
     fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.PopupController"
+    fx:id="popup"
 >    
-    <VBox styleClass="bg-fg, rounded, border-2, border-muted, p-base">
-        <StyledButton text="Close" onAction="#handleClose" graphicTextGap="10">
-            <graphic>
-                <Icon icon="X" />
-            </graphic>
-        </StyledButton>
-        <Label
-            fx:id="messageLabel"
-            text="Popup Message"
-            style="-fx-font-size: 18px;"
-        />
+    <VBox
+        styleClass="bg-darker-bg, rounded-base, border-2, border-muted, p-base, w-lg"
+        fx:id="popupContainer"
+        spacing="16"
+    >
+        <HBox spacing="8" alignment="CENTER_LEFT" fx:id="popupHeader">
+            <StyledButton
+                onAction="#handleClose"
+                graphicTextGap="10"
+                fx:id="closeButton"
+                size="SM"
+            >
+                <graphic>
+                    <Icon icon="X" />
+                </graphic>
+            </StyledButton>
+        </HBox>
     </VBox>
 
 </VBox>

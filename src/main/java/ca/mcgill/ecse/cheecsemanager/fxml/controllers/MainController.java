@@ -41,9 +41,6 @@ public class MainController {
   }
 
   private void handleShowPopup(ShowPopupEvent event) {
-    System.out.println(
-        "============= received show popup event ====================");
-
     try {
       // Load popup FXML
       FXMLLoader loader = new FXMLLoader(
@@ -52,7 +49,15 @@ public class MainController {
 
       // Configure popup controller
       PopupController controller = loader.getController();
-      controller.setContent(event.getContent());
+
+      String fxml = event.getContent();
+      String title = event.getTitle();
+
+      if (title != null) {
+        controller.setContent(fxml, title);
+      } else {
+        controller.setContent(fxml);
+      }
 
       // Show popup
       PopupManager.getInstance().showPopup(popupContent);
@@ -63,8 +68,6 @@ public class MainController {
   }
 
   private void handleHidePopup(HidePopupEvent event) {
-    System.out.println(
-        "============= received hide popup event ====================");
     PopupManager.getInstance().hidePopup();
   }
 
