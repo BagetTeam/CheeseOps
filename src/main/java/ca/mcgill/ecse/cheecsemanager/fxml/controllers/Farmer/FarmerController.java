@@ -1,8 +1,5 @@
 package ca.mcgill.ecse.cheecsemanager.fxml.controllers.Farmer;
 
-import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
-import ca.mcgill.ecse.cheecsemanager.fxml.components.Input;
-import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton;
 import ca.mcgill.ecse.cheecsemanager.model.CheECSEManager;
 import ca.mcgill.ecse.cheecsemanager.model.Farmer;
 import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
@@ -22,8 +19,6 @@ import javafx.scene.layout.Region;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.FlowPane;
 
 public class FarmerController extends PopupController implements PageNavigator.PageRefreshable {
     @FXML private AnchorPane farmerRoot;
@@ -113,12 +108,12 @@ public class FarmerController extends PopupController implements PageNavigator.P
         addFarmerCard(farmer);
     }
 
-  private void addFarmerCard(Farmer farmer) {
-    FarmerCard card = new FarmerCard();
-    card.setFarmer(farmer);
-    card.setFarmerController(this);
-    cardsContainer.getChildren().add(card);
-  }
+    private void addFarmerCard(Farmer farmer) {
+        FarmerCard card = new FarmerCard();
+        card.setFarmer(farmer);
+        card.setFarmerController(this);
+        cardsContainer.getChildren().add(card);
+    }
 
     public void deleteFarmerPopup(FarmerCard card) {
         if (contentToBlur != null) {
