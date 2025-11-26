@@ -1,11 +1,10 @@
 package ca.mcgill.ecse.cheecsemanager.fxml.controllers.shelf;
 
-import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet1Controller;
-import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet3Controller;
 import ca.mcgill.ecse.cheecsemanager.controller.TOShelf;
 import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.ShowPopupEvent;
-import java.util.List;
+import ca.mcgill.ecse.cheecsemanager.fxml.store.ShelfDataProvider;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
@@ -22,6 +21,9 @@ import javafx.scene.layout.HBox;
 
 public class ShelfController {
   @FXML private BorderPane root;
+
+  private final ShelfDataProvider shelfDataProvider =
+      ShelfDataProvider.getInstance();
 
   @FXML private TableView<TOShelf> shelfTable;
   @FXML private TableColumn<TOShelf, String> idColumn;
@@ -48,8 +50,10 @@ public class ShelfController {
                .asObject());
 
     shelfTable.getColumns().forEach(tc -> tc.setMinWidth(tc.getPrefWidth()));
+    shelfTable.setItems(shelfDataProvider.getShelves());
 
     setupActionButtons();
+    bindInventoryLabel();
 
     openPopupBtn.setOnAction(e -> {
       this.root.fireEvent(new ShowPopupEvent(
@@ -166,12 +170,15 @@ public class ShelfController {
   }
 
   public void refreshTable() {
-    List<TOShelf> shelves = CheECSEManagerFeatureSet1Controller.getShelves();
-    shelfTable.getItems().setAll(shelves);
-
-    int cheese = CheECSEManagerFeatureSet3Controller.getCheeseWheels().size();
-    inventoryLabel.setText("Current Cheese Inventory: " + cheese);
+    shelfDataProvider.refresh();
   }
 
   public BorderPane getRoot() { return root; }
+
+  private void bindInventoryLabel() {
+    inventoryLabel.textProperty().bind(Bindings.createStringBinding(
+        () -> "Current Cheese Inventory: "
+              + shelfDataProvider.getCheeseInventory(),
+        shelfDataProvider.cheeseInventoryProperty()));
+  }
 }

@@ -3,6 +3,7 @@ package ca.mcgill.ecse.cheecsemanager.fxml.controllers.shelf;
 import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet2Controller;
 import ca.mcgill.ecse.cheecsemanager.fxml.components.Input;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.HidePopupEvent;
+import ca.mcgill.ecse.cheecsemanager.fxml.store.ShelfDataProvider;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -28,8 +29,6 @@ public class AddShelfPopUpController {
 
   @FXML private Label errorLabel;
   @FXML private BorderPane root;
-
-  private ShelfController mainController;
 
   @FXML
   public void initialize() {
@@ -74,7 +73,7 @@ public class AddShelfPopUpController {
     if (result != null) {
       showError(result);
     } else {
-      mainController.refreshTable();
+      ShelfDataProvider.getInstance().refresh();
       closePopup();
     }
   }
