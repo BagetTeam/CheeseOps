@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!--@author Ayush-->
+<!--@author Ayush, Ming Li Liu-->
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import ca.mcgill.ecse.cheecsemanager.fxml.components.*?>
@@ -15,7 +15,14 @@
     <Input placeholder="Rows" label="Rows" fx:id="rowsInput" />
     <Input placeholder="Columns" label="Columns" fx:id="colsInput" />
 
-    <Label fx:id="errorLabel" styleClass="text-destructive" text="" />
+    <Label
+        fx:id="errorLabel"
+        styleClass="text-destructive"
+        text=""
+        visible="false"
+        managed="false"
+        wrapText="true"
+    />
 
     <HBox spacing="20" alignment="CENTER_RIGHT">
         <StyledButton variant="MUTED" text="Cancel" fx:id="cancelBtn" />

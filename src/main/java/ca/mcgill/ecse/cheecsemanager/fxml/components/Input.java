@@ -30,6 +30,8 @@ import javafx.scene.layout.VBox;
  *   </icon>
  * </Input>
  * }</pre>
+ *
+ * @author Ming Li Liu
  */
 public class Input extends VBox {
   public enum Variant { DEFAULT, OUTLINED }
@@ -43,7 +45,8 @@ public class Input extends VBox {
 
   private final StringProperty placeholder = new SimpleStringProperty("");
   private final ObjectProperty<Node> icon = new SimpleObjectProperty<>();
-  private final ObjectProperty<Variant> variant = new SimpleObjectProperty<>(Variant.DEFAULT);
+  private final ObjectProperty<Variant> variant =
+      new SimpleObjectProperty<>(Variant.DEFAULT);
   private final StringProperty label = new SimpleStringProperty("");
   private final ObjectProperty<LabelPosition> labelPosition =
       new SimpleObjectProperty<>(LabelPosition.TOP);
@@ -53,9 +56,10 @@ public class Input extends VBox {
     initialize();
   }
 
-  public Input(@NamedArg("placeholder") String placeholder, @NamedArg("variant") Variant variant,
-      @NamedArg("icon") Node icon, @NamedArg("label") String label,
-      @NamedArg("labelPosition") LabelPosition labelPosition) {
+  public Input(@NamedArg("placeholder") String placeholder,
+               @NamedArg("variant") Variant variant,
+               @NamedArg("icon") Node icon, @NamedArg("label") String label,
+               @NamedArg("labelPosition") LabelPosition labelPosition) {
     this();
 
     if (placeholder != null) {
@@ -107,10 +111,12 @@ public class Input extends VBox {
     textField.setFocusTraversable(true);
     HBox.setHgrow(textField, Priority.ALWAYS);
 
-    placeholder.addListener((observable, oldValue, newValue) -> textField.setPromptText(newValue));
+    placeholder.addListener(
+        (observable, oldValue, newValue) -> textField.setPromptText(newValue));
 
-    variant.addListener(
-        (observable, oldVariant, newVariant) -> { updateVariantStyle(oldVariant, newVariant); });
+    variant.addListener((observable, oldVariant, newVariant) -> {
+      updateVariantStyle(oldVariant, newVariant);
+    });
 
     icon.addListener((observable, oldIcon, newIcon) -> refreshIcon(newIcon));
 
@@ -119,17 +125,19 @@ public class Input extends VBox {
       refreshLayout();
     });
 
-    labelPosition.addListener((observable, oldValue, newValue) -> { refreshLayout(); });
+    labelPosition.addListener(
+        (observable, oldValue, newValue) -> { refreshLayout(); });
 
-    textField.focusedProperty().addListener((observable, oldValue, newValue) -> {
-      if (newValue) {
-        if (!fieldWrapper.getStyleClass().contains("input-focused")) {
-          fieldWrapper.getStyleClass().add("input-focused");
-        }
-      } else {
-        fieldWrapper.getStyleClass().remove("input-focused");
-      }
-    });
+    textField.focusedProperty().addListener(
+        (observable, oldValue, newValue) -> {
+          if (newValue) {
+            if (!fieldWrapper.getStyleClass().contains("input-focused")) {
+              fieldWrapper.getStyleClass().add("input-focused");
+            }
+          } else {
+            fieldWrapper.getStyleClass().remove("input-focused");
+          }
+        });
 
     fieldWrapper.getChildren().add(textField);
     refreshIcon(icon.get());
@@ -137,63 +145,37 @@ public class Input extends VBox {
     refreshLayout();
   }
 
-  public TextField getTextField() {
-    return textField;
-  }
+  public TextField getTextField() { return textField; }
 
-  public final String getText() {
-    return textProperty().get();
-  }
-  public final void setText(String value) {
-    textProperty().set(value);
-  }
+  public final String getText() { return textProperty().get(); }
+  public final void setText(String value) { textProperty().set(value); }
   public final StringProperty textProperty() {
     return textField.textProperty();
   }
 
-  public final String getPlaceholder() {
-    return placeholder.get();
-  }
+  public final String getPlaceholder() { return placeholder.get(); }
   public final void setPlaceholder(String value) {
     placeholder.set(value == null ? "" : value);
   }
-  public final StringProperty placeholderProperty() {
-    return placeholder;
-  }
+  public final StringProperty placeholderProperty() { return placeholder; }
 
-  public final Variant getVariant() {
-    return variant.get();
-  }
+  public final Variant getVariant() { return variant.get(); }
   public final void setVariant(Variant value) {
     variant.set(value == null ? Variant.DEFAULT : value);
   }
-  public final ObjectProperty<Variant> variantProperty() {
-    return variant;
-  }
+  public final ObjectProperty<Variant> variantProperty() { return variant; }
 
-  public final Node getIcon() {
-    return icon.get();
-  }
-  public final void setIcon(Node value) {
-    icon.set(value);
-  }
-  public final ObjectProperty<Node> iconProperty() {
-    return icon;
-  }
+  public final Node getIcon() { return icon.get(); }
+  public final void setIcon(Node value) { icon.set(value); }
+  public final ObjectProperty<Node> iconProperty() { return icon; }
 
-  public final String getLabel() {
-    return label.get();
-  }
+  public final String getLabel() { return label.get(); }
   public final void setLabel(String value) {
     label.set(value == null ? "" : value);
   }
-  public final StringProperty labelProperty() {
-    return label;
-  }
+  public final StringProperty labelProperty() { return label; }
 
-  public final LabelPosition getLabelPosition() {
-    return labelPosition.get();
-  }
+  public final LabelPosition getLabelPosition() { return labelPosition.get(); }
   public final void setLabelPosition(LabelPosition value) {
     labelPosition.set(value == null ? LabelPosition.TOP : value);
   }

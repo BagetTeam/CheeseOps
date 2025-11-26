@@ -9,9 +9,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 /*
- * @author Ayush
+ * @author Ayush, Ming Li Liu
  * */
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
 public class AddShelfPopUpController {
@@ -82,6 +81,8 @@ public class AddShelfPopUpController {
   private void showError(String message) {
     if (errorLabel != null) {
       errorLabel.setText(message);
+      errorLabel.setVisible(true);
+      errorLabel.setManaged(true);
     } else {
       System.err.println("Add Shelf Error: " + message);
     }

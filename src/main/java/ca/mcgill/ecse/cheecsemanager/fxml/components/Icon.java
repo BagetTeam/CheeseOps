@@ -6,6 +6,9 @@ import javafx.beans.NamedArg;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.StackPane;
 
+/**
+ * @author Ming Li Liu
+ * */
 public class Icon extends StackPane {
   private String icon;
   public String getIcon() { return icon; }

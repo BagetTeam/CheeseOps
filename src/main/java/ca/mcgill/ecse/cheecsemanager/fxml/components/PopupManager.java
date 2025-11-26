@@ -5,6 +5,9 @@ import javafx.scene.effect.BoxBlur;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 
+/**
+ * @author Ming Li Liu
+ * */
 public class PopupManager {
   private StackPane rootStackPane;
   private Region veil;
