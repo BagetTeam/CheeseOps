@@ -2,14 +2,15 @@ package ca.mcgill.ecse.cheecsemanager.fxml.controllers.shelf;
 
 import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet2Controller;
 import ca.mcgill.ecse.cheecsemanager.fxml.components.Input;
+import ca.mcgill.ecse.cheecsemanager.fxml.events.HidePopupEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
 /*
  * @author Ayush
  * */
+import javafx.scene.layout.BorderPane;
 
 public class AddShelfPopUpController {
 
@@ -26,17 +27,9 @@ public class AddShelfPopUpController {
   @FXML private Button addBtn;
 
   @FXML private Label errorLabel;
+  @FXML private BorderPane root;
 
-  private AnchorPane popupOverlay;
   private ShelfController mainController;
-
-  public void setPopupOverlay(AnchorPane popupOverlay) {
-    this.popupOverlay = popupOverlay;
-  }
-
-  public void setMainController(ShelfController controller) {
-    this.mainController = controller;
-  }
 
   @FXML
   public void initialize() {
@@ -48,11 +41,7 @@ public class AddShelfPopUpController {
     colsField = colsInput.getTextField();
   }
 
-  private void closePopup() {
-    if (mainController != null && popupOverlay != null) {
-      mainController.removePopup(popupOverlay);
-    }
-  }
+  private void closePopup() { root.fireEvent(new HidePopupEvent()); }
 
   private void submit() {
     if (errorLabel != null) {

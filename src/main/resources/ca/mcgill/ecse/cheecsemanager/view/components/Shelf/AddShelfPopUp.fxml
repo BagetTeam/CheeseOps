@@ -10,6 +10,7 @@
     prefWidth="300"
     prefHeight="220"
     styleClass="add-shelf-popup"
+    fx:id="root"
 >
     <center>
         <VBox spacing="10" layoutX="20" layoutY="20">

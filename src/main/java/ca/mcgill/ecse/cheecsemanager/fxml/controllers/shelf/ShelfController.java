@@ -165,28 +165,6 @@ public class ShelfController {
     return overlay;
   }
 
-  public void removePopup(AnchorPane overlay) {
-    root.getChildren().remove(overlay);
-    removeBlur();
-    refreshTable();
-  }
-
-  public void applyBlur() {
-    // if (contentRoot != null) {
-    //   contentRoot.setEffect(new BoxBlur(5, 5, 3));
-    // } else if (mainContainer != null) {
-    //   mainContainer.setEffect(new BoxBlur(5, 5, 3));
-    // }
-  }
-
-  public void removeBlur() {
-    // if (contentRoot != null) {
-    //   contentRoot.setEffect(null);
-    // } else if (mainContainer != null) {
-    //   mainContainer.setEffect(null);
-    // }
-  }
-
   public void refreshTable() {
     List<TOShelf> shelves = CheECSEManagerFeatureSet1Controller.getShelves();
     shelfTable.getItems().setAll(shelves);
