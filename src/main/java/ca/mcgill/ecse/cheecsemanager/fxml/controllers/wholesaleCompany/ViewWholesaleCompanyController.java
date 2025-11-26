@@ -1,14 +1,19 @@
 package ca.mcgill.ecse.cheecsemanager.fxml.controllers.wholesaleCompany;
 
+import java.sql.Date;
 import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
 import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet6Controller;
 import ca.mcgill.ecse.cheecsemanager.controller.TOWholesaleCompany;
 import javafx.animation.FadeTransition;
 import javafx.animation.PauseTransition;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -17,21 +22,50 @@ import javafx.util.Duration;
 public class ViewWholesaleCompanyController implements ToastProvider {
 
     @FXML private CompanyCardController companyCard;
-    @FXML private TableView<?> ordersTable;
+    @FXML private TableView<Integer> ordersTable;
+    @FXML private TableColumn<Integer, Date> transactionDateColumn;
+    @FXML private TableColumn<Integer, String> monthsAgedColumn;
+    @FXML private TableColumn<Integer, Integer> cheeseWheelsColumn;
+    @FXML private TableColumn<Integer, Integer> missingWheelsColumn;
+    @FXML private TableColumn<Integer, Date> deliveryDateColumn;
     @FXML private StackPane dialogContainer;
     @FXML private HBox toastContainer;
     @FXML private Label toastLabel;
 
     private String companyName;
+    private TOWholesaleCompany company;
     private Runnable onBackCallback;
 
     @FXML
     public void initialize() {
-        // Set up the card to use Edit instead of View
         companyCard.setOnEdit(this::handleEdit);
         companyCard.setOnDelete(this::handleDelete);
+
+        Label placeholder = new Label("No orders yet");
+        placeholder.setStyle("-fx-text-fill: -color-muted; -fx-font-size: 14px;");
+        ordersTable.setPlaceholder(placeholder);
     }
 
+    private void setupTableColumns() {
+        transactionDateColumn.setCellValueFactory(
+            cellData -> new SimpleObjectProperty<>(company.getOrderDate(cellData.getValue())));
+
+        monthsAgedColumn.setCellValueFactory(
+            cellData -> new SimpleStringProperty(company.getMonthsAged(cellData.getValue())));
+
+        cheeseWheelsColumn.setCellValueFactory(
+            cellData -> new SimpleIntegerProperty(
+                               company.getNrCheeseWheelsOrdered(cellData.getValue()))
+                            .asObject());
+
+        missingWheelsColumn.setCellValueFactory(
+            cellData -> new SimpleIntegerProperty(
+                               company.getNrCheeseWheelsMissing(cellData.getValue()))
+                            .asObject());
+
+        deliveryDateColumn.setCellValueFactory(
+            cellData -> new SimpleObjectProperty<>(company.getDeliveryDate(cellData.getValue())));
+    }
     /**
      * Set the company to display
      */
@@ -39,15 +73,26 @@ public class ViewWholesaleCompanyController implements ToastProvider {
         this.companyName = companyName;
 
         // Fetch company details from backend
-        TOWholesaleCompany company =
+        this.company =
             CheECSEManagerFeatureSet6Controller.getWholesaleCompany(companyName);
 
         if (company != null) {
           companyCard.setCompany(company);
-        // TODO: Populate orders table when order data is available
+          setupTableColumns();
+          loadOrders();
         }
     }
     
+    private void loadOrders() {
+        javafx.collections.ObservableList<Integer> indices =
+            javafx.collections.FXCollections.observableArrayList();
+
+        for (int i = 0; i < company.numberOfOrderDates(); i++) {
+            indices.add(i);
+        }
+
+        ordersTable.setItems(indices);
+    }
     /**
      * Set callback for back button navigation
      */
