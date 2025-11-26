@@ -6,6 +6,7 @@ import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
 import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton;
 import ca.mcgill.ecse.cheecsemanager.fxml.controllers.PopupController;
 import ca.mcgill.ecse.cheecsemanager.persistence.CheECSEManagerPersistence;
+import ca.mcgill.ecse.cheecsemanager.fxml.controllers.PageNavigator;
 
 import java.io.IOException;
 
@@ -18,7 +19,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.layout.AnchorPane;
 
-public class FarmerController extends PopupController {
+public class FarmerController extends PopupController implements PageNavigator.PageRefreshable {
     @FXML private AnchorPane farmerRoot;
     @FXML private FlowPane cardsContainer;
     @FXML private TextField searchField;
@@ -32,6 +33,10 @@ public class FarmerController extends PopupController {
         if (!farmerRoot.getChildren().isEmpty()) {
             contentToBlur = (Region) farmerRoot.getChildren().get(0);
         }
+        
+        // Store this controller in the root pane's userData for later refresh
+        farmerRoot.setUserData(this);
+        
         CheECSEManager manager = CheECSEManagerApplication.getCheecseManager();
         for (Farmer farmer : manager.getFarmers()) {
             addFarmerCard(farmer);
@@ -42,6 +47,11 @@ public class FarmerController extends PopupController {
                 filterFarmers(newValue);
             });
         }
+    }
+    
+    @Override
+    public void onPageAppear() {
+        refreshAllCards();
     }
 
     private void filterFarmers(String searchText) {
@@ -142,5 +152,13 @@ public class FarmerController extends PopupController {
         
         card.getFarmer().delete();
         CheECSEManagerPersistence.save();
+    }
+
+    public void refreshAllCards() {
+        cardsContainer.getChildren().forEach(node -> {
+            if (node instanceof FarmerCard) {
+                ((FarmerCard) node).refresh();
+            }
+        });
     }
 }

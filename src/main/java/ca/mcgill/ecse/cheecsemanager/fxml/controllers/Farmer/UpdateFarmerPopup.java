@@ -1,15 +1,11 @@
 package ca.mcgill.ecse.cheecsemanager.fxml.controllers.Farmer;
 
-import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
-import ca.mcgill.ecse.cheecsemanager.model.CheECSEManager;
 import ca.mcgill.ecse.cheecsemanager.persistence.CheECSEManagerPersistence;
 import ca.mcgill.ecse.cheecsemanager.model.Farmer;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 
 public class UpdateFarmerPopup {
@@ -60,14 +56,9 @@ public class UpdateFarmerPopup {
     @FXML
     private void onSave() {
         String name = nameField.getText();
-        String email = emailField.getText();
         String password = passwordField.getText();
         String address = addressField.getText();
 
-        if (email == null || email.trim().isEmpty()) {
-            errorLabel.setText("Email is required.");
-            return;
-        }
         if (password == null || password.trim().isEmpty()) {
             errorLabel.setText("Password is required.");
             return;
@@ -80,7 +71,7 @@ public class UpdateFarmerPopup {
         
         if (farmerViewController != null) {
              try {
-                 farmerData.setEmail(email);
+                 // Note: Email cannot be changed as it's immutable in the User model
                  farmerData.setAddress(address);
                  farmerData.setPassword(password);
                  if (name != null && !name.trim().isEmpty()) {

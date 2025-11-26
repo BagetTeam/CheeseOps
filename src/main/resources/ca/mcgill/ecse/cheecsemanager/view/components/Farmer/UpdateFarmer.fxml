@@ -41,8 +41,8 @@
             </VBox>
             <VBox spacing="8.0">
                <children>
-                  <Label text="Email *" style="-fx-text-fill: -color-fg; -fx-font-size: 12px;" />
-                  <TextField fx:id="emailField" promptText="Enter email" style="-fx-background-color: -color-bg; -fx-background-radius: 12; -fx-border-radius: 12; -fx-border-color: rgba(215, 205, 196, 0.45); -fx-border-width: 1; -fx-text-fill: -color-fg; -fx-prompt-text-fill: rgba(215, 205, 196, 0.6); -fx-padding: 8 12;" />
+                  <Label text="Email" style="-fx-text-fill: -color-muted; -fx-font-size: 12px;" />
+                  <TextField fx:id="emailField" editable="false" style="-fx-background-color: -color-darker-bg; -fx-background-radius: 12; -fx-border-radius: 12; -fx-border-color: rgba(215, 205, 196, 0.25); -fx-border-width: 1; -fx-text-fill: -color-muted; -fx-opacity: 0.7; -fx-padding: 8 12;" />
                </children>
             </VBox>
             <VBox spacing="8.0">
