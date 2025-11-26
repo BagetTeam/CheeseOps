@@ -10,7 +10,7 @@
 <?import ca.mcgill.ecse.cheecsemanager.fxml.components.*?>
 
 
-<AnchorPane prefHeight="600.0" prefWidth="900.0" styleClass="page" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.Farmer.ViewFarmerController">
+<AnchorPane fx:id="viewFarmerRoot" prefHeight="600.0" prefWidth="900.0" styleClass="page" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.Farmer.ViewFarmerController">
    <children>
       <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -48,19 +48,15 @@
                         </StackPane>
                         
                         <VBox alignment="TOP_LEFT" maxWidth="Infinity" spacing="4">
-                           <!-- Name -->
-                           <Label fx:id="nameLabel" text="Ewen Gueguen" styleClass="text-fg, text-bold, text-lg"/>
-                           
-                           <!-- Email -->
-                           <Label fx:id="emailLabel" text="tspmofrnight@gmail.com" styleClass="text-fg"/> 
+                           <Label fx:id="nameLabel" styleClass="text-fg, text-bold, text-lg" wrapText="true"/>
+                           <Label fx:id="emailLabel" styleClass="text-fg" wrapText="true"/> 
                         </VBox>
 
                         <VBox alignment="TOP_LEFT" maxWidth="Infinity">
-                           <!-- Address with icon -->
                            <HBox alignment="CENTER_LEFT" spacing="6">
                               <children>
                                  <Icon icon="Marker"></Icon>
-                                 <Label fx:id="addressLabel" text="123 Sigma Street, Montreal" styleClass="text-fg"/>
+                                 <Label fx:id="addressLabel" styleClass="text-fg" wrapText="true"/>
                               </children>
                            </HBox>
                         </VBox>

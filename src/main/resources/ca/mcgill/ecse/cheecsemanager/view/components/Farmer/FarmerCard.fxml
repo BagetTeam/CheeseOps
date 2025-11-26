@@ -35,7 +35,7 @@
     </StackPane>
     
     <VBox alignment="TOP_LEFT" maxWidth="Infinity" spacing="8">
-        <Label fx:id="nameLabel" styleClass="name-label" style="-fx-text-fill: -color-fg; -fx-font-size: 18px; -fx-font-weight: bold;" wrapText="true" alignment="CENTER"/>
+        <Label fx:id="nameLabel" styleClass="name-label, text-fg, text-bold"  style="-fx-font-size: 18px;" wrapText="true" alignment="CENTER"/>
         <Label fx:id="emailLabel" style="-fx-font-size: 13px;" wrapText="true" alignment="CENTER"/>
     </VBox>
 

@@ -4,6 +4,7 @@ import ca.mcgill.ecse.cheecsemanager.model.CheECSEManager;
 import ca.mcgill.ecse.cheecsemanager.model.Farmer;
 import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
 import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton;
+import ca.mcgill.ecse.cheecsemanager.fxml.controllers.PopupController;
 import ca.mcgill.ecse.cheecsemanager.persistence.CheECSEManagerPersistence;
 
 import java.io.IOException;
@@ -17,44 +18,20 @@ import javafx.scene.control.TextField;
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.layout.AnchorPane;
 
-public class FarmerController {
+public class FarmerController extends PopupController {
     @FXML private AnchorPane farmerRoot;
     @FXML private FlowPane cardsContainer;
     @FXML private TextField searchField;
     @FXML private StyledButton addFarmerBtn;
-
-    @FXML
-    public void addFarmer(javafx.event.ActionEvent event) {
-        cardsContainer.setEffect(new BoxBlur(5, 5, 3));
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(
-                    "/ca/mcgill/ecse/cheecsemanager/view/components/Farmer/AddFarmer.fxml"
-            ));
-            AnchorPane popup = loader.load();
-
-            popup.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
-        
-            // Create overlay FIRST
-            StackPane overlay = createOverlay();
-            
-            // Add popup to overlay, then overlay to root
-            overlay.getChildren().add(popup);
-            farmerRoot.getChildren().add(overlay);
-                        
-            AddFarmerPopup controller = loader.getController();
-            controller.setFarmerController(this);
-            controller.setPopupOverlay(overlay);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void addNewFarmerToList(Farmer farmer) {
-        addFarmerCard(farmer);
-    }
+    
+    private Region contentToBlur; // Reference to the content that should be blurred
 
     @FXML
     public void initialize() {
+        // Get the first child of farmerRoot (the VBox containing all content)
+        if (!farmerRoot.getChildren().isEmpty()) {
+            contentToBlur = (Region) farmerRoot.getChildren().get(0);
+        }
         CheECSEManager manager = CheECSEManagerApplication.getCheecseManager();
         for (Farmer farmer : manager.getFarmers()) {
             addFarmerCard(farmer);
@@ -88,6 +65,38 @@ public class FarmerController {
         }
     }
 
+    @FXML
+    public void addFarmer(javafx.event.ActionEvent event) {
+        if (contentToBlur != null) {
+            contentToBlur.setEffect(new BoxBlur(5, 5, 3));
+        }
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(
+                    "/ca/mcgill/ecse/cheecsemanager/view/components/Farmer/AddFarmer.fxml"
+            ));
+            AnchorPane popup = loader.load();
+
+            popup.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+        
+            // Create overlay FIRST
+            StackPane overlay = createOverlay();
+            
+            // Add popup to overlay, then overlay to root
+            overlay.getChildren().add(popup);
+            farmerRoot.getChildren().add(overlay);
+                        
+            AddFarmerPopup controller = loader.getController();
+            controller.setFarmerController(this);
+            controller.setPopupOverlay(overlay);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addNewFarmerToList(Farmer farmer) {
+        addFarmerCard(farmer);
+    }
+
     private void addFarmerCard(Farmer farmer) {
         FarmerCard card = new FarmerCard();
         card.setFarmer(farmer);
@@ -96,14 +105,16 @@ public class FarmerController {
     }
 
     public void deleteFarmerPopup(FarmerCard card) {
-        cardsContainer.setEffect(new BoxBlur(5, 5, 3));
+        if (contentToBlur != null) {
+            contentToBlur.setEffect(new BoxBlur(5, 5, 3));
+        }
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(
                     "/ca/mcgill/ecse/cheecsemanager/view/components/Farmer/DeleteFarmerPopup.fxml"
             ));
             AnchorPane popup = loader.load();
             popup.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
-            
+
             StackPane overlay = createOverlay();
 
             overlay.getChildren().add(popup);
@@ -118,47 +129,10 @@ public class FarmerController {
         }
     }
 
-    private void centerPopup(AnchorPane popup, StackPane overlay) {
-        // Center the popup using AnchorPane constraints
-        overlay.applyCss();
-        overlay.layout();
-        System.out.println("Centering popup " + farmerRoot.getWidth() + " " + farmerRoot.getHeight());
-        System.out.println("Centering popup " + popup.getPrefWidth() + " " + popup.getPrefHeight());
-        System.out.println("Centering popup " + popup.getLayoutBounds().getWidth() + " " + popup.getLayoutBounds().getHeight());
-
-        double popupWidth = popup.getLayoutBounds().getWidth();
-        double popupHeight = popup.getLayoutBounds().getHeight();
-
-        // double centerX = (overlay.getWidth() - popupWidth) / 2;
-        // double centerY = (overlay.getHeight() - popupHeight) / 2;
-        
-        // popup.setLayoutX(centerX);
-        // popup.setLayoutY(centerY);
-
-        popup.layoutXProperty().bind(
-            overlay.widthProperty().subtract(popupWidth).divide(2)
-        );
-        popup.layoutYProperty().bind(
-            overlay.heightProperty().subtract(popupHeight).divide(2)
-        );
-    }
-
-    // Create a semi-transparent overlay behind the popup
-    private StackPane createOverlay() {
-        StackPane overlay = new StackPane();
-        overlay.setStyle("-fx-background-color: rgba(0,0,0,0.3);");
-        
-        AnchorPane.setTopAnchor(overlay, 0.0);
-        AnchorPane.setBottomAnchor(overlay, 0.0);
-        AnchorPane.setLeftAnchor(overlay, 0.0);
-        AnchorPane.setRightAnchor(overlay, 0.0);
-        
-        return overlay;
-    }
-
-    // Remove popup and clear blur
     public void removePopup(StackPane overlay) {
-        cardsContainer.setEffect(null);
+        if (contentToBlur != null) {
+            contentToBlur.setEffect(null);
+        }
         farmerRoot.getChildren().remove(overlay);
     }
 
