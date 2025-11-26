@@ -263,4 +263,22 @@ public class ViewFarmerController extends PopupController implements PageNavigat
   public void removePopup(StackPane overlay) {
         super.removePopup(overlay, viewFarmerRoot);
     }
+
+  public void refreshFarmerCard(Farmer farmer) {
+    if (farmer != null) {
+      setFarmer(farmer);
+      nameLabel.setText(farmer.getName());
+      emailLabel.setText(farmer.getEmail());
+      addressLabel.setText(farmer.getAddress());
+
+      // Populate table
+      List<CheeseWheel> wheels = new ArrayList<>();
+      for (Purchase p : farmer.getPurchases()) {
+        wheels.addAll(p.getCheeseWheels());
+      }
+      ObservableList<CheeseWheel> observableWheels =
+          FXCollections.observableArrayList(wheels);
+      cheeseTable.setItems(observableWheels);
+    }
+  }
 }

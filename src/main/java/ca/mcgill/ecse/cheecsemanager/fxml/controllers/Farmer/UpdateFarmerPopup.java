@@ -1,6 +1,7 @@
 package ca.mcgill.ecse.cheecsemanager.fxml.controllers.Farmer;
 
 import ca.mcgill.ecse.cheecsemanager.persistence.CheECSEManagerPersistence;
+import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet7Controller;
 import ca.mcgill.ecse.cheecsemanager.model.Farmer;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -72,14 +73,12 @@ public class UpdateFarmerPopup {
         if (farmerViewController != null) {
              try {
                  // Note: Email cannot be changed as it's immutable in the User model
-                 farmerData.setAddress(address);
-                 farmerData.setPassword(password);
-                 if (name != null && !name.trim().isEmpty()) {
-                   farmerData.setName(name);
+                 String error = CheECSEManagerFeatureSet7Controller.updateFarmer(farmerData.getEmail(), password, name != null && !name.trim().isEmpty() ? name : null, address);
+                 if (error != null && !error.isEmpty()) {
+                    errorLabel.setText(error);
+                    return;
                  }
-                 
-                 CheECSEManagerPersistence.save();
-                 farmerViewController.setFarmer(farmerData);
+                 farmerViewController.refreshFarmerCard(farmerData);
                  closePopup();
              } catch (RuntimeException e) {
                  errorLabel.setText(e.getMessage());
