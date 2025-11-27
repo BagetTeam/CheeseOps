@@ -2,20 +2,27 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import ca.mcgill.ecse.cheecsemanager.fxml.components.*?>
+
 
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.Farmer.DeleteFarmerPopup"
             prefWidth="300" prefHeight="150"
-            style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 1;">
-
-    <VBox spacing="15" layoutX="20" layoutY="20">
-        <Label text="Are you sure you want to delete?" wrapText="true"/>
-        <Label text="This action cannot be undone." wrapText="true"/>
+            style="-fx-background-color: -color-darker-bg; -fx-border-color: rgba(255, 218, 109, 0.35); -fx-border-width: 1; -fx-border-radius: 20; -fx-background-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 20, 0, 0, 10);">
+    <padding>
+        <Insets bottom="25" right="15" left="15"/>
+    </padding>
+    <VBox spacing="15" layoutX="20" layoutY="20" alignment="TOP_CENTER">
+        <Label text="Are you sure you want to delete?" wrapText="true" styleClass="text-bold, text-fg, text-lg"/>
+        <Label text="This action cannot be undone." wrapText="true" styleClass="text-fg"/>
+        
+        <Label fx:id="errorLabel" wrapText="true" style="-fx-text-fill: #f07e68; -fx-font-size: 12px;"/>
 
         <HBox spacing="20" alignment="CENTER">
-            <Button text="Yes" fx:id="yesBtn"/>
-            <Button text="No" fx:id="noBtn"/>
+            <StyledButton text="Delete" fx:id="yesBtn" variant="DESTRUCTIVE" size="BASE"/>
+            <StyledButton text="Cancel" fx:id="noBtn" variant="DEFAULT" size="BASE"/>
         </HBox>
     </VBox>
 </AnchorPane>

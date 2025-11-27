@@ -2,11 +2,15 @@ package ca.mcgill.ecse.cheecsemanager.fxml.controllers.shelf;
 
 import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet3Controller;
 import ca.mcgill.ecse.cheecsemanager.controller.TOCheeseWheel;
+import ca.mcgill.ecse.cheecsemanager.fxml.components.Icon;
+import java.net.URL;
+import java.util.List;
+import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
 import javafx.geometry.HPos;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
@@ -15,148 +19,146 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import ca.mcgill.ecse.cheecsemanager.fxml.components.Icon;
-
-import java.net.URL;
-import java.util.List;
-import java.util.ResourceBundle;
 
 /*
-* @author Ayush
-* */
+ * @author Ayush
+ * */
 
 public class ViewShelfPopUpController implements Initializable {
 
-    @FXML private Label shelfHeader;
-    @FXML private GridPane shelfGrid;
-    @FXML private Button closeBtn;
+  @FXML private Label shelfHeader;
+  @FXML private GridPane shelfGrid;
+  @FXML private Button closeBtn;
 
-    private ShelfController mainController;
-    private AnchorPane popupOverlay;
-    private String shelfID;
+  private ShelfController mainController;
+  private AnchorPane popupOverlay;
+  private String shelfID;
 
-    public void setMainController(ShelfController controller) {
-        this.mainController = controller;
+  public void setMainController(ShelfController controller) {
+    this.mainController = controller;
+  }
+
+  public ShelfController getMainController() { return mainController; }
+
+  public void setPopupOverlay(AnchorPane overlay) {
+    this.popupOverlay = overlay;
+  }
+
+  public void setShelfToView(String shelfID) {
+    this.shelfID = shelfID;
+    shelfHeader.setText("Shelf " + shelfID);
+    populateShelfGrid();
+  }
+
+  public void refreshShelfGrid() { populateShelfGrid(); }
+
+  @Override
+  public void initialize(URL url, ResourceBundle rb) {
+    closeBtn.setOnAction(e -> closePopup());
+  }
+
+  private void closePopup() {
+    // mainController.removePopup(popupOverlay);
+  }
+
+  private void showCheeseWheelPopup(int cheeseID) {
+    try {
+      // mainController.applyBlur();
+      FXMLLoader loader = new FXMLLoader(
+          getClass().getResource("/ca/mcgill/ecse/cheecsemanager/view/"
+                                 + "components/Shelf/ViewCheeseWheel.fxml"));
+      Node popup = loader.load();
+
+      AnchorPane overlay = mainController.buildOverlay(popup);
+
+      ViewCheeseWheelController controller = loader.getController();
+      controller.setMainController(mainController);
+      controller.setPopupOverlay(overlay);
+      controller.setCheeseToView(cheeseID);
+      controller.setParentPopupController(this);
+
+    } catch (Exception e) {
+      e.printStackTrace();
+      // mainController.removeBlur();
+    }
+  }
+
+  private void populateShelfGrid() {
+    shelfGrid.getChildren().clear();
+
+    List<TOCheeseWheel> cheeses =
+        CheECSEManagerFeatureSet3Controller.getCheeseWheels();
+
+    int maxRow = 0, maxCol = 0;
+    for (TOCheeseWheel ch : cheeses) {
+      if (shelfID.equals(ch.getShelfID())) {
+        maxRow = Math.max(maxRow, ch.getRow());
+        maxCol = Math.max(maxCol, ch.getColumn());
+      }
     }
 
-    public ShelfController getMainController() {
-        return mainController;
+    if (maxRow == 0 || maxCol == 0)
+      return;
+
+    double gridWidth = shelfGrid.getWidth() > 0 ? shelfGrid.getWidth() : 500;
+    double gridHeight = shelfGrid.getHeight() > 0 ? shelfGrid.getHeight() : 300;
+    double hGap = shelfGrid.getHgap();
+    double vGap = shelfGrid.getVgap();
+
+    double cellWidth = (gridWidth - hGap * (maxCol - 1)) / maxCol;
+    double cellHeight = (gridHeight - vGap * (maxRow - 1)) / maxRow;
+
+    double iconScale = Math.min(cellWidth, cellHeight) / 220.0;
+
+    for (int c = 1; c <= maxCol; c++) {
+      Label colLabel = new Label(String.valueOf(c));
+      colLabel.setStyle(
+          "-fx-font-size: 12px; -fx-padding: 4; -fx-text-fill: #777;");
+      shelfGrid.add(colLabel, c, 0);
+      GridPane.setHalignment(colLabel, HPos.CENTER);
     }
 
-    public void setPopupOverlay(AnchorPane overlay) {
-        this.popupOverlay = overlay;
+    for (int r = 1; r <= maxRow; r++) {
+      Label rowLabel = new Label(String.valueOf(r));
+      rowLabel.setStyle(
+          "-fx-font-size: 12px; -fx-padding: 4; -fx-text-fill: #777;");
+      shelfGrid.add(rowLabel, 0, r);
+      GridPane.setValignment(rowLabel, VPos.CENTER);
     }
 
-    public void setShelfToView(String shelfID) {
-        this.shelfID = shelfID;
-        shelfHeader.setText("Shelf " + shelfID);
-        populateShelfGrid();
-    }
+    // Cells
+    for (int r = 1; r <= maxRow; r++) {
+      for (int c = 1; c <= maxCol; c++) {
+        VBox cell = new VBox(5);
+        cell.setAlignment(Pos.CENTER);
+        cell.setPadding(new Insets(5));
+        cell.setStyle("-fx-border-color: #ccc; -fx-border-width: 0.5;");
 
-    public void refreshShelfGrid() {
-        populateShelfGrid();
-    }
+        final int cellR = r, cellC = c;
+        TOCheeseWheel cheese =
+            cheeses.stream()
+                .filter(ch
+                        -> shelfID.equals(ch.getShelfID()) &&
+                               ch.getRow() == cellR && ch.getColumn() == cellC)
+                .findFirst()
+                .orElse(null);
 
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        closeBtn.setOnAction(e -> closePopup());
-    }
+        if (cheese != null) {
+          Icon img = new Icon("CheeseWheel");
+          img.setScaleX(iconScale);
+          img.setScaleY(iconScale);
 
-    private void closePopup() {
-        mainController.removePopup(popupOverlay);
-    }
+          Label info = new Label("ID: " + cheese.getId());
+          info.setStyle("-fx-font-size: 10px; -fx-text-fill: #777;");
 
-    private void showCheeseWheelPopup(int cheeseID) {
-        try {
-            mainController.applyBlur();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(
-                    "/ca/mcgill/ecse/cheecsemanager/view/components/Shelf/ViewCheeseWheel.fxml"
-            ));
-            Node popup = loader.load();
-
-            AnchorPane overlay = mainController.buildOverlay(popup);
-
-            ViewCheeseWheelController controller = loader.getController();
-            controller.setMainController(mainController);
-            controller.setPopupOverlay(overlay);
-            controller.setCheeseToView(cheeseID);
-            controller.setParentPopupController(this);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            mainController.removeBlur();
+          cell.getChildren().addAll(img, info);
+          cell.setOnMouseClicked(e -> showCheeseWheelPopup(cheese.getId()));
         }
+
+        shelfGrid.add(cell, c, r);
+        GridPane.setHalignment(cell, HPos.CENTER);
+        GridPane.setValignment(cell, VPos.CENTER);
+      }
     }
-
-    private void populateShelfGrid() {
-        shelfGrid.getChildren().clear();
-
-        List<TOCheeseWheel> cheeses = CheECSEManagerFeatureSet3Controller.getCheeseWheels();
-
-        int maxRow = 0, maxCol = 0;
-        for (TOCheeseWheel ch : cheeses) {
-            if (shelfID.equals(ch.getShelfID())) {
-                maxRow = Math.max(maxRow, ch.getRow());
-                maxCol = Math.max(maxCol, ch.getColumn());
-            }
-        }
-
-        if (maxRow == 0 || maxCol == 0) return;
-
-        double gridWidth = shelfGrid.getWidth() > 0 ? shelfGrid.getWidth() : 500;
-        double gridHeight = shelfGrid.getHeight() > 0 ? shelfGrid.getHeight() : 300;
-        double hGap = shelfGrid.getHgap();
-        double vGap = shelfGrid.getVgap();
-
-        double cellWidth = (gridWidth - hGap * (maxCol - 1)) / maxCol;
-        double cellHeight = (gridHeight - vGap * (maxRow - 1)) / maxRow;
-
-        double iconScale = Math.min(cellWidth, cellHeight) / 220.0;
-
-        for (int c = 1; c <= maxCol; c++) {
-            Label colLabel = new Label(String.valueOf(c));
-            colLabel.setStyle("-fx-font-size: 12px; -fx-padding: 4; -fx-text-fill: #777;");
-            shelfGrid.add(colLabel, c, 0);
-            GridPane.setHalignment(colLabel, HPos.CENTER);
-        }
-
-        for (int r = 1; r <= maxRow; r++) {
-            Label rowLabel = new Label(String.valueOf(r));
-            rowLabel.setStyle("-fx-font-size: 12px; -fx-padding: 4; -fx-text-fill: #777;");
-            shelfGrid.add(rowLabel, 0, r);
-            GridPane.setValignment(rowLabel, VPos.CENTER);
-        }
-
-        // Cells
-        for (int r = 1; r <= maxRow; r++) {
-            for (int c = 1; c <= maxCol; c++) {
-                VBox cell = new VBox(5);
-                cell.setAlignment(Pos.CENTER);
-                cell.setPadding(new Insets(5));
-                cell.setStyle("-fx-border-color: #ccc; -fx-border-width: 0.5;");
-
-                final int cellR = r, cellC = c;
-                TOCheeseWheel cheese = cheeses.stream()
-                        .filter(ch -> shelfID.equals(ch.getShelfID()) && ch.getRow() == cellR && ch.getColumn() == cellC)
-                        .findFirst()
-                        .orElse(null);
-
-                if (cheese != null) {
-                    Icon img = new Icon("CheeseWheel");
-                    img.setScaleX(iconScale);
-                    img.setScaleY(iconScale);
-
-                    Label info = new Label("ID: " + cheese.getId());
-                    info.setStyle("-fx-font-size: 10px; -fx-text-fill: #777;");
-
-                    cell.getChildren().addAll(img, info);
-                    cell.setOnMouseClicked(e -> showCheeseWheelPopup(cheese.getId()));
-                }
-
-                shelfGrid.add(cell, c, r);
-                GridPane.setHalignment(cell, HPos.CENTER);
-                GridPane.setValignment(cell, VPos.CENTER);
-            }
-        }
-    }
+  }
 }

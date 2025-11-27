@@ -1,98 +1,90 @@
 package ca.mcgill.ecse.cheecsemanager.fxml.controllers.shelf;
 
 import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet2Controller;
+import ca.mcgill.ecse.cheecsemanager.fxml.components.Input;
+import ca.mcgill.ecse.cheecsemanager.fxml.events.HidePopupEvent;
+import ca.mcgill.ecse.cheecsemanager.fxml.store.ShelfDataProvider;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
 /*
-* @author Ayush
-* */
+ * @author Ayush, Ming Li Liu
+ * */
+import javafx.scene.layout.VBox;
 
 public class AddShelfPopUpController {
 
-    @FXML
-    private TextField idField;
+  @FXML private Input shelfIdInput;
+  @FXML private Input rowsInput;
+  @FXML private Input colsInput;
 
-    @FXML
-    private TextField rowsField;
+  private TextField idField;
+  private TextField rowsField;
+  private TextField colsField;
 
-    @FXML
-    private TextField colsField;
+  @FXML private Button cancelBtn;
 
-    @FXML
-    private Button cancelBtn;
+  @FXML private Button addBtn;
 
-    @FXML
-    private Button addBtn;
+  @FXML private Label errorLabel;
+  @FXML private VBox root;
 
-    @FXML
-    private Label errorLabel;
+  @FXML
+  public void initialize() {
+    cancelBtn.setOnAction(e -> closePopup());
+    addBtn.setOnAction(e -> submit());
 
-    private AnchorPane popupOverlay;
-    private ShelfController mainController;
+    idField = shelfIdInput.getTextField();
+    rowsField = rowsInput.getTextField();
+    colsField = colsInput.getTextField();
+  }
 
-    public void setPopupOverlay(AnchorPane popupOverlay) {
-        this.popupOverlay = popupOverlay;
+  private void closePopup() { root.fireEvent(new HidePopupEvent()); }
+
+  private void submit() {
+    if (errorLabel != null) {
+      errorLabel.setText("");
     }
 
-    public void setMainController(ShelfController controller) {
-        this.mainController = controller;
+    String id = idField.getText();
+    String rowsText = rowsField.getText();
+    String colsText = colsField.getText();
+
+    if (id == null || id.isBlank() || rowsText == null || colsText == null) {
+      showError("Please fill in all fields.");
+      return;
     }
 
-    @FXML
-    public void initialize() {
-        cancelBtn.setOnAction(e -> closePopup());
-        addBtn.setOnAction(e -> submit());
+    Integer rows;
+    Integer cols;
+
+    try {
+      rows = Integer.parseInt(rowsText);
+      cols = Integer.parseInt(colsText);
+    } catch (NumberFormatException e) {
+      showError("Rows and Columns must be integers.");
+      return;
     }
 
-    private void closePopup() {
-        if (mainController != null && popupOverlay != null) {
-            mainController.removePopup(popupOverlay);
-        }
+    String result =
+        CheECSEManagerFeatureSet2Controller.addShelf(id, cols, rows);
+
+    if (result != null) {
+      showError(result);
+    } else {
+      ShelfDataProvider.getInstance().refresh();
+      closePopup();
     }
+  }
 
-    private void submit() {
-        if (errorLabel != null) {
-            errorLabel.setText("");
-        }
-
-        String id = idField.getText();
-        String rowsText = rowsField.getText();
-        String colsText = colsField.getText();
-
-        if (id == null || id.isBlank() || rowsText == null || colsText == null) {
-            showError("Please fill in all fields.");
-            return;
-        }
-
-        Integer rows;
-        Integer cols;
-
-        try {
-            rows = Integer.parseInt(rowsText);
-            cols = Integer.parseInt(colsText);
-        } catch (NumberFormatException e) {
-            showError("Rows and Columns must be integers.");
-            return;
-        }
-
-        String result = CheECSEManagerFeatureSet2Controller.addShelf(id, cols, rows);
-
-        if (result != null) {
-            showError(result);
-        } else {
-            mainController.refreshTable();
-            closePopup();
-        }
+  private void showError(String message) {
+    if (errorLabel != null) {
+      errorLabel.setText(message);
+      errorLabel.setVisible(true);
+      errorLabel.setManaged(true);
+    } else {
+      System.err.println("Add Shelf Error: " + message);
     }
-
-    private void showError(String message) {
-        if (errorLabel != null) {
-            errorLabel.setText(message);
-        } else {
-            System.err.println("Add Shelf Error: " + message);
-        }
-    }
+  }
 }

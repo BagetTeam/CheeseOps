@@ -21,6 +21,7 @@ public class CheECSEManagerApplication extends Application {
     FXMLLoader fxmlLoader =
         new FXMLLoader(CheECSEManagerApplication.class.getResource(
             PACKAGE_ID.concat("view/page/cheecsemanager/Main.fxml")));
+    // PACKAGE_ID.concat("view/page/robot/page.fxml")));
     Scene scene = new Scene(fxmlLoader.load(), 980, 640);
 
     _loadStyleSheets(scene);
@@ -38,11 +39,8 @@ public class CheECSEManagerApplication extends Application {
 
   private static void _loadStyleSheets(Scene scene) {
     String[] sheets = {
-        "style/main.css",
-        "style/farmer.css",
-        "style/utilities.css",
-        "style/StyledButton.css",
-        "style/Input.css",
+        "style/main.css",         "style/farmer.css", "style/utilities.css",
+        "style/StyledButton.css", "style/Input.css",  "style/Popup.css",
     };
 
     for (String sheet : sheets) {

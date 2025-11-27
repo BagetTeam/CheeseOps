@@ -66,6 +66,22 @@ public class FarmerCard extends VBox {
         return farmerData;
     }
     
+    // Refresh the card's displayed data from the current farmer object
+    public void refresh() {
+        if (farmerData != null) {
+            nameLabel.setText("Name: " + farmerData.getName());
+            emailLabel.setText("Email: " + farmerData.getEmail());
+            addressLabel.setText("Address: " + farmerData.getAddress());
+            
+            // Recalculate cheese wheels
+            int cheeseCount = 0;
+            for (Purchase p : farmerData.getPurchases()) {
+                cheeseCount += p.numberOfCheeseWheels();
+            }
+            cheeseLabel.setText(String.valueOf(cheeseCount));
+        }
+    }
+    
     private void handleView() {
         if (farmerData != null) {
             ca.mcgill.ecse.cheecsemanager.fxml.controllers.PageNavigator.getInstance()

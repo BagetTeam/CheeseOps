@@ -1,48 +1,67 @@
 .input {
-    -fx-alignment: center-left;
-    -fx-padding: 6 12;
     -fx-background-insets: 0;
-    -fx-border-width: 0;
-    -fx-spacing: 8px;
+    -fx-border-width: 1;
+    -fx-padding: 6 14;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-alignment: center-left;
+    -fx-min-height: 40px;
 }
 
 .input-default {
     -fx-background-color: -color-darker-bg;
-    -fx-background-radius: 12px;
-    -fx-border-color: -color-darker-bg;
-    -fx-border-width: 1px;
-    -fx-border-radius: 12px;
-}
-
-.input-default.input-focused {
-    -fx-border-color: -color-muted;
+    -fx-border-color: transparent;
 }
 
 .input-outlined {
-    -fx-background-color: transparent;
+    -fx-background-color: -color-bg;
     -fx-border-color: -color-muted;
-    -fx-border-width: 1px;
-    -fx-border-radius: 12px;
-    -fx-background-radius: 12px;
 }
 
-.input-outlined.input-focused {
+.input-focused.input-outlined {
     -fx-border-color: -color-primary;
 }
 
-.input-text-field {
-    -fx-background-color: transparent;
-    -fx-border-width: 0;
-    -fx-background-insets: 0;
-    -fx-text-fill: -color-fg;
-    -fx-prompt-text-fill: -color-muted;
-    -fx-padding: 4 0 4 0;
-    -fx-focus-color: transparent;
-    -fx-faint-focus-color: transparent;
+.input-focused.input-default {
+    -fx-border-color: -color-muted;
 }
 
-.input-icon {
+.input .input-field {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-text-fill: -color-fg;
+    -fx-prompt-text-fill: -color-muted;
+    -fx-background-insets: 0;
+    -fx-border-width: 0;
+    -fx-padding: 4 0;
+    -fx-font-size: 14px;
+}
+
+.input .input-field:focused {
+    -fx-background-color: transparent;
+    -fx-border-width: 0;
+}
+
+.input .input-icon {
+    -fx-padding: 0 6 0 0;
     -fx-alignment: center;
-    -fx-padding: 0;
-    -fx-min-width: 20px;
+}
+
+.input .input-icon .icon {
+    -fx-stroke: -color-muted;
+}
+
+.input-focused .input-icon .icon {
+    -fx-stroke: -color-primary;
+}
+
+.input-label {
+    -fx-text-fill: -color-muted;
+    -fx-font-size: 12px;
+    -fx-font-weight: 600;
+}
+
+.input-inline .input-label {
+    -fx-padding: 0 8 0 0;
+    -fx-alignment: center-left;
 }
