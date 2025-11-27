@@ -1,9 +1,14 @@
 package ca.mcgill.ecse.cheecsemanager.fxml.components;
 
+import javafx.animation.FadeTransition;
+import javafx.animation.ParallelTransition;
+import javafx.animation.ScaleTransition;
+import javafx.animation.SequentialTransition;
 import javafx.scene.Node;
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
+import javafx.util.Duration;
 
 /**
  * @author Ming Li Liu
@@ -40,6 +45,30 @@ public class PopupManager {
     currentPopup = popupContent;
     StackPane.setAlignment(popupContent, javafx.geometry.Pos.CENTER);
     rootStackPane.getChildren().add(popupContent);
+
+    // animate
+    this.animateIn(popupContent, veil);
+  }
+
+  private void animateIn(Node popupContent, Node veil) {
+    FadeTransition fadeIn =
+        new FadeTransition(Duration.millis(100), popupContent);
+    fadeIn.setFromValue(0);
+    fadeIn.setToValue(1);
+
+    FadeTransition fadeInViel = new FadeTransition(Duration.millis(100), veil);
+    fadeIn.setFromValue(0);
+    fadeIn.setToValue(1);
+
+    ScaleTransition scaleIn =
+        new ScaleTransition(Duration.millis(100), popupContent);
+    scaleIn.setFromX(0.9);
+    scaleIn.setFromY(0.9);
+    scaleIn.setToX(1);
+    scaleIn.setToY(1);
+
+    var animation = new ParallelTransition(fadeIn, scaleIn, fadeInViel);
+    animation.play();
   }
 
   public void hidePopup() {

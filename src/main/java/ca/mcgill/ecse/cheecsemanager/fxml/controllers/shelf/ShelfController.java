@@ -64,8 +64,6 @@ public class ShelfController {
     });
 
     refreshTable();
-
-    // loadAddShelfPopup();
   }
 
   private void setupActionButtons() {
