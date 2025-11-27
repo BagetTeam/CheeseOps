@@ -101,7 +101,6 @@ public class ShelfController {
   }
 
   private void showAssignCheeseWheelPopup() {
-    // applyBlur();
     try {
       FXMLLoader loader = new FXMLLoader(getClass().getResource(
           "/ca/mcgill/ecse/cheecsemanager/view/components/Shelf/"
@@ -115,7 +114,6 @@ public class ShelfController {
 
     } catch (Exception ex) {
       ex.printStackTrace();
-      // removeBlur();
     }
   }
 
@@ -127,7 +125,6 @@ public class ShelfController {
           "view/components/Shelf/ConfirmDelete.fxml", "Confirm delete"));
     } catch (Exception ex) {
       ex.printStackTrace();
-      // removeBlur();
     }
   }
 
@@ -146,7 +143,6 @@ public class ShelfController {
       controller.setShelfToView(shelf.getShelfID());
     } catch (Exception ex) {
       ex.printStackTrace();
-      // removeBlur();
     }
   }
 
