@@ -15,6 +15,8 @@ public class ConfirmDeletePopUpController {
   @FXML private Button noBtn;
   @FXML private VBox root;
   @FXML private Label warningLabel;
+  @FXML private Label errorLabel;
+
 
   @FXML
   private void initialize() {
@@ -37,7 +39,10 @@ public class ConfirmDeletePopUpController {
               .CheECSEManagerFeatureSet2Controller.deleteShelf(shelfId);
 
       if (result != null) {
-        System.err.println("Delete Shelf Error: " + result);
+        errorLabel.setText(result);
+        errorLabel.setVisible(true);
+        errorLabel.setManaged(true);
+        return;
       }
     }
 
