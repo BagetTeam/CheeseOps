@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.SVGPath?>
+<?import javafx.scene.shape.Circle?>
+<Pane
+    prefWidth="20"
+    prefHeight="20"
+    xmlns="http://javafx.com/javafx/17"
+    xmlns:fx="http://javafx.com/fxml/1"
+>
+  <Circle
+        centerX="10"
+        centerY="10"
+        radius="8"
+        fill="TRANSPARENT"
+        stroke="#f07e68"
+        strokeWidth="1.5"
+    />
+  <SVGPath
+        content="M7 7L13 13"
+        fill="TRANSPARENT"
+        stroke="#f07e68"
+        strokeWidth="1.5"
+        strokeLineCap="ROUND"
+        strokeLineJoin="ROUND"
+    />
+  <SVGPath
+        content="M13 7L7 13"
+        fill="TRANSPARENT"
+        stroke="#f07e68"
+        strokeWidth="1.5"
+        strokeLineCap="ROUND"
+        strokeLineJoin="ROUND"
+    />
+</Pane>

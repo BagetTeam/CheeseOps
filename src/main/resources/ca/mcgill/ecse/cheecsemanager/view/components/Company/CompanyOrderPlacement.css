@@ -1,0 +1,131 @@
+/* ComboBox styling */
+.styled-combo-box .list-cell {
+    -fx-background-color: -color-bg;
+    -fx-text-fill: -color-fg;
+    -fx-padding: 10 12;
+    -fx-font-size: 14px;
+}
+
+.styled-combo-box .list-cell:hover {
+    -fx-background-color: derive(-color-bg, 20%);
+}
+
+.styled-combo-box .list-cell:selected {
+    -fx-text-fill: -color-fg;
+}
+
+.styled-combo-box .list-view {
+    -fx-background-color: -color-bg;
+    -fx-border-color: -color-border;
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0, 0, 4);
+}
+
+.styled-combo-box .arrow-button {
+    -fx-background-color: transparent;
+}
+
+.styled-combo-box .arrow {
+    -fx-background-color: -color-fg;
+}
+
+/* DatePicker button styling */
+.styled-date-picker .arrow-button {
+    -fx-background-color: transparent;
+}
+
+.styled-date-picker .arrow-button .arrow {
+    -fx-background-color: -color-fg;
+}
+
+.styled-date-picker .text-field {
+    -fx-background-color: -color-bg;
+    -fx-text-fill: -color-fg;
+    -fx-prompt-text-fill: -color-muted;
+}
+
+/* DatePicker popup calendar - unified styling */
+.styled-date-picker .date-picker-popup {
+    -fx-background-color: -color-darker-bg;
+    -fx-border-color: -color-border;
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0, 0, 4);
+    -fx-padding: 12;
+}
+
+.styled-date-picker .date-picker-popup > * {
+    -fx-background-color: -color-darker-bg;
+}
+
+/* Month/Year header */
+.styled-date-picker .date-picker-popup .month-year-pane {
+    -fx-background-color: -color-darker-bg;
+    -fx-padding: 8;
+}
+
+.styled-date-picker .date-picker-popup .month-year-pane .label {
+    -fx-text-fill: -color-fg;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+}
+
+.styled-date-picker .date-picker-popup .month-year-pane .spinner .button {
+    -fx-background-color: transparent;
+}
+
+.styled-date-picker .date-picker-popup .month-year-pane .spinner .button .left-arrow,
+.styled-date-picker .date-picker-popup .month-year-pane .spinner .button .right-arrow {
+    -fx-background-color: -color-fg;
+}
+
+/* Week numbers */
+.styled-date-picker .date-picker-popup .week-number-cell {
+    -fx-background-color: -color-darker-bg;
+    -fx-text-fill: -color-muted;
+    -fx-font-size: 12px;
+}
+
+/* Day names header */
+.styled-date-picker .date-picker-popup .day-name-cell {
+    -fx-background-color: -color-darker-bg;
+    -fx-text-fill: -color-primary;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+    -fx-padding: 6;
+}
+
+/* Day cells - all months styled the same */
+.styled-date-picker .date-picker-popup .day-cell {
+    -fx-background-color: -color-darker-bg;
+    -fx-text-fill: -color-fg;
+    -fx-background-radius: 4;
+    -fx-padding: 8;
+    -fx-font-size: 13px;
+}
+
+.styled-date-picker .date-picker-popup .day-cell:hover {
+    -fx-background-color: derive(-color-primary, -30%);
+    -fx-cursor: hand;
+}
+
+.styled-date-picker .date-picker-popup .day-cell.selected {
+    -fx-background-color: -color-primary;
+    -fx-text-fill: -color-primary-fg;
+    -fx-font-weight: bold;
+}
+
+.styled-date-picker .date-picker-popup .day-cell.today {
+    -fx-border-color: -color-primary;
+    -fx-border-width: 2;
+    -fx-border-radius: 4;
+}
+
+/* Previous/next month cells - same styling as current month */
+.styled-date-picker .date-picker-popup .day-cell.previous-month,
+.styled-date-picker .date-picker-popup .day-cell.next-month {
+    -fx-text-fill: -color-muted;
+}

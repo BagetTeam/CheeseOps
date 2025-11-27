@@ -32,6 +32,9 @@
     -fx-background-color: -color-muted;
 }
 
+.button-primary:hover {
+    -fx-background-color: derive(-color-primary, 10%);
+}
 .button-muted:hover {
     -fx-text-fill: -color-fg;
     -fx-border-color: -color-fg;
