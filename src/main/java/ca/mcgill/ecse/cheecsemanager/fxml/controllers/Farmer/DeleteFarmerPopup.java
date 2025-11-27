@@ -15,6 +15,7 @@ import javafx.scene.layout.StackPane;
 public class DeleteFarmerPopup {
     @FXML private Button yesBtn;
     @FXML private Button noBtn;
+    @FXML private Label warningLabel;
     @FXML private Label errorLabel;
     @FXML private FlowPane cardsContainer;
 
@@ -39,18 +40,34 @@ public class DeleteFarmerPopup {
 
     public void setFarmer(TOFarmer farmer) {
         this.farmer = farmer;
+    
+        warningLabel.setText("Are you sure you want to delete farmer " +
+                         farmer.getEmail() +
+                         " (" + farmer.getName() + ")? This action cannot be undone.");
     }
     
     public void setFarmerCard(FarmerCard card) {
         this.farmerCard = card;
-        this.farmer = card.getFarmer();
+        setFarmer(card.getFarmer());
     }
 
     @FXML
     public void initialize() {
-        errorLabel.setText("");
+        if (farmer != null) {
+            warningLabel.setText("Are you sure you want to delete farmer " +
+                             farmer.getEmail() +
+                            " (" + farmer.getName() + ")? This action cannot be undone.");
+        }
+        else {
+            warningLabel.setText("");
+        }
         yesBtn.setOnAction(e -> confirmDelete());
         noBtn.setOnAction(e -> closePopup());
+    }
+
+    @FXML
+    public void handleClose() {
+        closePopup();
     }
 
     private void closePopup() {
@@ -69,12 +86,18 @@ public class DeleteFarmerPopup {
                 String error = farmerController.deleteFarmerCard(farmer, farmerCard, popupOverlay);
                 if (error != null && !error.isEmpty()) {
                     errorLabel.setText(error);
+                    errorLabel.setVisible(true);
+                    errorLabel.setManaged(true);
+                    return;
                 }
             }
             if (viewFarmerController != null) {
                 String error = viewFarmerController.deleteFarmer(farmer, popupOverlay);
                 if (error != null && !error.isEmpty()) {
                     errorLabel.setText(error);
+                    errorLabel.setVisible(true);
+                    errorLabel.setManaged(true);
+                    return;
                 }
             }
         } else {
