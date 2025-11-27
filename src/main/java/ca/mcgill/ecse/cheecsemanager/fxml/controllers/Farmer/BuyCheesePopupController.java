@@ -1,12 +1,13 @@
 package ca.mcgill.ecse.cheecsemanager.fxml.controllers.Farmer;
 
-import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
 import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet4Controller;
+import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet7Controller;
+import ca.mcgill.ecse.cheecsemanager.fxml.store.FarmerDataProvider;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-
+import javafx.scene.layout.StackPane;
 import java.sql.Date;
 
 /**
@@ -21,12 +22,23 @@ public class BuyCheesePopupController {
   @FXML private ComboBox<String> maturationDropdown;
   @FXML private Label            errorLabel;
 
+  
+  private StackPane popupOverlay;
+  private ViewFarmerController farmerViewController;
+
+  public void setPopupOverlay(StackPane overlay) {
+      this.popupOverlay = overlay;
+  }
+
+  public void setViewFarmerController(ViewFarmerController controller) {
+      this.farmerViewController = controller;
+  }
+
   @FXML
   private void initialize() {
-    var manager = CheECSEManagerApplication.getCheecseManager();
 
     farmerDropdown.getItems().clear();
-    manager.getFarmers().forEach(f ->
+    CheECSEManagerFeatureSet7Controller.getFarmers().forEach(f ->
         farmerDropdown.getItems().add(f.getEmail())
     );
     
@@ -69,11 +81,21 @@ public class BuyCheesePopupController {
       errorLabel.setText(result);
       return;
     }
+    FarmerDataProvider.getInstance().refresh();
+    if (farmerViewController != null) {
+        farmerViewController.reloadFarmerDetails();
+    }
     errorLabel.setText("Success!");
   }
 
   @FXML
   private void goBack() {
-    // TODO: Ewen
+    closePopup();
   }
+
+  private void closePopup() {
+        if (farmerViewController != null && popupOverlay != null) {
+            farmerViewController.removePopup(popupOverlay);
+        }
+    }
 }
