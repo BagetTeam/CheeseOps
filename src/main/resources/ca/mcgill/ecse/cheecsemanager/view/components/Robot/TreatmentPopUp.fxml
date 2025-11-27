@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Pos?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import ca.mcgill.ecse.cheecsemanager.fxml.components.Input?>
+<?import ca.mcgill.ecse.cheecsemanager.fxml.components.Dropdown?>
+<VBox xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.Robot.TreatmentPopUpController"
+      alignment="CENTER" spacing="12" prefWidth="420.0" prefHeight="220.0">
+  <children>
+    <Label text="Start Treatment" styleClass="text-fg" />
+    <GridPane hgap="10" vgap="10">
+      <columnConstraints>
+        <ColumnConstraints halignment="RIGHT"/>
+        <ColumnConstraints hgrow="ALWAYS" />
+      </columnConstraints>
+      <rowConstraints>
+        <RowConstraints />
+        <RowConstraints />
+      </rowConstraints>
+
+      <children>
+        <Label text="Purchase ID:" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+        <TextField fx:id="purchaseIdField" promptText="e.g. 123" style="-fx-background-color: -color-bg; -fx-background-radius: 12; -fx-border-radius: 12; -fx-border-color: rgba(215, 205, 196, 0.45); -fx-border-width: 1; -fx-text-fill: -color-fg; -fx-prompt-text-fill: rgba(215, 205, 196, 0.6); -fx-padding: 8 12;" />
+
+        <Dropdown fx:id="maturationDropdown" 
+                  label="Select Maturation Period"
+                  labelPosition="TOP"
+                  variant="OUTLINED"
+                  promptText="Choose a period..."
+                  GridPane.rowIndex="1" GridPane.columnIndex="1" />
+      </children>
+    </GridPane>
+
+    <Label fx:id="errorLabel" textFill="red" visible="false" managed="false" />
+
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+      <children>
+        <Button text="Start" fx:id="startBtn" />
+      </children>
+    </HBox>
+  </children>
+  <padding>
+    <Insets top="12" right="16" bottom="12" left="16" />
+  </padding>
+</VBox>

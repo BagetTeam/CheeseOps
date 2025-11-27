@@ -12,16 +12,14 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
 import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton;
-import javafx.scene.Node;
 import javafx.stage.Modality;
-import javafx.beans.value.ChangeListener;
-import java.util.Optional;
+
 import java.util.List;
 import ca.mcgill.ecse.cheecsemanager.controller.TOLogEntry; // Import your TO
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import ca.mcgill.ecse.cheecsemanager.fxml.events.ShowPopupEvent;
 
 // removed unused imports
 import javafx.collections.FXCollections;
@@ -43,7 +41,7 @@ public class RobotPageController {
     @FXML private TableColumn<ca.mcgill.ecse.cheecsemanager.controller.TOLogEntry, String> logColumn;
 
 
-    private record TreatmentRequest(int purchaseId, String maturationPeriod) {}
+    // (old dialog returned a TreatmentRequest record; now handled in popup controller)
 
     private final BooleanProperty robotActive = new SimpleBooleanProperty(false);
 
@@ -157,67 +155,16 @@ public class RobotPageController {
     
     @FXML
     private void handleTreatment() {
-        showTreatmentDialog()
-            .ifPresent(request -> {
-                try {
-                    RobotController.initializeTreatment(request.purchaseId(), request.maturationPeriod());
-
-                } catch (RuntimeException ex) {
-                    makeAlert("Treatment Error", ex);
-                    System.err.println("Error starting treatment: " + ex.getMessage());
-                }
-            });
+        // Show the in-page popup (handled by MainController -> PopupManager)
+        if (rootPane != null) {
+            rootPane.fireEvent(new ShowPopupEvent(
+                "view/components/Robot/TreatmentPopUp.fxml", "Start Treatment"));
+        }
     }
 
-    private Optional<TreatmentRequest> showTreatmentDialog() {
-        Dialog<TreatmentRequest> dialog = new Dialog<>();
-        dialog.setTitle("Start Treatment");
-        dialog.initModality(Modality.APPLICATION_MODAL);
-
-        ButtonType startBtn = new ButtonType("Start", ButtonBar.ButtonData.OK_DONE);
-        dialog.getDialogPane().getButtonTypes().addAll(startBtn, ButtonType.CANCEL);
-
-        TextField purchaseField = new TextField();
-        purchaseField.setPromptText("Purchase ID");
-
-        ComboBox<String> maturationBox = new ComboBox<>();
-        maturationBox.getItems().setAll("Six", "Twelve", "TwentyFour", "ThirtySix");
-        maturationBox.setPromptText("Maturation Period");
-
-        GridPane content = new GridPane();
-        content.setHgap(10);
-        content.setVgap(12);
-        content.addRow(0, new Label("Purchase ID:"), purchaseField);
-        content.addRow(1, new Label("Maturation Period:"), maturationBox);
-        dialog.getDialogPane().setContent(content);
-
-        Node startButton = dialog.getDialogPane().lookupButton(startBtn);
-        startButton.setDisable(true);
-
-        ChangeListener<Object> validator = (obs, oldVal, newVal) -> {
-            boolean ready = !purchaseField.getText().trim().isEmpty()
-                    && maturationBox.getSelectionModel().getSelectedItem() != null;
-            startButton.setDisable(!ready);
-        };
-        purchaseField.textProperty().addListener(validator);
-        maturationBox.valueProperty().addListener(validator);
-
-        dialog.setResultConverter(button -> {
-            if (button == startBtn) {
-                try {
-                    int purchaseId = Integer.parseInt(purchaseField.getText().trim());
-                    String period = maturationBox.getValue();
-                    return new TreatmentRequest(purchaseId, period);
-                } catch (NumberFormatException ex) {
-                    // showError("Purchase ID must be a number.");
-                    System.err.println("Invalid Purchase ID: " + ex.getMessage());
-                }
-            }
-            return null;
-        });
-
-        return dialog.showAndWait();
-    }
+    // The treatment popup is now handled by the in-page popup system.
+    // See `view/components/Robot/TreatmentPopUp.fxml` and
+    // `TreatmentPopUpController` for the implementation.
 
     private void makeAlert(String title, Exception e) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
