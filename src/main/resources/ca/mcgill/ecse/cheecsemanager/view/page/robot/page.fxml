@@ -13,66 +13,30 @@
             <!-- Command Center -->
             <HBox alignment="CENTER_LEFT" spacing="18.0">
                 <StackPane prefHeight="120.0" prefWidth="150.0">
-                    <StackPane fx:id="activateTile" prefHeight="120.0" prefWidth="150.0" styleClass="control-tile activate-tile">
-                        <VBox alignment="CENTER" spacing="10.0">
-                            <Label fx:id="activateButton" onMousePressed="#handleActivate" prefHeight="0.0" prefWidth="28.0" styleClass="text-fg" text="⏻">
-                                <font>
-                                    <Font name="Inter Bold" size="28.0" />
-                                </font>
-                            </Label>
-                            <Label styleClass="text-fg" text="Activate">
-                                <font>
-                                    <Font name="Inter Medium" size="15.0" />
-                                </font>
-                            </Label>
-                        </VBox>
-                    </StackPane>
+                    <StyledButton fx:id="activateTile" prefHeight="120.0" prefWidth="150.0" styleClass="control-tile activate-tile" text="Activate">
+                        <graphic>
+                            <Icon icon="ActivateRobot" />
+                        </graphic>
+                    </StyledButton>
 
-                    <StackPane fx:id="deactivateTile" managed="false" prefHeight="120.0" prefWidth="150.0" styleClass="control-tile deactivate-tile" visible="false">
-                        <VBox alignment="CENTER" spacing="10.0">
-                            <Label styleClass="text-fg" text="■">
-                                <font>
-                                    <Font name="Inter Bold" size="24.0" />
-                                </font>
-                            </Label>
-                            <Label styleClass="text-fg" text="Deactivate">
-                                <font>
-                                    <Font name="Inter Medium" size="15.0" />
-                                </font>
-                            </Label>
-                        </VBox>
-                    </StackPane>
+                    <StyledButton fx:id="deactivateTile" managed="false" prefHeight="120.0" prefWidth="150.0" styleClass="control-tile deactivate-tile" visible="false" text="Deactivate">
+                        <graphic>
+                            <Icon icon="DeactivateRobot" />
+                        </graphic>
+                    </StyledButton>
                 </StackPane>
 
-                <StackPane fx:id="initializeTile" disable="true" prefHeight="120.0" prefWidth="150.0" styleClass="control-tile initialize-tile">
-                    <VBox alignment="CENTER" spacing="10.0">
-                        <Label fx:id="initButton" onMousePressed="#handleInitialize" styleClass="text-fg" text="⚙">
-                            <font>
-                                <Font name="Inter Bold" size="26.0" />
-                            </font>
-                        </Label>
-                        <Label styleClass="text-fg" text="Initialize">
-                            <font>
-                                <Font name="Inter Medium" size="15.0" />
-                            </font>
-                        </Label>
-                    </VBox>
-                </StackPane>
+                <StyledButton fx:id="initializeTile" disable="true" prefHeight="120.0" prefWidth="150.0" styleClass="control-tile initialize-tile" text="Initialize">
+                    <graphic>
+                        <Icon icon="InitializeRobot" />
+                    </graphic>
+                </StyledButton>
 
-                <StackPane fx:id="startTile" prefHeight="120.0" prefWidth="240.0" styleClass="control-tile primary-tile">
-                    <VBox alignment="CENTER" spacing="10.0">
-                        <Label fx:id="treatmentButton" onMouseMoved="#handleTreatment" prefHeight="40.0" prefWidth="18.0" styleClass="text-fg" text="▶">
-                            <font>
-                                <Font size="26.0" />
-                            </font>
-                        </Label>
-                        <Label styleClass="text-fg" text="Start Treatment">
-                            <font>
-                                <Font size="16.0" />
-                            </font>
-                        </Label>
-                    </VBox>
-                </StackPane>
+                <StyledButton fx:id="startTile" prefHeight="120.0" prefWidth="240.0" styleClass="control-tile primary-tile" text="Start Treatment" >
+                    <graphic>
+                        <Icon icon="InitializeTreatment" />
+                    </graphic>
+                </StyledButton>
             </HBox>
 
             <!-- Live Action Log -->

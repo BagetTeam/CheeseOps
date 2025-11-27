@@ -13,7 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
+import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton;
 import javafx.scene.Node;
 import javafx.stage.Modality;
 import javafx.beans.value.ChangeListener;
@@ -35,10 +35,10 @@ public class RobotPageController {
 
 
     public AnchorPane rootPane;
-    @FXML private StackPane activateTile;
-    @FXML private StackPane deactivateTile;
-    @FXML private StackPane initializeTile;
-    @FXML private StackPane startTile;
+    @FXML private StyledButton activateTile;
+    @FXML private StyledButton deactivateTile;
+    @FXML private StyledButton initializeTile;
+    @FXML private StyledButton startTile;
     @FXML private TableView<ca.mcgill.ecse.cheecsemanager.controller.TOLogEntry> telemetryLogTable;
     @FXML private TableColumn<ca.mcgill.ecse.cheecsemanager.controller.TOLogEntry, String> logColumn;
 
