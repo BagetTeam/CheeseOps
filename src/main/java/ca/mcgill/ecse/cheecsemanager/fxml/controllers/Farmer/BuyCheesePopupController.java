@@ -2,6 +2,7 @@ package ca.mcgill.ecse.cheecsemanager.fxml.controllers.Farmer;
 
 import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet4Controller;
 import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet7Controller;
+import ca.mcgill.ecse.cheecsemanager.controller.TOFarmer;
 import ca.mcgill.ecse.cheecsemanager.fxml.store.FarmerDataProvider;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
@@ -22,7 +23,7 @@ public class BuyCheesePopupController {
   @FXML private ComboBox<String> maturationDropdown;
   @FXML private Label            errorLabel;
 
-  
+  private TOFarmer farmer;
   private StackPane popupOverlay;
   private ViewFarmerController farmerViewController;
 
@@ -32,6 +33,14 @@ public class BuyCheesePopupController {
 
   public void setViewFarmerController(ViewFarmerController controller) {
       this.farmerViewController = controller;
+  }
+
+  public void setFarmer(TOFarmer farmer) {
+    this.farmer = farmer;
+    
+    if (farmer != null && farmerDropdown.getItems().contains(farmer.getEmail())) {
+      farmerDropdown.setValue(farmer.getEmail());
+    }
   }
 
   @FXML

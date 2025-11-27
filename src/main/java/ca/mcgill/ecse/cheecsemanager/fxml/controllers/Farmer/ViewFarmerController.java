@@ -234,6 +234,7 @@ public class ViewFarmerController extends PopupController implements PageNavigat
             viewFarmerRoot.getChildren().add(overlay);
     
             BuyCheesePopupController controller = loader.getController();
+            controller.setFarmer(farmer);
             controller.setViewFarmerController(this);
             controller.setPopupOverlay(overlay);
         } catch (IOException e) {
