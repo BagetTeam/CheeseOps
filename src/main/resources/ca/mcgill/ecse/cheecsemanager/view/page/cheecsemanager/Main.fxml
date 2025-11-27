@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
+<?import javafx.scene.control.*?>
 <?import ca.mcgill.ecse.cheecsemanager.fxml.components.*?>
 <BorderPane
     fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.MainController"
