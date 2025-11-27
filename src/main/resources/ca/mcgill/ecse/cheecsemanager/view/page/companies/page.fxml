@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
+<?xml version="1.0" encoding="UTF-8" ?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
@@ -11,82 +10,126 @@
 <?import javafx.scene.layout.StackPane?>
 <?import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton?>
 <?import ca.mcgill.ecse.cheecsemanager.fxml.components.Icon?>
-
-<AnchorPane 
-            fx:id="companiesPageRoot"
-            prefHeight="600.0"
-            prefWidth="900.0"
-            styleClass="page"
-            xmlns="http://javafx.com/javafx/21"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.wholesaleCompany.WholesaleCompanyPageController">
-    <VBox AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+<AnchorPane
+    fx:id="companiesPageRoot"
+    prefHeight="600.0"
+    prefWidth="900.0"
+    styleClass="page"
+    xmlns="http://javafx.com/javafx/21"
+    xmlns:fx="http://javafx.com/fxml/1"
+    fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.wholesaleCompany.WholesaleCompanyPageController"
+>
+    <VBox
+        AnchorPane.topAnchor="0.0"
+        AnchorPane.bottomAnchor="0.0"
+        AnchorPane.leftAnchor="0.0"
+        AnchorPane.rightAnchor="0.0"
+    >
         <padding>
-            <Insets top="24" right="24" bottom="24" left="24"/>
+            <Insets top="24" right="24" bottom="24" left="24" />
         </padding>
         <children>
             <!-- Header Section -->
             <VBox spacing="24">
                 <!-- Title -->
                 <VBox spacing="4">
-                    <Label text="Wholesale Company Management" style="-fx-text-fill: -color-fg; -fx-font-size: 28px; -fx-font-weight: bold;"/>
-                    <Label text="Manage registered wholesale companies" style="-fx-text-fill: -color-primary; -fx-font-size: 14px;"/>
+                    <Label
+                        text="Wholesale Company Management"
+                        style="-fx-text-fill: -color-fg; -fx-font-size: 28px; -fx-font-weight: bold;"
+                    />
+                    <Label
+                        text="Manage registered wholesale companies"
+                        style="-fx-text-fill: -color-primary; -fx-font-size: 14px;"
+                    />
                 </VBox>
                 
                 <!-- Search and Add Button -->
                 <HBox spacing="16" alignment="CENTER_LEFT">
                     <!-- Search Bar -->
-                    <HBox styleClass="search-bar" alignment="CENTER_LEFT" spacing="8" HBox.hgrow="ALWAYS" maxWidth="400">
+                    <HBox
+                        styleClass="search-bar"
+                        alignment="CENTER_LEFT"
+                        spacing="8"
+                        HBox.hgrow="ALWAYS"
+                        maxWidth="400"
+                    >
                         <padding>
-                            <Insets top="10" right="16" bottom="10" left="16"/>
+                            <Insets top="10" right="16" bottom="10" left="16" />
                         </padding>
-                        <Icon icon="Search"/>
-                        <TextField fx:id="searchField" promptText="Search companies" styleClass="search-input" HBox.hgrow="ALWAYS"/>
+                        <Icon icon="Search" />
+                        <TextField
+                            fx:id="searchField"
+                            promptText="Search companies"
+                            styleClass="search-input"
+                            HBox.hgrow="ALWAYS"
+                        />
                     </HBox>
                     
                     <!-- Add Company Button -->
-                    <StyledButton fx:id="addCompanyBtn" variant="PRIMARY" size="BASE" text="Add Company" onAction="#handleAddCompany"/>
+                    <StyledButton
+                        fx:id="addCompanyBtn"
+                        variant="PRIMARY"
+                        size="BASE"
+                        text="Add Company"
+                        onAction="#handleAddCompany"
+                    />
                 </HBox>
             </VBox>
             
             <!-- Company Cards Grid -->
-            <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" style="-fx-background-color: transparent; -fx-background: transparent;">
+            <ScrollPane
+                fitToWidth="true"
+                VBox.vgrow="ALWAYS"
+                style="-fx-background-color: transparent; -fx-background: transparent;"
+            >
                 <VBox.margin>
-                    <Insets top="24"/>
+                    <Insets top="24" />
                 </VBox.margin>
                 <content>
-                    <FlowPane fx:id="cardsContainer" hgap="24" vgap="24" style="-fx-background-color: transparent;"/>
+                    <FlowPane
+                        fx:id="cardsContainer"
+                        hgap="24"
+                        vgap="24"
+                        style="-fx-background-color: transparent;"
+                    />
                 </content>
             </ScrollPane>
         </children>
     </VBox>
-    <StackPane 
-      fx:id="dialogContainer" 
-      AnchorPane.topAnchor="0" 
-      AnchorPane.bottomAnchor="0" 
-      AnchorPane.leftAnchor="0" 
-      AnchorPane.rightAnchor="0"
-      mouseTransparent="true" />
+    <StackPane
+        fx:id="dialogContainer"
+        AnchorPane.topAnchor="0"
+        AnchorPane.bottomAnchor="0"
+        AnchorPane.leftAnchor="0"
+        AnchorPane.rightAnchor="0"
+        mouseTransparent="true"
+    />
 
     <StackPane
         AnchorPane.topAnchor="20"
         AnchorPane.leftAnchor="0"
         AnchorPane.rightAnchor="0"
-        mouseTransparent="true">
-        <HBox fx:id="toastContainer" 
-            visible="false" 
+        mouseTransparent="true"
+    >
+        <HBox
+            fx:id="toastContainer"
+            visible="false"
             managed="false"
-            spacing="10" 
+            spacing="10"
             alignment="CENTER_LEFT"
             style="-fx-background-color: derive(-color-success, -60%); -fx-background-radius: 8; -fx-padding: 12 16; -fx-border-color: -color-success; -fx-border-width: 1.5; -fx-border-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0, 0, 4);"
             maxWidth="400"
-            mouseTransparent="false">
+            mouseTransparent="false"
+        >
             <Icon icon="Cheese" style="-fx-stroke: -color-success;" />
-            <Label fx:id="toastLabel" 
-                text="" 
+            <Label
+                fx:id="toastLabel"
+                text=""
                 wrapText="true"
-                style="-fx-text-fill: -color-success; -fx-font-size: 14px; -fx-font-weight: 600;" 
-                HBox.hgrow="ALWAYS" />
+                style="-fx-text-fill: -color-success; -fx-font-size: 14px; -fx-font-weight: 600;"
+                HBox.hgrow="ALWAYS"
+            />
         </HBox>
     </StackPane>
 </AnchorPane>
+
