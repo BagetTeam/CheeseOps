@@ -28,9 +28,6 @@ public class SettingsPageController {
 
   @FXML
   private void handleSubmit() {
-    rootPane.fireEvent(new ToastEvent("Password updated successfully",
-                                      ToastEvent.ToastType.SUCCESS));
-
     boolean hasPassword =
         CheECSEManagerFeatureSet1Controller.facilityManagerHasPassword();
 

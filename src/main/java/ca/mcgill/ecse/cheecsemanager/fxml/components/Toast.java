@@ -29,12 +29,30 @@ public class Toast extends HBox {
     setPadding(new Insets(12, 16, 12, 16));
     setMaxWidth(Region.USE_PREF_SIZE);
 
+    // icon
+    Icon icon;
+
+    switch (type) {
+    case SUCCESS:
+      icon = new Icon("CircleCheck");
+      break;
+    case WARNING:
+      icon = new Icon("Warning");
+      break;
+    case ERROR:
+      icon = new Icon("CircleX");
+      break;
+    default:
+      icon = new Icon("Info");
+      break;
+    }
+
     // Message label
     Label messageLabel = new Label(message);
     messageLabel.getStyleClass().add("toast-message");
     HBox.setHgrow(messageLabel, Priority.ALWAYS);
 
-    getChildren().add(messageLabel);
+    getChildren().addAll(icon, messageLabel);
 
     // Animation setup (fade in, pause, fade out)
     FadeTransition fadeIn = new FadeTransition(Duration.millis(300), this);

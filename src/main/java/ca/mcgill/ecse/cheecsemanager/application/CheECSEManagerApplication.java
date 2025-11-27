@@ -41,7 +41,7 @@ public class CheECSEManagerApplication extends Application {
     String[] sheets = {"style/main.css",      "style/farmer.css",
                        "style/utilities.css", "style/StyledButton.css",
                        "style/Input.css",     "style/Popup.css",
-                       "view/Toast.css"};
+                       "style/Toast.css"};
 
     for (String sheet : sheets) {
       URL resource =

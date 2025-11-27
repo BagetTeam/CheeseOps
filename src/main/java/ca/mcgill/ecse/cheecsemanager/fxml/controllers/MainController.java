@@ -32,7 +32,6 @@ public class MainController {
   private PopupManager popupManager = new PopupManager();
 
   private final Queue<ToastEvent> toastQueue = new LinkedList<>();
-  private boolean isShowingToast = false;
 
   @FXML
   public void initialize() {
@@ -61,8 +60,6 @@ public class MainController {
 
   private void handleToastEvent(ToastEvent event) {
     event.consume(); // Prevent further propagation
-    System.out.println("============ toast event ==================");
-    System.out.println(event.getMessage());
 
     // Add to queue and try to show
     toastQueue.offer(event);
@@ -70,18 +67,16 @@ public class MainController {
   }
 
   private void showNextToast() {
-    if (isShowingToast || toastQueue.isEmpty()) {
+    if (toastQueue.isEmpty()) {
       return;
     }
 
-    isShowingToast = true;
     ToastEvent event = toastQueue.poll();
 
     // Create toast component
     Toast toast = new Toast(event.getMessage(), event.getType(), (t) -> {
       // Remove from container when animation finishes
       toastContainer.getChildren().remove(t);
-      isShowingToast = false;
       showNextToast(); // Show next in queue
     });
 
