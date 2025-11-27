@@ -11,6 +11,7 @@
     styleClass="w-sm"
 >
     <Label wrapText="true" styleClass="text-fg" fx:id="warningLabel" />
+    <Label wrapText="true" styleClass="text-destructive" fx:id="errorLabel" visible="false" managed="false" />
     <HBox spacing="12" alignment="CENTER_RIGHT">
         <StyledButton text="No" variant="MUTED" fx:id="noBtn" />
         <StyledButton text="Delete" variant="DESTRUCTIVE" fx:id="yesBtn" />

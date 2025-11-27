@@ -1,6 +1,7 @@
 package ca.mcgill.ecse.cheecsemanager.application;
 
 import ca.mcgill.ecse.cheecsemanager.model.CheECSEManager;
+import ca.mcgill.ecse.cheecsemanager.model.FacilityManager;
 import ca.mcgill.ecse.cheecsemanager.persistence.CheECSEManagerPersistence;
 import java.io.IOException;
 import java.net.URL;
@@ -21,7 +22,6 @@ public class CheECSEManagerApplication extends Application {
     FXMLLoader fxmlLoader =
         new FXMLLoader(CheECSEManagerApplication.class.getResource(
             PACKAGE_ID.concat("view/page/cheecsemanager/Main.fxml")));
-    // PACKAGE_ID.concat("view/page/robot/page.fxml")));
     Scene scene = new Scene(fxmlLoader.load(), 980, 640);
 
     _loadStyleSheets(scene);
@@ -89,6 +89,11 @@ public class CheECSEManagerApplication extends Application {
       // load model from saved file
       cheecsemanager = CheECSEManagerPersistence.load();
     }
+
+    if (!cheecsemanager.hasManager()) {
+      new FacilityManager("manager@cheesce.fr", "manager", cheecsemanager);
+    }
+
     return cheecsemanager;
   }
 }

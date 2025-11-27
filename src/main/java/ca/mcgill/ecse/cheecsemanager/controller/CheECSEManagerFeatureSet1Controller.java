@@ -18,7 +18,8 @@ public class CheECSEManagerFeatureSet1Controller {
   public static String updateFacilityManager(String password) {
     if (password.length() < 4) {
       return "Password must be at least 4 characters long.";
-    } else if (!password.contains("!") && !password.contains("#") && !password.contains("$")) {
+    } else if (!password.contains("!") && !password.contains("#") &&
+               !password.contains("$")) {
       return "Password must contain a special character from !, #, or $.";
     } else if (!password.chars().anyMatch((c) -> (c >= 'A' && c <= 'Z'))) {
       return "Password must contain an uppercase character.";
@@ -28,6 +29,12 @@ public class CheECSEManagerFeatureSet1Controller {
 
     var app = CheECSEManagerApplication.getCheecseManager();
     var manager = app.getManager();
+
+    if (manager.getPassword() != null &&
+        manager.getPassword().equals(password)) {
+      return "New password must be different from old password.";
+    }
+
     manager.setPassword(password);
 
     try {
@@ -96,5 +103,20 @@ public class CheECSEManagerFeatureSet1Controller {
     toShelf.setMaxRows(maxRows);
 
     return toShelf;
+  }
+
+  public static boolean facilityManagerHasPassword() {
+    var app = CheECSEManagerApplication.getCheecseManager();
+    var manager = app.getManager();
+
+    return manager != null && manager.getPassword() != null &&
+        !manager.getPassword().isEmpty();
+  }
+
+  public static String getFacilityManagerPassword() {
+    var app = CheECSEManagerApplication.getCheecseManager();
+    var manager = app.getManager();
+
+    return manager.getPassword();
   }
 }
