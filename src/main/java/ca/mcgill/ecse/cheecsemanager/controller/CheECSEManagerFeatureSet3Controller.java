@@ -32,7 +32,7 @@ public class CheECSEManagerFeatureSet3Controller {
     if (!email.contains("@"))
       return "Email must contain @ symbol.";
     int atLocation = email.indexOf("@");
-    if (atLocation - 1 <= 0)
+    if (atLocation <= 0)
       return "Email must have characters before @.";
     else if (!email.substring(atLocation).contains("."))
       return "Email must contain a dot after @.";

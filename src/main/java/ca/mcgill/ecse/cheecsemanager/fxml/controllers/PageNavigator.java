@@ -6,6 +6,10 @@ import javafx.scene.layout.StackPane;
 import java.io.IOException;
 import java.util.Stack;
 
+/**
+ * Controller that handles navigating between pages
+ * @author Ewen Gueguen
+ */
 public class PageNavigator {
     private static PageNavigator instance;
     private StackPane contentArea;

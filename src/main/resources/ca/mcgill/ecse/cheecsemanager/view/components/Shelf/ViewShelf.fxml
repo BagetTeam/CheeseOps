@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import ca.mcgill.ecse.cheecsemanager.fxml.components.*?>
+<VBox
+    xmlns="http://javafx.com/javafx"
+    xmlns:fx="http://javafx.com/fxml"
+    fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.shelf.ViewShelfController"
+    alignment="TOP_CENTER"
+    visible="true"
+    styleClass="bg-bg"
+    fx:id="root"
+>
+    <VBox spacing="16" maxWidth="768">
+        <HBox alignment="CENTER_LEFT" spacing="10">
+            <StyledButton onAction="#onBackPressed">
+                <graphic>
+                    <Icon icon="ArrowLeft" />
+                </graphic>
+            </StyledButton>
+            <Label text="" fx:id="shelfNameLabel" />
+            <StyledButton
+                text="Add Cheese"
+                onAction="#onAddCheesePressed"
+                variant="PRIMARY"
+            />
+        </HBox>
+    </VBox>
+</VBox>

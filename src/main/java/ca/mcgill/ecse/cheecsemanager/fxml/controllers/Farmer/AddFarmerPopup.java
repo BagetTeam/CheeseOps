@@ -1,9 +1,7 @@
 package ca.mcgill.ecse.cheecsemanager.fxml.controllers.Farmer;
 
-import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
-import ca.mcgill.ecse.cheecsemanager.model.CheECSEManager;
-import ca.mcgill.ecse.cheecsemanager.persistence.CheECSEManagerPersistence;
-import ca.mcgill.ecse.cheecsemanager.model.Farmer;
+import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet3Controller;
+import ca.mcgill.ecse.cheecsemanager.fxml.store.FarmerDataProvider;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -11,6 +9,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 
+/**
+ * Controller for the add farmer popup
+ * Handles adding a new farmer to the system
+ * @author Ewen Gueguen
+ */
 public class AddFarmerPopup {
 
     @FXML private TextField nameField;
@@ -71,17 +74,12 @@ public class AddFarmerPopup {
         
         if (farmerController != null) {
              try {
-                 CheECSEManager manager = CheECSEManagerApplication.getCheecseManager();
-                 
-                 Farmer newFarmer = new Farmer(email, password, address, manager);
-                 if (name != null && !name.trim().isEmpty()) {
-                     newFarmer.setName(name);
+                 String error = CheECSEManagerFeatureSet3Controller.registerFarmer(email, password, name, address);
+                 if (error != null && !error.isEmpty()) {
+                    errorLabel.setText(error);
+                    return;
                  }
-                 
-                 CheECSEManagerPersistence.save();
-                 
-                 // Pass back to controller to display
-                 farmerController.addNewFarmerToList(newFarmer);
+                 FarmerDataProvider.getInstance().refresh();
                  closePopup();
              } catch (RuntimeException e) {
                  errorLabel.setText(e.getMessage());

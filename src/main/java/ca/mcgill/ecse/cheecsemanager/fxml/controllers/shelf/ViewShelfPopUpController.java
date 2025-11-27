@@ -62,25 +62,25 @@ public class ViewShelfPopUpController implements Initializable {
   }
 
   private void showCheeseWheelPopup(int cheeseID) {
-    try {
-      // mainController.applyBlur();
-      FXMLLoader loader = new FXMLLoader(
-          getClass().getResource("/ca/mcgill/ecse/cheecsemanager/view/"
-                                 + "components/Shelf/ViewCheeseWheel.fxml"));
-      Node popup = loader.load();
-
-      AnchorPane overlay = mainController.buildOverlay(popup);
-
-      ViewCheeseWheelController controller = loader.getController();
-      controller.setMainController(mainController);
-      controller.setPopupOverlay(overlay);
-      controller.setCheeseToView(cheeseID);
-      controller.setParentPopupController(this);
-
-    } catch (Exception e) {
-      e.printStackTrace();
-      // mainController.removeBlur();
-    }
+    // try {
+    //   // mainController.applyBlur();
+    //   FXMLLoader loader = new FXMLLoader(
+    //       getClass().getResource("/ca/mcgill/ecse/cheecsemanager/view/"
+    //                              + "components/Shelf/ViewCheeseWheel.fxml"));
+    //   Node popup = loader.load();
+    //
+    //   AnchorPane overlay = mainController.buildOverlay(popup);
+    //
+    //   ViewCheeseWheelController controller = loader.getController();
+    //   controller.setMainController(mainController);
+    //   controller.setPopupOverlay(overlay);
+    //   controller.setCheeseToView(cheeseID);
+    //   controller.setParentPopupController(this);
+    //
+    // } catch (Exception e) {
+    //   e.printStackTrace();
+    //   // mainController.removeBlur();
+    // }
   }
 
   private void populateShelfGrid() {

@@ -1,13 +1,18 @@
 package ca.mcgill.ecse.cheecsemanager.fxml.controllers.Farmer;
 
 import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet7Controller;
-import ca.mcgill.ecse.cheecsemanager.model.Farmer;
+import ca.mcgill.ecse.cheecsemanager.controller.TOFarmer;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 
+/**
+ * Controller for the update farmer popup
+ * Handles updating a farmer's data
+ * @author Ewen Gueguen
+ */
 public class UpdateFarmerPopup {
     @FXML private TextField nameField;
     @FXML private TextField emailField;
@@ -20,9 +25,9 @@ public class UpdateFarmerPopup {
     private StackPane popupOverlay;
     private ViewFarmerController farmerViewController;
 
-    private Farmer farmerData;
+    private TOFarmer farmerData;
 
-    public void setFarmerData(Farmer farmer) {
+    public void setFarmerData(TOFarmer farmer) {
         this.farmerData = farmer;
         nameField.setText(farmerData.getName());
         emailField.setText(farmerData.getEmail());
@@ -71,13 +76,19 @@ public class UpdateFarmerPopup {
         
         if (farmerViewController != null) {
              try {
-                 // Note: Email cannot be changed as it's immutable in the User model
-                 String error = CheECSEManagerFeatureSet7Controller.updateFarmer(farmerData.getEmail(), password, name != null && !name.trim().isEmpty() ? name : null, address);
+                // Note: Email cannot be changed as it's immutable in the User model
+                String error = CheECSEManagerFeatureSet7Controller.updateFarmer(farmerData.getEmail(), password, name != null && !name.trim().isEmpty() ? name : null, address);
                  if (error != null && !error.isEmpty()) {
                     errorLabel.setText(error);
                     return;
                  }
-                 farmerViewController.refreshFarmerCard(farmerData);
+                TOFarmer updatedFarmer = CheECSEManagerFeatureSet7Controller.getFarmer(farmerData.getEmail());
+                if (updatedFarmer == null) {
+                    errorLabel.setText("Failed to reload farmer data.");
+                    return;
+                }
+                this.farmerData = updatedFarmer;
+                farmerViewController.refreshFarmerCard(updatedFarmer);
                  closePopup();
              } catch (RuntimeException e) {
                  errorLabel.setText(e.getMessage());

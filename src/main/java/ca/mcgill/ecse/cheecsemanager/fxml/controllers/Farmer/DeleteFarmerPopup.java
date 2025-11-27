@@ -1,12 +1,17 @@
 package ca.mcgill.ecse.cheecsemanager.fxml.controllers.Farmer;
 
-import ca.mcgill.ecse.cheecsemanager.model.Farmer;
+import ca.mcgill.ecse.cheecsemanager.controller.TOFarmer;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.StackPane;
 
+/**
+ * Controller for the detele farmer confirmation popup
+ * Handles deleting a farmer from the system
+ * @author Ewen Gueguen
+ */
 public class DeleteFarmerPopup {
     @FXML private Button yesBtn;
     @FXML private Button noBtn;
@@ -17,7 +22,7 @@ public class DeleteFarmerPopup {
     private FarmerController farmerController;
     private ViewFarmerController viewFarmerController;
 
-    private Farmer farmer;
+    private TOFarmer farmer;
     private FarmerCard farmerCard;
 
     public void setPopupOverlay(StackPane overlay) {
@@ -32,7 +37,7 @@ public class DeleteFarmerPopup {
         this.viewFarmerController = controller;
     }
 
-    public void setFarmer(Farmer farmer) {
+    public void setFarmer(TOFarmer farmer) {
         this.farmer = farmer;
     }
     
@@ -73,7 +78,7 @@ public class DeleteFarmerPopup {
                 }
             }
         } else {
-            closePopup();
+            errorLabel.setText("Error: Farmer not found.");
         }
     }
 }
