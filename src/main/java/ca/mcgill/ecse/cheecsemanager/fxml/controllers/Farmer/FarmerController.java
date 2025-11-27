@@ -2,12 +2,15 @@ package ca.mcgill.ecse.cheecsemanager.fxml.controllers.Farmer;
 
 import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton;
 import ca.mcgill.ecse.cheecsemanager.fxml.controllers.PopupController;
+import ca.mcgill.ecse.cheecsemanager.fxml.store.FarmerDataProvider;
 import ca.mcgill.ecse.cheecsemanager.fxml.controllers.PageNavigator;
 import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet7Controller;
 import ca.mcgill.ecse.cheecsemanager.controller.TOFarmer;
 import java.io.IOException;
 import java.util.List;
-
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.FlowPane;
@@ -18,6 +21,9 @@ import javafx.scene.effect.BoxBlur;
 import javafx.scene.layout.AnchorPane;
 
 public class FarmerController extends PopupController implements PageNavigator.PageRefreshable {
+    private final FarmerDataProvider farmerDataProvider =
+      FarmerDataProvider.getInstance();
+
     @FXML private AnchorPane farmerRoot;
     @FXML private FlowPane cardsContainer;
     @FXML private TextField searchField;
@@ -25,52 +31,94 @@ public class FarmerController extends PopupController implements PageNavigator.P
     
     private Region contentToBlur; // Reference to the content that should be blurred
 
+    private FilteredList<TOFarmer> filteredFarmers;
+
     @FXML
     public void initialize() {
-        // Get the first child of farmerRoot (the VBox containing all content)
+        // Setup blur effect reference
         if (!farmerRoot.getChildren().isEmpty()) {
             contentToBlur = (Region) farmerRoot.getChildren().get(0);
         }
-        
-        // Store this controller in the root pane's userData for later refresh
         farmerRoot.setUserData(this);
         
-        for (TOFarmer farmer : CheECSEManagerFeatureSet7Controller.getFarmers()) {
-            addFarmerCard(farmer);
-        }
-
+        ObservableList<TOFarmer> farmers = farmerDataProvider.getFarmers();
+    
+        // Wrap in FilteredList for search (see Alternative 2 for details)
+        filteredFarmers = new FilteredList<>(farmers, p -> true);
+        
+        // Add listener to the FILTERED list (so search works)
+        filteredFarmers.addListener((ListChangeListener.Change<? extends TOFarmer> change) -> {
+            while (change.next()) {
+                if (change.wasPermutated()) {
+                    // Handle reordering if needed
+                    rebuildAllCards(); // Full refresh for permutations
+                    continue;
+                }
+                if (change.wasRemoved()) {
+                    // Remove only the deleted cards
+                    change.getRemoved().forEach(this::removeCardForFarmer);
+                }
+                if (change.wasAdded()) {
+                    // Add only the new cards
+                    change.getAddedSubList().forEach(this::addNewFarmerToList);
+                }
+                if (change.wasUpdated()) {
+                    // Refresh updated cards
+                    for (int i = change.getFrom(); i < change.getTo(); i++) {
+                        updateCardForFarmer(filteredFarmers.get(i));
+                    }
+                }
+            }
+        });
+        rebuildAllCards();
+        
+        // Setup search
         if (searchField != null) {
-            searchField.textProperty().addListener((observable, oldValue, newValue) -> {
-                filterFarmers(newValue);
-            });
+            searchField.textProperty().addListener((obs, oldVal, newVal) -> 
+                filteredFarmers.setPredicate(farmer -> 
+                    newVal == null || newVal.isEmpty() ||
+                    farmer.getName().toLowerCase().contains(newVal.toLowerCase()) ||
+                    farmer.getEmail().toLowerCase().contains(newVal.toLowerCase()) ||
+                    farmer.getAddress().toLowerCase().contains(newVal.toLowerCase())
+                )
+            );
         }
     }
     
     @Override
     public void onPageAppear() {
-        refreshAllCards();
+        farmerDataProvider.refresh();
     }
 
-    private void filterFarmers(String searchText) {
-        if (searchText == null || searchText.trim().isEmpty()) {
-            // Show all farmers
-            cardsContainer.getChildren().forEach(node -> node.setVisible(true));
-            cardsContainer.getChildren().forEach(node -> node.setManaged(true));
-        } else {
-            String lowerCaseSearch = searchText.toLowerCase();
-            cardsContainer.getChildren().forEach(node -> {
-                if (node instanceof FarmerCard) {
-                    FarmerCard card = (FarmerCard) node;
-                    TOFarmer farmer = card.getFarmer();
-                    boolean matches = farmer.getName().toLowerCase().contains(lowerCaseSearch) ||
-                                    farmer.getEmail().toLowerCase().contains(lowerCaseSearch) ||
-                                    farmer.getAddress().toLowerCase().contains(lowerCaseSearch);
-                    node.setVisible(matches);
-                    node.setManaged(matches);
-                }
-            });
-        }
+    
+    public void addNewFarmerToList(TOFarmer farmer) {
+        FarmerCard card = new FarmerCard();
+        card.setFarmer(farmer);
+        card.setFarmerController(this);
+        cardsContainer.getChildren().add(card);
     }
+
+    private void removeCardForFarmer(TOFarmer farmer) {
+        cardsContainer.getChildren().removeIf(node -> 
+            node instanceof FarmerCard && 
+            ((FarmerCard) node).getFarmer().getEmail().equals(farmer.getEmail())
+        );
+    }
+
+    private void updateCardForFarmer(TOFarmer farmer) {
+        cardsContainer.getChildren().stream()
+            .filter(node -> node instanceof FarmerCard)
+            .map(node -> (FarmerCard) node)
+            .filter(card -> card.getFarmer().getEmail().equals(farmer.getEmail()))
+            .findFirst()
+            .ifPresent(FarmerCard::refresh);
+    }
+
+    private void rebuildAllCards() {
+        cardsContainer.getChildren().clear();
+        filteredFarmers.forEach(this::addNewFarmerToList);
+    }
+
 
     @FXML
     public void addFarmer(javafx.event.ActionEvent event) {
@@ -98,17 +146,6 @@ public class FarmerController extends PopupController implements PageNavigator.P
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public void addNewFarmerToList(TOFarmer farmer) {
-        addFarmerCard(farmer);
-    }
-
-    private void addFarmerCard(TOFarmer farmer) {
-        FarmerCard card = new FarmerCard();
-        card.setFarmer(farmer);
-        card.setFarmerController(this);
-        cardsContainer.getChildren().add(card);
     }
 
     public void deleteFarmerPopup(FarmerCard card) {
@@ -148,23 +185,21 @@ public class FarmerController extends PopupController implements PageNavigator.P
         
         if (error == null || error.isEmpty()) {
             // Success - remove the card from UI and close popup
-            if (card != null) {
-                System.out.println("Farmer deleted successfully");
-                cardsContainer.getChildren().remove(card);
-            }
+            farmerDataProvider.getFarmers().removeIf(f -> f.getEmail().equals(farmer.getEmail()));
             removePopup(overlay);
             return "";
         } else {
             // Error - keep popup open and return error message
             return error;
         }
-    }
+    }   
 
     public void refreshAllCards() {
         List<TOFarmer> currentFarmers = CheECSEManagerFeatureSet7Controller.getFarmers();
         
         // Collect cards to remove (farmers that no longer exist)
         List<javafx.scene.Node> cardsToRemove = new java.util.ArrayList<>();
+        List<javafx.scene.Node> cardsToAdd = new java.util.ArrayList<>();
         
         cardsContainer.getChildren().forEach(node -> {
             if (node instanceof FarmerCard) {

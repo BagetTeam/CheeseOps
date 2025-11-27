@@ -71,13 +71,19 @@ public class UpdateFarmerPopup {
         
         if (farmerViewController != null) {
              try {
-                 // Note: Email cannot be changed as it's immutable in the User model
-                 String error = CheECSEManagerFeatureSet7Controller.updateFarmer(farmerData.getEmail(), password, name != null && !name.trim().isEmpty() ? name : null, address);
+                // Note: Email cannot be changed as it's immutable in the User model
+                String error = CheECSEManagerFeatureSet7Controller.updateFarmer(farmerData.getEmail(), password, name != null && !name.trim().isEmpty() ? name : null, address);
                  if (error != null && !error.isEmpty()) {
                     errorLabel.setText(error);
                     return;
                  }
-                 farmerViewController.refreshFarmerCard(farmerData);
+                TOFarmer updatedFarmer = CheECSEManagerFeatureSet7Controller.getFarmer(farmerData.getEmail());
+                if (updatedFarmer == null) {
+                    errorLabel.setText("Failed to reload farmer data.");
+                    return;
+                }
+                this.farmerData = updatedFarmer;
+                farmerViewController.refreshFarmerCard(updatedFarmer);
                  closePopup();
              } catch (RuntimeException e) {
                  errorLabel.setText(e.getMessage());

@@ -1,6 +1,7 @@
 package ca.mcgill.ecse.cheecsemanager.fxml.controllers.Farmer;
 
 import ca.mcgill.ecse.cheecsemanager.controller.TOFarmer;
+import ca.mcgill.ecse.cheecsemanager.fxml.store.FarmerDataProvider;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -73,7 +74,7 @@ public class DeleteFarmerPopup {
                 }
             }
         } else {
-            closePopup();
+            errorLabel.setText("Error: Farmer not found.");
         }
     }
 }

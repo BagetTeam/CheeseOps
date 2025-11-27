@@ -1,6 +1,7 @@
 package ca.mcgill.ecse.cheecsemanager.fxml.controllers.Farmer;
 
 import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet3Controller;
+import ca.mcgill.ecse.cheecsemanager.fxml.store.FarmerDataProvider;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -78,7 +79,7 @@ public class AddFarmerPopup {
                     errorLabel.setText(error);
                     return;
                  }
-                 farmerController.refreshAllCards();
+                 FarmerDataProvider.getInstance().refresh();
                  closePopup();
              } catch (RuntimeException e) {
                  errorLabel.setText(e.getMessage());
