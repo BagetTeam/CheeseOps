@@ -13,6 +13,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
+
 public class PopupController {
   @FXML private VBox popupContainer;
   @FXML private StyledButton closeButton;

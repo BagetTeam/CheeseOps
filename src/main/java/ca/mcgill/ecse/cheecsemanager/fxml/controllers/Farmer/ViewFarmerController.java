@@ -4,13 +4,12 @@ import ca.mcgill.ecse.cheecsemanager.fxml.components.Icon;
 import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton;
 import ca.mcgill.ecse.cheecsemanager.fxml.controllers.PageNavigator;
 import ca.mcgill.ecse.cheecsemanager.fxml.controllers.PopupController;
-import ca.mcgill.ecse.cheecsemanager.model.CheeseWheel;
-import ca.mcgill.ecse.cheecsemanager.model.Farmer;
-import ca.mcgill.ecse.cheecsemanager.model.Purchase;
+import ca.mcgill.ecse.cheecsemanager.fxml.store.FarmerDataProvider;
+import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet7Controller;
+import ca.mcgill.ecse.cheecsemanager.controller.TOFarmer;
+import ca.mcgill.ecse.cheecsemanager.controller.TOCheeseWheel;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -31,6 +30,12 @@ import javafx.scene.layout.VBox;
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.image.ImageView;
 
+/**
+ * Controller for the view farmer page
+ * Handles displaying a farmer's data including cheese wheel purchases for that farmer 
+ * Handles updating, deleting, and buying cheese for a farmer
+ * @author Ewen Gueguen
+ */
 public class ViewFarmerController extends PopupController implements PageNavigator.DataReceiver{
   @FXML private Button backBtn;
 
@@ -43,18 +48,19 @@ public class ViewFarmerController extends PopupController implements PageNavigat
   @FXML private Button updateBtn;
   @FXML private Button deleteBtn;
 
-  @FXML private TableView<CheeseWheel> cheeseTable;
-  @FXML private TableColumn<CheeseWheel, Integer> idColumn;
-  @FXML private TableColumn<CheeseWheel, String> ageColumn;
-  @FXML private TableColumn<CheeseWheel, String> spoiledColumn;
-  @FXML private TableColumn<CheeseWheel, String> dateColumn;
-  @FXML private TableColumn<CheeseWheel, Void> actionColumn;
+  @FXML private TableView<TOCheeseWheel> cheeseTable;
+  @FXML private TableColumn<TOCheeseWheel, Integer> idColumn;
+  @FXML private TableColumn<TOCheeseWheel, String> ageColumn;
+  @FXML private TableColumn<TOCheeseWheel, String> spoiledColumn;
+  @FXML private TableColumn<TOCheeseWheel, String> dateColumn;
+  @FXML private TableColumn<TOCheeseWheel, Void> actionColumn;
 
   @FXML private AnchorPane viewFarmerRoot;
 
   private Region contentToBlur;
 
-  private Farmer farmer;
+  private final FarmerDataProvider farmerDataProvider = FarmerDataProvider.getInstance();
+  private TOFarmer farmer;
 
   @FXML
   public void initialize() {
@@ -77,13 +83,7 @@ public class ViewFarmerController extends PopupController implements PageNavigat
         -> new SimpleStringProperty(cellData.getValue().getIsSpoiled() ? "Yes"
                                                                        : "No"));
 
-    dateColumn.setCellValueFactory(cellData -> {
-      Purchase p = cellData.getValue().getPurchase();
-      return new SimpleStringProperty(p != null &&
-                                              p.getTransactionDate() != null
-                                          ? p.getTransactionDate().toString()
-                                          : "N/A");
-    });
+    dateColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPurchaseDate().toString()));
 
     farmerDescriptionCard.setMaxHeight(Region.USE_PREF_SIZE);
 
@@ -94,7 +94,7 @@ public class ViewFarmerController extends PopupController implements PageNavigat
 
     // Hide empty rows
     cheeseTable.setRowFactory(tv -> {
-      javafx.scene.control.TableRow<CheeseWheel> row =
+      javafx.scene.control.TableRow<TOCheeseWheel> row =
           new javafx.scene.control.TableRow<>();
       row.emptyProperty().addListener((obs, wasEmpty, isNowEmpty) -> {
         if (isNowEmpty) {
@@ -119,7 +119,7 @@ public class ViewFarmerController extends PopupController implements PageNavigat
         viewBtn.setSize(StyledButton.Size.SM);
 
         viewBtn.setOnAction(event -> {
-          CheeseWheel cheeseWheel = getTableView().getItems().get(getIndex());
+          TOCheeseWheel cheeseWheel = getTableView().getItems().get(getIndex());
           handleViewCheeseWheel(cheeseWheel);
         });
       }
@@ -137,28 +137,22 @@ public class ViewFarmerController extends PopupController implements PageNavigat
     });
   }
 
-  public void setFarmer(Farmer farmer) {
+  public void setFarmer(TOFarmer farmer) {
     this.farmer = farmer;
     if (farmer != null) {
       nameLabel.setText(farmer.getName());
       emailLabel.setText(farmer.getEmail());
       addressLabel.setText(farmer.getAddress());
-
-      // Populate table
-      List<CheeseWheel> wheels = new ArrayList<>();
-      for (Purchase p : farmer.getPurchases()) {
-        wheels.addAll(p.getCheeseWheels());
-      }
-      ObservableList<CheeseWheel> observableWheels =
-          FXCollections.observableArrayList(wheels);
-      cheeseTable.setItems(observableWheels);
+      bindCheeseWheelsToFarmer(farmer.getEmail());
+    } else {
+      cheeseTable.setItems(FXCollections.emptyObservableList());
     }
   }
 
   @Override
   public void setData(Object data) {
-    if (data instanceof Farmer) {
-      setFarmer((Farmer)data);
+    if (data instanceof TOFarmer) {
+      setFarmer((TOFarmer)data);
     }
   }
 
@@ -198,23 +192,6 @@ public class ViewFarmerController extends PopupController implements PageNavigat
 
   @FXML
   private void handleDelete() {
-    // System.out.println("Delete farmer: " + farmer.getName());
-    // if (farmer.getPurchases().size() > 0) {
-    //     int numCheeseWheels = 0;
-    //     for (Purchase p : farmer.getPurchases()) {
-    //         numCheeseWheels += p.numberOfCheeseWheels();
-    //     }
-    //     if (numCheeseWheels > 0) {
-    //         // TODO Ewen: Implement alert popup
-    //         Alert alert = new Alert(Alert.AlertType.ERROR);
-    //         alert.setTitle("Error");
-    //         alert.setHeaderText("Cannot delete farmer with purchases.");
-    //         alert.setContentText("The farmer has " + numCheeseWheels + " cheese wheels.");
-    //         alert.showAndWait();
-    //         return;
-    //     }
-    // }
-
     if (contentToBlur != null) {
             contentToBlur.setEffect(new BoxBlur(5, 5, 3));
         }
@@ -241,16 +218,36 @@ public class ViewFarmerController extends PopupController implements PageNavigat
 
   @FXML
   private void handleBuy() {
-    System.out.println("Buy cheese for farmer: " + farmer.getName());
-    // TODO: Navigate to purchase page
+    if (contentToBlur != null) {
+            contentToBlur.setEffect(new BoxBlur(5, 5, 3));
+        }
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(
+                    "/ca/mcgill/ecse/cheecsemanager/view/page/farmers/BuyCheesePopup.fxml"
+            ));
+            AnchorPane popup = loader.load();
+            popup.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+
+            StackPane overlay = createOverlay();
+
+            overlay.getChildren().add(popup);
+            viewFarmerRoot.getChildren().add(overlay);
+    
+            BuyCheesePopupController controller = loader.getController();
+            controller.setFarmer(farmer);
+            controller.setViewFarmerController(this);
+            controller.setPopupOverlay(overlay);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
   }
 
-  private void handleViewCheeseWheel(CheeseWheel cheeseWheel) {
+  private void handleViewCheeseWheel(TOCheeseWheel cheeseWheel) {
     System.out.println("View cheese wheel: " + cheeseWheel.getId());
     // TODO: Navigate to cheese wheel details
   }
 
-  public String deleteFarmer(Farmer farmer, StackPane overlay) {
+  public String deleteFarmer(TOFarmer farmer, StackPane overlay) {
         String error = ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet7Controller.deleteFarmer(farmer.getEmail());
         
         if (error == null || error.isEmpty()) {
@@ -272,21 +269,24 @@ public class ViewFarmerController extends PopupController implements PageNavigat
         viewFarmerRoot.getChildren().remove(overlay);
     }
 
-  public void refreshFarmerCard(Farmer farmer) {
+  public void refreshFarmerCard(TOFarmer farmer) {
     if (farmer != null) {
       setFarmer(farmer);
-      nameLabel.setText(farmer.getName());
-      emailLabel.setText(farmer.getEmail());
-      addressLabel.setText(farmer.getAddress());
-
-      // Populate table
-      List<CheeseWheel> wheels = new ArrayList<>();
-      for (Purchase p : farmer.getPurchases()) {
-        wheels.addAll(p.getCheeseWheels());
-      }
-      ObservableList<CheeseWheel> observableWheels =
-          FXCollections.observableArrayList(wheels);
-      cheeseTable.setItems(observableWheels);
     }
+  }
+
+  public void reloadFarmerDetails() {
+    if (farmer == null) {
+      return;
+    }
+    TOFarmer refreshed = CheECSEManagerFeatureSet7Controller.getFarmer(farmer.getEmail());
+    if (refreshed != null) {
+      setFarmer(refreshed);
+    }
+  }
+
+  private void bindCheeseWheelsToFarmer(String email) {
+    ObservableList<TOCheeseWheel> wheels = farmerDataProvider.getCheeseWheelsForFarmer(email);
+    cheeseTable.setItems(wheels != null ? wheels : FXCollections.emptyObservableList());
   }
 }
