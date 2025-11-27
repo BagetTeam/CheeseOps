@@ -81,6 +81,7 @@ public class RobotController {
 
     var robot = new Robot(null, false, manager);
     robot.setIsActivated(true);
+    logVersion.set(logVersion.get() + 1);
     // Save changes
     try {
       CheECSEManagerPersistence.save();
@@ -109,6 +110,8 @@ public class RobotController {
       default:
         throw new RuntimeException("The robot cannot be deactivated during active treatment.");
     }
+
+    logVersion.set(logVersion.get() + 1);
 
     // Save changes
     try {

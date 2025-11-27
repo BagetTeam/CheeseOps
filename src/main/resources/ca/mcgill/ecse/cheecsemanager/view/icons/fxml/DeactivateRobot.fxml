@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.effect.*?>
+
+<?import javafx.scene.layout.*?>
+
+<!-- Original SVG: DeactivateRobot.svg -->
+<!-- ViewBox: 0 0 24 24 -->
+<StackPane xmlns:fx="http://javafx.com/fxml" prefHeight="24" prefWidth="24">
+<Group xmlns:fx="http://javafx.com/fxml">
+  <SVGPath styleClass="icon" content="M18.3604 6.64014C19.436 7.71629 20.2212 9.04757 20.6427 10.5096C21.0641 11.9716 21.1081 13.5166 20.7704 15.0001" strokeWidth="2" />
+  <SVGPath styleClass="icon" content="M6.15997 6.16016C5.20457 6.96258 4.42645 7.95489 3.87501 9.07408C3.32357 10.1933 3.01085 11.4149 2.95672 12.6614C2.90258 13.9079 3.10821 15.152 3.56055 16.3148C4.01289 17.4776 4.70205 18.5336 5.58428 19.4158C6.46652 20.2981 7.52255 20.9872 8.68533 21.4396C9.84811 21.8919 11.0922 22.0975 12.3387 22.0434C13.5852 21.9893 14.8069 21.6766 15.926 21.1251C17.0452 20.5737 18.0375 19.7956 18.84 18.8402" strokeWidth="2" />
+  <SVGPath styleClass="icon" content="M12 2V6" strokeWidth="2" />
+  <SVGPath styleClass="icon" content="M2 2L22 22" strokeWidth="2" />
+</Group>
+</StackPane>

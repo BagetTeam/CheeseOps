@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
+<?import ca.mcgill.ecse.cheecsemanager.fxml.components.*?>
 
-<AnchorPane fx:id="rootPane" stylesheets="@../../../style/main.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.RobotPageController">
+<AnchorPane fx:id="rootPane" stylesheets="@../../../style/main.css,@../../../style/farmer.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.RobotPageController">
 
     <children>
         <VBox spacing="24.0" AnchorPane.bottomAnchor="24.0" AnchorPane.leftAnchor="24.0" AnchorPane.rightAnchor="24.0" AnchorPane.topAnchor="24.0">
@@ -16,78 +13,49 @@
             <!-- Command Center -->
             <HBox alignment="CENTER_LEFT" spacing="18.0">
                 <StackPane prefHeight="120.0" prefWidth="150.0">
-                    <StackPane fx:id="activateTile" prefHeight="120.0" prefWidth="150.0" styleClass="control-tile activate-tile">
-                        <VBox alignment="CENTER" spacing="10.0">
-                            <Label fx:id="activateButton" onMousePressed="#handleActivate" prefHeight="0.0" prefWidth="28.0" styleClass="text-fg" text="⏻">
-                                <font>
-                                    <Font name="Inter Bold" size="28.0" />
-                                </font>
-                            </Label>
-                            <Label styleClass="text-fg" text="Activate">
-                                <font>
-                                    <Font name="Inter Medium" size="15.0" />
-                                </font>
-                            </Label>
-                        </VBox>
-                    </StackPane>
+                    <StyledButton fx:id="activateTile" prefHeight="120.0" prefWidth="150.0" styleClass="control-tile activate-tile" text="Activate">
+                        <graphic>
+                            <Icon icon="ActivateRobot" />
+                        </graphic>
+                    </StyledButton>
 
-                    <StackPane fx:id="deactivateTile" managed="false" prefHeight="120.0" prefWidth="150.0" styleClass="control-tile deactivate-tile" visible="false">
-                        <VBox alignment="CENTER" spacing="10.0">
-                            <Label styleClass="text-fg" text="■">
-                                <font>
-                                    <Font name="Inter Bold" size="24.0" />
-                                </font>
-                            </Label>
-                            <Label styleClass="text-fg" text="Deactivate">
-                                <font>
-                                    <Font name="Inter Medium" size="15.0" />
-                                </font>
-                            </Label>
-                        </VBox>
-                    </StackPane>
+                    <StyledButton fx:id="deactivateTile" managed="false" prefHeight="120.0" prefWidth="150.0" styleClass="control-tile deactivate-tile" visible="false" text="Deactivate">
+                        <graphic>
+                            <Icon icon="DeactivateRobot" />
+                        </graphic>
+                    </StyledButton>
                 </StackPane>
 
-                <StackPane fx:id="initializeTile" disable="true" prefHeight="120.0" prefWidth="150.0" styleClass="control-tile initialize-tile">
-                    <VBox alignment="CENTER" spacing="10.0">
-                        <Label fx:id="initButton" onMousePressed="#handleInitialize" styleClass="text-fg" text="⚙">
-                            <font>
-                                <Font name="Inter Bold" size="26.0" />
-                            </font>
-                        </Label>
-                        <Label styleClass="text-fg" text="Initialize">
-                            <font>
-                                <Font name="Inter Medium" size="15.0" />
-                            </font>
-                        </Label>
-                    </VBox>
-                </StackPane>
+                <StyledButton fx:id="initializeTile" disable="true" prefHeight="120.0" prefWidth="150.0" styleClass="control-tile initialize-tile" text="Initialize">
+                    <graphic>
+                        <Icon icon="InitializeRobot" />
+                    </graphic>
+                </StyledButton>
 
-                <StackPane fx:id="startTile" prefHeight="120.0" prefWidth="240.0" styleClass="control-tile primary-tile">
-                    <VBox alignment="CENTER" spacing="10.0">
-                        <Label fx:id="treatmentButton" onMouseMoved="#handleTreatment" prefHeight="40.0" prefWidth="18.0" styleClass="text-fg" text="▶">
-                            <font>
-                                <Font size="26.0" />
-                            </font>
-                        </Label>
-                        <Label styleClass="text-fg" text="Start Treatment">
-                            <font>
-                                <Font size="16.0" />
-                            </font>
-                        </Label>
-                    </VBox>
-                </StackPane>
+                <StyledButton fx:id="startTile" prefHeight="120.0" prefWidth="240.0" styleClass="control-tile primary-tile" text="Start Treatment" >
+                    <graphic>
+                        <Icon icon="InitializeTreatment" />
+                    </graphic>
+                </StyledButton>
             </HBox>
 
             <!-- Live Action Log -->
             <VBox spacing="10.0" styleClass="terminal-wrapper" VBox.vgrow="ALWAYS">
-                <Label styleClass="text-fg" text="Robot Log">
-                    <font>
-                        <Font name="Inter Medium" size="13.0" />
-                    </font>
-                </Label>
 
                 <StackPane styleClass="terminal-container" VBox.vgrow="ALWAYS">
-                    <ListView fx:id="telemetryLog" focusTraversable="false" styleClass="terminal-list" StackPane.alignment="CENTER" VBox.vgrow="ALWAYS" />
+                    <TableView fx:id="telemetryLogTable" styleClass="farmer-table" VBox.vgrow="ALWAYS">
+                        <columns>
+                            <TableColumn fx:id="logColumn" text="Logs" prefWidth="600" />
+                        </columns>
+
+                        <columnResizePolicy>
+                            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                        </columnResizePolicy>
+
+                        <placeholder>
+                            <Label text="No log entries" style="-fx-font-size: 16px; -fx-text-fill: -color-muted; -fx-padding: 20;" alignment="CENTER" />
+                        </placeholder>
+                    </TableView>
                 </StackPane>
             </VBox>
         </VBox>

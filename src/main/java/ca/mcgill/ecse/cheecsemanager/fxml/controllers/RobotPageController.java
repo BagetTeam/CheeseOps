@@ -11,10 +11,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
+import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton;
 import javafx.scene.Node;
 import javafx.stage.Modality;
 import javafx.beans.value.ChangeListener;
@@ -24,7 +23,10 @@ import ca.mcgill.ecse.cheecsemanager.controller.TOLogEntry; // Import your TO
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
-import java.util.stream.Collectors;
+// removed unused imports
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.beans.property.ReadOnlyStringWrapper;
 
 
 // log-change listening (replaces polling)
@@ -33,11 +35,12 @@ public class RobotPageController {
 
 
     public AnchorPane rootPane;
-    @FXML private StackPane activateTile;
-    @FXML private StackPane deactivateTile;
-    @FXML private StackPane initializeTile;
-    @FXML private StackPane startTile;
-    @FXML private ListView<String> telemetryLog;
+    @FXML private StyledButton activateTile;
+    @FXML private StyledButton deactivateTile;
+    @FXML private StyledButton initializeTile;
+    @FXML private StyledButton startTile;
+    @FXML private TableView<ca.mcgill.ecse.cheecsemanager.controller.TOLogEntry> telemetryLogTable;
+    @FXML private TableColumn<ca.mcgill.ecse.cheecsemanager.controller.TOLogEntry, String> logColumn;
 
 
     private record TreatmentRequest(int purchaseId, String maturationPeriod) {}
@@ -60,6 +63,11 @@ public class RobotPageController {
 
         // Listen for log updates (incremented by RobotController.logAction)
         RobotController.logVersionProperty().addListener((obs, oldV, newV) -> refreshLogs());
+
+        // Configure table column (show TOLogEntry.description)
+        if (logColumn != null) {
+            logColumn.setCellValueFactory(cell -> new ReadOnlyStringWrapper(cell.getValue().getDescription()));
+        }
 
         // initial load
         refreshLogs();
@@ -126,6 +134,7 @@ public class RobotPageController {
                 return;}
             RobotController.initializeRobot(id);
             System.out.println("Initializing robot...");
+            robotInitialized.set(true);
         } catch (Exception e) {
             makeAlert("Initialization Error", e);
         }
@@ -136,26 +145,23 @@ public class RobotPageController {
         System.out.println("Refreshing robot's logs...");
         // 1. Get the list from the controller
         List<TOLogEntry> entries = RobotController.viewLog();
-        
-        // 2. Convert to easy-to-read strings (assuming TOLogEntry has getter)
-        List<String> logMessages = entries.stream()
-            .map(entry -> entry.getDescription()) 
-            .collect(Collectors.toList());
-
-        // 3. Update the ListView
-        telemetryLog.getItems().setAll(logMessages);
-        
-        // 4. Auto-scroll to the newest entry
-        // if (!logMessages.isEmpty()) {
-        //     telemetryLog.scrollTo(logMessages.size() - 1);
-        // }
+        // If the TableView is present in the scene, populate it with TOLogEntry items.
+        if (telemetryLogTable != null) {
+            ObservableList<TOLogEntry> items = FXCollections.observableArrayList(entries);
+            telemetryLogTable.setItems(items);
+            if (!items.isEmpty()) {
+                telemetryLogTable.scrollTo(items.size() - 1);
+            }
+        }
     }
+    
     @FXML
     private void handleTreatment() {
         showTreatmentDialog()
             .ifPresent(request -> {
                 try {
                     RobotController.initializeTreatment(request.purchaseId(), request.maturationPeriod());
+
                 } catch (RuntimeException ex) {
                     makeAlert("Treatment Error", ex);
                     System.err.println("Error starting treatment: " + ex.getMessage());
