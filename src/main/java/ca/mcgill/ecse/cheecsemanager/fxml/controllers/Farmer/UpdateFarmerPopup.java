@@ -8,6 +8,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 
+/**
+ * Controller for the update farmer popup
+ * Handles updating a farmer's data
+ * @author Ewen Gueguen
+ */
 public class UpdateFarmerPopup {
     @FXML private TextField nameField;
     @FXML private TextField emailField;

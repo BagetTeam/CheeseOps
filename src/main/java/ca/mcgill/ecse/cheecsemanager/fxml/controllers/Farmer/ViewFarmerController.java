@@ -5,15 +5,12 @@ import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton;
 import ca.mcgill.ecse.cheecsemanager.fxml.controllers.PageNavigator;
 import ca.mcgill.ecse.cheecsemanager.fxml.controllers.PopupController;
 
-import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet7Controller;
 import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet3Controller;
 import ca.mcgill.ecse.cheecsemanager.controller.TOFarmer;
 import ca.mcgill.ecse.cheecsemanager.controller.TOCheeseWheel;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -34,6 +31,12 @@ import javafx.scene.layout.VBox;
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.image.ImageView;
 
+/**
+ * Controller for the view farmer page
+ * Handles displaying a farmer's data including cheese wheel purchases for that farmer 
+ * Handles updating, deleting, and buying cheese for a farmer
+ * @author Ewen Gueguen
+ */
 public class ViewFarmerController extends PopupController implements PageNavigator.DataReceiver{
   @FXML private Button backBtn;
 

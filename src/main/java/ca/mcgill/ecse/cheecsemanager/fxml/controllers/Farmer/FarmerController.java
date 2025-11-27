@@ -20,6 +20,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.layout.AnchorPane;
 
+/**
+ * Controller for the farmer page
+ * Handles displaying and managing farmers
+ * Includes functionality for adding, deleting, and searching farmers
+ * @author Ewen Gueguen
+ */
 public class FarmerController extends PopupController implements PageNavigator.PageRefreshable {
     private final FarmerDataProvider farmerDataProvider =
       FarmerDataProvider.getInstance();

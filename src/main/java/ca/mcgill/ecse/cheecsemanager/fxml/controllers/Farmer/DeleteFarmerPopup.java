@@ -1,13 +1,17 @@
 package ca.mcgill.ecse.cheecsemanager.fxml.controllers.Farmer;
 
 import ca.mcgill.ecse.cheecsemanager.controller.TOFarmer;
-import ca.mcgill.ecse.cheecsemanager.fxml.store.FarmerDataProvider;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.StackPane;
 
+/**
+ * Controller for the detele farmer confirmation popup
+ * Handles deleting a farmer from the system
+ * @author Ewen Gueguen
+ */
 public class DeleteFarmerPopup {
     @FXML private Button yesBtn;
     @FXML private Button noBtn;

@@ -8,6 +8,11 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import java.io.IOException;
 
+/**
+ * Controller for the farmer card UI
+ * Handles displaying farmer data and actions for the view and delete farmer buttons
+ * @author Ewen Gueguen
+ */
 public class FarmerCard extends VBox {
     @FXML private Label nameLabel;
     @FXML private Label emailLabel;
