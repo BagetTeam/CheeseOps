@@ -1,0 +1,41 @@
+package ca.mcgill.ecse.cheecsemanager.fxml.controllers.shelf;
+
+import ca.mcgill.ecse.cheecsemanager.controller.TOShelf;
+import ca.mcgill.ecse.cheecsemanager.fxml.components.Animation.AnimationManager;
+import ca.mcgill.ecse.cheecsemanager.fxml.components.Animation.EasingInterpolators;
+import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
+
+public class ViewShelfController {
+  @FXML private Label shelfNameLabel;
+  @FXML private VBox root;
+
+  private TOShelf shelfToView;
+  private Runnable onBackPressed;
+
+  public void init(TOShelf shelf, Runnable onBackPressed) {
+    this.shelfToView = shelf;
+    this.onBackPressed = onBackPressed;
+
+    shelfNameLabel.setText("Shelf " + shelf.getShelfID());
+  }
+  @FXML
+  public void initialize() {
+    shelfNameLabel.getStyleClass().add("text-fg");
+    shelfNameLabel.setMaxWidth(Double.MAX_VALUE);
+    HBox.setHgrow(shelfNameLabel, Priority.ALWAYS);
+  }
+
+  @FXML
+  private void onBackPressed() {
+    if (onBackPressed != null) {
+      onBackPressed.run();
+    }
+  }
+
+  @FXML
+  public void onAddCheesePressed() {}
+}

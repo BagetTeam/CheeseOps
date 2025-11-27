@@ -56,7 +56,7 @@
 }
 
 .input-label {
-    -fx-text-fill: -color-muted;
+    -fx-text-fill: -color-fg;
     -fx-font-size: 12px;
     -fx-font-weight: 600;
 }
