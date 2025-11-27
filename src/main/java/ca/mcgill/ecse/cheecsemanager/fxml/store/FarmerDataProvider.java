@@ -12,6 +12,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 
+
+/**
+ * Data provider for the farmer data
+ * Handles the farmer data and cheese wheel data
+ * @author Ewen Gueguen
+ */
 public class FarmerDataProvider {
   private static final FarmerDataProvider INSTANCE = new FarmerDataProvider();
 
@@ -45,7 +51,7 @@ public class FarmerDataProvider {
         Arrays.stream(farmer.getCheeseWheelIDs())
         .map(CheECSEManagerFeatureSet3Controller::getCheeseWheel)
         .collect(Collectors.toList());
-        
+
       ObservableList<TOCheeseWheel> wheelList =
           cheeseWheels.computeIfAbsent(farmer.getEmail(), key -> FXCollections.observableArrayList());
       wheelList.setAll(latestCheeseWheels);
