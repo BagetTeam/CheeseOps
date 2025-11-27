@@ -8,6 +8,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
+/**
+ * Reusable component displaying wholesale company details with action buttons.
+ * Renders company name, address, and provides edit/delete callbacks.
+ */
 public class CompanyCardController extends VBox {
 
     @FXML
@@ -40,6 +44,11 @@ public class CompanyCardController extends VBox {
         }
     }
 
+    /**
+     * Populates the card with company information from a transfer object.
+     *
+     * @param company the wholesale company data to display
+     */
     public void setCompany(TOWholesaleCompany company) {
         nameLabel.setText(company.getName());
         addressLabel.setText(company.getAddress());
@@ -52,11 +61,21 @@ public class CompanyCardController extends VBox {
         this.onViewCallback = callback;
     }
 
+    /**
+     * Registers a callback for the edit button action.
+     *
+     * @param callback the action to execute when edit is triggered
+     */
     public void setOnEdit(Runnable callback) {
         this.onEditCallback = callback;
         updateCompanyBtn.setText("Edit");
     }
 
+    /**
+     * Registers a callback for the delete button action.
+     *
+     * @param callback the action to execute when delete is triggered
+     */
     public void setOnDelete(Runnable callback) {
         this.onDeleteCallback = callback;
     }

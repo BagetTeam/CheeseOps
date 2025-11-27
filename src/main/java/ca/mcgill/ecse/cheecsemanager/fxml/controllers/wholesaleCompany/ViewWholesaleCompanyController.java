@@ -19,6 +19,11 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
+/**
+ * Controller for viewing and managing a wholesale company's details and orders.
+ * Displays company information card, orders table, and provides actions for
+ * editing, deleting, and placing new orders.
+ */
 public class ViewWholesaleCompanyController implements ToastProvider {
 
     @FXML private CompanyCardController companyCard;
@@ -67,7 +72,10 @@ public class ViewWholesaleCompanyController implements ToastProvider {
             cellData -> new SimpleObjectProperty<>(company.getDeliveryDate(cellData.getValue())));
     }
     /**
-     * Set the company to display
+     * Sets the company to be displayed and loads its order data.
+     * Populates the company card and orders table with current information.
+     *
+     * @param companyName the name of the wholesale company to display
      */
     public void setCompany(String companyName) {
         this.companyName = companyName;
@@ -94,7 +102,9 @@ public class ViewWholesaleCompanyController implements ToastProvider {
         ordersTable.setItems(indices);
     }
     /**
-     * Set callback for back button navigation
+     * Registers a callback to execute when navigating back to the companies list.
+     *
+     * @param callback the action to run when back button is clicked
      */
     public void setOnBack(Runnable callback) {
         this.onBackCallback = callback;
@@ -106,7 +116,9 @@ public class ViewWholesaleCompanyController implements ToastProvider {
         onBackCallback.run();
       }
     }
-
+    /**
+     * Opens the edit company dialog and refreshes the view on successful update.
+     */
     @FXML
     private void handleEdit() {
         try {
@@ -135,6 +147,9 @@ public class ViewWholesaleCompanyController implements ToastProvider {
         }
     }
 
+    /**
+     * Opens the delete company confirmation dialog and navigates back on success.
+     */
     @FXML
     private void handleDelete() {
         try {
@@ -160,7 +175,11 @@ public class ViewWholesaleCompanyController implements ToastProvider {
             System.err.println("Error loading DeleteWholesaleCompany dialog: " + e.getMessage());
         }
     }
-
+    
+    /**
+     * Opens the order placement dialog for the current company.
+     * Refreshes the orders table after successful order creation.
+     */
     @FXML
     private void handlePlaceOrder() {
         try {

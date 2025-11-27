@@ -9,6 +9,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 
+/**
+ * Controller for updating an existing wholesale company's details.
+ * Handles form validation and company modification through the backend controller.
+ */
 public class UpdateWholesaleCompanyController {
 
   @FXML
@@ -30,10 +34,21 @@ public class UpdateWholesaleCompanyController {
   private Consumer<String> onCloseCallback;
   private ToastProvider mainController;
 
+    /**
+   * Registers a callback to execute when the dialog closes.
+   * Callback receives the updated company name or null if unchanged.
+   *
+   * @param callback the action to run on dialog close, accepting updated name
+   */
   public void setOnClose(Consumer<String> callback) {
   this.onCloseCallback = callback;
   }
 
+    /**
+   * Sets the main controller to enable toast notifications.
+   *
+   * @param controller the parent controller implementing ToastProvider
+   */
   public void setMainController(ToastProvider controller) {
     this.mainController = controller;
   }
@@ -62,6 +77,11 @@ public class UpdateWholesaleCompanyController {
     }
   }
 
+    /**
+   * Validates form inputs and updates the wholesale company.
+   * Shows error messages for validation failures or displays success toast.
+   * Passes updated company name to callback for view refresh.
+   */
   @FXML
   private void handleSave() {
     hideError();

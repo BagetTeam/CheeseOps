@@ -8,6 +8,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 
+/**
+ * Controller for deleting a wholesale company from the system.
+ * Displays confirmation dialog and handles company removal through backend.
+ */
 public class DeleteWholesaleCompanyController {
   @FXML
   private Label companyNameLabel;
@@ -22,10 +26,20 @@ public class DeleteWholesaleCompanyController {
   private Runnable onCloseCallback;
   private ToastProvider mainController;
 
+    /**
+   * Registers a callback to execute when the dialog closes.
+   *
+   * @param callback the action to run on dialog close
+   */
   public void setOnClose(Runnable callback) {
     this.onCloseCallback = callback;
   }
   
+  /**
+   * Sets the main controller to enable toast notifications.
+   *
+   * @param controller the parent controller implementing ToastProvider
+   */
   public void setMainController(ToastProvider controller) {
     this.mainController = controller;
   }
@@ -57,6 +71,10 @@ public class DeleteWholesaleCompanyController {
       }
   }
 
+  /**
+ * Executes company deletion through the backend controller.
+ * Shows success toast on completion and triggers navigation callback.
+ */
   @FXML
   private void handleDelete() {
     String companyName = companyNameLabel.getText();

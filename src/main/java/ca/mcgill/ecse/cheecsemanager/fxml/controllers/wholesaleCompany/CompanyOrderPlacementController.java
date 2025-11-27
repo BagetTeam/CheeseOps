@@ -61,14 +61,29 @@ public class CompanyOrderPlacementController {
             + "-fx-font-size: 14px;");
     }
 
+    /**
+     * Sets the company for which the order is being placed.
+     *
+     * @param companyName the name of the wholesale company
+     */
     public void setCompany(String companyName) {
         this.companyName = companyName;
     }
 
+    /**
+     * Sets the main controller to enable success toast notifications.
+     *
+     * @param controller the parent controller implementing ToastProvider
+     */
     public void setMainController(ToastProvider controller) {
         this.mainController = controller;
     }
 
+    /**
+     * Registers a callback to execute when the dialog closes.
+     *
+     * @param callback the action to run on dialog close
+     */
     public void setOnClose(Runnable callback) {
         this.onCloseCallback = callback;
     }
@@ -80,6 +95,13 @@ public class CompanyOrderPlacementController {
         }
     }
 
+    
+    /**
+     * Validates order inputs and creates the order through the backend.
+     * Checks for valid maturation period, positive quantity, and delivery date.
+     * Order date defaults to today and delivery must be after maturation date.
+     * Missing wheels are tracked if insufficient inventory is available.
+     */
     @FXML
     private void handleSave() {
         hideError();

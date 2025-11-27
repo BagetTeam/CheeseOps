@@ -6,6 +6,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 
+/**
+ * Controller for adding a new wholesale company to the system.
+ * Handles form validation and company creation through the backend controller.
+ */
 public class AddWholesaleCompanyController {
 
   @FXML
@@ -23,10 +27,20 @@ public class AddWholesaleCompanyController {
   private Runnable onCloseCallback;
   private WholesaleCompanyPageController mainController;
 
+  /**
+   * Registers a callback to execute when the dialog closes.
+   *
+   * @param callback the action to run on dialog close
+   */
   public void setOnClose(Runnable callback) {
   this.onCloseCallback = callback;
   }
 
+    /**
+   * Sets the main controller to enable toast notifications.
+   *
+   * @param controller the parent controller implementing ToastProvider
+   */
   public void setMainController(WholesaleCompanyPageController controller) {
     this.mainController = controller;
   }
@@ -38,6 +52,10 @@ public class AddWholesaleCompanyController {
     }
   }
 
+    /**
+   * Validates form inputs and creates a new wholesale company.
+   * Shows error messages for validation failures or displays success toast.
+   */
   @FXML
   private void handleSave() {
     hideError();
