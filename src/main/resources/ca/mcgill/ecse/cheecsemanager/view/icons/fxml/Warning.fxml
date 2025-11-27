@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.effect.*?>
+
+<?import javafx.scene.layout.*?>
+
+<!-- Original SVG: Warning.svg -->
+<!-- ViewBox: 0 0 24 24 -->
+<StackPane xmlns:fx="http://javafx.com/fxml" prefHeight="24" prefWidth="24">
+<Group xmlns:fx="http://javafx.com/fxml">
+  <SVGPath styleClass="icon" content="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" />
+  <SVGPath styleClass="icon" content="M12 9v4" />
+  <SVGPath styleClass="icon" content="M12 17h.01" />
+</Group>
+</StackPane>

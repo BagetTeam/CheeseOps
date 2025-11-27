@@ -22,9 +22,19 @@
   </left>
 
   <center>
-    <StackPane fx:id="popupRoot">
+    <StackPane fx:id="rootStackPane">
       <StackPane fx:id="contentArea" />
       <Region fx:id="veil" visible="false" managed="false" styleClass="veil" />
+      <VBox
+                fx:id="toastContainer"
+                alignment="TOP_RIGHT"
+                spacing="10"
+                pickOnBounds="false"
+                StackPane.alignment="TOP_RIGHT"
+                styleClass="p-base"
+            >
+      </VBox>
     </StackPane>
+
   </center>
 </BorderPane>

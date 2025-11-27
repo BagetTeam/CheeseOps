@@ -3,6 +3,7 @@ package ca.mcgill.ecse.cheecsemanager.fxml.controllers;
 import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet1Controller;
 import ca.mcgill.ecse.cheecsemanager.fxml.components.*;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.ShowPopupEvent;
+import ca.mcgill.ecse.cheecsemanager.fxml.events.ToastEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -27,7 +28,6 @@ public class SettingsPageController {
 
   @FXML
   private void handleSubmit() {
-
     boolean hasPassword =
         CheECSEManagerFeatureSet1Controller.facilityManagerHasPassword();
 
@@ -63,8 +63,8 @@ public class SettingsPageController {
     this.hideError();
     this.resetFields();
 
-    rootPane.fireEvent(
-        new ShowPopupEvent("view/page/settings/SuccessPopup.fxml"));
+    rootPane.fireEvent(new ToastEvent("Password updated successfully",
+                                      ToastEvent.ToastType.SUCCESS));
   }
 
   private void showError(String message) {

@@ -2,28 +2,36 @@ package ca.mcgill.ecse.cheecsemanager.fxml.controllers;
 
 import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
 import ca.mcgill.ecse.cheecsemanager.fxml.components.PopupManager;
+import ca.mcgill.ecse.cheecsemanager.fxml.components.Toast;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.HidePopupEvent;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.ShowPopupEvent;
+import ca.mcgill.ecse.cheecsemanager.fxml.events.ToastEvent;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
+import java.util.Queue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 
 public class MainController {
-  @FXML private StackPane popupRoot;
+  @FXML private StackPane rootStackPane;
   @FXML private Region veil;
   @FXML private StackPane contentArea;
   @FXML private SidebarController sidebarController;
+  @FXML private VBox toastContainer;
 
   // Cache for loaded pages
   private Map<String, Pane> pageCache = new HashMap<>();
 
   private PopupManager popupManager = new PopupManager();
+
+  private final Queue<ToastEvent> toastQueue = new LinkedList<>();
 
   @FXML
   public void initialize() {
@@ -36,9 +44,47 @@ public class MainController {
     // Load default page
     loadPage("shelves");
 
-    this.popupManager.initialize(popupRoot, veil);
-    popupRoot.addEventFilter(ShowPopupEvent.SHOW_POPUP, this::handleShowPopup);
-    popupRoot.addEventFilter(HidePopupEvent.HIDE_POPUP, this::handleHidePopup);
+    this.popupManager.initialize(rootStackPane, veil);
+    rootStackPane.addEventFilter(ShowPopupEvent.SHOW_POPUP,
+                                 this::handleShowPopup);
+    rootStackPane.addEventFilter(HidePopupEvent.HIDE_POPUP,
+                                 this::handleHidePopup);
+
+    /// === Toasts ===
+    rootStackPane.addEventFilter(ToastEvent.TOAST_NOTIFICATION,
+                                 this::handleToastEvent);
+    // Configure toast container
+    toastContainer.setPickOnBounds(false);    // Allow clicks to pass through
+    toastContainer.setMouseTransparent(true); // Make container non-interactive
+  }
+
+  private void handleToastEvent(ToastEvent event) {
+    event.consume(); // Prevent further propagation
+
+    // Add to queue and try to show
+    toastQueue.offer(event);
+    showNextToast();
+  }
+
+  private void showNextToast() {
+    if (toastQueue.isEmpty()) {
+      return;
+    }
+
+    ToastEvent event = toastQueue.poll();
+
+    // Create toast component
+    Toast toast = new Toast(event.getMessage(), event.getType(), (t) -> {
+      // Remove from container when animation finishes
+      toastContainer.getChildren().remove(t);
+      showNextToast(); // Show next in queue
+    });
+
+    // Add to container (at the top)
+    toastContainer.getChildren().add(0, toast);
+
+    // Start animation
+    toast.show();
   }
 
   private void handleShowPopup(ShowPopupEvent event) {
