@@ -1,6 +1,9 @@
 package ca.mcgill.ecse.cheecsemanager.fxml.controllers.shelf;
 
+import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
 import ca.mcgill.ecse.cheecsemanager.controller.TOShelf;
+import ca.mcgill.ecse.cheecsemanager.fxml.components.Animation.AnimationManager;
+import ca.mcgill.ecse.cheecsemanager.fxml.components.Animation.EasingInterpolators;
 import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.ShowPopupEvent;
 import ca.mcgill.ecse.cheecsemanager.fxml.store.ShelfDataProvider;
@@ -10,14 +13,13 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 
 public class ShelfController {
 
@@ -26,7 +28,7 @@ public class ShelfController {
 
   public static String selectedShelfId = null;
 
-  @FXML private BorderPane root;
+  @FXML private StackPane root;
 
   @FXML private TableView<TOShelf> shelfTable;
   @FXML private TableColumn<TOShelf, String> idColumn;
@@ -98,69 +100,56 @@ public class ShelfController {
     });
   }
 
-  private void showAssignCheeseWheelPopup() {
-    try {
-      FXMLLoader loader = new FXMLLoader(getClass().getResource(
-          "/ca/mcgill/ecse/cheecsemanager/view/components/Shelf/"
-          + "AssignCheeseWheelPopUp.fxml"));
-      Node popup = loader.load();
-      AnchorPane overlay = buildOverlay(popup);
-
-      AssignCheeseWheelController controller = loader.getController();
-      controller.setOverlay(overlay);
-      controller.setMainController(this); // set reference to this controller
-
-    } catch (Exception ex) {
-      ex.printStackTrace();
-    }
-  }
-
   private void showDeleteConfirmPopupForRow(TOShelf shelf) {
     try {
       selectedShelfId = shelf.getShelfID();
 
       this.root.fireEvent(new ShowPopupEvent(
-          "view/components/Shelf/ConfirmDelete.fxml", "Confirm delete"));
+          "view/components/Shelf/ConfirmDelete.fxml", "Confirm Delete"));
     } catch (Exception ex) {
       ex.printStackTrace();
     }
   }
 
   private void showViewShelfPopup(TOShelf shelf) {
-    // applyBlur();
+    FXMLLoader loader = new FXMLLoader(CheECSEManagerApplication.getResource(
+        "view/components/Shelf/ViewShelf.fxml"));
     try {
-      FXMLLoader loader = new FXMLLoader(
-          getClass().getResource("/ca/mcgill/ecse/cheecsemanager/view/"
-                                 + "components/Shelf/ViewShelfPopUp.fxml"));
-      Node popup = loader.load();
-      AnchorPane overlay = buildOverlay(popup);
+      VBox node = loader.load();
 
-      ViewShelfPopUpController controller = loader.getController();
-      controller.setMainController(this);
-      controller.setPopupOverlay(overlay);
-      controller.setShelfToView(shelf.getShelfID());
-    } catch (Exception ex) {
-      ex.printStackTrace();
+      ViewShelfController controller = loader.getController();
+
+      var width = root.getWidth();
+
+      controller.init(shelf, () -> {
+        AnimationManager.numericBuilder()
+            .target(node.translateXProperty())
+            .from(0)
+            .to(width)
+            .durationMillis(1000.0)
+            .easing(EasingInterpolators.CUBIC_OUT)
+            .onFinished(() -> { this.root.getChildren().remove(node); })
+            .play();
+      });
+
+      this.root.getChildren().add(node);
+
+      AnimationManager.numericBuilder()
+          .target(node.translateXProperty())
+          .from(width)
+          .to(0)
+          .durationMillis(1000.0)
+          .easing(EasingInterpolators.CUBIC_OUT)
+          .play();
+
+    } catch (Exception e) {
+      e.printStackTrace();
     }
-  }
-
-  public AnchorPane buildOverlay(Node popup) {
-    AnchorPane overlay = new AnchorPane();
-    overlay.setPrefSize(root.getWidth(), root.getHeight());
-    overlay.setStyle("-fx-background-color: rgba(0,0,0,0.3);");
-
-    popup.setLayoutX((overlay.getPrefWidth() - popup.prefWidth(-1)) / 2);
-    popup.setLayoutY((overlay.getPrefHeight() - popup.prefHeight(-1)) / 2);
-
-    overlay.getChildren().add(popup);
-    root.getChildren().add(overlay);
-
-    return overlay;
   }
 
   public void refreshTable() { shelfDataProvider.refresh(); }
 
-  public BorderPane getRoot() { return root; }
+  public StackPane getRoot() { return root; }
 
   private void bindInventoryLabel() {
     inventoryLabel.textProperty().bind(Bindings.createStringBinding(
