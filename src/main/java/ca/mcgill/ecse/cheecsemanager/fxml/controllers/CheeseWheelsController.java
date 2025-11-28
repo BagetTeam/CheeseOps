@@ -101,6 +101,7 @@ public class CheeseWheelsController {
           TOCheeseWheel wheel = getTableView().getItems().get(getIndex());
           CheECSEManagerFeatureSet4Controller.removeCheeseWheelFromShelf(
               wheel.getId());
+          cheeseWheelDataProvider.refresh();
         });
       }
 

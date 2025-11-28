@@ -3,6 +3,7 @@ package ca.mcgill.ecse.cheecsemanager.fxml.controllers;
 import ca.mcgill.ecse.cheecsemanager.fxml.controllers.Robot.ShelfIDPopUpController;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 // import javafx.scene.layout.*;
 import ca.mcgill.ecse.cheecsemanager.controller.RobotController;
@@ -46,27 +47,32 @@ public class RobotPageController {
     @FXML private TableView<ca.mcgill.ecse.cheecsemanager.controller.TOLogEntry> telemetryLogTable;
     @FXML private TableColumn<ca.mcgill.ecse.cheecsemanager.controller.TOLogEntry, String> logColumn;
 
+    // private final BooleanProperty robotActive = new SimpleBooleanProperty(false);
 
-    // (old dialog returned a TreatmentRequest record; now handled in popup controller)
+    // private final BooleanProperty treatmentActive = new SimpleBooleanProperty(false);
 
-    private final BooleanProperty robotActive = new SimpleBooleanProperty(false);
+    // private final BooleanProperty robotInitialized = new SimpleBooleanProperty(false);
 
-    private final BooleanProperty treatmentActive = new SimpleBooleanProperty(false);
-
-    private final BooleanProperty robotInitialized = new SimpleBooleanProperty(false);
+    private final SimpleStringProperty robotStatus = new SimpleStringProperty();
 
     @FXML
     private void initialize() {
+        // Set initial value so bindings and debug prints don't see null
+        robotStatus.set(RobotController.getRobotStatus());
+
         bindPowerTiles();
         wireTileInteractions();
-        
+
         // TODO: check if robot is already active on load (e.g., from saved state)
-        robotActive.set(RobotController.isRobotActivated());
-        treatmentActive.set(RobotController.isTreatmentActive());
-        robotInitialized.set(RobotController.isRobotInitialized());
+        // robotActive.set(RobotController.isRobotActivated());
+        // treatmentActive.set(RobotController.isTreatmentActive());
+        // robotInitialized.set(RobotController.isRobotInitialized());
 
         // Listen for log updates (incremented by RobotController.logAction)
-        RobotController.logVersionProperty().addListener((obs, oldV, newV) -> refreshLogs());
+        RobotController.logVersionProperty().addListener((obs, oldV, newV) -> {
+            refreshLogs();
+            robotStatus.set(RobotController.getRobotStatus());
+        });
 
         // Configure table column (show TOLogEntry.description)
         if (logColumn != null) {
@@ -113,23 +119,33 @@ public class RobotPageController {
     }
 
     private void bindPowerTiles() {
-        activateTile.visibleProperty().bind(robotActive.not());
-        activateTile.managedProperty().bind(robotActive.not());
+        System.out.println("STATUS:" + robotStatus.getValue());
+        // Activate button: visible only if robot is Deactivated
+        var canActivate = robotStatus.isEqualTo("Deactivated");
+        activateTile.disableProperty().bind(canActivate.not());
+        activateTile.visibleProperty().bind(canActivate);
 
-        // LOGIC: Visible only if Robot is Active AND Treatment is NOT Active
-        var canDeactivate = robotActive.and(treatmentActive.not());
-        
-        deactivateTile.disableProperty().bind(canDeactivate.not()); // disabled when cannot deactivate
-        deactivateTile.visibleProperty().bind(robotActive);
-        deactivateTile.managedProperty().bind(robotActive);
+        // Deactivate button: visible if robot is NOT Deactivated (i.e., active and safe to deactivate)
+        var canDeactivate = robotStatus.isEqualTo("Idle")
+                     .or(robotStatus.isEqualTo("AtEntranceNotFacingAisle"));
+        deactivateTile.disableProperty().bind(canDeactivate.not());
+        deactivateTile.visibleProperty().bind(canDeactivate);
 
-        var canInitialize = robotActive.and(treatmentActive.not());
+        // Initialize button: visible if robot is Idle (activated but not yet initialized)
+        var canInitialize = robotStatus.isEqualTo("Idle");
+        initializeTile.disableProperty().bind(canInitialize.not());
+        // initializeTile.managedProperty().bind(canInitialize);
 
-        initializeTile.disableProperty().bind(canInitialize.not()); // disabled when cannot initialize
-
-        var canStartTreatment = robotActive.and(robotInitialized).and(treatmentActive.not());
-
-        startTile.disableProperty().bind(canStartTreatment.not()); // disabled when cannot start treatment
+        // Start treatment button: visible if robot is at entrance facing aisle or at cheese wheel
+        // var canStartTreatment = robotStatus.isNotEqualTo("AtEntranceFacingAisle")
+        //         .or(robotStatus.isEqualTo("AtCheeseWheel"));
+        var canStartTreatment = (robotStatus.isEqualTo("Idle")
+                            .or(robotStatus.isEqualTo("AtEntranceFacingAisle")
+                            .or(robotStatus.isEqualTo("AtCheeseWheel")
+                            .or(robotStatus.isEqualTo("Deactivated")))))
+                            .not();
+        startTile.disableProperty().bind(canStartTreatment.not());
+        // startTile.managedProperty().bind(canStartTreatment);
     }
 
     private void wireTileInteractions() {
@@ -141,39 +157,38 @@ public class RobotPageController {
 
     @FXML
     private void handleActivate() {
-        // TODO: send “power on” command to robot, log action, etc.
         try {
             RobotController.activateRobot();
             System.out.println("Robot activated.");
-            robotActive.set(true);
+            // robotStatus will update automatically via logVersionProperty listener
         } catch (Exception e) {
             makeAlert("Activation Error", e);
         }
     }
+
     @FXML
     private void handleDeactivate() {
-        // TODO: send “power off” command, ensure safe shutdown, log action
         try {
             RobotController.deactivateRobot();
             System.out.println("Robot deactivated.");
-            robotActive.set(false);
+            // robotStatus will update automatically via logVersionProperty listener
         } catch (Exception e) {
             makeAlert("Deactivation Error", e);
         }
-
     }
+
     @FXML
     private void handleInitialize() {
-        // TODO:
         rootPane.setDisable(true);
         try {
             String id = openPopUp();
             if (id == null) {
                 rootPane.setDisable(false);
-                return;}
+                return;
+            }
             RobotController.initializeRobot(id);
             System.out.println("Initializing robot...");
-            robotInitialized.set(true);
+            // robotStatus will update automatically via logVersionProperty listener
         } catch (Exception e) {
             makeAlert("Initialization Error", e);
         }

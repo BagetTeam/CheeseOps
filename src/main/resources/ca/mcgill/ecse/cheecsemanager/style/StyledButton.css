@@ -28,6 +28,10 @@
     -fx-border-style: solid;
 }
 
+.button:hover {
+    -fx-cursor: hand;
+}
+
 .button-default:hover {
     -fx-background-color: -color-muted;
 }

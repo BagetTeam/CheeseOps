@@ -2,7 +2,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
 <?import ca.mcgill.ecse.cheecsemanager.fxml.components.*?>
-<VBox
+<StackPane
     xmlns="http://javafx.com/javafx"
     xmlns:fx="http://javafx.com/fxml"
     fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.shelf.ViewShelfController"
@@ -26,4 +26,4 @@
             />
         </HBox>
     </VBox>
-</VBox>
+</StackPane>

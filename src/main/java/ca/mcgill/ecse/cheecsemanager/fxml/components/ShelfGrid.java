@@ -1,17 +1,18 @@
 package ca.mcgill.ecse.cheecsemanager.fxml.components;
 
-import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet3Controller;
 import ca.mcgill.ecse.cheecsemanager.controller.TOCheeseWheel;
 import ca.mcgill.ecse.cheecsemanager.controller.TOShelf;
-import java.util.Arrays;
+import ca.mcgill.ecse.cheecsemanager.fxml.store.ShelfCheeseWheelDataProvider;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -28,7 +29,6 @@ import javafx.util.Duration;
 
 public class ShelfGrid extends BorderPane {
   private static final double CELL_SIZE = 80;
-  private static final double CELL_PADDING = 5;
   private static final double GAP = 5;
   private static final double LABEL_SIZE = 30;
 
@@ -46,9 +46,14 @@ public class ShelfGrid extends BorderPane {
   private final Label cornerLabel = new Label();
 
   private TOShelf shelf;
+  private Consumer<TOCheeseWheel> callback;
 
-  public ShelfGrid(TOShelf shelf) {
+  private ShelfCheeseWheelDataProvider provider =
+      ShelfCheeseWheelDataProvider.getInstance();
+
+  public ShelfGrid(TOShelf shelf, Consumer<TOCheeseWheel> callback) {
     this.shelf = shelf;
+    this.callback = callback;
     initialize();
   }
 
@@ -64,6 +69,18 @@ public class ShelfGrid extends BorderPane {
       rowLabel.setPrefSize(LABEL_SIZE, CELL_SIZE);
       rowLabel.setAlignment(Pos.CENTER);
       rowLabels.getChildren().add(rowLabel);
+    }
+
+    // Set column constraints
+    grid.getColumnConstraints().clear();
+    for (int col = 1; col <= this.shelf.getMaxColumns(); col++) {
+      ColumnConstraints colConstraints = new ColumnConstraints(CELL_SIZE);
+      grid.getColumnConstraints().add(colConstraints);
+      Label colLabel = new Label(String.valueOf(col));
+      colLabel.getStyleClass().add("column-label");
+      colLabel.setPrefWidth(CELL_SIZE);
+      colLabel.setAlignment(Pos.CENTER);
+      columnLabels.getChildren().add(colLabel);
     }
 
     // Setup column labels (scrolls horizontally)
@@ -102,15 +119,19 @@ public class ShelfGrid extends BorderPane {
       columnLabels.setPrefWidth(newVal.doubleValue());
     });
 
-    setCheeseWheels(
-        Arrays.stream(shelf.getCheeseWheelIDs())
-            .map(CheECSEManagerFeatureSet3Controller::getCheeseWheel)
-            .toList());
+    this.setCheeseWheels(provider.getWheels());
+    provider.getWheels().addListener((ListChangeListener.Change<? extends TOCheeseWheel> change) -> {
+      javafx.application.Platform.runLater(
+          () -> { setCheeseWheels(provider.getWheels()); });
+    });
   }
 
-  public void setCheeseWheels(List<TOCheeseWheel> cheeseWheels) {
+  public void setCheeseWheels(ObservableList<TOCheeseWheel> cheeseWheels) {
+    System.out.println("=============== set cheese wheels ================");
+    System.out.println(cheeseWheels.size());
     grid.getChildren().clear();
     cheeseWheelNodes.clear();
+    this.cheeseWheels.clear();
 
     // Track max column for sizing
     int maxColumn = this.shelf.getMaxColumns();
@@ -120,6 +141,11 @@ public class ShelfGrid extends BorderPane {
       Node cheeseNode = createCheeseWheelNode(cheese);
       int col = cheese.getColumn() - 1;
       int row = cheese.getRow() - 1;
+
+      if (col < 0 || row < 0) {
+        continue;
+      }
+
       grid.add(cheeseNode, col, row);
       cheeseWheelNodes.put(cheese.getId(), cheeseNode);
       this.cheeseWheels.put(col + "," + row, cheese);
@@ -134,18 +160,6 @@ public class ShelfGrid extends BorderPane {
         region.getStyleClass().add("cheese-wheel-cell");
         grid.add(region, col, row);
       }
-    }
-
-    // Set column constraints
-    grid.getColumnConstraints().clear();
-    for (int col = 1; col <= maxColumn; col++) {
-      ColumnConstraints colConstraints = new ColumnConstraints(CELL_SIZE);
-      grid.getColumnConstraints().add(colConstraints);
-      Label colLabel = new Label(String.valueOf(col));
-      colLabel.getStyleClass().add("column-label");
-      colLabel.setPrefWidth(CELL_SIZE);
-      colLabel.setAlignment(Pos.CENTER);
-      columnLabels.getChildren().add(colLabel);
     }
   }
 
@@ -166,6 +180,8 @@ public class ShelfGrid extends BorderPane {
 
     container.getChildren().addAll(cheeseIcon, nameLabel, locationLabel);
     container.setUserData(cheese);
+
+    container.setOnMouseClicked(e -> this.callback.accept(cheese));
 
     return container;
   }

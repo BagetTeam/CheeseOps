@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import ca.mcgill.ecse.cheecsemanager.fxml.components.*?>
+<HBox
+    spacing="20"
+    xmlns="http://javafx.com/javafx"
+    xmlns:fx="http://javafx.com/fxml"
+    fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.shelf.CheeseDetailsController"
+    fx:id="root"
+    alignment="CENTER_RIGHT"
+>
+    <VBox spacing="36" styleClass="w-sm, bg-darker-bg, p-lg, rounded-md">
+        <StyledButton text="Close" onAction="#onClosePressed">
+            <graphic>
+                <Icon icon="X" />
+            </graphic>
+        </StyledButton>
+        <Icon icon="CheeseWheel" />
+        <VBox spacing="6">
+            <Label fx:id="cheeseIdLabel" styleClass="text-fg" />
+            <Label text="" fx:id="purchaseDateLabel" styleClass="text-fg" />
+            <Label text="" fx:id="shelfIdLabel" styleClass="text-fg" />
+
+            <!-- <HBox alignment="CENTER_LEFT" spacing="12"> -->
+            <!--     <Label text="Shelf Id:" styleClass="text-fg" /> -->
+            <!--     <ComboBox -->
+            <!--         fx:id="shelfIdComboBox" -->
+            <!--         HBox.hgrow="ALWAYS" -->
+            <!--         styleClass="combo-box" -->
+            <!--     /> -->
+            <!-- </HBox> -->
+            <HBox alignment="CENTER_LEFT" spacing="12">
+                <Label text="Row #" styleClass="text-fg" />
+                <ComboBox
+                    fx:id="rowComboBox"
+                    HBox.hgrow="ALWAYS"
+                    styleClass="combo-box"
+                />
+            </HBox>
+            <HBox alignment="CENTER_LEFT" spacing="12">
+                <Label text="Column #" styleClass="text-fg" />
+                <ComboBox
+                    fx:id="columnComboBox"
+                    HBox.hgrow="ALWAYS"
+                    styleClass="combo-box"
+                />
+            </HBox>
+            <HBox alignment="CENTER_LEFT" spacing="12">
+                <Label text="Age #" styleClass="text-fg" />
+                <ComboBox
+                    fx:id="ageComboBox"
+                    HBox.hgrow="ALWAYS"
+                    styleClass="combo-box"
+                />
+            </HBox>
+
+            <HBox alignment="CENTER_LEFT" spacing="12">
+                <Label text="Is Spoiled: " styleClass="text-fg" />
+                <ComboBox
+                    fx:id="isSpoiledComboBox"
+                    HBox.hgrow="ALWAYS"
+                    styleClass="combo-box"
+                />
+            </HBox>
+        </VBox>
+        <HBox alignment="CENTER_RIGHT" spacing="12">
+            <StyledButton
+                text="Save"
+                variant="PRIMARY"
+                onAction="#onSavePressed"
+            />
+            <StyledButton
+                text="Delete"
+                variant="DESTRUCTIVE"
+                onAction="#onDeletePressed"
+            />
+        </HBox>
+    </VBox>
+</HBox>
