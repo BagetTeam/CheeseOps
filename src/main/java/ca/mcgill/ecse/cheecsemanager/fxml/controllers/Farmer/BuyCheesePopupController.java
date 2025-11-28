@@ -1,8 +1,12 @@
 package ca.mcgill.ecse.cheecsemanager.fxml.controllers.Farmer;
 
+import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet1Controller;
+import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet3Controller;
 import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet4Controller;
 import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet7Controller;
 import ca.mcgill.ecse.cheecsemanager.controller.TOFarmer;
+import ca.mcgill.ecse.cheecsemanager.controller.TOCheeseWheel;
+import ca.mcgill.ecse.cheecsemanager.controller.TOShelf;
 import ca.mcgill.ecse.cheecsemanager.fxml.store.FarmerDataProvider;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
@@ -10,6 +14,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Controller for the buy cheese popup UI
@@ -82,19 +90,42 @@ public class BuyCheesePopupController {
       return;
     }
 
+    // Get current max cheese wheel ID to identify newly created ones
+    List<TOCheeseWheel> existingWheels = CheECSEManagerFeatureSet3Controller.getCheeseWheels();
+    int maxExistingId = existingWheels.stream()
+        .mapToInt(TOCheeseWheel::getId)
+        .max()
+        .orElse(0);
+    
     Date today = new Date(System.currentTimeMillis());
     String result =
         CheECSEManagerFeatureSet4Controller.buyCheeseWheels(email, today, count, months);
-
     if (!result.isEmpty()) {
       errorLabel.setText(result);
       return;
     }
+    
+    // Get newly created cheese wheels
+    List<TOCheeseWheel> allWheels = CheECSEManagerFeatureSet3Controller.getCheeseWheels();
+    List<TOCheeseWheel> newlyBoughtWheels = new ArrayList<>();
+    for (TOCheeseWheel wheel : allWheels) {
+      if (wheel.getId() > maxExistingId) {
+        newlyBoughtWheels.add(wheel);
+      }
+    }
+    
+    // Auto-assign only the newly bought cheese wheels
+    int remaining = autoAssignCheeseWheels(newlyBoughtWheels);
     FarmerDataProvider.getInstance().refresh();
     if (farmerViewController != null) {
         farmerViewController.reloadFarmerDetails();
     }
-    errorLabel.setText("Success!");
+
+    if (remaining > 0) {
+      errorLabel.setText(remaining + " cheese wheels remaining to be assigned.");
+    } else {
+      errorLabel.setText("Success!");
+    }
   }
 
   @FXML
@@ -107,4 +138,52 @@ public class BuyCheesePopupController {
             farmerViewController.removePopup(popupOverlay);
         }
     }
+
+  /**
+   * Auto assigns the given cheese wheels to empty shelf locations.
+   * @param cheeseWheelsToAssign List of cheese wheels to assign to shelves
+   * @return the number of cheese wheels remaining to be assigned.
+   * @author Ewen Gueguen
+   */
+  private int autoAssignCheeseWheels(List<TOCheeseWheel> cheeseWheelsToAssign) {
+    // Assign cheese wheels to empty shelf locations
+    int assignedCount = 0;
+    List<TOShelf> shelves = CheECSEManagerFeatureSet1Controller.getShelves();
+    
+    outerLoop:
+    for (TOShelf shelf : shelves) {
+      // Build a set of occupied positions for quick lookup
+      Set<String> occupiedPositions = new HashSet<>();
+      for (int i = 0; i < shelf.numberOfCheeseWheelIDs(); i++) {
+        String positionKey = shelf.getColumnNr(i) + "," + shelf.getRowNr(i);
+        occupiedPositions.add(positionKey);
+      }
+
+      // Try to fill empty positions
+      for (int col = 1; col <= shelf.getMaxColumns(); col++) {
+        for (int row = 1; row <= shelf.getMaxRows(); row++) {
+          String positionKey = col + "," + row;
+          if (!occupiedPositions.contains(positionKey)) {
+            // Found an empty spot
+            if (assignedCount >= cheeseWheelsToAssign.size()) {
+              break outerLoop; // All cheese wheels assigned
+            }
+            
+            String result = CheECSEManagerFeatureSet4Controller.assignCheeseWheelToShelf(
+                cheeseWheelsToAssign.get(assignedCount).getId(), 
+                shelf.getShelfID(), 
+                col, 
+                row
+            );
+            
+            if (result.isEmpty()) {
+              assignedCount++;
+            }
+          }
+        }
+      }
+    }
+    
+    return cheeseWheelsToAssign.size() - assignedCount;
+  }
 }

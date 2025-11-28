@@ -126,16 +126,50 @@
 
 .scroll-pane > .scroll-bar {
     -fx-background-color: transparent;
+    -fx-pref-width: 10px;
+}
+
+.scroll-pane > .scroll-bar:vertical {
+    -fx-pref-width: 10px;
+}
+
+.scroll-pane > .scroll-bar:horizontal {
+    -fx-pref-height: 10px;
 }
 
 .scroll-pane > .scroll-bar > .thumb {
     -fx-background-color: -color-muted;
-    -fx-background-radius: 5;
+    -fx-background-radius: 4;
 }
 
 .scroll-pane > .scroll-bar > .increment-button,
 .scroll-pane > .scroll-bar > .decrement-button {
     -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+/* TableView scroll bars (same styling as scroll pane) */
+.table-view > .virtual-flow > .scroll-bar {
+    -fx-background-color: transparent;
+}
+
+.table-view > .virtual-flow > .scroll-bar:vertical {
+    -fx-pref-width: 8px;
+}
+
+.table-view > .virtual-flow > .scroll-bar:horizontal {
+    -fx-pref-height: 8px;
+}
+
+.table-view > .virtual-flow > .scroll-bar > .thumb {
+    -fx-background-color: -color-muted;
+    -fx-background-radius: 4;
+}
+
+.table-view > .virtual-flow > .scroll-bar > .increment-button,
+.table-view > .virtual-flow > .scroll-bar > .decrement-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
 }
 
 .veil {
