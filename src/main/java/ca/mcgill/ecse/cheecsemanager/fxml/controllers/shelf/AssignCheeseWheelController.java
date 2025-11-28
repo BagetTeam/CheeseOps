@@ -4,6 +4,8 @@ import ca.mcgill.ecse.cheecsemanager.controller.*;
 import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.HidePopupEvent;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.ToastEvent;
+import ca.mcgill.ecse.cheecsemanager.fxml.store.CheeseWheelDataProvider;
+import ca.mcgill.ecse.cheecsemanager.fxml.store.ShelfDataProvider;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -186,6 +188,8 @@ public class AssignCheeseWheelController {
 
     root.fireEvent(new ToastEvent("Cheese wheel assigned successfully!",
                                   ToastEvent.ToastType.SUCCESS));
+    CheeseWheelDataProvider.getInstance().refresh();
+    ShelfDataProvider.getInstance().refresh();
     closePopup();
   }
 
