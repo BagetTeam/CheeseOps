@@ -126,7 +126,7 @@ public class ShelfController {
             .target(node.translateXProperty())
             .from(0)
             .to(width)
-            .durationMillis(1000.0)
+            .durationMillis(500)
             .easing(EasingInterpolators.CUBIC_OUT)
             .onFinished(() -> { this.root.getChildren().remove(node); })
             .play();
@@ -138,7 +138,7 @@ public class ShelfController {
           .target(node.translateXProperty())
           .from(width)
           .to(0)
-          .durationMillis(1000.0)
+          .durationMillis(500)
           .easing(EasingInterpolators.CUBIC_OUT)
           .play();
 

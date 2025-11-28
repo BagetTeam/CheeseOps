@@ -12,6 +12,7 @@ public class SidebarController {
   @FXML StyledButton buttonFarmers;
   @FXML StyledButton buttonCompanies;
   @FXML StyledButton buttonRobot;
+  @FXML StyledButton buttonCheeseWheels;
   @FXML StyledButton buttonSettings;
 
   // Callback for navigation - can be set by parent controller
@@ -45,9 +46,15 @@ public class SidebarController {
   private void handleRobot(ActionEvent event) {
     navigateTo("robot");
   }
+
   @FXML
   private void handleSettings(ActionEvent event) {
     navigateTo("settings");
+  }
+
+  @FXML
+  private void handleCheeseWheels(ActionEvent event) {
+    navigateTo("cheeseWheels");
   }
 
   private void navigateTo(String page) {
@@ -70,6 +77,9 @@ public class SidebarController {
                                    : StyledButton.Variant.DEFAULT);
     buttonRobot.setVariant(page.equals("robot") ? StyledButton.Variant.PRIMARY
                                                 : StyledButton.Variant.DEFAULT);
+    buttonCheeseWheels.setVariant(page.equals("cheeseWheels")
+                                      ? StyledButton.Variant.PRIMARY
+                                      : StyledButton.Variant.DEFAULT);
     buttonSettings.setVariant(page.equals("settings")
                                   ? StyledButton.Variant.PRIMARY
                                   : StyledButton.Variant.DEFAULT);

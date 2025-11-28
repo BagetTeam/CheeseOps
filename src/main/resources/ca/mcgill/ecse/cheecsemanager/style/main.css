@@ -32,6 +32,17 @@
     -fx-fill: transparent;
 }
 
+.combo-box {
+    -fx-background-color: -color-bg;
+    -fx-background-radius: 14;
+    -fx-border-radius: 14;
+    -fx-border-width: 1;
+    -fx-border-color: rgba(215, 205, 196, 0.45);
+    -fx-text-fill: -color-fg;
+    -fx-prompt-text-fill: rgba(215, 205, 196, 0.6);
+    -fx-padding: 6 6;
+}
+
 .combo-box .list-view {
     -fx-background-color: -color-bg;
     -fx-border-color: -color-muted;
@@ -49,9 +60,9 @@
     -fx-text-fill: -color-fg;
     -fx-font-size: 14px;
     -fx-padding: 10 8;
-}   
+}
 
-.combo-box .list-cell:selected{
+.combo-box .list-cell:selected {
     -fx-text-fill: -color-fg;
 }
 
@@ -184,4 +195,43 @@
 .dialog-pane .button-bar .button:hover {
     -fx-background-color: -color-secondary; /* stays same */
     -fx-text-fill: -color-bg; /* stays same */
+}
+
+/* styles.css */
+.cheese-search-bar {
+    -fx-padding: 10;
+    -fx-background-color: white;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 5, 0, 0, 2);
+}
+
+.cheese-wheel-cell {
+    -fx-background-color: #fff8dc;
+    -fx-border-color: #daa520;
+    -fx-border-width: 2;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-padding: 5;
+}
+
+.cheese-wheel-cell:hover {
+    -fx-background-color: #fffacd;
+    -fx-cursor: hand;
+}
+
+.cheese-wheel-cell.selected {
+    -fx-background-color: #ffd700;
+    -fx-border-color: #ff6347;
+    -fx-border-width: 3;
+}
+
+.cheese-icon {
+    -fx-fill: #ffd700;
+    -fx-stroke: #daa520;
+    -fx-stroke-width: 2;
+}
+
+.cheese-label {
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+    -fx-text-alignment: center;
 }
