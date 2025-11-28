@@ -14,15 +14,18 @@ import javafx.scene.layout.VBox;
 public class AssignCheeseWheelController {
 
   @FXML private ComboBox<String> cheeseCombo;
+  @FXML private ComboBox<String> shelfCombo;
   @FXML private ComboBox<Integer> rowCombo;
   @FXML private ComboBox<Integer> colCombo;
   @FXML private StyledButton assignButton;
   @FXML private VBox root;
+  @FXML private VBox shelfSelectionBox;
 
-  private TOShelf shelf = ViewShelfController.shelfToView;
+  private TOShelf selectedShelf;
 
   @FXML
   public void initialize() {
+    // Populate unassigned cheese wheels
     List<String> unassigned =
         CheECSEManagerFeatureSet3Controller.getCheeseWheels()
             .stream()
@@ -32,40 +35,76 @@ public class AssignCheeseWheelController {
             .collect(Collectors.toList());
     cheeseCombo.setItems(FXCollections.observableArrayList(unassigned));
 
+    // Populate shelves with available space
+    populateShelves();
+
     cheeseCombo.setOnAction(e -> checkEnableAssign());
+    shelfCombo.setOnAction(e -> onShelfSelected());
     rowCombo.setOnAction(e -> checkEnableAssign());
     colCombo.setOnAction(e -> checkEnableAssign());
     assignButton.setOnAction(e -> assignCheeseWheel());
 
-    this.populateRowsCols();
+    // Pre-select shelf if coming from shelf view
+    TOShelf preselectedShelf = ViewShelfController.shelfToView;
+    if (preselectedShelf != null) {
+      shelfCombo.setValue(preselectedShelf.getShelfID());
+      onShelfSelected();
+    }
+  }
+
+  private void populateShelves() {
+    List<String> shelves =
+        CheECSEManagerFeatureSet1Controller.getShelves()
+            .stream()
+            .filter(s -> hasAvailableSpace(s))
+            .map(s -> s.getShelfID())
+            .collect(Collectors.toList());
+    shelfCombo.setItems(FXCollections.observableArrayList(shelves));
+  }
+
+  private boolean hasAvailableSpace(TOShelf shelf) {
+    int totalSlots = shelf.getMaxRows() * shelf.getMaxColumns();
+    return shelf.numberOfCheeseWheelIDs() < totalSlots;
+  }
+
+  private void onShelfSelected() {
+    String selectedShelfId = shelfCombo.getValue();
+    if (selectedShelfId == null) {
+      selectedShelf = null;
+      rowCombo.getItems().clear();
+      colCombo.getItems().clear();
+      checkEnableAssign();
+      return;
+    }
+
+    selectedShelf = CheECSEManagerFeatureSet1Controller.getShelves()
+                        .stream()
+                        .filter(s -> s.getShelfID().equals(selectedShelfId))
+                        .findFirst()
+                        .orElse(null);
+
+    populateRowsCols();
   }
 
   private void populateRowsCols() {
     rowCombo.getItems().clear();
     colCombo.getItems().clear();
 
-    String shelfID = shelf.getShelfID();
-    if (shelfID == null)
+    if (selectedShelf == null) {
+      checkEnableAssign();
       return;
-
-    TOShelf shelf = CheECSEManagerFeatureSet1Controller.getShelves()
-                        .stream()
-                        .filter(s -> s.getShelfID().equals(shelfID))
-                        .findFirst()
-                        .orElse(null);
-    if (shelf == null)
-      return;
+    }
 
     List<String> occupied = new ArrayList<>();
-    for (int i = 0; i < shelf.numberOfCheeseWheelIDs(); i++) {
-      occupied.add(shelf.getRowNr(i) + "-" + shelf.getColumnNr(i));
+    for (int i = 0; i < selectedShelf.numberOfCheeseWheelIDs(); i++) {
+      occupied.add(selectedShelf.getRowNr(i) + "-" + selectedShelf.getColumnNr(i));
     }
 
     List<Integer> availableRows = new ArrayList<>();
     List<Integer> availableCols = new ArrayList<>();
-    for (int r = 1; r <= shelf.getMaxRows(); r++) {
+    for (int r = 1; r <= selectedShelf.getMaxRows(); r++) {
       boolean rowHasFree = false;
-      for (int c = 1; c <= shelf.getMaxColumns(); c++) {
+      for (int c = 1; c <= selectedShelf.getMaxColumns(); c++) {
         if (!occupied.contains(r + "-" + c)) {
           rowHasFree = true;
           if (!availableCols.contains(c))
@@ -87,6 +126,7 @@ public class AssignCheeseWheelController {
 
   private void checkEnableAssign() {
     assignButton.setDisable(cheeseCombo.getValue() == null ||
+                            shelfCombo.getValue() == null ||
                             rowCombo.getValue() == null ||
                             colCombo.getValue() == null);
   }
@@ -97,12 +137,15 @@ public class AssignCheeseWheelController {
     if (selected == null)
       return;
 
-    int cheeseId = Integer.parseInt(selected.split(" - ")[0].trim());
+    // Parse cheese ID - format is "ID: X - Y months"
+    String idPart = selected.split(" - ")[0].replace("ID: ", "").trim();
+    int cheeseId = Integer.parseInt(idPart);
     Integer row = rowCombo.getValue();
     Integer col = colCombo.getValue();
+    String shelfId = shelfCombo.getValue();
 
     String error = CheECSEManagerFeatureSet4Controller.assignCheeseWheelToShelf(
-        cheeseId, shelf.getShelfID(), col, row);
+        cheeseId, shelfId, col, row);
 
     if (!error.isEmpty()) {
       System.out.println("Error: " + error);

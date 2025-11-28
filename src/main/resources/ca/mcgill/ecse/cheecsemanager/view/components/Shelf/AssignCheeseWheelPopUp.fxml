@@ -17,6 +17,11 @@
         <ComboBox fx:id="cheeseCombo" styleClass="combo-box" />
     </VBox>
 
+    <VBox fx:id="shelfSelectionBox" spacing="10" alignment="CENTER_LEFT">
+        <Label text="Shelf:" styleClass="text-fg, text-sm" />
+        <ComboBox fx:id="shelfCombo" styleClass="combo-box" />
+    </VBox>
+
     <HBox spacing="8" alignment="CENTER_LEFT">
         <VBox spacing="8" HBox.hgrow="ALWAYS">
             <Label text="Row:" styleClass="text-fg, text-sm" />
