@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
@@ -72,6 +73,16 @@
                                           style="-fx-background-color: -color-bg; -fx-background-radius: 14; -fx-border-radius: 14; -fx-border-width: 1; -fx-border-color: rgba(215, 205, 196, 0.45); -fx-text-fill: -color-fg; -fx-prompt-text-fill: rgba(215, 205, 196, 0.6); -fx-padding: 6 10;"/>
                             </children>
                         </VBox>
+
+                        <CheckBox fx:id="autoAssignCheckbox"
+                                  text="Auto-assign cheese wheels to shelves"
+                                  selected="true"
+                                  styleClass="custom-checkbox"
+                                  style="-fx-font-size: 13px; -fx-text-fill: -color-fg;">
+                            <padding>
+                                <Insets top="4" bottom="4"/>
+                            </padding>
+                        </CheckBox>
 
                         <Label fx:id="errorLabel"
                                wrapText="true"

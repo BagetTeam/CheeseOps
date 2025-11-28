@@ -9,6 +9,7 @@ import ca.mcgill.ecse.cheecsemanager.controller.TOCheeseWheel;
 import ca.mcgill.ecse.cheecsemanager.controller.TOShelf;
 import ca.mcgill.ecse.cheecsemanager.fxml.store.FarmerDataProvider;
 import javafx.fxml.FXML;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -29,6 +30,7 @@ public class BuyCheesePopupController {
   @FXML private ComboBox<String> farmerDropdown;
   @FXML private TextField        wheelCountField;
   @FXML private ComboBox<String> maturationDropdown;
+  @FXML private CheckBox         autoAssignCheckbox;
   @FXML private Label            errorLabel;
 
   private TOFarmer farmer;
@@ -105,23 +107,28 @@ public class BuyCheesePopupController {
       return;
     }
     
-    // Get newly created cheese wheels
-    List<TOCheeseWheel> allWheels = CheECSEManagerFeatureSet3Controller.getCheeseWheels();
-    List<TOCheeseWheel> newlyBoughtWheels = new ArrayList<>();
-    for (TOCheeseWheel wheel : allWheels) {
-      if (wheel.getId() > maxExistingId) {
-        newlyBoughtWheels.add(wheel);
+    // Auto-assign cheese wheels if checkbox is selected
+    int remaining = 0;
+    if (autoAssignCheckbox.isSelected()) {
+      // Get newly created cheese wheels
+      List<TOCheeseWheel> allWheels = CheECSEManagerFeatureSet3Controller.getCheeseWheels();
+      List<TOCheeseWheel> newlyBoughtWheels = new ArrayList<>();
+      for (TOCheeseWheel wheel : allWheels) {
+        if (wheel.getId() > maxExistingId) {
+          newlyBoughtWheels.add(wheel);
+        }
       }
+      
+      // Auto-assign only the newly bought cheese wheels
+      remaining = autoAssignCheeseWheels(newlyBoughtWheels);
     }
     
-    // Auto-assign only the newly bought cheese wheels
-    int remaining = autoAssignCheeseWheels(newlyBoughtWheels);
     FarmerDataProvider.getInstance().refresh();
     if (farmerViewController != null) {
         farmerViewController.reloadFarmerDetails();
     }
 
-    if (remaining > 0) {
+    if (autoAssignCheckbox.isSelected() && remaining > 0) {
       errorLabel.setText(remaining + " cheese wheels remaining to be assigned.");
     } else {
       errorLabel.setText("Success!");
