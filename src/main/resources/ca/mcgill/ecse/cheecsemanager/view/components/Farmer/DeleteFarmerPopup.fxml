@@ -5,24 +5,39 @@
 <?import javafx.geometry.Insets?>
 <?import ca.mcgill.ecse.cheecsemanager.fxml.components.*?>
 
-
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.Farmer.DeleteFarmerPopup"
             prefWidth="300" prefHeight="150"
-            style="-fx-background-color: -color-darker-bg; -fx-border-color: rgba(255, 218, 109, 0.35); -fx-border-width: 1; -fx-border-radius: 20; -fx-background-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 20, 0, 0, 10);">
-    <padding>
-        <Insets bottom="25" right="15" left="15"/>
-    </padding>
-    <VBox spacing="15" layoutX="20" layoutY="20" alignment="TOP_CENTER">
-        <Label text="Are you sure you want to delete?" wrapText="true" styleClass="text-bold, text-fg, text-lg"/>
-        <Label text="This action cannot be undone." wrapText="true" styleClass="text-fg"/>
-        
-        <Label fx:id="errorLabel" wrapText="true" style="-fx-text-fill: #f07e68; -fx-font-size: 12px;"/>
-
-        <HBox spacing="20" alignment="CENTER">
-            <StyledButton text="Delete" fx:id="yesBtn" variant="DESTRUCTIVE" size="BASE"/>
-            <StyledButton text="Cancel" fx:id="noBtn" variant="DEFAULT" size="BASE"/>
+>
+    <VBox
+        styleClass="bg-bg, rounded-base, border-1, border-muted, p-lg"
+        fx:id="popupContainer"
+        spacing="16"
+    >
+        <HBox spacing="8" alignment="CENTER_LEFT" fx:id="popupHeader">
+            <StyledButton
+                onAction="#handleClose"
+                graphicTextGap="10"
+                fx:id="closeButton"
+                size="SM"
+            >
+                <graphic>
+                    <Icon icon="X" />
+                </graphic>
+            </StyledButton>
+            <Label text="Confirm Delete" wrapText="true" styleClass="text-fg"/>
         </HBox>
+        <VBox
+            spacing="16"
+            styleClass="w-sm"
+        >
+            <Label wrapText="true" styleClass="text-fg" fx:id="warningLabel" />
+            <Label wrapText="true" styleClass="text-destructive" fx:id="errorLabel" visible="false" managed="false" />
+            <HBox spacing="12" alignment="CENTER_RIGHT">
+                <StyledButton text="No" variant="MUTED" fx:id="noBtn"/>
+                <StyledButton text="Delete" variant="DESTRUCTIVE" fx:id="yesBtn" />
+            </HBox>
+        </VBox>
     </VBox>
 </AnchorPane>

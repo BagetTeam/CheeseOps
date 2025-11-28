@@ -1,77 +1,94 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.SVGPath?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import ca.mcgill.ecse.cheecsemanager.fxml.components.Icon?>
 <?import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton?>
 
 <AnchorPane xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.Farmer.BuyCheesePopupController"
-            prefHeight="420.0" prefWidth="460.0"
-            styleClass="page">
+            prefHeight="420.0" prefWidth="460.0" style="-fx-background-color: transparent;">
 
     <children>
-        <VBox spacing="20"
-              AnchorPane.topAnchor="20.0"
-              AnchorPane.leftAnchor="20.0"
-              AnchorPane.rightAnchor="20.0">
-
+        <StackPane alignment="CENTER" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
+                   AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
             <children>
-                <HBox spacing="12" alignment="CENTER_LEFT">
-                    <children>
-                        <StyledButton text="" size="SM" variant="DEFAULT" onAction="#goBack">
-                            <graphic>
-                                <SVGPath content="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"
-                                         styleClass="icon"/>
-                            </graphic>
-                        </StyledButton>
-                        <Label text="Buy Cheese"
-                               style="-fx-font-size: 22px; -fx-text-fill: -color-fg; -fx-font-weight: bold;"/>
-                    </children>
-                </HBox>
+                <VBox alignment="TOP_LEFT"
+                      maxWidth="420.0"
+                      spacing="18"
+                      styleClass="bg-bg, rounded-md, border-1, border-muted"
+                      style="-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.45), 20, 0, 0, 10);">
+                    <padding>
+                        <Insets top="24" right="24" bottom="24" left="24"/>
+                    </padding>
 
-                <VBox spacing="16" style="-fx-padding: 20;">
                     <children>
-
-                        <HBox spacing="10" alignment="CENTER_LEFT">
+                        <HBox spacing="12" alignment="CENTER_LEFT">
                             <children>
-                                <Label text="Farmer:"
-                                       style="-fx-text-fill: -color-fg; -fx-font-size: 14px;"/>
-                                <ComboBox fx:id="farmerDropdown" prefWidth="200.0"/>
+                                <StyledButton variant="DEFAULT" size="SM" onAction="#goBack" style="-fx-border-radius: 10;">
+                                    <graphic>
+                                        <Icon icon="ArrowLeft"/>
+                                    </graphic>
+                                </StyledButton>
+                                <Label text="Buy Cheese"
+                                       styleClass="text-fg"
+                                       style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
                             </children>
                         </HBox>
 
-                        <HBox spacing="10" alignment="CENTER_LEFT">
+                        <VBox spacing="10">
                             <children>
-                                <Label text="Number of Wheels:"
-                                       style="-fx-text-fill: -color-fg; -fx-font-size: 14px;"/>
+                                <Label text="Farmer" styleClass="text-muted" style="-fx-font-size: 12px;" />
+                                <ComboBox fx:id="farmerDropdown"
+                                          prefWidth="360.0"
+                                          promptText="Select a farmer"
+                                          style="-fx-background-color: -color-bg; -fx-background-radius: 14; -fx-border-radius: 14; -fx-border-width: 1; -fx-border-color: rgba(215, 205, 196, 0.45); -fx-text-fill: -color-fg; -fx-prompt-text-fill: rgba(215, 205, 196, 0.6); -fx-padding: 6 10;"/>
+                            </children>
+                        </VBox>
+
+                        <VBox spacing="10">
+                            <children>
+                                <Label text="Number of Wheels" styleClass="text-muted" style="-fx-font-size: 12px;" />
                                 <TextField fx:id="wheelCountField"
-                                           promptText="ex: 10"
-                                           prefWidth="120.0"/>
+                                           promptText="e.g. 10"
+                                           style="-fx-background-color: -color-bg; -fx-background-radius: 14; -fx-border-radius: 14; -fx-border-width: 1; -fx-border-color: rgba(215, 205, 196, 0.45); -fx-text-fill: -color-fg; -fx-prompt-text-fill: rgba(215, 205, 196, 0.6); -fx-padding: 8 12;"
+                                           prefWidth="360.0"/>
                             </children>
-                        </HBox>
+                        </VBox>
 
-                        <HBox spacing="10" alignment="CENTER_LEFT">
+                        <VBox spacing="10">
                             <children>
-                                <Label text="Months Aged:"
-                                       style="-fx-text-fill: -color-fg; -fx-font-size: 14px;"/>
-                                <ComboBox fx:id="maturationDropdown" prefWidth="200.0"/>
+                                <Label text="Months Aged" styleClass="text-muted" style="-fx-font-size: 12px;" />
+                                <ComboBox fx:id="maturationDropdown"
+                                          prefWidth="360.0"
+                                          promptText="Select maturation period"
+                                          style="-fx-background-color: -color-bg; -fx-background-radius: 14; -fx-border-radius: 14; -fx-border-width: 1; -fx-border-color: rgba(215, 205, 196, 0.45); -fx-text-fill: -color-fg; -fx-prompt-text-fill: rgba(215, 205, 196, 0.6); -fx-padding: 6 10;"/>
                             </children>
-                        </HBox>
+                        </VBox>
 
                         <Label fx:id="errorLabel"
-                               style="-fx-font-size: 13px;"
-                               textFill="red"/>
+                               wrapText="true"
+                               styleClass="text-destructive"
+                               style="-fx-font-size: 13px;"/>
 
-                        <StyledButton text="Buy"
-                                      variant="PRIMARY"
-                                      size="BASE"
-                                      onAction="#handleBuy"/>
+                        <HBox alignment="CENTER_RIGHT" spacing="10">
+                            <children>
+                                <StyledButton text="Cancel" variant="MUTED" size="BASE" onAction="#goBack"
+                                              style="-fx-border-color: rgba(215, 205, 196, 0.45); -fx-border-radius: 8;"/>
+                                <StyledButton text="Buy" variant="PRIMARY" size="BASE" onAction="#handleBuy"
+                                              style="-fx-border-color: rgba(215, 205, 196, 0.45); -fx-border-radius: 8;"/>
+                            </children>
+                        </HBox>
                     </children>
                 </VBox>
             </children>
-        </VBox>
+        </StackPane>
     </children>
 </AnchorPane>

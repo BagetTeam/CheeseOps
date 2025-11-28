@@ -32,6 +32,54 @@
     -fx-fill: transparent;
 }
 
+.combo-box .list-view {
+    -fx-background-color: -color-bg;
+    -fx-border-color: -color-muted;
+    -fx-border-width: 1;
+    -fx-border-radius: 12;
+    -fx-background-radius: 12;
+    -fx-padding: 4 4;
+    -fx-text-fill: -color-muted;
+}
+
+.combo-box .list-view .list-cell {
+    -fx-background-color: transparent;
+    -fx-background-radius: 8;
+    -fx-background-insets: 3 0 3 0;
+    -fx-text-fill: -color-fg;
+    -fx-font-size: 14px;
+    -fx-padding: 10 8;
+}   
+
+.combo-box .list-cell:selected{
+    -fx-text-fill: -color-fg;
+}
+
+.combo-box .list-view .list-cell:hover {
+    -fx-background-color: rgba(255, 218, 109, 0.1);
+}
+
+.combo-box .list-view .list-cell:selected {
+    -fx-background-color: rgba(255, 218, 109, 0.2);
+}
+
+.combo-box .display-node,
+.combo-box .button,
+.combo-box .arrow-button {
+    -fx-background-color: transparent;
+}
+
+.combo-box .list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: -color-muted;
+}
+
+.combo-box .display-node .label,
+.combo-box .button .label {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
 .page {
     -fx-text-fill: -color-fg;
 }
