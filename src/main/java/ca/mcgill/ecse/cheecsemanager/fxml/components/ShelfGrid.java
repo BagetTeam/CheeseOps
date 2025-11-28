@@ -1,7 +1,9 @@
 package ca.mcgill.ecse.cheecsemanager.fxml.components;
 
+import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet3Controller;
 import ca.mcgill.ecse.cheecsemanager.controller.TOCheeseWheel;
 import ca.mcgill.ecse.cheecsemanager.controller.TOShelf;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,6 +57,11 @@ public class ShelfGrid extends ScrollPane {
     }
 
     setContent(grid);
+
+    setCheeseWheels(
+        Arrays.stream(shelf.getCheeseWheelIDs())
+            .map(CheECSEManagerFeatureSet3Controller::getCheeseWheel)
+            .toList());
   }
 
   public void setCheeseWheels(List<TOCheeseWheel> cheeseWheels) {
