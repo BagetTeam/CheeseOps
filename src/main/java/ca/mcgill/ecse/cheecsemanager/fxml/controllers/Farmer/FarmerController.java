@@ -39,6 +39,10 @@ public class FarmerController extends PopupController implements PageNavigator.P
 
     private FilteredList<TOFarmer> filteredFarmers;
 
+    public AnchorPane getFarmerRoot() {
+        return farmerRoot;
+    }
+
     @FXML
     public void initialize() {
         // Setup blur effect reference

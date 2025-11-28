@@ -62,6 +62,10 @@ public class ViewFarmerController extends PopupController implements PageNavigat
   private final FarmerDataProvider farmerDataProvider = FarmerDataProvider.getInstance();
   private TOFarmer farmer;
 
+  public AnchorPane getViewFarmerRoot() {
+    return viewFarmerRoot;
+  }
+
   @FXML
   public void initialize() {
     // Get the first child of viewFarmerRoot (the VBox containing all content)
