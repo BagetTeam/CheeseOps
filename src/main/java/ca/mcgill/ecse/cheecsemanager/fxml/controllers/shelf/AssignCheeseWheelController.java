@@ -5,7 +5,7 @@ import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton;
 import ca.mcgill.ecse.cheecsemanager.fxml.controllers.CheeseWheelsController;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.HidePopupEvent;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.ToastEvent;
-import ca.mcgill.ecse.cheecsemanager.fxml.events.ToastEvent.ToastType;
+import ca.mcgill.ecse.cheecsemanager.fxml.store.CheeseWheelDataProvider;
 import ca.mcgill.ecse.cheecsemanager.fxml.store.ShelfCheeseWheelDataProvider;
 import ca.mcgill.ecse.cheecsemanager.fxml.store.ShelfDataProvider;
 import java.util.ArrayList;
@@ -23,6 +23,8 @@ public class AssignCheeseWheelController {
       ShelfCheeseWheelDataProvider.getInstance();
 
   private ShelfDataProvider shelfDataProvider = ShelfDataProvider.getInstance();
+  private CheeseWheelDataProvider cheeseWheelDataProvider =
+      CheeseWheelDataProvider.getInstance();
 
   @FXML private ComboBox<String> cheeseCombo;
   @FXML private ComboBox<String> shelfCombo;
@@ -41,7 +43,7 @@ public class AssignCheeseWheelController {
     List<String> unassigned =
         CheECSEManagerFeatureSet3Controller.getCheeseWheels()
             .stream()
-            .filter(c -> c.getShelfID() == null)
+            .filter(c -> c.getShelfID() == null && !c.getIsSpoiled())
             .map(c -> c.getId() + " - " + c.getMonthsAged() + " months")
             .collect(Collectors.toList());
     cheeseCombo.setItems(FXCollections.observableArrayList(unassigned));
@@ -199,6 +201,7 @@ public class AssignCheeseWheelController {
                                   ToastEvent.ToastType.SUCCESS));
     dataProvider.refresh();
     shelfDataProvider.refresh();
+    cheeseWheelDataProvider.refresh();
     closePopup();
   }
 
