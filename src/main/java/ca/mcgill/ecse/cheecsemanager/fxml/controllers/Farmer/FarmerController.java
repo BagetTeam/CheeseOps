@@ -2,6 +2,7 @@ package ca.mcgill.ecse.cheecsemanager.fxml.controllers.Farmer;
 
 import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton;
 import ca.mcgill.ecse.cheecsemanager.fxml.controllers.PopupController;
+import ca.mcgill.ecse.cheecsemanager.fxml.events.ToastEvent;
 import ca.mcgill.ecse.cheecsemanager.fxml.store.FarmerDataProvider;
 import ca.mcgill.ecse.cheecsemanager.fxml.controllers.PageNavigator;
 import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet7Controller;
@@ -38,6 +39,10 @@ public class FarmerController extends PopupController implements PageNavigator.P
     private Region contentToBlur; // Reference to the content that should be blurred
 
     private FilteredList<TOFarmer> filteredFarmers;
+
+    public AnchorPane getFarmerRoot() {
+        return farmerRoot;
+    }
 
     @FXML
     public void initialize() {
@@ -193,6 +198,7 @@ public class FarmerController extends PopupController implements PageNavigator.P
             // Success - remove the card from UI and close popup
             farmerDataProvider.getFarmers().removeIf(f -> f.getEmail().equals(farmer.getEmail()));
             removePopup(overlay);
+            getFarmerRoot().fireEvent(new ToastEvent("Farmer deleted successfully.", ToastEvent.ToastType.SUCCESS));
             return "";
         } else {
             // Error - keep popup open and return error message

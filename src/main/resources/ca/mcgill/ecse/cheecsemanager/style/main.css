@@ -137,16 +137,50 @@
 
 .scroll-pane > .scroll-bar {
     -fx-background-color: transparent;
+    -fx-pref-width: 10px;
+}
+
+.scroll-pane > .scroll-bar:vertical {
+    -fx-pref-width: 10px;
+}
+
+.scroll-pane > .scroll-bar:horizontal {
+    -fx-pref-height: 10px;
 }
 
 .scroll-pane > .scroll-bar > .thumb {
     -fx-background-color: -color-muted;
-    -fx-background-radius: 5;
+    -fx-background-radius: 4;
 }
 
 .scroll-pane > .scroll-bar > .increment-button,
 .scroll-pane > .scroll-bar > .decrement-button {
     -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+/* TableView scroll bars (same styling as scroll pane) */
+.table-view > .virtual-flow > .scroll-bar {
+    -fx-background-color: transparent;
+}
+
+.table-view > .virtual-flow > .scroll-bar:vertical {
+    -fx-pref-width: 8px;
+}
+
+.table-view > .virtual-flow > .scroll-bar:horizontal {
+    -fx-pref-height: 8px;
+}
+
+.table-view > .virtual-flow > .scroll-bar > .thumb {
+    -fx-background-color: -color-muted;
+    -fx-background-radius: 4;
+}
+
+.table-view > .virtual-flow > .scroll-bar > .increment-button,
+.table-view > .virtual-flow > .scroll-bar > .decrement-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
 }
 
 .veil {
@@ -197,6 +231,152 @@
     -fx-text-fill: -color-bg; /* stays same */
 }
 
+/* Checkbox Styling */
+.custom-checkbox {
+    -fx-text-fill: -color-fg;
+}
+
+.custom-checkbox .box {
+    -fx-background-color: -color-bg;
+    -fx-border-color: rgba(215, 205, 196, 0.45);
+    -fx-border-width: 1;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-padding: 0;
+    -fx-pref-width: 18;
+    -fx-pref-height: 18;
+}
+
+.custom-checkbox:hover .box {
+    -fx-border-color: rgba(215, 205, 196, 0.65);
+    -fx-background-color: rgba(255, 218, 109, 0.05);
+}
+
+.custom-checkbox:selected .box {
+    -fx-background-color: -color-primary;
+    -fx-border-color: -color-primary;
+}
+
+.custom-checkbox:selected:hover .box {
+    -fx-background-color: -color-secondary;
+    -fx-border-color: -color-secondary;
+}
+
+.custom-checkbox .mark {
+    -fx-background-color: -color-bg;
+    -fx-shape: "M 0 4 L 3 7 L 8 0";
+    -fx-scale-shape: true;
+    -fx-padding: 5;
+}
+
+.custom-checkbox:selected .mark {
+    -fx-background-color: -color-bg;
+}
+
+.custom-checkbox .text {
+    -fx-fill: -color-fg;
+    -fx-font-size: 13px;
+}
+
+
+/* DatePicker button styling */
+.styled-date-picker .arrow-button {
+    -fx-background-color: transparent;
+}
+
+.styled-date-picker .arrow-button .arrow {
+    -fx-background-color: -color-fg;
+}
+
+.styled-date-picker .text-field {
+    -fx-background-color: -color-bg;
+    -fx-text-fill: -color-fg;
+    -fx-prompt-text-fill: -color-muted;
+}
+
+/* DatePicker popup calendar - unified styling */
+.styled-date-picker .date-picker-popup {
+    -fx-background-color: -color-darker-bg;
+    -fx-border-color: -color-border;
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0, 0, 4);
+    -fx-padding: 12;
+}
+
+.styled-date-picker .date-picker-popup > * {
+    -fx-background-color: -color-darker-bg;
+}
+
+/* Month/Year header */
+.styled-date-picker .date-picker-popup .month-year-pane {
+    -fx-background-color: -color-darker-bg;
+    -fx-padding: 8;
+}
+
+.styled-date-picker .date-picker-popup .month-year-pane .label {
+    -fx-text-fill: -color-fg;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+}
+
+.styled-date-picker .date-picker-popup .month-year-pane .spinner .button {
+    -fx-background-color: transparent;
+}
+
+.styled-date-picker .date-picker-popup .month-year-pane .spinner .button .left-arrow,
+.styled-date-picker .date-picker-popup .month-year-pane .spinner .button .right-arrow {
+    -fx-background-color: -color-fg;
+}
+
+/* Week numbers */
+.styled-date-picker .date-picker-popup .week-number-cell {
+    -fx-background-color: -color-darker-bg;
+    -fx-text-fill: -color-muted;
+    -fx-font-size: 12px;
+}
+
+/* Day names header */
+.styled-date-picker .date-picker-popup .day-name-cell {
+    -fx-background-color: -color-darker-bg;
+    -fx-text-fill: -color-primary;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+    -fx-padding: 6;
+}
+
+/* Day cells - all months styled the same */
+.styled-date-picker .date-picker-popup .day-cell {
+    -fx-background-color: -color-darker-bg;
+    -fx-text-fill: -color-fg;
+    -fx-background-radius: 4;
+    -fx-padding: 8;
+    -fx-font-size: 13px;
+}
+
+.styled-date-picker .date-picker-popup .day-cell:hover {
+    -fx-background-color: derive(-color-primary, -30%);
+    -fx-cursor: hand;
+}
+
+.styled-date-picker .date-picker-popup .day-cell.selected {
+    -fx-background-color: -color-primary;
+    -fx-text-fill: -color-primary-fg;
+    -fx-font-weight: bold;
+}
+
+.styled-date-picker .date-picker-popup .day-cell.today {
+    -fx-border-color: -color-primary;
+    -fx-border-width: 2;
+    -fx-border-radius: 4;
+}
+
+/* Previous/next month cells - same styling as current month */
+.styled-date-picker .date-picker-popup .day-cell.previous-month,
+.styled-date-picker .date-picker-popup .day-cell.next-month {
+    -fx-text-fill: -color-muted;
+}
 /* styles.css */
 .cheese-search-bar {
     -fx-padding: 10;

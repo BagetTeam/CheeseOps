@@ -77,12 +77,12 @@
                   <VBox spacing="16" HBox.hgrow="ALWAYS">
                      <children>
                         <!-- Header with Buy button -->
-                        <HBox alignment="CENTER_LEFT" spacing="16">
+                        <VBox alignment="CENTER_LEFT" spacing="16">
                            <children>
-                              <Label text="Purchases" style="-fx-text-fill: -color-fg; -fx-font-size: 20px; -fx-font-weight: bold;" HBox.hgrow="ALWAYS"/>
+                              <Label text="Purchased Cheese Wheels" style="-fx-text-fill: -color-fg; -fx-font-size: 20px; -fx-font-weight: bold;" VBox.vgrow="ALWAYS"/>
                               <StyledButton fx:id="buyBtn" variant="PRIMARY" size="SM" text="buy" onAction="#handleBuy"/>
                            </children>
-                        </HBox>
+                        </VBox>
                         
                         <!-- Table -->
                         <TableView fx:id="cheeseTable" VBox.vgrow="ALWAYS" styleClass="farmer-table">

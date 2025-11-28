@@ -1,15 +1,27 @@
 package ca.mcgill.ecse.cheecsemanager.fxml.controllers.Farmer;
 
+import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet1Controller;
+import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet3Controller;
 import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet4Controller;
 import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet7Controller;
 import ca.mcgill.ecse.cheecsemanager.controller.TOFarmer;
+import ca.mcgill.ecse.cheecsemanager.controller.TOCheeseWheel;
+import ca.mcgill.ecse.cheecsemanager.controller.TOShelf;
+import ca.mcgill.ecse.cheecsemanager.fxml.events.ToastEvent;
 import ca.mcgill.ecse.cheecsemanager.fxml.store.FarmerDataProvider;
 import javafx.fxml.FXML;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 import java.sql.Date;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Controller for the buy cheese popup UI
@@ -21,6 +33,8 @@ public class BuyCheesePopupController {
   @FXML private ComboBox<String> farmerDropdown;
   @FXML private TextField        wheelCountField;
   @FXML private ComboBox<String> maturationDropdown;
+  @FXML private DatePicker       purchaseDatePicker;
+  @FXML private CheckBox         autoAssignCheckbox;
   @FXML private Label            errorLabel;
 
   private TOFarmer farmer;
@@ -54,6 +68,8 @@ public class BuyCheesePopupController {
     maturationDropdown.getItems().setAll(
         "Six", "Twelve", "TwentyFour", "ThirtySix"
     );
+
+    purchaseDatePicker.setValue(LocalDate.now());
   }
 
   @FXML
@@ -63,6 +79,7 @@ public class BuyCheesePopupController {
     String email   = farmerDropdown.getValue();
     String countStr = wheelCountField.getText();
     String months  = maturationDropdown.getValue();
+    LocalDate purchaseDateValue = purchaseDatePicker.getValue();
     
     if (email == null || email.isBlank()) {
       errorLabel.setText("Select a farmer.");
@@ -70,6 +87,10 @@ public class BuyCheesePopupController {
     }
     if (months == null || months.isBlank()) {
       errorLabel.setText("Select maturation period.");
+      return;
+    }
+    if (purchaseDateValue == null) {
+      errorLabel.setText("Select a purchase date.");
       return;
     }
 
@@ -82,19 +103,46 @@ public class BuyCheesePopupController {
       return;
     }
 
-    Date today = new Date(System.currentTimeMillis());
+    List<TOCheeseWheel> existingWheels = CheECSEManagerFeatureSet3Controller.getCheeseWheels();
+    int maxExistingId = existingWheels.stream()
+        .mapToInt(TOCheeseWheel::getId)
+        .max()
+        .orElse(0);
+    
+    Date purchaseDate = Date.valueOf(purchaseDateValue);
     String result =
-        CheECSEManagerFeatureSet4Controller.buyCheeseWheels(email, today, count, months);
-
+        CheECSEManagerFeatureSet4Controller.buyCheeseWheels(email, purchaseDate, count, months);
     if (!result.isEmpty()) {
       errorLabel.setText(result);
       return;
     }
+    
+    // Auto-assign cheese wheels if checkbox is selected
+    int remaining = 0;
+    if (autoAssignCheckbox.isSelected()) {
+      // Get newly created cheese wheels
+      List<TOCheeseWheel> allWheels = CheECSEManagerFeatureSet3Controller.getCheeseWheels();
+      List<TOCheeseWheel> newlyBoughtWheels = new ArrayList<>();
+      for (TOCheeseWheel wheel : allWheels) {
+        if (wheel.getId() > maxExistingId) {
+          newlyBoughtWheels.add(wheel);
+        }
+      }
+      
+      // Auto-assign only the newly bought cheese wheels
+      remaining = autoAssignCheeseWheels(newlyBoughtWheels);
+    }
+    
     FarmerDataProvider.getInstance().refresh();
     if (farmerViewController != null) {
         farmerViewController.reloadFarmerDetails();
     }
-    errorLabel.setText("Success!");
+
+    closePopup();
+    farmerViewController.getViewFarmerRoot().fireEvent(new ToastEvent("Success!", ToastEvent.ToastType.SUCCESS));
+    if (autoAssignCheckbox.isSelected() && remaining > 0) {
+      farmerViewController.getViewFarmerRoot().fireEvent(new ToastEvent(remaining + " could not be auto assigned.", ToastEvent.ToastType.WARNING));
+    } 
   }
 
   @FXML
@@ -107,4 +155,62 @@ public class BuyCheesePopupController {
             farmerViewController.removePopup(popupOverlay);
         }
     }
+
+  /**
+   * Auto assigns the given cheese wheels to empty shelf locations.
+   * @param cheeseWheelsToAssign List of cheese wheels to assign to shelves
+   * @return the number of cheese wheels remaining to be assigned.
+   * @author Ewen Gueguen
+   */
+  private int autoAssignCheeseWheels(List<TOCheeseWheel> cheeseWheelsToAssign) {
+    int assignedCount = 0;
+    List<TOShelf> shelves = CheECSEManagerFeatureSet1Controller.getShelves();
+    
+    outerLoop:
+    for (TOShelf shelf : shelves) {
+      int rows = shelf.getMaxRows();
+      int columns = shelf.getMaxColumns();
+      
+      // Build a set of occupied positions to skip them (much faster)
+      Set<String> occupiedPositions = new HashSet<>();
+      for (int i = 0; i < shelf.numberOfCheeseWheelIDs(); i++) {
+        occupiedPositions.add(shelf.getColumnNr(i) + "," + shelf.getRowNr(i));
+      }
+
+      // Only check empty positions
+      for (int col = 1; col <= columns; col++) {
+        for (int row = 1; row <= rows; row++) {
+          // Skip if position is already occupied
+          if (occupiedPositions.contains(col + "," + row)) {
+            continue;
+          }
+          
+          // Skip already-assigned cheese wheels in our list
+          while (assignedCount < cheeseWheelsToAssign.size() && 
+                 (cheeseWheelsToAssign.get(assignedCount).getShelfID() != null || 
+                  cheeseWheelsToAssign.get(assignedCount).getColumn() != -1 || 
+                  cheeseWheelsToAssign.get(assignedCount).getRow() != -1)) {
+            assignedCount++;
+          }
+
+          if (assignedCount >= cheeseWheelsToAssign.size()) {
+            break outerLoop; // All cheese wheels assigned
+          }
+          
+          String result = CheECSEManagerFeatureSet4Controller.assignCheeseWheelToShelf(
+              cheeseWheelsToAssign.get(assignedCount).getId(), 
+              shelf.getShelfID(), 
+              col, 
+              row
+          );
+          
+          if (result.isEmpty()) {
+            assignedCount++;
+          }
+        }
+      }
+    }
+    
+    return cheeseWheelsToAssign.size() - assignedCount;
+  }
 }
