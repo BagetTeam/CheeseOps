@@ -112,6 +112,10 @@ public class CheeseDetailsController {
   }
 
   private void populateLocations(TOShelf shelf) {
+    if (shelf == null) {
+      return;
+    }
+
     List<String> occupied = new ArrayList<>();
     for (int i = 0; i < shelf.numberOfCheeseWheelIDs(); i++) {
       occupied.add(shelf.getRowNr(i) + "-" + shelf.getColumnNr(i));
