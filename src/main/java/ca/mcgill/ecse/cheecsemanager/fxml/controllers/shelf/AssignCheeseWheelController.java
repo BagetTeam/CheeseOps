@@ -3,6 +3,10 @@ package ca.mcgill.ecse.cheecsemanager.fxml.controllers.shelf;
 import ca.mcgill.ecse.cheecsemanager.controller.*;
 import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.HidePopupEvent;
+import ca.mcgill.ecse.cheecsemanager.fxml.events.ToastEvent;
+import ca.mcgill.ecse.cheecsemanager.fxml.events.ToastEvent.ToastType;
+import ca.mcgill.ecse.cheecsemanager.fxml.store.ShelfCheeseWheelDataProvider;
+import ca.mcgill.ecse.cheecsemanager.fxml.store.ShelfDataProvider;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,6 +16,10 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.layout.VBox;
 
 public class AssignCheeseWheelController {
+  private ShelfCheeseWheelDataProvider dataProvider =
+      ShelfCheeseWheelDataProvider.getInstance();
+
+  private ShelfDataProvider shelfDataProvider = ShelfDataProvider.getInstance();
 
   @FXML private ComboBox<String> cheeseCombo;
   @FXML private ComboBox<Integer> rowCombo;
@@ -27,8 +35,7 @@ public class AssignCheeseWheelController {
         CheECSEManagerFeatureSet3Controller.getCheeseWheels()
             .stream()
             .filter(c -> c.getShelfID() == null)
-            .map(
-                c -> "ID: " + c.getId() + " - " + c.getMonthsAged() + " months")
+            .map(c -> c.getId() + " - " + c.getMonthsAged() + " months")
             .collect(Collectors.toList());
     cheeseCombo.setItems(FXCollections.observableArrayList(unassigned));
 
@@ -105,10 +112,12 @@ public class AssignCheeseWheelController {
         cheeseId, shelf.getShelfID(), col, row);
 
     if (!error.isEmpty()) {
-      System.out.println("Error: " + error);
+      root.fireEvent(new ToastEvent(error, ToastType.ERROR));
       return;
     }
 
+    dataProvider.refresh();
+    shelfDataProvider.refresh();
     closePopup();
   }
 
