@@ -1,4 +1,4 @@
-.input {
+.dropdown {
     -fx-background-insets: 0;
     -fx-border-width: 1;
     -fx-padding: 6 14;
@@ -8,60 +8,54 @@
     -fx-min-height: 40px;
 }
 
-.input-default {
+.dropdown-default {
     -fx-background-color: -color-darker-bg;
     -fx-border-color: transparent;
+    -fx-text-fill: -color-fg;
 }
 
-.input-outlined {
+.dropdown-outlined {
     -fx-background-color: -color-bg;
     -fx-border-color: -color-muted;
 }
 
-.input-focused.input-outlined {
+.dropdown-focused.dropdown-outlined {
     -fx-border-color: -color-primary;
 }
 
-.input-focused.input-default {
+.dropdown-focused.dropdown-default {
     -fx-border-color: -color-muted;
 }
 
-.input .input-field {
+.dropdown .dropdown-combobox {
     -fx-background-color: transparent;
     -fx-border-color: transparent;
-    -fx-text-fill: -color-fg;
-    -fx-prompt-text-fill: -color-muted;
+    -fx-text-fill: -color-fg; /* text color inside the editor */
+    -fx-prompt-text-fill: rgba(255,255,255,0.65);
     -fx-background-insets: 0;
     -fx-border-width: 0;
     -fx-padding: 4 0;
     -fx-font-size: 14px;
 }
 
-.input .input-field:focused {
+.dropdown .dropdown-combobox:focused {
     -fx-background-color: transparent;
     -fx-border-width: 0;
 }
 
-.input .input-icon {
-    -fx-padding: 0 6 0 0;
-    -fx-alignment: center;
-}
-
-.input .input-icon .icon {
-    -fx-stroke: -color-muted;
-}
-
-.input-focused .input-icon .icon {
-    -fx-stroke: -color-primary;
-}
-
-.input-label {
+.dropdown-label {
     -fx-text-fill: -color-fg;
     -fx-font-size: 12px;
-    -fx-font-weight: 600;
+    -fx-font-weight: bold;
 }
 
-.input-inline .input-label {
-    -fx-padding: 0 8 0 0;
+/* List popup styling to match dark background */
+.dropdown .list-view, .dropdown .list-cell {
+    -fx-background-color: -color-bg;
+    -fx-text-fill: -color-fg;
+}
+
+.dropdown-inline {
     -fx-alignment: center-left;
+    -fx-spacing: 8;
 }

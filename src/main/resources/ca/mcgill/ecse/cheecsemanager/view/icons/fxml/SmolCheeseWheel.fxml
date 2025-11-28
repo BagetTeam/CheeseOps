@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.shape.SVGPath?>
+<?import javafx.scene.layout.StackPane?>
+<StackPane
+    xmlns="http://javafx.com/javafx/17"
+    xmlns:fx="http://javafx.com/fxml/1"
+>
+<Group>
+   <SVGPath
+            content="M41.5 0.937755L27.0001 6.00001V11.5L41.5001 9.43777L41.5 0.937755Z"
+            fill="#BA9B02"
+        />
+   <SVGPath
+            content="M41.5 0.937755C37.3114 0.34404 32.3365 0 27 0L27.0001 6.00001L41.5 0.937755Z"
+            fill="#FFDA6D"
+        />
+   <SVGPath
+            content="M50 10.3252L31 6.06225V17.0622L50 21.3252V10.3252Z"
+            fill="#BA9B02"
+        />
+   <SVGPath
+            content="M58 17.0622V6.06225C58 7.72946 54.94 9.23785 50 10.3252V21.3252C54.94 20.2379 58 18.7295 58 17.0622Z"
+            fill="#FFEFBF"
+            fillRule="EVEN_ODD"
+        />
+   <SVGPath
+            content="M50 10.3252C54.94 9.23785 58 7.72946 58 6.06225C58 3.93442 53.0156 2.0653 45.5 1L31 6.06225L50 10.3252Z"
+            fill="#FFDA6D"
+        />
+   <SVGPath
+            content="M27 12.0001C12.0883 12.0001 0 9.31383 0 6.00012V17.0001C0 20.3138 12.0883 23.0001 27 23.0001C34.4092 23.0001 41.1214 22.3369 46 21.2631V10.2631C41.1214 11.3369 34.4092 12.0001 27 12.0001Z"
+            fill="#FFEFBF"
+        />
+   <SVGPath
+            content="M0 6.00012C0 9.31383 12.0883 12.0001 27 12.0001C34.4092 12.0001 41.1214 11.3369 46 10.2631L27 6.00012V0.00012207C12.0883 0.00012207 0 2.68641 0 6.00012Z"
+            fill="#FFDA6D"
+        />
+</Group>
+</StackPane>
