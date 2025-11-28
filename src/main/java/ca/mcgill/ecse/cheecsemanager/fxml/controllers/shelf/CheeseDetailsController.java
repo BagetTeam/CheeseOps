@@ -76,10 +76,20 @@ public class CheeseDetailsController {
 
   @FXML
   public void onSavePressed() {
-    var error = CheECSEManagerFeatureSet3Controller.updateCheeseWheel(
-        this.cheese.getId(), this.ageComboBox.getValue(),
-        this.isSpoiledComboBox.getValue(), this.columnComboBox.getValue(),
-        this.rowComboBox.getValue(), this.cheese.getShelfID());
+    String error;
+
+    if (this.columnComboBox.getValue() != cheese.getColumn() &&
+        this.rowComboBox.getValue() != cheese.getRow()) {
+      error = CheECSEManagerFeatureSet3Controller.updateCheeseWheel(
+          this.cheese.getId(), this.ageComboBox.getValue(),
+          this.isSpoiledComboBox.getValue(), this.columnComboBox.getValue(),
+          this.rowComboBox.getValue(), this.cheese.getShelfID());
+
+    } else {
+      error = CheECSEManagerFeatureSet3Controller.updateCheeseWheel(
+          this.cheese.getId(), this.ageComboBox.getValue(),
+          this.isSpoiledComboBox.getValue());
+    }
 
     if (error != null && !error.isEmpty()) {
       root.fireEvent(new ToastEvent(error, ToastType.ERROR));
