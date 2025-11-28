@@ -96,7 +96,6 @@ def convert_path(element: ET.Element, svg_name: str) -> str:
         "stroke-width",
         "opacity",
         "fill-rule",
-        "clip-rule",
         "fill-opacity",
     ]
 
