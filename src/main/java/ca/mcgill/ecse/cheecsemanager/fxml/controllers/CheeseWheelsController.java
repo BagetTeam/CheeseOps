@@ -168,8 +168,9 @@ public class CheeseWheelsController {
             .from(0)
             .to(384)
             .durationMillis(500)
-            .easing(EasingInterpolators.CUBIC_OUT) System.out.println(".: " +.);
-        .onFinished(() -> { this.root.getChildren().remove(node); }).play();
+            .easing(EasingInterpolators.CUBIC_OUT)
+            .onFinished(() -> { this.root.getChildren().remove(node); })
+            .play();
       });
       this.root.getChildren().add(node);
 
