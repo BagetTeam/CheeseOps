@@ -17,22 +17,11 @@ public class AssignCheeseWheelController {
   @FXML private ComboBox<Integer> rowCombo;
   @FXML private ComboBox<Integer> colCombo;
   @FXML private StyledButton assignButton;
-  @FXML private StyledButton cancelButton;
 
   // References for closing the popup
   private ShelfController mainController;
   private ViewShelfPopUpController parentPopup;
   private AnchorPane overlay;
-
-  public void setMainController(ShelfController controller) {
-    this.mainController = controller;
-  }
-
-  public void setParentPopup(ViewShelfPopUpController popup) {
-    this.parentPopup = popup;
-  }
-
-  public void setOverlay(AnchorPane overlay) { this.overlay = overlay; }
 
   @FXML
   public void initialize() {
@@ -57,8 +46,6 @@ public class AssignCheeseWheelController {
     colCombo.setOnAction(e -> checkEnableAssign());
 
     assignButton.setDisable(true);
-
-    cancelButton.setOnAction(e -> closePopup());
   }
 
   private void populateRowsCols() {
