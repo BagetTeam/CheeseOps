@@ -8,6 +8,7 @@ import ca.mcgill.ecse.cheecsemanager.controller.TOFarmer;
 import ca.mcgill.ecse.cheecsemanager.controller.TOCheeseWheel;
 import ca.mcgill.ecse.cheecsemanager.controller.TOShelf;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.ToastEvent;
+import ca.mcgill.ecse.cheecsemanager.fxml.store.CheeseWheelDataProvider;
 import ca.mcgill.ecse.cheecsemanager.fxml.store.FarmerDataProvider;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
@@ -134,6 +135,7 @@ public class BuyCheesePopupController {
     }
     
     FarmerDataProvider.getInstance().refresh();
+    CheeseWheelDataProvider.getInstance().refresh();
     if (farmerViewController != null) {
         farmerViewController.reloadFarmerDetails();
     }
@@ -206,6 +208,11 @@ public class BuyCheesePopupController {
           
           if (result.isEmpty()) {
             assignedCount++;
+          } else {
+            // Log failed assignment to help debug
+            System.err.println("Failed to assign cheese wheel " + 
+                cheeseWheelsToAssign.get(assignedCount).getId() + 
+                " to " + shelf.getShelfID() + " at (" + col + "," + row + "): " + result);
           }
         }
       }
