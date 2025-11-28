@@ -5,11 +5,13 @@ import ca.mcgill.ecse.cheecsemanager.controller.TOCheeseWheel;
 import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.ShowPopupEvent;
 import ca.mcgill.ecse.cheecsemanager.fxml.store.CheeseWheelDataProvider;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -23,6 +25,7 @@ public class CheeseWheelsController {
   public static TOCheeseWheel selectedCheeseWheel;
 
   @FXML private BorderPane root;
+  @FXML private Label inventoryLabel;
 
   @FXML private TableView<TOCheeseWheel> table;
   @FXML private TableColumn<TOCheeseWheel, Integer> idColumn;
@@ -45,10 +48,19 @@ public class CheeseWheelsController {
         c
         -> new SimpleStringProperty(c.getValue().getPurchaseDate().toString()));
 
+    // Hook the whole row into the action column so each cell knows its cheese
+    // wheel
+    actionColumn.setCellValueFactory(
+        c -> new ReadOnlyObjectWrapper<>(c.getValue()));
+
     this.setupActionButtons();
 
     table.getColumns().forEach(tc -> tc.setMinWidth(tc.getPrefWidth()));
     table.setItems(cheeseWheelDataProvider.getCheesewheels());
+
+    inventoryLabel.textProperty().bind(
+        cheeseWheelDataProvider.cheeseInventoryProperty().asString().concat(
+            " total cheese wheels"));
   }
 
   @FXML
@@ -59,8 +71,9 @@ public class CheeseWheelsController {
       private final StyledButton assignBtn = new StyledButton(
           StyledButton.Variant.PRIMARY, StyledButton.Size.SM, "Assign", null);
 
-      private final StyledButton unassignBtn = new StyledButton(
-          StyledButton.Variant.MUTED, StyledButton.Size.SM, "Unassign", null);
+      private final StyledButton unassignBtn =
+          new StyledButton(StyledButton.Variant.DESTRUCTIVE,
+                           StyledButton.Size.SM, "Unassign", null);
 
       private final StyledButton viewBtn = new StyledButton(
           StyledButton.Variant.MUTED, StyledButton.Size.SM, "View", null);
@@ -68,7 +81,8 @@ public class CheeseWheelsController {
       private final HBox box = new HBox(10);
 
       {
-        box.setAlignment(Pos.CENTER);
+        box.setAlignment(Pos.CENTER_RIGHT);
+        box.setStyle("-fx-padding: 0 55 0 0;");
 
         assignBtn.setOnAction(e -> {
           TOCheeseWheel wheel = getTableView().getItems().get(getIndex());
@@ -99,6 +113,13 @@ public class CheeseWheelsController {
           return;
         }
 
+        box.getChildren().clear();
+
+        if (item.getIsSpoiled()) {
+          setGraphic(null);
+          return;
+        }
+
         if (item.getShelfID() == null) {
           box.getChildren().add(assignBtn);
         } else {
@@ -107,7 +128,7 @@ public class CheeseWheelsController {
 
         setGraphic(box);
 
-        setAlignment(Pos.CENTER);
+        setAlignment(Pos.CENTER_RIGHT);
       }
     });
   }

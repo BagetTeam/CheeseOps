@@ -38,16 +38,16 @@
                 VBox.vgrow="ALWAYS"
             >
                 <columns>
-                    <TableColumn fx:id="idColumn" text="ID" prefWidth="120" />
+                    <TableColumn fx:id="idColumn" text="ID" prefWidth="20" />
                     <TableColumn
                         fx:id="monthsAgedColumn"
-                        text="Rows"
-                        prefWidth="40"
+                        text="Months Aged"
+                        prefWidth="120"
                     />
                     <TableColumn
                         fx:id="isSpoiledColumn"
                         text="Spoiled"
-                        prefWidth="95"
+                        prefWidth="50"
                     />
                     <TableColumn
                         fx:id="purchaseDateColumn"

@@ -74,7 +74,7 @@
     <StyledButton
         fx:id="buttonCheeseWheels"
         text="CheeseWheels"
-        onAction="#handleRobot"
+        onAction="#handleCheeseWheels"
         prefWidth="250"
         graphicTextGap="12"
         size="MD"
