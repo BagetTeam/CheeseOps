@@ -223,3 +223,30 @@
     -fx-border-color: -color-primary;
     -fx-border-width: 3;
 }
+
+/* Add to styles.css */
+.corner-label {
+    -fx-background-color: transparent;
+    -fx-border-width: 0 1 1 0;
+}
+
+.row-label {
+    -fx-background-color: -color-darker-bg;
+    -fx-border-width: 0 1 1 0;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+    -fx-text-fill: -color-fg;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
+
+.column-label {
+    -fx-background-color: -color-darker-bg;
+    -fx-border-width: 0 1 1 0;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+    -fx-padding: 5;
+    -fx-text-fill: -color-fg;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
