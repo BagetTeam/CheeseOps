@@ -13,26 +13,26 @@
             <!-- Command Center -->
             <HBox alignment="CENTER_LEFT" spacing="18.0">
                 <StackPane prefHeight="120.0" prefWidth="150.0">
-                    <StyledButton fx:id="activateTile" prefHeight="120.0" prefWidth="150.0" styleClass="control-tile activate-tile" text="Activate">
+                    <StyledButton variant="PRIMARY" fx:id="activateTile" prefWidth="170.0" styleClass="control-tile activate-tile" text="Activate">
                         <graphic>
                             <Icon icon="ActivateRobot" />
                         </graphic>
                     </StyledButton>
 
-                    <StyledButton fx:id="deactivateTile" managed="false" prefHeight="120.0" prefWidth="150.0" styleClass="control-tile deactivate-tile" visible="false" text="Deactivate">
+                    <StyledButton variant="PRIMARY" fx:id="deactivateTile" prefWidth="170.0" managed="false" styleClass="control-tile deactivate-tile" visible="false" text="Deactivate">
                         <graphic>
                             <Icon icon="DeactivateRobot" />
                         </graphic>
                     </StyledButton>
                 </StackPane>
 
-                <StyledButton fx:id="initializeTile" disable="true" prefHeight="120.0" prefWidth="150.0" styleClass="control-tile initialize-tile" text="Initialize">
+                <StyledButton variant="PRIMARY" fx:id="initializeTile" disable="true" styleClass="control-tile initialize-tile" text="Initialize">
                     <graphic>
                         <Icon icon="InitializeRobot" />
                     </graphic>
                 </StyledButton>
 
-                <StyledButton fx:id="startTile" prefHeight="120.0" prefWidth="240.0" styleClass="control-tile primary-tile" text="Start Treatment" >
+                <StyledButton variant="PRIMARY" fx:id="startTile" styleClass="control-tile primary-tile" text="Start Treatment" >
                     <graphic>
                         <Icon icon="InitializeTreatment" />
                     </graphic>

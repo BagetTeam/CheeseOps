@@ -18,16 +18,19 @@
                     label="Old Password"
                     placeholder="Enter your old password"
                     fx:id="oldPasswordInput"
+                    variant="OUTLINED"
                 />
                 <Input
                     label="New Password"
                     placeholder="Enter your new password"
                     fx:id="newPasswordInput"
+                    variant="OUTLINED"
                 />
                 <Input
                     label="Confirm Password"
                     placeholder="Confirm your new password"
                     fx:id="confirmPasswordInput"
+                    variant="OUTLINED"
                 />
                 <Label
                     styleClass="text-destructive"

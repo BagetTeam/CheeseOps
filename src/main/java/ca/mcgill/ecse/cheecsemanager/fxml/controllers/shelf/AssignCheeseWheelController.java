@@ -2,37 +2,24 @@ package ca.mcgill.ecse.cheecsemanager.fxml.controllers.shelf;
 
 import ca.mcgill.ecse.cheecsemanager.controller.*;
 import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton;
+import ca.mcgill.ecse.cheecsemanager.fxml.events.HidePopupEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 
 public class AssignCheeseWheelController {
 
   @FXML private ComboBox<String> cheeseCombo;
-  @FXML private ComboBox<String> shelfCombo;
   @FXML private ComboBox<Integer> rowCombo;
   @FXML private ComboBox<Integer> colCombo;
   @FXML private StyledButton assignButton;
-  @FXML private StyledButton cancelButton;
+  @FXML private VBox root;
 
-  // References for closing the popup
-  private ShelfController mainController;
-  private ViewShelfPopUpController parentPopup;
-  private AnchorPane overlay;
-
-  public void setMainController(ShelfController controller) {
-    this.mainController = controller;
-  }
-
-  public void setParentPopup(ViewShelfPopUpController popup) {
-    this.parentPopup = popup;
-  }
-
-  public void setOverlay(AnchorPane overlay) { this.overlay = overlay; }
+  private TOShelf shelf = ViewShelfController.shelfToView;
 
   @FXML
   public void initialize() {
@@ -45,27 +32,19 @@ public class AssignCheeseWheelController {
             .collect(Collectors.toList());
     cheeseCombo.setItems(FXCollections.observableArrayList(unassigned));
 
-    List<String> shelves = CheECSEManagerFeatureSet1Controller.getShelves()
-                               .stream()
-                               .map(TOShelf::getShelfID)
-                               .collect(Collectors.toList());
-    shelfCombo.setItems(FXCollections.observableArrayList(shelves));
-
-    shelfCombo.setOnAction(e -> populateRowsCols());
     cheeseCombo.setOnAction(e -> checkEnableAssign());
     rowCombo.setOnAction(e -> checkEnableAssign());
     colCombo.setOnAction(e -> checkEnableAssign());
+    assignButton.setOnAction(e -> assignCheeseWheel());
 
-    assignButton.setDisable(true);
-
-    cancelButton.setOnAction(e -> closePopup());
+    this.populateRowsCols();
   }
 
   private void populateRowsCols() {
     rowCombo.getItems().clear();
     colCombo.getItems().clear();
 
-    String shelfID = shelfCombo.getValue();
+    String shelfID = shelf.getShelfID();
     if (shelfID == null)
       return;
 
@@ -107,9 +86,9 @@ public class AssignCheeseWheelController {
   }
 
   private void checkEnableAssign() {
-    assignButton.setDisable(
-        cheeseCombo.getValue() == null || shelfCombo.getValue() == null ||
-        rowCombo.getValue() == null || colCombo.getValue() == null);
+    assignButton.setDisable(cheeseCombo.getValue() == null ||
+                            rowCombo.getValue() == null ||
+                            colCombo.getValue() == null);
   }
 
   @FXML
@@ -119,12 +98,11 @@ public class AssignCheeseWheelController {
       return;
 
     int cheeseId = Integer.parseInt(selected.split(" - ")[0].trim());
-    String shelf = shelfCombo.getValue();
     Integer row = rowCombo.getValue();
     Integer col = colCombo.getValue();
 
     String error = CheECSEManagerFeatureSet4Controller.assignCheeseWheelToShelf(
-        cheeseId, shelf, col, row);
+        cheeseId, shelf.getShelfID(), col, row);
 
     if (!error.isEmpty()) {
       System.out.println("Error: " + error);
@@ -132,21 +110,7 @@ public class AssignCheeseWheelController {
     }
 
     closePopup();
-
-    if (parentPopup != null) {
-      parentPopup.refreshShelfGrid();
-    } else if (mainController != null) {
-      mainController.refreshTable();
-    }
   }
 
-  private void closePopup() {
-    if (overlay != null) {
-      if (mainController != null) {
-        // mainController.removePopup(overlay);
-      } else if (parentPopup != null) {
-        // parentPopup.getMainController().removePopup(overlay);
-      }
-    }
-  }
+  private void closePopup() { root.fireEvent(new HidePopupEvent()); }
 }

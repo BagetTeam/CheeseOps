@@ -32,6 +32,17 @@
     -fx-fill: transparent;
 }
 
+.combo-box {
+    -fx-background-color: -color-bg;
+    -fx-background-radius: 14;
+    -fx-border-radius: 14;
+    -fx-border-width: 1;
+    -fx-border-color: rgba(215, 205, 196, 0.45);
+    -fx-text-fill: -color-fg;
+    -fx-prompt-text-fill: rgba(215, 205, 196, 0.6);
+    -fx-padding: 6 6;
+}
+
 .combo-box .list-view {
     -fx-background-color: -color-bg;
     -fx-border-color: -color-muted;
@@ -49,9 +60,9 @@
     -fx-text-fill: -color-fg;
     -fx-font-size: 14px;
     -fx-padding: 10 8;
-}   
+}
 
-.combo-box .list-cell:selected{
+.combo-box .list-cell:selected {
     -fx-text-fill: -color-fg;
 }
 
@@ -365,4 +376,57 @@
 .styled-date-picker .date-picker-popup .day-cell.previous-month,
 .styled-date-picker .date-picker-popup .day-cell.next-month {
     -fx-text-fill: -color-muted;
+}
+/* styles.css */
+.cheese-search-bar {
+    -fx-padding: 10;
+    -fx-background-color: white;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 5, 0, 0, 2);
+}
+
+.cheese-wheel-cell {
+    -fx-background-color: -color-darker-bg;
+    -fx-border-color: -color-darker-bg;
+    -fx-border-width: 2;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-padding: 5;
+}
+
+.cheese-wheel-cell:hover {
+    -fx-background-color: -color-muted;
+    -fx-cursor: hand;
+}
+
+.cheese-wheel-cell.selected {
+    -fx-background-color: #ffd700;
+    -fx-border-color: -color-primary;
+    -fx-border-width: 3;
+}
+
+/* Add to styles.css */
+.corner-label {
+    -fx-background-color: transparent;
+    -fx-border-width: 0 1 1 0;
+}
+
+.row-label {
+    -fx-background-color: -color-darker-bg;
+    -fx-border-width: 0 1 1 0;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+    -fx-text-fill: -color-fg;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
+
+.column-label {
+    -fx-background-color: -color-darker-bg;
+    -fx-border-width: 0 1 1 0;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+    -fx-padding: 5;
+    -fx-text-fill: -color-fg;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
 }
