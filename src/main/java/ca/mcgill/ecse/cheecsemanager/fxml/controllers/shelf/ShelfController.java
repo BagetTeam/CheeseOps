@@ -115,7 +115,7 @@ public class ShelfController {
     FXMLLoader loader = new FXMLLoader(CheECSEManagerApplication.getResource(
         "view/components/Shelf/ViewShelf.fxml"));
     try {
-      VBox node = loader.load();
+      StackPane node = loader.load();
 
       ViewShelfController controller = loader.getController();
 

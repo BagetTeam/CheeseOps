@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import ca.mcgill.ecse.cheecsemanager.fxml.components.*?>
+<HBox
+    spacing="20"
+    xmlns="http://javafx.com/javafx"
+    xmlns:fx="http://javafx.com/fxml"
+    fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.shelf.CheeseDetailsController"
+    fx:id="root"
+    alignment="CENTER_RIGHT"
+>
+    <VBox spacing="36" styleClass="w-sm, bg-darker-bg, p-lg, rounded-md">
+        <StyledButton text="Close" onAction="#onClosePressed">
+            <graphic>
+                <Icon icon="X" />
+            </graphic>
+        </StyledButton>
+        <Icon icon="CheeseWheel" />
+        <VBox spacing="6">
+            <Label fx:id="cheeseIdLabel" styleClass="text-fg" />
+
+            <Input
+                labelPosition="LEFT"
+                label="Shelf ID"
+                fx:id="shelfIdInput"
+                variant="OUTLINED"
+            />
+            <Input
+                labelPosition="LEFT"
+                label="Row #"
+                fx:id="rowInput"
+                variant="OUTLINED"
+            />
+            <Input
+                labelPosition="LEFT"
+                label="Column #"
+                fx:id="columnInput"
+                variant="OUTLINED"
+            />
+            <Input
+                labelPosition="LEFT"
+                label="Age: "
+                fx:id="ageInput"
+                variant="OUTLINED"
+            />
+            <Input
+                labelPosition="LEFT"
+                label="Purchase Date: "
+                fx:id="purchaseDateInput"
+                variant="OUTLINED"
+            />
+            <Input
+                labelPosition="LEFT"
+                label="Is Spoiled: "
+                fx:id="isSpoiledInput"
+                variant="OUTLINED"
+            />
+
+
+
+        </VBox>
+        <HBox alignment="CENTER_RIGHT" spacing="12">
+            <StyledButton
+                text="Save"
+                variant="PRIMARY"
+                onAction="#onSavePressed"
+            />
+            <StyledButton
+                text="Delete"
+                variant="DESTRUCTIVE"
+                onAction="#onDeletePressed"
+            />
+        </HBox>
+    </VBox>
+</HBox>
