@@ -1,6 +1,7 @@
 package ca.mcgill.ecse.cheecsemanager.fxml.controllers.Farmer;
 
 import ca.mcgill.ecse.cheecsemanager.controller.TOFarmer;
+import ca.mcgill.ecse.cheecsemanager.fxml.events.ToastEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -85,23 +86,20 @@ public class DeleteFarmerPopup {
             if (farmerController != null) {
                 String error = farmerController.deleteFarmerCard(farmer, farmerCard, popupOverlay);
                 if (error != null && !error.isEmpty()) {
-                    errorLabel.setText(error);
-                    errorLabel.setVisible(true);
-                    errorLabel.setManaged(true);
+                    farmerController.getFarmerRoot().fireEvent(new ToastEvent("Failed deleting farmer: " + error + ".", ToastEvent.ToastType.ERROR));
                     return;
                 }
             }
             if (viewFarmerController != null) {
                 String error = viewFarmerController.deleteFarmer(farmer, popupOverlay);
                 if (error != null && !error.isEmpty()) {
-                    errorLabel.setText(error);
-                    errorLabel.setVisible(true);
-                    errorLabel.setManaged(true);
+                    viewFarmerController.getViewFarmerRoot().fireEvent(new ToastEvent("Failed deleting farmer: " + error + ".", ToastEvent.ToastType.ERROR));
                     return;
                 }
             }
         } else {
-            errorLabel.setText("Error: Farmer not found.");
+            farmerController.getFarmerRoot().fireEvent(new ToastEvent("Error: Farmer not found.", ToastEvent.ToastType.ERROR));
+            return;
         }
     }
 }
