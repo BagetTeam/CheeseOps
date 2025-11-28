@@ -175,6 +175,10 @@ public class BuyCheesePopupController {
             if (assignedCount >= cheeseWheelsToAssign.size()) {
               break outerLoop; // All cheese wheels assigned
             }
+            if (cheeseWheelsToAssign.get(assignedCount).getShelfID() != null || cheeseWheelsToAssign.get(assignedCount).getColumn() != -1 || cheeseWheelsToAssign.get(assignedCount).getRow() != -1) {
+              assignedCount++;
+              continue;
+            }
             
             String result = CheECSEManagerFeatureSet4Controller.assignCheeseWheelToShelf(
                 cheeseWheelsToAssign.get(assignedCount).getId(), 
