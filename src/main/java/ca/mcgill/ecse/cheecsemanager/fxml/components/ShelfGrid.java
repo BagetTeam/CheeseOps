@@ -19,6 +19,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
@@ -29,6 +30,8 @@ public class ShelfGrid extends ScrollPane {
 
   private final GridPane grid = new GridPane();
   private final Map<Integer, Node> cheeseWheelNodes = new HashMap<>();
+  private final Map<String, TOCheeseWheel> cheeseWheels = new HashMap<>();
+
   private final ObjectProperty<TOCheeseWheel> selectedCheeseWheel =
       new SimpleObjectProperty<>();
 
@@ -50,8 +53,7 @@ public class ShelfGrid extends ScrollPane {
     grid.setHgap(5);
     grid.setVgap(5);
 
-    // Create 10 rows
-    for (int row = 0; row < this.shelf.getMaxRows(); row++) {
+    for (int row = 1; row <= this.shelf.getMaxRows(); row++) {
       RowConstraints rowConstraints = new RowConstraints(CELL_SIZE);
       grid.getRowConstraints().add(rowConstraints);
     }
@@ -70,16 +72,29 @@ public class ShelfGrid extends ScrollPane {
 
     // Track max column for sizing
     int maxColumn = this.shelf.getMaxColumns();
+    int maxRow = this.shelf.getMaxRows();
 
     for (TOCheeseWheel cheese : cheeseWheels) {
       Node cheeseNode = createCheeseWheelNode(cheese);
       grid.add(cheeseNode, cheese.getColumn(), cheese.getRow());
       cheeseWheelNodes.put(cheese.getId(), cheeseNode);
+      this.cheeseWheels.put(cheese.getColumn() + "," + cheese.getRow(), cheese);
+    }
+
+    for (int row = 1; row <= maxRow; row++) {
+      for (int col = 1; col <= maxColumn; col++) {
+        if (this.cheeseWheels.containsKey(col + "," + row)) {
+          continue;
+        }
+        var region = new Region();
+        region.getStyleClass().add("cheese-wheel-cell");
+        grid.add(region, col, row);
+      }
     }
 
     // Set column constraints
     grid.getColumnConstraints().clear();
-    for (int col = 0; col <= maxColumn; col++) {
+    for (int col = 1; col <= maxColumn; col++) {
       ColumnConstraints colConstraints = new ColumnConstraints(CELL_SIZE);
       grid.getColumnConstraints().add(colConstraints);
     }
@@ -91,15 +106,14 @@ public class ShelfGrid extends ScrollPane {
     container.getStyleClass().add("cheese-wheel-cell");
 
     Icon cheeseIcon = new Icon("SmolCheeseWheel");
-    cheeseIcon.getStyleClass().add("cheese-icon");
 
     Label nameLabel = new Label("" + cheese.getId());
-    nameLabel.getStyleClass().add("cheese-label");
+    nameLabel.getStyleClass().addAll("text-bold", "text-fg", "text-sm");
 
     // Add location indicator
     Label locationLabel =
         new Label("(" + cheese.getColumn() + ", " + cheese.getRow() + ")");
-    locationLabel.getStyleClass().add("location-label");
+    locationLabel.getStyleClass().addAll("text-fg", "text-sm");
 
     container.getChildren().addAll(cheeseIcon, nameLabel, locationLabel);
     container.setUserData(cheese);

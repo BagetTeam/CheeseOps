@@ -205,8 +205,8 @@
 }
 
 .cheese-wheel-cell {
-    -fx-background-color: #fff8dc;
-    -fx-border-color: #daa520;
+    -fx-background-color: -color-darker-bg;
+    -fx-border-color: -color-darker-bg;
     -fx-border-width: 2;
     -fx-border-radius: 5;
     -fx-background-radius: 5;
@@ -214,24 +214,12 @@
 }
 
 .cheese-wheel-cell:hover {
-    -fx-background-color: #fffacd;
+    -fx-background-color: -color-muted;
     -fx-cursor: hand;
 }
 
 .cheese-wheel-cell.selected {
     -fx-background-color: #ffd700;
-    -fx-border-color: #ff6347;
+    -fx-border-color: -color-primary;
     -fx-border-width: 3;
-}
-
-.cheese-icon {
-    -fx-fill: #ffd700;
-    -fx-stroke: #daa520;
-    -fx-stroke-width: 2;
-}
-
-.cheese-label {
-    -fx-font-size: 10px;
-    -fx-font-weight: bold;
-    -fx-text-alignment: center;
 }

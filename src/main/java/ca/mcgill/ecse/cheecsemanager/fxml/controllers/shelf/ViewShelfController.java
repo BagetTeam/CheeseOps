@@ -12,6 +12,7 @@ import javafx.scene.layout.VBox;
 public class ViewShelfController {
   @FXML private Label shelfNameLabel;
   @FXML private VBox root;
+  @FXML private VBox content;
 
   public static TOShelf shelfToView;
   private Runnable onBackPressed;
@@ -47,6 +48,6 @@ public class ViewShelfController {
 
   private void initShelfGrid(TOShelf shelf) {
     ShelfGrid grid = new ShelfGrid(shelf);
-    root.getChildren().add(grid);
+    content.getChildren().add(grid);
   }
 }
