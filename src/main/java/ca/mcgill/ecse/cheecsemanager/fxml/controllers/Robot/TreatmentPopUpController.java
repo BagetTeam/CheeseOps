@@ -3,6 +3,7 @@ package ca.mcgill.ecse.cheecsemanager.fxml.controllers.Robot;
 import ca.mcgill.ecse.cheecsemanager.controller.RobotController;
 import ca.mcgill.ecse.cheecsemanager.fxml.components.Dropdown;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.HidePopupEvent;
+import ca.mcgill.ecse.cheecsemanager.controller.PurchaseController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -12,7 +13,7 @@ import javafx.scene.layout.VBox;
 public class TreatmentPopUpController {
 
   @FXML private VBox root;
-  @FXML private TextField purchaseIdField;
+  @FXML private Dropdown purchaseIdDropdown;
   @FXML private Dropdown maturationDropdown;
   @FXML private Label errorLabel;
   @FXML private Button startBtn;
@@ -22,10 +23,11 @@ public class TreatmentPopUpController {
   @FXML
   public void initialize() {
     maturationDropdown.setItems(java.util.Arrays.asList("Six", "Twelve", "TwentyFour", "ThirtySix"));
+    purchaseIdDropdown.setItems(PurchaseController.getAllPurchaseIds());
 
     // Disable Start until fields are filled
     startBtn.disableProperty().bind(
-        purchaseIdField.textProperty().isEmpty()
+        purchaseIdDropdown.getComboBox().valueProperty().isNull()
             .or(maturationDropdown.getComboBox().valueProperty().isNull()));
 
     startBtn.setOnAction(e -> submit());
@@ -42,27 +44,30 @@ public class TreatmentPopUpController {
       errorLabel.setManaged(false);
     }
 
-    String pidText = purchaseIdField.getText();
+    String pidVal = purchaseIdDropdown.getSelectedValue();
     String period = maturationDropdown.getSelectedValue();
 
-    if (pidText == null || pidText.isBlank() || period == null) {
+    if (pidVal == null || pidVal.isBlank() || period == null) {
       showError("Please fill in all fields.");
       return;
     }
 
     int purchaseId;
     try {
-      purchaseId = Integer.parseInt(pidText.trim());
+      purchaseId = Integer.parseInt(pidVal.trim());
     } catch (NumberFormatException e) {
       showError("Purchase ID must be an integer.");
+      System.out.println(e.getMessage());
       return;
     }
 
     try {
+      System.out.println("TREATMENT SUBMIT: PID=" + purchaseId + ", PERIOD=" + period);
       RobotController.initializeTreatment(purchaseId, period);
       closePopup();
     } catch (RuntimeException ex) {
       showError(ex.getMessage() == null ? "Failed to start treatment." : ex.getMessage());
+      System.out.println(ex.getMessage());
     }
   }
 

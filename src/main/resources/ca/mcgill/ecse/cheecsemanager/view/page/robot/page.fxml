@@ -12,14 +12,14 @@
 
             <!-- Command Center -->
             <HBox alignment="CENTER_LEFT" spacing="18.0">
-                <StackPane prefHeight="120.0" prefWidth="150.0">
-                    <StyledButton variant="PRIMARY" fx:id="activateTile" prefWidth="170.0" styleClass="control-tile activate-tile" text="Activate">
+                <StackPane prefWidth="140.0">
+                    <StyledButton variant="PRIMARY" fx:id="activateTile" prefWidth="140.0" styleClass="control-tile activate-tile" text="Activate">
                         <graphic>
                             <Icon icon="ActivateRobot" />
                         </graphic>
                     </StyledButton>
 
-                    <StyledButton variant="PRIMARY" fx:id="deactivateTile" prefWidth="170.0" managed="false" styleClass="control-tile deactivate-tile" visible="false" text="Deactivate">
+                    <StyledButton variant="PRIMARY" fx:id="deactivateTile" prefWidth="140.0" styleClass="control-tile deactivate-tile" text="Deactivate">
                         <graphic>
                             <Icon icon="DeactivateRobot" />
                         </graphic>

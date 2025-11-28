@@ -22,8 +22,13 @@
 
       <children>
         <Label text="Purchase ID:" GridPane.rowIndex="0" GridPane.columnIndex="0" />
-        <TextField fx:id="purchaseIdField" promptText="e.g. 123" style="-fx-background-color: -color-bg; -fx-background-radius: 12; -fx-border-radius: 12; -fx-border-color: rgba(215, 205, 196, 0.45); -fx-border-width: 1; -fx-text-fill: -color-fg; -fx-prompt-text-fill: rgba(215, 205, 196, 0.6); -fx-padding: 8 12;" />
-
+        <!-- <TextField fx:id="purchaseIdField" promptText="e.g. 123" style="-fx-background-color: -color-bg; -fx-background-radius: 12; -fx-border-radius: 12; -fx-border-color: rgba(215, 205, 196, 0.45); -fx-border-width: 1; -fx-text-fill: -color-fg; -fx-prompt-text-fill: rgba(215, 205, 196, 0.6); -fx-padding: 8 12;" /> -->
+        <Dropdown fx:id="purchaseIdDropdown" 
+                  label="Purchase ID"
+                  labelPosition="TOP"
+                  variant="OUTLINED"
+                  promptText="e.g. 123"
+                  GridPane.rowIndex="0" GridPane.columnIndex="1" />
         <Dropdown fx:id="maturationDropdown" 
                   label="Select Maturation Period"
                   labelPosition="TOP"
