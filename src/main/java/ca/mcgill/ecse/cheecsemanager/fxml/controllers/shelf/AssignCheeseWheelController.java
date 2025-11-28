@@ -3,8 +3,11 @@ package ca.mcgill.ecse.cheecsemanager.fxml.controllers.shelf;
 import ca.mcgill.ecse.cheecsemanager.controller.*;
 import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.HidePopupEvent;
+import ca.mcgill.ecse.cheecsemanager.fxml.events.ToastEvent;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -22,6 +25,7 @@ public class AssignCheeseWheelController {
   @FXML private VBox shelfSelectionBox;
 
   private TOShelf selectedShelf;
+  private Set<String> occupiedCells = new HashSet<>();
 
   @FXML
   public void initialize() {
@@ -40,7 +44,7 @@ public class AssignCheeseWheelController {
 
     cheeseCombo.setOnAction(e -> checkEnableAssign());
     shelfCombo.setOnAction(e -> onShelfSelected());
-    rowCombo.setOnAction(e -> checkEnableAssign());
+    rowCombo.setOnAction(e -> onRowSelected());
     colCombo.setOnAction(e -> checkEnableAssign());
     assignButton.setOnAction(e -> assignCheeseWheel());
 
@@ -71,6 +75,7 @@ public class AssignCheeseWheelController {
     String selectedShelfId = shelfCombo.getValue();
     if (selectedShelfId == null) {
       selectedShelf = null;
+      occupiedCells.clear();
       rowCombo.getItems().clear();
       colCombo.getItems().clear();
       checkEnableAssign();
@@ -83,44 +88,63 @@ public class AssignCheeseWheelController {
                         .findFirst()
                         .orElse(null);
 
-    populateRowsCols();
+    // Build occupied cells set
+    occupiedCells.clear();
+    if (selectedShelf != null) {
+      for (int i = 0; i < selectedShelf.numberOfCheeseWheelIDs(); i++) {
+        occupiedCells.add(selectedShelf.getRowNr(i) + "-" + selectedShelf.getColumnNr(i));
+      }
+    }
+
+    populateAvailableRows();
+    colCombo.getItems().clear();
+    colCombo.setValue(null);
+    checkEnableAssign();
   }
 
-  private void populateRowsCols() {
+  private void populateAvailableRows() {
     rowCombo.getItems().clear();
-    colCombo.getItems().clear();
+    rowCombo.setValue(null);
 
     if (selectedShelf == null) {
+      return;
+    }
+
+    List<Integer> availableRows = new ArrayList<>();
+    for (int r = 1; r <= selectedShelf.getMaxRows(); r++) {
+      // Check if this row has at least one free column
+      for (int c = 1; c <= selectedShelf.getMaxColumns(); c++) {
+        if (!occupiedCells.contains(r + "-" + c)) {
+          availableRows.add(r);
+          break;
+        }
+      }
+    }
+
+    availableRows.sort(Integer::compareTo);
+    rowCombo.setItems(FXCollections.observableArrayList(availableRows));
+  }
+
+  private void onRowSelected() {
+    Integer selectedRow = rowCombo.getValue();
+    colCombo.getItems().clear();
+    colCombo.setValue(null);
+
+    if (selectedRow == null || selectedShelf == null) {
       checkEnableAssign();
       return;
     }
 
-    List<String> occupied = new ArrayList<>();
-    for (int i = 0; i < selectedShelf.numberOfCheeseWheelIDs(); i++) {
-      occupied.add(selectedShelf.getRowNr(i) + "-" + selectedShelf.getColumnNr(i));
-    }
-
-    List<Integer> availableRows = new ArrayList<>();
+    // Only show columns that are available for the selected row
     List<Integer> availableCols = new ArrayList<>();
-    for (int r = 1; r <= selectedShelf.getMaxRows(); r++) {
-      boolean rowHasFree = false;
-      for (int c = 1; c <= selectedShelf.getMaxColumns(); c++) {
-        if (!occupied.contains(r + "-" + c)) {
-          rowHasFree = true;
-          if (!availableCols.contains(c))
-            availableCols.add(c);
-        }
+    for (int c = 1; c <= selectedShelf.getMaxColumns(); c++) {
+      if (!occupiedCells.contains(selectedRow + "-" + c)) {
+        availableCols.add(c);
       }
-      if (rowHasFree)
-        availableRows.add(r);
     }
 
-    availableRows.sort(Integer::compareTo);
     availableCols.sort(Integer::compareTo);
-
-    rowCombo.setItems(FXCollections.observableArrayList(availableRows));
     colCombo.setItems(FXCollections.observableArrayList(availableCols));
-
     checkEnableAssign();
   }
 
@@ -144,14 +168,24 @@ public class AssignCheeseWheelController {
     Integer col = colCombo.getValue();
     String shelfId = shelfCombo.getValue();
 
+    // Double-check the cell is available
+    if (occupiedCells.contains(row + "-" + col)) {
+      root.fireEvent(new ToastEvent(
+          "Cell at row " + row + ", column " + col + " is already occupied.",
+          ToastEvent.ToastType.ERROR));
+      return;
+    }
+
     String error = CheECSEManagerFeatureSet4Controller.assignCheeseWheelToShelf(
         cheeseId, shelfId, col, row);
 
     if (!error.isEmpty()) {
-      System.out.println("Error: " + error);
+      root.fireEvent(new ToastEvent(error, ToastEvent.ToastType.ERROR));
       return;
     }
 
+    root.fireEvent(new ToastEvent("Cheese wheel assigned successfully!",
+                                  ToastEvent.ToastType.SUCCESS));
     closePopup();
   }
 
