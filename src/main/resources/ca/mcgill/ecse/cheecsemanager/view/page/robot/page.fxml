@@ -3,13 +3,16 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
+<?import javafx.geometry.Insets?>
 <?import ca.mcgill.ecse.cheecsemanager.fxml.components.*?>
 
 <AnchorPane fx:id="rootPane" stylesheets="@../../../style/main.css,@../../../style/farmer.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.RobotPageController">
 
     <children>
         <VBox spacing="24.0" AnchorPane.bottomAnchor="24.0" AnchorPane.leftAnchor="24.0" AnchorPane.rightAnchor="24.0" AnchorPane.topAnchor="24.0">
-
+            <padding>
+                <Insets right="24" bottom="24" left="24" />
+            </padding>
             <!-- Command Center -->
             <HBox alignment="CENTER_LEFT" spacing="18.0">
                 <StackPane prefHeight="120.0" prefWidth="150.0">
