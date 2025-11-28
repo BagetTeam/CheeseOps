@@ -34,6 +34,7 @@ public class ShelfCheeseWheelDataProvider {
     List<TOCheeseWheel> latestShelves =
         Arrays.stream(shelf.getCheeseWheelIDs())
             .map(CheECSEManagerFeatureSet3Controller::getCheeseWheel)
+            .filter(c -> !c.isIsSpoiled())
             .toList();
     wheels.setAll(latestShelves);
   }

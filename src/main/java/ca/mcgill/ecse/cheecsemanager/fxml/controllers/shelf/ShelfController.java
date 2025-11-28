@@ -1,14 +1,17 @@
 package ca.mcgill.ecse.cheecsemanager.fxml.controllers.shelf;
 
 import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
+import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet3Controller;
 import ca.mcgill.ecse.cheecsemanager.controller.TOShelf;
 import ca.mcgill.ecse.cheecsemanager.fxml.components.Animation.AnimationManager;
 import ca.mcgill.ecse.cheecsemanager.fxml.components.Animation.EasingInterpolators;
 import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.ShowPopupEvent;
 import ca.mcgill.ecse.cheecsemanager.fxml.store.ShelfDataProvider;
+import java.util.Arrays;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,7 +22,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 
 public class ShelfController {
 
@@ -34,7 +36,7 @@ public class ShelfController {
   @FXML private TableColumn<TOShelf, String> idColumn;
   @FXML private TableColumn<TOShelf, Integer> rowsColumn;
   @FXML private TableColumn<TOShelf, Integer> colsColumn;
-  @FXML private TableColumn<TOShelf, Integer> numCheeseColumn;
+  @FXML private TableColumn<TOShelf, Long> numCheeseColumn;
   @FXML private TableColumn<TOShelf, Void> actionColumn;
 
   @FXML private StyledButton openPopupBtn;
@@ -49,9 +51,16 @@ public class ShelfController {
     colsColumn.setCellValueFactory(
         c
         -> new SimpleIntegerProperty(c.getValue().getMaxColumns()).asObject());
+
     numCheeseColumn.setCellValueFactory(
         c
-        -> new SimpleIntegerProperty(c.getValue().numberOfCheeseWheelIDs())
+        -> new SimpleLongProperty(
+               Arrays.stream(c.getValue().getCheeseWheelIDs())
+                   .filter(cw
+                           -> !CheECSEManagerFeatureSet3Controller
+                                   .getCheeseWheel(cw)
+                                   .isIsSpoiled())
+                   .count())
                .asObject());
 
     shelfTable.getColumns().forEach(tc -> tc.setMinWidth(tc.getPrefWidth()));
