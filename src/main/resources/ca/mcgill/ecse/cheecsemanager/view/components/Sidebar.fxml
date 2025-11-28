@@ -72,6 +72,18 @@
         </graphic>
     </StyledButton>
     <StyledButton
+        fx:id="buttonCheeseWheels"
+        text="CheeseWheels"
+        onAction="#handleRobot"
+        prefWidth="250"
+        graphicTextGap="12"
+        size="MD"
+    >
+        <graphic>
+            <Icon icon="Cheese" />
+        </graphic>
+    </StyledButton>
+    <StyledButton
         fx:id="buttonSettings"
         text="Settings"
         onAction="#handleSettings"

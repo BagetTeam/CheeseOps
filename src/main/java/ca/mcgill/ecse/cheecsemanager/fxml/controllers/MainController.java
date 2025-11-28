@@ -42,7 +42,7 @@ public class MainController {
     PageNavigator.getInstance().setContentArea(contentArea);
 
     // Load default page
-    loadPage("shelves");
+    loadPage("cheeseWheels");
 
     this.popupManager.initialize(rootStackPane, veil);
     rootStackPane.addEventFilter(ShowPopupEvent.SHOW_POPUP,

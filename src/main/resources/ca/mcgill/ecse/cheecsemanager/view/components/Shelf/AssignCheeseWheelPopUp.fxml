@@ -7,30 +7,34 @@
     xmlns="http://javafx.com/javafx"
     xmlns:fx="http://javafx.com/fxml"
     fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.shelf.AssignCheeseWheelController"
-    spacing="15"
+    spacing="16"
     alignment="TOP_CENTER"
-    styleClass="w-lg"
+    styleClass="w-xs"
+    fx:id="root"
 >
-    <HBox spacing="10" alignment="CENTER_LEFT">
-        <Label text="Cheese:" />
-        <ComboBox fx:id="cheeseCombo" prefWidth="200" />
+    <VBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="Cheese:" styleClass="text-fg, text-sm" />
+        <ComboBox fx:id="cheeseCombo" styleClass="combo-box" />
+    </VBox>
+
+    <HBox spacing="8" alignment="CENTER_LEFT">
+        <VBox spacing="8" HBox.hgrow="ALWAYS">
+            <Label text="Row:" styleClass="text-fg, text-sm" />
+            <ComboBox fx:id="rowCombo" />
+        </VBox>
+        <VBox spacing="8" HBox.hgrow="ALWAYS">
+            <Label text="Column:" styleClass="text-fg, text-sm" />
+            <ComboBox fx:id="colCombo" />
+        </VBox>
     </HBox>
 
-    <HBox spacing="10" alignment="CENTER_LEFT">
-        <Label text="Shelf:" />
-        <ComboBox fx:id="shelfCombo" prefWidth="200" />
-    </HBox>
-
-    <HBox spacing="10" alignment="CENTER_LEFT">
-        <Label text="Row:" />
-        <ComboBox fx:id="rowCombo" prefWidth="80" />
-        <Label text="Column:" />
-        <ComboBox fx:id="colCombo" prefWidth="80" />
-    </HBox>
-
-    <HBox spacing="10" alignment="CENTER_RIGHT">
-        <StyledButton fx:id="assignButton" text="Assign" variant="PRIMARY" />
+    <HBox spacing="8" alignment="CENTER_RIGHT">
+        <StyledButton
+            fx:id="assignButton"
+            text="Assign"
+            variant="PRIMARY"
+            disable="true"
+        />
     </HBox>
 
 </VBox>
-

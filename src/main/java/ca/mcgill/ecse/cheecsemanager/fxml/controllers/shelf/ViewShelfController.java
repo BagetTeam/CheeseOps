@@ -13,16 +13,17 @@ public class ViewShelfController {
   @FXML private Label shelfNameLabel;
   @FXML private VBox root;
 
-  private TOShelf shelfToView;
+  public static TOShelf shelfToView;
   private Runnable onBackPressed;
 
   public void init(TOShelf shelf, Runnable onBackPressed) {
-    this.shelfToView = shelf;
+    shelfToView = shelf;
     this.onBackPressed = onBackPressed;
 
     shelfNameLabel.setText("Shelf " + shelf.getShelfID());
     initShelfGrid(shelf);
   }
+
   @FXML
   public void initialize() {
     shelfNameLabel.getStyleClass().add("text-fg");
@@ -39,9 +40,9 @@ public class ViewShelfController {
 
   @FXML
   public void onAddCheesePressed() {
-    root.fireEvent(
-        new ShowPopupEvent("view/components/Shelf/AssignCheeseWheelPopUp.fxml",
-                           "Assign Cheese Wheel"));
+    root.fireEvent(new ShowPopupEvent(
+        "view/components/Shelf/AssignCheeseWheelPopUp.fxml",
+        "Assign Cheese Wheel in Shelf " + shelfToView.getShelfID()));
   }
 
   private void initShelfGrid(TOShelf shelf) {
