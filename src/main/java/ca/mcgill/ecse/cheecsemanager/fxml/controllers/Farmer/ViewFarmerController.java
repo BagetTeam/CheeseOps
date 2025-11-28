@@ -249,7 +249,7 @@ public class ViewFarmerController extends PopupController implements PageNavigat
 
   private void handleViewCheeseWheel(TOCheeseWheel cheeseWheel) {
     System.out.println("View cheese wheel: " + cheeseWheel.getId());
-    // TODO: Navigate to cheese wheel details
+    // TODO: Navigate to cheese wheel details MINGLI MING LI 
   }
 
   public String deleteFarmer(TOFarmer farmer, StackPane overlay) {

@@ -12,10 +12,12 @@ import ca.mcgill.ecse.cheecsemanager.fxml.store.FarmerDataProvider;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -31,6 +33,7 @@ public class BuyCheesePopupController {
   @FXML private ComboBox<String> farmerDropdown;
   @FXML private TextField        wheelCountField;
   @FXML private ComboBox<String> maturationDropdown;
+  @FXML private DatePicker       purchaseDatePicker;
   @FXML private CheckBox         autoAssignCheckbox;
   @FXML private Label            errorLabel;
 
@@ -65,6 +68,8 @@ public class BuyCheesePopupController {
     maturationDropdown.getItems().setAll(
         "Six", "Twelve", "TwentyFour", "ThirtySix"
     );
+
+    purchaseDatePicker.setValue(LocalDate.now());
   }
 
   @FXML
@@ -74,6 +79,7 @@ public class BuyCheesePopupController {
     String email   = farmerDropdown.getValue();
     String countStr = wheelCountField.getText();
     String months  = maturationDropdown.getValue();
+    LocalDate purchaseDateValue = purchaseDatePicker.getValue();
     
     if (email == null || email.isBlank()) {
       errorLabel.setText("Select a farmer.");
@@ -81,6 +87,10 @@ public class BuyCheesePopupController {
     }
     if (months == null || months.isBlank()) {
       errorLabel.setText("Select maturation period.");
+      return;
+    }
+    if (purchaseDateValue == null) {
+      errorLabel.setText("Select a purchase date.");
       return;
     }
 
@@ -93,16 +103,15 @@ public class BuyCheesePopupController {
       return;
     }
 
-    // Get current max cheese wheel ID to identify newly created ones
     List<TOCheeseWheel> existingWheels = CheECSEManagerFeatureSet3Controller.getCheeseWheels();
     int maxExistingId = existingWheels.stream()
         .mapToInt(TOCheeseWheel::getId)
         .max()
         .orElse(0);
     
-    Date today = new Date(System.currentTimeMillis());
+    Date purchaseDate = Date.valueOf(purchaseDateValue);
     String result =
-        CheECSEManagerFeatureSet4Controller.buyCheeseWheels(email, today, count, months);
+        CheECSEManagerFeatureSet4Controller.buyCheeseWheels(email, purchaseDate, count, months);
     if (!result.isEmpty()) {
       errorLabel.setText(result);
       return;
