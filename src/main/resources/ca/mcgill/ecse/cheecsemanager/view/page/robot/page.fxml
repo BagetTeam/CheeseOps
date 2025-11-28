@@ -9,7 +9,18 @@
 <AnchorPane fx:id="rootPane" stylesheets="@../../../style/main.css,@../../../style/farmer.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.RobotPageController">
 
     <children>
+    
         <VBox spacing="24.0" AnchorPane.bottomAnchor="24.0" AnchorPane.leftAnchor="24.0" AnchorPane.rightAnchor="24.0" AnchorPane.topAnchor="24.0">
+            <VBox spacing="4">
+                <Label
+                    text="Robot Management"
+                    style="-fx-text-fill: -color-fg; -fx-font-size: 28px; -fx-font-weight: bold;"
+                />
+                <Label
+                    text="Manage robot and view live logs"
+                    style="-fx-text-fill: -color-primary; -fx-font-size: 14px;"
+                />
+            </VBox>
             <padding>
                 <Insets right="24" bottom="24" left="24" />
             </padding>

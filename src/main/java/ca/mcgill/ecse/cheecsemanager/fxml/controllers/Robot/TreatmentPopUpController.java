@@ -2,7 +2,9 @@ package ca.mcgill.ecse.cheecsemanager.fxml.controllers.Robot;
 
 import ca.mcgill.ecse.cheecsemanager.controller.RobotController;
 import ca.mcgill.ecse.cheecsemanager.fxml.components.Dropdown;
+import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.HidePopupEvent;
+import ca.mcgill.ecse.cheecsemanager.fxml.events.ToastEvent;
 import ca.mcgill.ecse.cheecsemanager.controller.PurchaseController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -16,9 +18,7 @@ public class TreatmentPopUpController {
   @FXML private Dropdown purchaseIdDropdown;
   @FXML private Dropdown maturationDropdown;
   @FXML private Label errorLabel;
-  @FXML private Button startBtn;
-
-  
+  @FXML private StyledButton startBtn;
 
   @FXML
   public void initialize() {
@@ -63,7 +63,12 @@ public class TreatmentPopUpController {
 
     try {
       System.out.println("TREATMENT SUBMIT: PID=" + purchaseId + ", PERIOD=" + period);
+      System.out.println("Initializing treatment...");
+      // startBtn.setText("Loading...");
       RobotController.initializeTreatment(purchaseId, period);
+      root.fireEvent(new ToastEvent("Treatment completed succsessfully.",
+                                  ToastEvent.ToastType.SUCCESS));
+      System.out.println("Treatment ended successfully.");
       closePopup();
     } catch (RuntimeException ex) {
       showError(ex.getMessage() == null ? "Failed to start treatment." : ex.getMessage());
