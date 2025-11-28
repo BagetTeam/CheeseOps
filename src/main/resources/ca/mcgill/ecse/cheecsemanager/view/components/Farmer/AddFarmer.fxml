@@ -57,7 +57,7 @@
                   <TextField fx:id="addressField" promptText="Enter address" style="-fx-background-color: -color-bg; -fx-background-radius: 12; -fx-border-radius: 12; -fx-border-color: rgba(215, 205, 196, 0.45); -fx-border-width: 1; -fx-text-fill: -color-fg; -fx-prompt-text-fill: rgba(215, 205, 196, 0.6); -fx-padding: 8 12;" />
                </children>
             </VBox>
-            <Label fx:id="errorLabel" wrapText="true" style="-fx-text-fill: #f07e68; -fx-font-size: 12px;" />
+            <Label fx:id="errorLabel" wrapText="true" visible="false" managed="false" style="-fx-text-fill: #f07e68; -fx-font-size: 12px;" />
             <HBox alignment="CENTER_RIGHT" spacing="10.0" style="-fx-padding: 10 0 0 0;">
                <children>
                   <StyledButton mnemonicParsing="false" onAction="#onCancel" variant="DEFAULT" style="-fx-border-color: rgba(215, 205, 196, 0.45); -fx-border-radius: 8;" size="BASE" text="Cancel"/>

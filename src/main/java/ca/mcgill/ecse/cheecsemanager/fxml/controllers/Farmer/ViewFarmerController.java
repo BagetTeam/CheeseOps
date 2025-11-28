@@ -4,6 +4,7 @@ import ca.mcgill.ecse.cheecsemanager.fxml.components.Icon;
 import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton;
 import ca.mcgill.ecse.cheecsemanager.fxml.controllers.PageNavigator;
 import ca.mcgill.ecse.cheecsemanager.fxml.controllers.PopupController;
+import ca.mcgill.ecse.cheecsemanager.fxml.events.ToastEvent;
 import ca.mcgill.ecse.cheecsemanager.fxml.store.FarmerDataProvider;
 import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet7Controller;
 import ca.mcgill.ecse.cheecsemanager.controller.TOFarmer;
@@ -61,6 +62,10 @@ public class ViewFarmerController extends PopupController implements PageNavigat
 
   private final FarmerDataProvider farmerDataProvider = FarmerDataProvider.getInstance();
   private TOFarmer farmer;
+
+  public AnchorPane getViewFarmerRoot() {
+    return viewFarmerRoot;
+  }
 
   @FXML
   public void initialize() {
@@ -244,7 +249,7 @@ public class ViewFarmerController extends PopupController implements PageNavigat
 
   private void handleViewCheeseWheel(TOCheeseWheel cheeseWheel) {
     System.out.println("View cheese wheel: " + cheeseWheel.getId());
-    // TODO: Navigate to cheese wheel details
+    // TODO: Navigate to cheese wheel details MINGLI MING LI 
   }
 
   public String deleteFarmer(TOFarmer farmer, StackPane overlay) {
@@ -253,6 +258,7 @@ public class ViewFarmerController extends PopupController implements PageNavigat
         if (error == null || error.isEmpty()) {
             // Success - close popup and go back to farmer list
             removePopup(overlay);
+            getViewFarmerRoot().fireEvent(new ToastEvent("Farmer deleted successfully.", ToastEvent.ToastType.SUCCESS));
             PageNavigator.getInstance().goBack();
             return "";
         } else {

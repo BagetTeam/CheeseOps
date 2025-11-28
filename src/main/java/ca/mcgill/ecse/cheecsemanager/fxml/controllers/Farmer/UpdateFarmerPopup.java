@@ -2,6 +2,7 @@ package ca.mcgill.ecse.cheecsemanager.fxml.controllers.Farmer;
 
 import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet7Controller;
 import ca.mcgill.ecse.cheecsemanager.controller.TOFarmer;
+import ca.mcgill.ecse.cheecsemanager.fxml.events.ToastEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -66,35 +67,44 @@ public class UpdateFarmerPopup {
 
         if (password == null || password.trim().isEmpty()) {
             errorLabel.setText("Password is required.");
+            errorLabel.setVisible(true);
+            errorLabel.setManaged(true);
             return;
         }
         if (address == null || address.trim().isEmpty()) {
             errorLabel.setText("Address is required.");
+            errorLabel.setVisible(true);
+            errorLabel.setManaged(true);
             return;
         }
 
-        
+        errorLabel.setText("");
+        errorLabel.setVisible(false);
+        errorLabel.setManaged(false);
         if (farmerViewController != null) {
              try {
                 // Note: Email cannot be changed as it's immutable in the User model
                 String error = CheECSEManagerFeatureSet7Controller.updateFarmer(farmerData.getEmail(), password, name != null && !name.trim().isEmpty() ? name : null, address);
                  if (error != null && !error.isEmpty()) {
-                    errorLabel.setText(error);
+                    farmerViewController.getViewFarmerRoot().fireEvent(new ToastEvent("Failed updating farmer: " + error + ".", ToastEvent.ToastType.ERROR));
                     return;
                  }
                 TOFarmer updatedFarmer = CheECSEManagerFeatureSet7Controller.getFarmer(farmerData.getEmail());
                 if (updatedFarmer == null) {
-                    errorLabel.setText("Failed to reload farmer data.");
+                    farmerViewController.getViewFarmerRoot().fireEvent(new ToastEvent("Failed to reload farmer data.", ToastEvent.ToastType.ERROR));
                     return;
                 }
                 this.farmerData = updatedFarmer;
                 farmerViewController.refreshFarmerCard(updatedFarmer);
                  closePopup();
+                 farmerViewController.getViewFarmerRoot().fireEvent(new ToastEvent("Farmer updated successfully.", ToastEvent.ToastType.SUCCESS));
              } catch (RuntimeException e) {
-                 errorLabel.setText(e.getMessage());
+                 farmerViewController.getViewFarmerRoot().fireEvent(new ToastEvent("Failed updating farmer: " + e.getMessage() + ".", ToastEvent.ToastType.ERROR));
+                 return;
              }
         } else {
-            errorLabel.setText("Internal Error: Controller not connected.");
+            farmerViewController.getViewFarmerRoot().fireEvent(new ToastEvent("Internal Error: Controller not connected.", ToastEvent.ToastType.ERROR));
+            return;
         }
     }
 

@@ -1,6 +1,7 @@
 package ca.mcgill.ecse.cheecsemanager.fxml.controllers.Farmer;
 
 import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet3Controller;
+import ca.mcgill.ecse.cheecsemanager.fxml.events.ToastEvent;
 import ca.mcgill.ecse.cheecsemanager.fxml.store.FarmerDataProvider;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -60,32 +61,43 @@ public class AddFarmerPopup {
 
         if (email == null || email.trim().isEmpty()) {
             errorLabel.setText("Email is required.");
+            errorLabel.setVisible(true);
+            errorLabel.setManaged(true);
             return;
         }
         if (password == null || password.trim().isEmpty()) {
             errorLabel.setText("Password is required.");
+            errorLabel.setVisible(true);
+            errorLabel.setManaged(true);
             return;
         }
         if (address == null || address.trim().isEmpty()) {
             errorLabel.setText("Address is required.");
+            errorLabel.setVisible(true);
+            errorLabel.setManaged(true);
             return;
         }
 
-        
+        errorLabel.setText("");        
+        errorLabel.setVisible(false);
+        errorLabel.setManaged(false);
         if (farmerController != null) {
              try {
                  String error = CheECSEManagerFeatureSet3Controller.registerFarmer(email, password, name, address);
                  if (error != null && !error.isEmpty()) {
-                    errorLabel.setText(error);
+                    farmerController.getFarmerRoot().fireEvent(new ToastEvent("Failed adding farmer: " + error + ".", ToastEvent.ToastType.ERROR));
                     return;
                  }
                  FarmerDataProvider.getInstance().refresh();
                  closePopup();
+                 farmerController.getFarmerRoot().fireEvent(new ToastEvent("Farmer added successfully.", ToastEvent.ToastType.SUCCESS));
              } catch (RuntimeException e) {
-                 errorLabel.setText(e.getMessage());
+                 farmerController.getFarmerRoot().fireEvent(new ToastEvent("Failed adding farmer: " + e.getMessage() + ".", ToastEvent.ToastType.ERROR));
+                 return;
              }
         } else {
-            errorLabel.setText("Internal Error: Controller not connected.");
+            farmerController.getFarmerRoot().fireEvent(new ToastEvent("Internal Error: Controller not connected.", ToastEvent.ToastType.ERROR));
+            return;
         }
     }
 

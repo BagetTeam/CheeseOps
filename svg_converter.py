@@ -6,7 +6,7 @@ import re
 # SVG namespace
 SVG_NS = "{http://www.w3.org/2000/svg}"
 
-special_icons = ["logo", "CheeseWheel"]
+special_icons = ["logo", "CheeseWheel", "SmolCheeseWheel"]
 
 
 def parse_transform(transform_str: str) -> str:
@@ -96,7 +96,6 @@ def convert_path(element: ET.Element, svg_name: str) -> str:
         "stroke-width",
         "opacity",
         "fill-rule",
-        "clip-rule",
         "fill-opacity",
     ]
 

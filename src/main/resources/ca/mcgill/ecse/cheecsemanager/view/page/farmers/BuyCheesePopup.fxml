@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -53,13 +55,13 @@
                             </children>
                         </VBox>
 
-                        <VBox spacing="10">
+                        <VBox spacing="10" prefWidth="360.0" minWidth="360.0" maxWidth="360.0">
                             <children>
                                 <Label text="Number of Wheels" styleClass="text-muted" style="-fx-font-size: 12px;" />
                                 <TextField fx:id="wheelCountField"
                                            promptText="e.g. 10"
                                            style="-fx-background-color: -color-bg; -fx-background-radius: 14; -fx-border-radius: 14; -fx-border-width: 1; -fx-border-color: rgba(215, 205, 196, 0.45); -fx-text-fill: -color-fg; -fx-prompt-text-fill: rgba(215, 205, 196, 0.6); -fx-padding: 8 12;"
-                                           prefWidth="360.0"/>
+                                           prefWidth="360.0" minWidth="360.0" maxWidth="360.0"/>
                             </children>
                         </VBox>
 
@@ -72,6 +74,27 @@
                                           style="-fx-background-color: -color-bg; -fx-background-radius: 14; -fx-border-radius: 14; -fx-border-width: 1; -fx-border-color: rgba(215, 205, 196, 0.45); -fx-text-fill: -color-fg; -fx-prompt-text-fill: rgba(215, 205, 196, 0.6); -fx-padding: 6 10;"/>
                             </children>
                         </VBox>
+
+                        <VBox spacing="10">
+                            <children>
+                                <Label text="Purchase Date" styleClass="text-muted" style="-fx-font-size: 12px;" />
+                                <DatePicker fx:id="purchaseDatePicker"
+                                            prefWidth="360.0"
+                                            promptText="Select purchase date"
+                                            styleClass="styled-date-picker"
+                                            style="-fx-background-color: -color-bg; -fx-background-radius: 14; -fx-border-radius: 14; -fx-border-width: 1; -fx-border-color: rgba(215, 205, 196, 0.45); -fx-text-fill: -color-fg; -fx-prompt-text-fill: rgba(215, 205, 196, 0.6); -fx-padding: 6 10;"/>
+                            </children>
+                        </VBox>
+
+                        <CheckBox fx:id="autoAssignCheckbox"
+                                  text="Auto-assign cheese wheels to shelves"
+                                  selected="true"
+                                  styleClass="custom-checkbox"
+                                  style="-fx-font-size: 13px; -fx-text-fill: -color-fg;">
+                            <padding>
+                                <Insets top="4" bottom="4"/>
+                            </padding>
+                        </CheckBox>
 
                         <Label fx:id="errorLabel"
                                wrapText="true"
