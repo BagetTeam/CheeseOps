@@ -206,6 +206,11 @@ public class BuyCheesePopupController {
           
           if (result.isEmpty()) {
             assignedCount++;
+          } else {
+            // Log failed assignment to help debug
+            System.err.println("Failed to assign cheese wheel " + 
+                cheeseWheelsToAssign.get(assignedCount).getId() + 
+                " to " + shelf.getShelfID() + " at (" + col + "," + row + "): " + result);
           }
         }
       }
