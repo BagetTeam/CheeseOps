@@ -7,22 +7,31 @@ import ca.mcgill.ecse.cheecsemanager.persistence.CheECSEManagerPersistence;
 // import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class RobotController {
 
-  // private final BooleanProperty robotActive = new SimpleBooleanProperty(false);
   // Observable counter that increments when the robot log changes.
   private static final SimpleIntegerProperty logVersion = new SimpleIntegerProperty(0);
   public static IntegerProperty logVersionProperty() {
     return logVersion;
   }
 
+  public static String getRobotStatus() {
+    Robot robot = getManager().getRobot();
+    if (robot == null || !robot.getIsActivated()) {
+      return "Deactivated";
+    }
+    return robot.getStatusFullName();
+  }
+
   private static CheECSEManager getManager() {
     return CheECSEManagerApplication.getCheecseManager();
   }
+
   private static Robot getRobot() {
     var robot = getManager().getRobot();
 
