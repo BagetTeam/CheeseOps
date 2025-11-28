@@ -1,35 +1,87 @@
 package ca.mcgill.ecse.cheecsemanager.fxml.controllers.shelf;
 
+import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet1Controller;
+import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet3Controller;
 import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet4Controller;
 import ca.mcgill.ecse.cheecsemanager.controller.TOCheeseWheel;
-import ca.mcgill.ecse.cheecsemanager.fxml.components.Input;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.ToastEvent;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.ToastEvent.ToastType;
+import ca.mcgill.ecse.cheecsemanager.fxml.store.ShelfCheeseWheelDataProvider;
+import java.util.ArrayList;
+import java.util.List;
 import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 
 public class CheeseDetailsController {
   @FXML private HBox root;
   @FXML private Label cheeseIdLabel;
-  @FXML private Input shelfIdInput;
-  @FXML private Input rowInput;
-  @FXML private Input columnInput;
-  @FXML private Input ageInput;
-  @FXML private Input purchaseDateInput;
-  @FXML private Input isSpoiledInput;
+  @FXML private ComboBox<String> shelfIdComboBox;
+  @FXML private ComboBox<Integer> rowComboBox;
+  @FXML private ComboBox<Integer> columnComboBox;
+  @FXML private ComboBox<String> ageComboBox;
+  @FXML private Label purchaseDateLabel;
+  @FXML private ComboBox<Boolean> isSpoiledComboBox;
 
   private Runnable onClosePressed;
   private TOCheeseWheel cheese;
 
+  private ShelfCheeseWheelDataProvider provider =
+      ShelfCheeseWheelDataProvider.getInstance();
+
   public void init(TOCheeseWheel cheese, Runnable onClosePressed) {
     cheeseIdLabel.setText("Cheese Wheel #" + cheese.getId());
-    shelfIdInput.setText(cheese.getShelfID());
-    rowInput.setText("" + cheese.getRow());
-    columnInput.setText("" + cheese.getColumn());
-    ageInput.setText(cheese.getMonthsAged());
-    purchaseDateInput.setText(cheese.getPurchaseDate().toString());
-    isSpoiledInput.setText("" + cheese.getIsSpoiled());
+    purchaseDateLabel.setText("Purchase data: " +
+                              cheese.getPurchaseDate().toString());
+
+    shelfIdComboBox.setValue(cheese.getShelfID());
+    shelfIdComboBox.getItems().clear();
+    shelfIdComboBox.getItems().setAll(
+        CheECSEManagerFeatureSet1Controller.getShelves()
+            .stream()
+            .map(s -> s.getShelfID())
+            .toList());
+
+    var shelf =
+        CheECSEManagerFeatureSet1Controller.getShelf(cheese.getShelfID());
+    List<String> occupied = new ArrayList<>();
+    for (int i = 0; i < shelf.numberOfCheeseWheelIDs(); i++) {
+      occupied.add(shelf.getRowNr(i) + "-" + shelf.getColumnNr(i));
+    }
+
+    List<Integer> availableRows = new ArrayList<>();
+    List<Integer> availableCols = new ArrayList<>();
+    for (int r = 1; r <= shelf.getMaxRows(); r++) {
+      boolean rowHasFree = false;
+      for (int c = 1; c <= shelf.getMaxColumns(); c++) {
+        if (!occupied.contains(r + "-" + c)) {
+          rowHasFree = true;
+          if (!availableCols.contains(c))
+            availableCols.add(c);
+        }
+      }
+      if (rowHasFree)
+        availableRows.add(r);
+    }
+
+    availableRows.sort(Integer::compareTo);
+    availableCols.sort(Integer::compareTo);
+
+    rowComboBox.setValue(cheese.getRow());
+    rowComboBox.getItems().clear();
+    rowComboBox.getItems().setAll(availableRows);
+
+    columnComboBox.setValue(cheese.getColumn());
+    columnComboBox.getItems().clear();
+    columnComboBox.getItems().setAll(availableCols);
+
+    ageComboBox.setValue(cheese.getMonthsAged());
+    ageComboBox.getItems().clear();
+    ageComboBox.getItems().setAll("Six", "Twelve", "TwentyFour", "ThirtySix");
+
+    isSpoiledComboBox.setValue(cheese.isIsSpoiled());
+    isSpoiledComboBox.getItems().setAll(true, false);
 
     this.onClosePressed = onClosePressed;
     this.cheese = cheese;
@@ -41,7 +93,19 @@ public class CheeseDetailsController {
   }
 
   @FXML
-  public void onSavePressed() {}
+  public void onSavePressed() {
+    var error = CheECSEManagerFeatureSet3Controller.updateCheeseWheel(
+        this.cheese.getId(), this.ageComboBox.getValue(),
+        this.isSpoiledComboBox.getValue(), this.columnComboBox.getValue(),
+        this.rowComboBox.getValue(), this.shelfIdComboBox.getValue());
+
+    if (error != null && !error.isEmpty()) {
+      root.fireEvent(new ToastEvent(error, ToastType.ERROR));
+    } else {
+      root.fireEvent(new ToastEvent("Success!", ToastType.SUCCESS));
+      provider.refresh();
+    }
+  }
 
   @FXML
   public void onDeletePressed() {

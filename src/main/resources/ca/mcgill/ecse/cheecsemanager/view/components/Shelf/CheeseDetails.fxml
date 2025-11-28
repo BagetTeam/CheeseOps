@@ -19,46 +19,49 @@
         <Icon icon="CheeseWheel" />
         <VBox spacing="6">
             <Label fx:id="cheeseIdLabel" styleClass="text-fg" />
+            <Label text="" fx:id="purchaseDateLabel" styleClass="text-fg" />
 
-            <Input
-                labelPosition="LEFT"
-                label="Shelf ID"
-                fx:id="shelfIdInput"
-                variant="OUTLINED"
-            />
-            <Input
-                labelPosition="LEFT"
-                label="Row #"
-                fx:id="rowInput"
-                variant="OUTLINED"
-            />
-            <Input
-                labelPosition="LEFT"
-                label="Column #"
-                fx:id="columnInput"
-                variant="OUTLINED"
-            />
-            <Input
-                labelPosition="LEFT"
-                label="Age: "
-                fx:id="ageInput"
-                variant="OUTLINED"
-            />
-            <Input
-                labelPosition="LEFT"
-                label="Purchase Date: "
-                fx:id="purchaseDateInput"
-                variant="OUTLINED"
-            />
-            <Input
-                labelPosition="LEFT"
-                label="Is Spoiled: "
-                fx:id="isSpoiledInput"
-                variant="OUTLINED"
-            />
+            <HBox alignment="CENTER_LEFT" spacing="12">
+                <Label text="Shelf Id:" styleClass="text-fg" />
+                <ComboBox
+                    fx:id="shelfIdComboBox"
+                    HBox.hgrow="ALWAYS"
+                    styleClass="combo-box"
+                />
+            </HBox>
+            <HBox alignment="CENTER_LEFT" spacing="12">
+                <Label text="Row #" styleClass="text-fg" />
+                <ComboBox
+                    fx:id="rowComboBox"
+                    HBox.hgrow="ALWAYS"
+                    styleClass="combo-box"
+                />
+            </HBox>
+            <HBox alignment="CENTER_LEFT" spacing="12">
+                <Label text="Column #" styleClass="text-fg" />
+                <ComboBox
+                    fx:id="columnComboBox"
+                    HBox.hgrow="ALWAYS"
+                    styleClass="combo-box"
+                />
+            </HBox>
+            <HBox alignment="CENTER_LEFT" spacing="12">
+                <Label text="Age #" styleClass="text-fg" />
+                <ComboBox
+                    fx:id="ageComboBox"
+                    HBox.hgrow="ALWAYS"
+                    styleClass="combo-box"
+                />
+            </HBox>
 
-
-
+            <HBox alignment="CENTER_LEFT" spacing="12">
+                <Label text="Is Spoiled: " styleClass="text-fg" />
+                <ComboBox
+                    fx:id="isSpoiledComboBox"
+                    HBox.hgrow="ALWAYS"
+                    styleClass="combo-box"
+                />
+            </HBox>
         </VBox>
         <HBox alignment="CENTER_RIGHT" spacing="12">
             <StyledButton
