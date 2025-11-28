@@ -27,6 +27,12 @@ import javafx.stage.Window;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.geometry.Pos;
+import javafx.scene.control.ContentDisplay;
+import javafx.scene.control.Control;
+import javafx.scene.control.TableCell;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 
 
 // log-change listening (replaces polling)
@@ -67,6 +73,41 @@ public class RobotPageController {
         // Configure table column (show TOLogEntry.description)
         if (logColumn != null) {
             logColumn.setCellValueFactory(cell -> new ReadOnlyStringWrapper(cell.getValue().getDescription()));
+            logColumn.setCellFactory(column -> new TableCell<>() {
+                private final Text text = new Text();
+
+                {
+                    text.wrappingWidthProperty().bind(column.widthProperty().subtract(16));
+                    // Use -fx-fill for Text nodes (not -fx-text-fill)
+                    text.setStyle("-fx-fill: -color-fg;");
+                    text.setTextAlignment(TextAlignment.LEFT);
+                    setGraphic(text);
+                    setAlignment(Pos.CENTER_LEFT);
+                    setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+
+                    // Dynamically resize cell height based on text bounds (both grow AND shrink)
+                    text.boundsInLocalProperty().addListener((obs, oldBounds, newBounds) -> {
+                        if (newBounds == null) {
+                            return;
+                        }
+                        double computedHeight = newBounds.getHeight() + 16;
+                        setPrefHeight(computedHeight);
+                    });
+                }
+
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == null || item.isEmpty()) {
+                        text.setText(null);
+                        setGraphic(null);
+                        setPrefHeight(Control.USE_COMPUTED_SIZE);
+                    } else {
+                        text.setText(item);
+                        setGraphic(text);
+                    }
+                }
+            });
         }
 
         // initial load
