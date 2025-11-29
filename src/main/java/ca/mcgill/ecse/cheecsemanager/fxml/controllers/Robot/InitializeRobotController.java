@@ -4,7 +4,8 @@ import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton;
 import ca.mcgill.ecse.cheecsemanager.model.Shelf;
 import java.util.ArrayList;
 import java.util.List;
-import ca.mcgill.ecse.cheecsemanager.controller.RobotController.*;
+import ca.mcgill.ecse.cheecsemanager.controller.RobotController;
+import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet1Controller;
 
 import javafx.fxml.FXML;
 
@@ -16,9 +17,8 @@ public class InitializeRobotController {
   public void initialize() {
     bindings();
 
-    List<String> items = List.of("67", "2", "3", "4", "5");
+    List<String> items = CheECSEManagerFeatureSet1Controller.getAllShelfIds();
     ShelfIdDropdown.setItems(items);
-
   }
 
   private void bindings() {
@@ -31,7 +31,6 @@ public class InitializeRobotController {
 
   private void submit() {
     String shelfIdVal = ShelfIdDropdown.getSelectedValue();
-
-    System.out.println("YESSSIIIRIRRRR Shelf ID: " + shelfIdVal);
+    
   }
 }
