@@ -10,6 +10,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
+/**
+ * Controller for the Treatment Popup UI.
+ * 
+ * @author Benjamin Curis-Friedman
+ */
 public class TreatmentPopUpController {
 
   @FXML private VBox root;

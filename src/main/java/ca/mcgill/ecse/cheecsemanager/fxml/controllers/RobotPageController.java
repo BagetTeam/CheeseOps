@@ -187,6 +187,10 @@ public class RobotPageController {
         }
     }
     
+    /**
+     * Handles the start treatment action by showing the treatment popup.
+     * @author Benjamin Curis-Friedman
+     */
     @FXML
     private void handleTreatment() {
         // Show the in-page popup (handled by MainController -> PopupManager)
