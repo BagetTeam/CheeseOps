@@ -73,6 +73,16 @@ public class CheECSEManagerFeatureSet1Controller {
   }
 
   /**
+   * Get all shelf Ids in the system
+   * @return list of shelf Ids
+   * @author Benjamin Curis-Friedman
+   * */
+  public static List<String> getAllShelfIds() {
+    var app = CheECSEManagerApplication.getCheecseManager();
+    return app.getShelves().stream().map(shelf -> shelf.getId()).toList();
+  }
+
+  /**
    * helper function to convert {@link Shelf} to {@link TOShelf}
    * @param shelf {@link Shelf} to convert
    * @return {@link TOShelf} converted from {@link Shelf}

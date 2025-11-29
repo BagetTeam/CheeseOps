@@ -179,20 +179,10 @@ public class RobotPageController {
 
     @FXML
     private void handleInitialize() {
-        rootPane.setDisable(true);
-        try {
-            String id = openPopUp();
-            if (id == null) {
-                rootPane.setDisable(false);
-                return;
-            }
-            RobotController.initializeRobot(id);
-            System.out.println("Initializing robot...");
-            // robotStatus will update automatically via logVersionProperty listener
-        } catch (Exception e) {
-            makeAlert("Initialization Error", e);
+        if (rootPane != null) {
+            rootPane.fireEvent(new ShowPopupEvent(
+                "view/components/Robot/InitializeRobotPopUp.fxml", "Initialize Robot"));
         }
-        rootPane.setDisable(false);
     }
 
     private void refreshLogs() {
@@ -214,7 +204,7 @@ public class RobotPageController {
         // Show the in-page popup (handled by MainController -> PopupManager)
         if (rootPane != null) {
             rootPane.fireEvent(new ShowPopupEvent(
-                "view/components/Robot/TreatmentPopUp.fxml", "Start Treatment"));
+                "view/components/Robot/TreatmentPopUp.fxml", "Initialize Robot"));
         }
     }
 
