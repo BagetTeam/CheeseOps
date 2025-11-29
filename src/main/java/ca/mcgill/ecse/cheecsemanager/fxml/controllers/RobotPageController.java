@@ -1,6 +1,6 @@
 package ca.mcgill.ecse.cheecsemanager.fxml.controllers;
 
-import ca.mcgill.ecse.cheecsemanager.fxml.controllers.Robot.ShelfIDPopUpController;
+// import ca.mcgill.ecse.cheecsemanager.fxml.controllers.Robot.ShelfIDPopUpController;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -21,15 +21,12 @@ import ca.mcgill.ecse.cheecsemanager.controller.TOLogEntry; // Import your TO
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.ShowPopupEvent;
-
+import ca.mcgill.ecse.cheecsemanager.fxml.events.ToastEvent;
 // removed unused imports
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.geometry.Pos;
-import javafx.scene.control.ContentDisplay;
-import javafx.scene.control.Control;
-import javafx.scene.control.TableCell;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
@@ -39,7 +36,7 @@ import javafx.scene.text.TextAlignment;
 public class RobotPageController {
 
 
-    public AnchorPane rootPane;
+    @FXML public AnchorPane rootPane;
     @FXML private StyledButton activateTile;
     @FXML private StyledButton deactivateTile;
     @FXML private StyledButton initializeTile;
@@ -62,11 +59,6 @@ public class RobotPageController {
 
         bindPowerTiles();
         wireTileInteractions();
-
-        // TODO: check if robot is already active on load (e.g., from saved state)
-        // robotActive.set(RobotController.isRobotActivated());
-        // treatmentActive.set(RobotController.isTreatmentActive());
-        // robotInitialized.set(RobotController.isRobotInitialized());
 
         // Listen for log updates (incremented by RobotController.logAction)
         RobotController.logVersionProperty().addListener((obs, oldV, newV) -> {
@@ -160,9 +152,9 @@ public class RobotPageController {
         try {
             RobotController.activateRobot();
             System.out.println("Robot activated.");
-            // robotStatus will update automatically via logVersionProperty listener
-        } catch (Exception e) {
-            makeAlert("Activation Error", e);
+        } catch (RuntimeException e) {
+            rootPane.fireEvent(new ToastEvent("Activation Error." + e.getMessage(),
+                            ToastEvent.ToastType.ERROR));
         }
     }
 
@@ -171,9 +163,9 @@ public class RobotPageController {
         try {
             RobotController.deactivateRobot();
             System.out.println("Robot deactivated.");
-            // robotStatus will update automatically via logVersionProperty listener
-        } catch (Exception e) {
-            makeAlert("Deactivation Error", e);
+        } catch (RuntimeException e) {
+            rootPane.fireEvent(new ToastEvent("Deactivation Error.",
+                ToastEvent.ToastType.ERROR));
         }
     }
 
@@ -192,9 +184,10 @@ public class RobotPageController {
         // If the TableView is present in the scene, populate it with TOLogEntry items.
         if (telemetryLogTable != null) {
             ObservableList<TOLogEntry> items = FXCollections.observableArrayList(entries);
+            FXCollections.reverse(items);
             telemetryLogTable.setItems(items);
             if (!items.isEmpty()) {
-                telemetryLogTable.scrollTo(items.size() - 1);
+                telemetryLogTable.scrollTo(0);
             }
         }
     }
@@ -212,59 +205,59 @@ public class RobotPageController {
     // See `view/components/Robot/TreatmentPopUp.fxml` and
     // `TreatmentPopUpController` for the implementation.
 
-    private void makeAlert(String title, Exception e) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Initialization Error");
-        alert.setContentText(e.getMessage());
+    // private void makeAlert(String title, Exception e) {
+    //     Alert alert = new Alert(Alert.AlertType.ERROR);
+    //     alert.setTitle("Initialization Error");
+    //     alert.setContentText(e.getMessage());
 
 
-        // Apply your CSS file
-        DialogPane dialogPane = alert.getDialogPane();
-        dialogPane.getStylesheets().add(
-                getClass().getResource("/ca/mcgill/ecse/cheecsemanager/style/main.css").toExternalForm()
+    //     // Apply your CSS file
+    //     DialogPane dialogPane = alert.getDialogPane();
+    //     dialogPane.getStylesheets().add(
+    //             getClass().getResource("/ca/mcgill/ecse/cheecsemanager/style/main.css").toExternalForm()
 
-        );
+    //     );
 
-        // Add a style class if you want specific styling
-        //dialogPane.getStyleClass().add("popup-button");
-        alert.showAndWait();
-    }
+    //     // Add a style class if you want specific styling
+    //     //dialogPane.getStyleClass().add("popup-button");
+    //     alert.showAndWait();
+    // }
 
-    private String openPopUp() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(
-                    "/ca/mcgill/ecse/cheecsemanager/view/"
-                            + "components/Robot/InitializeRobotPopUp.fxml"
-            ));
-            Parent popupRoot = loader.load();
+    // private String openPopUp() {
+    //     try {
+    //         FXMLLoader loader = new FXMLLoader(getClass().getResource(
+    //                 "/ca/mcgill/ecse/cheecsemanager/view/"
+    //                         + "components/Robot/InitializeRobotPopUp.fxml"
+    //         ));
+    //         Parent popupRoot = loader.load();
 
-            ShelfIDPopUpController controller = loader.getController();
+    //         ShelfIDPopUpController controller = loader.getController();
 
-            Stage popupStage = new Stage();
-            popupStage.setTitle("Enter Shelf ID");
-            popupStage.setScene(new Scene(popupRoot));
+    //         Stage popupStage = new Stage();
+    //         popupStage.setTitle("Enter Shelf ID");
+    //         popupStage.setScene(new Scene(popupRoot));
 
-            popupStage.initModality(Modality.APPLICATION_MODAL);
-            popupStage.initOwner(rootPane.getScene().getWindow());
+    //         popupStage.initModality(Modality.APPLICATION_MODAL);
+    //         popupStage.initOwner(rootPane.getScene().getWindow());
 
-            controller.setStage(popupStage);
+    //         controller.setStage(popupStage);
 
-            //centering the popup
-            popupStage.setOnShowing(e -> {
-                Window parent = rootPane.getScene().getWindow();
-                popupStage.setX(parent.getX() + parent.getWidth()/2 - popupStage.getWidth()/2);
-                popupStage.setY(parent.getY() + parent.getHeight()/2 - popupStage.getHeight()/2);
-            });
+    //         //centering the popup
+    //         popupStage.setOnShowing(e -> {
+    //             Window parent = rootPane.getScene().getWindow();
+    //             popupStage.setX(parent.getX() + parent.getWidth()/2 - popupStage.getWidth()/2);
+    //             popupStage.setY(parent.getY() + parent.getHeight()/2 - popupStage.getHeight()/2);
+    //         });
 
-            popupStage.showAndWait();
-            String shelfId = controller.getShelfIdEntered();
-            return shelfId;
+    //         popupStage.showAndWait();
+    //         String shelfId = controller.getShelfIdEntered();
+    //         return shelfId;
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+    //     } catch (Exception e) {
+    //         e.printStackTrace();
+    //     }
+    //     return null;
+    // }
 
 
 
