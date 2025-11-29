@@ -1,28 +1,15 @@
 package ca.mcgill.ecse.cheecsemanager.fxml.controllers;
-
-// import ca.mcgill.ecse.cheecsemanager.fxml.controllers.Robot.ShelfIDPopUpController;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
-// import javafx.scene.layout.*;
 import ca.mcgill.ecse.cheecsemanager.controller.RobotController;
-
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton;
-import javafx.stage.Modality;
 
 import java.util.List;
-import ca.mcgill.ecse.cheecsemanager.controller.TOLogEntry; // Import your TO
-import javafx.stage.Stage;
-import javafx.stage.Window;
+import ca.mcgill.ecse.cheecsemanager.controller.TOLogEntry;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.ShowPopupEvent;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.ToastEvent;
-// removed unused imports
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.beans.property.ReadOnlyStringWrapper;
@@ -30,9 +17,11 @@ import javafx.geometry.Pos;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
-
-// log-change listening (replaces polling)
-
+/**
+ * Controller for the Robot Page UI
+ * Handles robot activation, deactivation, initialization, treatment start, and log display
+ * @author Benjamin & David
+ */
 public class RobotPageController {
 
 
@@ -44,14 +33,12 @@ public class RobotPageController {
     @FXML private TableView<ca.mcgill.ecse.cheecsemanager.controller.TOLogEntry> telemetryLogTable;
     @FXML private TableColumn<ca.mcgill.ecse.cheecsemanager.controller.TOLogEntry, String> logColumn;
 
-    // private final BooleanProperty robotActive = new SimpleBooleanProperty(false);
-
-    // private final BooleanProperty treatmentActive = new SimpleBooleanProperty(false);
-
-    // private final BooleanProperty robotInitialized = new SimpleBooleanProperty(false);
-
     private final SimpleStringProperty robotStatus = new SimpleStringProperty();
 
+    /**
+     * Initializes the controller, sets up bindings and event listeners for UI components.
+     * @author Benjamin
+     */
     @FXML
     private void initialize() {
         // Set initial value so bindings and debug prints don't see null
@@ -110,6 +97,10 @@ public class RobotPageController {
         refreshLogs();
     }
 
+    /**
+     * Binds the power tile buttons' visibility and disable properties based on the robot's status.
+     * @author Benjamin
+     */
     private void bindPowerTiles() {
         System.out.println("STATUS:" + robotStatus.getValue());
         // Activate button: visible only if robot is Deactivated
@@ -177,6 +168,10 @@ public class RobotPageController {
         }
     }
 
+    /**
+     * Refreshes the telemetry logs displayed in the TableView.
+     * @author Benjamin
+     */
     private void refreshLogs() {
         System.out.println("Refreshing robot's logs...");
         // 1. Get the list from the controller
