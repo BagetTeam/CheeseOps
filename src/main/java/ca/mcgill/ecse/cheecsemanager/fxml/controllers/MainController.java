@@ -164,7 +164,7 @@ public class MainController {
                 .addNumericTarget(currentPagePane.translateYProperty(), 0,
                                   height / 2)
                 .addNumericTarget(currentPagePane.opacityProperty(), 1, 0)
-                .durationMillis(200)
+                .durationMillis(300)
                 .easing(EasingInterpolators.CUBIC_OUT)
                 .onFinished(() -> {
                   contentArea.getChildren().remove(currentPagePane);
@@ -176,7 +176,7 @@ public class MainController {
           AnimationManager.multiBuilder()
               .addNumericTarget(newPage.translateYProperty(), -height / 2, 0)
               .addNumericTarget(newPage.opacityProperty(), 0, 1)
-              .durationMillis(200)
+              .durationMillis(300)
               .easing(EasingInterpolators.CUBIC_OUT)
               .onFinished(() -> {
                 currentPage = pageName;
