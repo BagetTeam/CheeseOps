@@ -19,6 +19,23 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.layout.VBox;
 
 public class AssignCheeseWheelController {
+  public class Context {
+    public Integer cheeseId;
+    public String shelfId;
+    public Integer row;
+    public Integer col;
+
+    public Context(Integer cheeseId, String shelfId, Integer row, Integer col) {
+      this.cheeseId = cheeseId;
+      this.shelfId = shelfId;
+      this.row = row;
+      this.col = col;
+    }
+  }
+
+  public static Context context =
+      new AssignCheeseWheelController().new Context(null, null, null, null);
+
   private ShelfCheeseWheelDataProvider dataProvider =
       ShelfCheeseWheelDataProvider.getInstance();
 
@@ -58,14 +75,23 @@ public class AssignCheeseWheelController {
     assignButton.setOnAction(e -> assignCheeseWheel());
 
     // Pre-select shelf if coming from shelf view
-    TOShelf preselectedShelf = ViewShelfController.shelfToView;
-    if (preselectedShelf != null) {
-      shelfCombo.setValue(preselectedShelf.getShelfID());
+    if (context.shelfId != null) {
+      shelfCombo.setValue(context.shelfId);
       onShelfSelected();
     }
 
-    TOCheeseWheel cheese = CheeseWheelsController.selectedCheeseWheel;
-    if (cheese != null) {
+    if (context.row != null) {
+      rowCombo.setValue(context.row);
+      onRowSelected();
+    }
+
+    if (context.col != null) {
+      colCombo.setValue(context.col);
+    }
+
+    if (context.cheeseId != null) {
+      var cheese =
+          CheECSEManagerFeatureSet3Controller.getCheeseWheel(context.cheeseId);
       cheeseCombo.setValue(cheese.getId() + " - " + cheese.getMonthsAged() +
                            " months");
     }
@@ -96,11 +122,8 @@ public class AssignCheeseWheelController {
       return;
     }
 
-    selectedShelf = CheECSEManagerFeatureSet1Controller.getShelves()
-                        .stream()
-                        .filter(s -> s.getShelfID().equals(selectedShelfId))
-                        .findFirst()
-                        .orElse(null);
+    selectedShelf =
+        CheECSEManagerFeatureSet1Controller.getShelf(selectedShelfId);
 
     // Build occupied cells set
     occupiedCells.clear();
@@ -142,6 +165,7 @@ public class AssignCheeseWheelController {
 
   private void onRowSelected() {
     Integer selectedRow = rowCombo.getValue();
+
     colCombo.getItems().clear();
     colCombo.setValue(null);
 

@@ -28,8 +28,8 @@ public class CheECSEManagerFeatureSet7Controller {
    *
    * @author Ewen Gueguen
    */
-  public static String updateFarmer(
-      String email, String newPassword, String newName, String newAddress) {
+  public static String updateFarmer(String email, String newPassword,
+                                    String newName, String newAddress) {
     // make sure the new password and address is not empty
     if (isNullOrEmpty(newPassword)) {
       return "Password must not be empty.";
@@ -105,13 +105,14 @@ public class CheECSEManagerFeatureSet7Controller {
     Optional<Farmer> optFarmer = findFarmerWithEmail(email);
     if (optFarmer.isPresent()) {
       Farmer farmer = optFarmer.get();
-      TOFarmer toFarmer = new TOFarmer(farmer.getEmail(), farmer.getPassword(), farmer.getName(), farmer.getAddress());
+      TOFarmer toFarmer = new TOFarmer(farmer.getEmail(), farmer.getPassword(),
+                                       farmer.getName(), farmer.getAddress());
       for (Purchase purchase : farmer.getPurchases()) {
         for (CheeseWheel cheeseWheel : purchase.getCheeseWheels()) {
           toFarmer.addCheeseWheelID(cheeseWheel.getId());
           toFarmer.addPurchaseDate(purchase.getTransactionDate());
           toFarmer.addMonthsAged(cheeseWheel.getMonthsAged().toString());
-          toFarmer.addIsSpoiled(cheeseWheel.getIsSpoiled() ? "Yes" : "No");
+          toFarmer.addIsSpoiled(cheeseWheel.getIsSpoiled() ? "true" : "false");
         }
       }
       return toFarmer;

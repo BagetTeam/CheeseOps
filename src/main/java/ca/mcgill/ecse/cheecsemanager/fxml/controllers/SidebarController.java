@@ -4,9 +4,19 @@ import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton;
 import java.util.function.Consumer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.util.Callback;
 
 public class SidebarController {
-  String page = "";
+  public enum Page {
+    SHELVES,
+    FARMERS,
+    COMPANIES,
+    ROBOT,
+    CHEESEWHEELS,
+    SETTINGS
+  }
+
+  Page page = Page.SHELVES;
 
   @FXML StyledButton buttonShelves;
   @FXML StyledButton buttonFarmers;
@@ -16,71 +26,73 @@ public class SidebarController {
   @FXML StyledButton buttonSettings;
 
   // Callback for navigation - can be set by parent controller
-  private Consumer<String> navigationCallback;
+  private Callback<Page, Boolean> navigationCallback;
 
   @FXML
   public void initialize() {
     this.updateButtonStyles();
   }
 
-  public void setNavigationCallback(Consumer<String> callback) {
+  public void setNavigationCallback(Callback<Page, Boolean> callback) {
     this.navigationCallback = callback;
   }
 
   @FXML
   private void handleShelves(ActionEvent event) {
-    navigateTo("shelves");
+    navigateTo(Page.SHELVES);
   }
 
   @FXML
   private void handleFarmers(ActionEvent event) {
-    navigateTo("farmers");
+    navigateTo(Page.FARMERS);
   }
 
   @FXML
   private void handleCompanies(ActionEvent event) {
-    navigateTo("companies");
+    navigateTo(Page.COMPANIES);
   }
 
   @FXML
   private void handleRobot(ActionEvent event) {
-    navigateTo("robot");
+    navigateTo(Page.ROBOT);
   }
 
   @FXML
   private void handleSettings(ActionEvent event) {
-    navigateTo("settings");
+    navigateTo(Page.SETTINGS);
   }
 
   @FXML
   private void handleCheeseWheels(ActionEvent event) {
-    navigateTo("cheeseWheels");
+    navigateTo(Page.CHEESEWHEELS);
   }
 
-  private void navigateTo(String page) {
+  private void navigateTo(Page page) {
     if (navigationCallback != null) {
-      navigationCallback.accept(page);
-      this.page = page;
-      this.updateButtonStyles();
+      if (navigationCallback.call(page)) {
+        this.page = page;
+        this.updateButtonStyles();
+      };
     }
   }
 
   private void updateButtonStyles() {
-    buttonShelves.setVariant(page.equals("shelves")
+    buttonShelves.setVariant(page.equals(Page.SHELVES)
                                  ? StyledButton.Variant.PRIMARY
                                  : StyledButton.Variant.DEFAULT);
-    buttonFarmers.setVariant(page.equals("farmers")
+    buttonFarmers.setVariant(page.equals(Page.FARMERS)
                                  ? StyledButton.Variant.PRIMARY
                                  : StyledButton.Variant.DEFAULT);
-    buttonCompanies.setVariant(page.equals("companies")
+    buttonCompanies.setVariant(page.equals(Page.COMPANIES)
                                    ? StyledButton.Variant.PRIMARY
                                    : StyledButton.Variant.DEFAULT);
-    buttonRobot.setVariant(page.equals("robot") ? StyledButton.Variant.PRIMARY
-                                                : StyledButton.Variant.DEFAULT);
-    buttonCheeseWheels.setVariant(page.equals("cheeseWheels")
+    buttonRobot.setVariant(page.equals(Page.ROBOT)
+                               ? StyledButton.Variant.PRIMARY
+                               : StyledButton.Variant.DEFAULT);
+    buttonCheeseWheels.setVariant(page.equals(Page.CHEESEWHEELS)
                                       ? StyledButton.Variant.PRIMARY
                                       : StyledButton.Variant.DEFAULT);
-    buttonSettings.setVariant(page.equals("settings")
+    buttonSettings.setVariant(page.equals(Page.SETTINGS)
                                   ? StyledButton.Variant.PRIMARY
                                   : StyledButton.Variant.DEFAULT);
   }

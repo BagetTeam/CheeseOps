@@ -110,6 +110,10 @@ public class CheECSEManagerFeatureSet1Controller {
     return toShelf;
   }
 
+  /**
+   * Check if the password of the facility manager.
+   * @author Ming Li Liu
+   * */
   public static boolean facilityManagerHasPassword() {
     var app = CheECSEManagerApplication.getCheecseManager();
     var manager = app.getManager();
@@ -118,6 +122,10 @@ public class CheECSEManagerFeatureSet1Controller {
         !manager.getPassword().isEmpty();
   }
 
+  /**
+   * Retrieve the password of the facility manager.
+   * @author Ming Li Liu
+   * */
   public static String getFacilityManagerPassword() {
     var app = CheECSEManagerApplication.getCheecseManager();
     var manager = app.getManager();

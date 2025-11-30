@@ -7,10 +7,10 @@ import ca.mcgill.ecse.cheecsemanager.controller.TOCheeseWheel;
 import ca.mcgill.ecse.cheecsemanager.fxml.components.Animation.AnimationManager;
 import ca.mcgill.ecse.cheecsemanager.fxml.components.Animation.EasingInterpolators;
 import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton;
+import ca.mcgill.ecse.cheecsemanager.fxml.controllers.shelf.AssignCheeseWheelController;
 import ca.mcgill.ecse.cheecsemanager.fxml.controllers.shelf.CheeseDetailsController;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.ShowPopupEvent;
 import ca.mcgill.ecse.cheecsemanager.fxml.store.CheeseWheelDataProvider;
-import ca.mcgill.ecse.cheecsemanager.fxml.store.ShelfCheeseWheelDataProvider;
 import ca.mcgill.ecse.cheecsemanager.fxml.store.ShelfDataProvider;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -32,8 +32,6 @@ public class CheeseWheelsController {
 
   private final CheeseWheelDataProvider cheeseWheelDataProvider =
       CheeseWheelDataProvider.getInstance();
-
-  public static TOCheeseWheel selectedCheeseWheel;
 
   @FXML private BorderPane root;
   @FXML private Label inventoryLabel;
@@ -101,7 +99,7 @@ public class CheeseWheelsController {
 
         assignBtn.setOnAction(e -> {
           TOCheeseWheel wheel = getTableView().getItems().get(getIndex());
-          selectedCheeseWheel = wheel;
+          AssignCheeseWheelController.context.cheeseId = wheel.getId();
 
           root.fireEvent(new ShowPopupEvent(
               "view/components/Shelf/AssignCheeseWheelPopUp.fxml",
