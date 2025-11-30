@@ -35,12 +35,17 @@ import javafx.util.Duration;
  * @author Ming Li Liu
  * */
 public class ShelfGrid extends BorderPane {
+  private ShelfCheeseWheelDataProvider cheeseWheelsProvider =
+      ShelfCheeseWheelDataProvider.getInstance();
+
   private static final double CELL_SIZE = 80;
   private static final double GAP = 5;
   private static final double LABEL_SIZE = 30;
 
   private final GridPane grid = new GridPane();
+
   private final Map<String, StackPane> locationNodes = new HashMap<>();
+  private final Map<Integer, String> cheeseWheelsLocations = new HashMap<>();
 
   private final ObjectProperty<TOCheeseWheel> selectedCheeseWheel =
       new SimpleObjectProperty<>();
@@ -54,12 +59,9 @@ public class ShelfGrid extends BorderPane {
   private TOShelf shelf;
   private Consumer<TOCheeseWheel> callback;
 
-  private ShelfCheeseWheelDataProvider cheeseWheelsProvider;
-
   public ShelfGrid(TOShelf shelf, Consumer<TOCheeseWheel> callback) {
     this.shelf = shelf;
     this.callback = callback;
-    this.cheeseWheelsProvider = ShelfCheeseWheelDataProvider.getInstance();
 
     initialize();
   }
@@ -127,11 +129,66 @@ public class ShelfGrid extends BorderPane {
     });
 
     this.setCheeseWheels(cheeseWheelsProvider.getWheels());
+
     cheeseWheelsProvider.getWheels().addListener((ListChangeListener.Change<? extends TOCheeseWheel> change) -> {
       javafx.application.Platform.runLater(() -> {
         while (change.next()) {
+          if (change.wasRemoved()) {
+            for (var cw : change.getRemoved()) {
+              String key = cw.getColumn() + "," + cw.getRow();
+
+              var addButtonNode =
+                  createAddButtonNode(cw.getColumn(), cw.getRow());
+
+              var container = locationNodes.get(key);
+              container.getChildren().clear();
+              container.getChildren().add(addButtonNode);
+
+              cheeseWheelsLocations.remove(cw.getId());
+            }
+          }
+
           if (change.wasAdded()) {
             for (var cw : change.getAddedSubList()) {
+              String key = cw.getColumn() + "," + cw.getRow();
+              var cheeseWheelNode = createCheeseWheelNode(cw);
+
+              var container = locationNodes.get(key);
+              container.getChildren().clear();
+              container.getChildren().add(cheeseWheelNode);
+
+              cheeseWheelsLocations.put(cw.getId(), key);
+            }
+          }
+
+          if (change.wasUpdated()) {
+            var cheeseWheels = cheeseWheelsProvider.getWheels();
+            for (int i = change.getFrom(); i < change.getTo(); i++) {
+              var cw = cheeseWheels.get(i);
+              String newKey = cw.getColumn() + "," + cw.getRow();
+              String oldKey = cheeseWheelsLocations.get(cw.getId());
+
+              if (newKey.equals(oldKey)) {
+                continue;
+              }
+
+              // swap nodes
+              var oldCheeseWheelNode = locationNodes.get(oldKey);
+
+              var newContainer = locationNodes.get(newKey);
+              newContainer.getChildren().clear();
+              newContainer.getChildren().add(oldCheeseWheelNode);
+
+              var oldKeyArr = oldKey.split(",");
+              var oldColumn = Integer.parseInt(oldKeyArr[0]);
+              var oldRow = Integer.parseInt(oldKeyArr[1]);
+
+              var oldContainer = locationNodes.get(oldKey);
+              oldContainer.getChildren().clear();
+              oldContainer.getChildren().add(
+                  createAddButtonNode(oldColumn, oldRow));
+
+              cheeseWheelsLocations.put(cw.getId(), newKey);
             }
           }
         }
@@ -142,26 +199,27 @@ public class ShelfGrid extends BorderPane {
   public void setCheeseWheels(ObservableList<TOCheeseWheel> cheeseWheels) {
     grid.getChildren().clear();
     locationNodes.clear();
+    cheeseWheelsLocations.clear();
 
     // Track max column for sizing
     int maxColumn = this.shelf.getMaxColumns();
     int maxRow = this.shelf.getMaxRows();
 
-    for (int row = 0; row < maxRow; row++) {
-      for (int col = 0; col < maxColumn; col++) {
+    for (int row = 1; row <= maxRow; row++) {
+      for (int col = 1; col <= maxColumn; col++) {
         String key = col + "," + row;
         var region = createEmptyLocationNode();
         region.getChildren().add(createAddButtonNode(col, row));
 
         locationNodes.put(key, region);
-        grid.add(region, col, row);
+        grid.add(region, col - 1, row - 1);
       }
     }
 
     for (TOCheeseWheel cheese : cheeseWheels) {
       Node cheeseNode = createCheeseWheelNode(cheese);
-      int col = cheese.getColumn() - 1;
-      int row = cheese.getRow() - 1;
+      int col = cheese.getColumn();
+      int row = cheese.getRow();
 
       if (col < 0 || row < 0) {
         continue;
@@ -172,6 +230,8 @@ public class ShelfGrid extends BorderPane {
       StackPane locationNode = locationNodes.get(key);
       locationNode.getChildren().clear();
       locationNode.getChildren().add(cheeseNode);
+
+      cheeseWheelsLocations.put(cheese.getId(), key);
     }
   }
 
@@ -206,8 +266,8 @@ public class ShelfGrid extends BorderPane {
     container.getChildren().add(new Icon("Plus"));
 
     container.setOnMouseClicked(e -> {
-      AssignCheeseWheelController.context.row = row + 1;
-      AssignCheeseWheelController.context.col = col + 1;
+      AssignCheeseWheelController.context.row = row;
+      AssignCheeseWheelController.context.col = col;
       this.fireEvent(new ShowPopupEvent(
           "view/components/Shelf/AssignCheeseWheelPopUp.fxml",
           "Assign Cheese Wheel in Shelf " + shelf.getShelfID()));

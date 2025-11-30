@@ -8,7 +8,6 @@ import ca.mcgill.ecse.cheecsemanager.fxml.components.Animation.EasingInterpolato
 import ca.mcgill.ecse.cheecsemanager.fxml.components.ShelfGrid;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.ShowPopupEvent;
 import ca.mcgill.ecse.cheecsemanager.fxml.store.ShelfCheeseWheelDataProvider;
-import ca.mcgill.ecse.cheecsemanager.fxml.store.ShelfDataProvider;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -19,8 +18,8 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 public class ViewShelfController {
-  private ShelfCheeseWheelDataProvider cheeseWheelsProvider;
-  private ShelfDataProvider shelfDataProvider = ShelfDataProvider.getInstance();
+  private ShelfCheeseWheelDataProvider cheeseWheelsProvider =
+      ShelfCheeseWheelDataProvider.getInstance();
 
   @FXML private Label shelfNameLabel;
   @FXML private StackPane root;
@@ -34,7 +33,7 @@ public class ViewShelfController {
     this.onBackPressed = onBackPressed;
 
     shelfNameLabel.setText("Shelf " + shelf.getShelfID());
-    this.cheeseWheelsProvider = new ShelfCheeseWheelDataProvider(shelf);
+    this.cheeseWheelsProvider.setShelf(shelf);
 
     AssignCheeseWheelController.context.shelfId = shelf.getShelfID();
 
@@ -74,8 +73,6 @@ public class ViewShelfController {
       Node node = loader.load();
       CheeseDetailsController controller = loader.getController();
       controller.init(cheese, () -> {
-        this.cheeseWheelsProvider.refresh();
-        this.shelfDataProvider.refresh();
         AnimationManager.numericBuilder()
             .target(node.translateXProperty())
             .from(0)

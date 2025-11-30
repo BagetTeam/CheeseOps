@@ -17,7 +17,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 
 public class CheeseDetailsController {
-  ShelfCheeseWheelDataProvider dataProvider =
+  private ShelfCheeseWheelDataProvider dataProvider =
       ShelfCheeseWheelDataProvider.getInstance();
 
   private final CheeseWheelDataProvider cheeseWheelDataProvider =
@@ -82,7 +82,7 @@ public class CheeseDetailsController {
 
     if (this.columnComboBox.getValue() != cheese.getColumn() ||
         this.rowComboBox.getValue() != cheese.getRow() ||
-        this.shelfIdComboBox.getValue() != cheese.getShelfID()) {
+        !this.shelfIdComboBox.getValue().equals(cheese.getShelfID())) {
       error = CheECSEManagerFeatureSet4Controller.assignCheeseWheelToShelf(
           this.cheese.getId(), this.shelfIdComboBox.getValue(),
           this.columnComboBox.getValue(), this.rowComboBox.getValue());
@@ -102,6 +102,7 @@ public class CheeseDetailsController {
     } else {
       root.fireEvent(new ToastEvent("Success!", ToastType.SUCCESS));
 
+      dataProvider.refresh();
       this.onClosePressed.run();
     }
   }
@@ -112,7 +113,8 @@ public class CheeseDetailsController {
         CheECSEManagerFeatureSet4Controller.removeCheeseWheelFromShelf(
             this.cheese.getId());
 
-    if (error.isEmpty()) {
+    if (error == null || error.isEmpty()) {
+      dataProvider.refresh();
       this.onClosePressed.run();
     } else {
       root.fireEvent(new ToastEvent(error, ToastType.ERROR));
