@@ -263,7 +263,8 @@ public class ShelfGrid extends BorderPane {
     container.setAlignment(Pos.CENTER);
     container.getStyleClass().add("cheese-wheel-cell");
 
-    container.getChildren().add(new Icon("Plus"));
+    Icon icon = new Icon("Plus");
+    container.getChildren().add(icon);
 
     container.setOnMouseClicked(e -> {
       AssignCheeseWheelController.context.row = row;

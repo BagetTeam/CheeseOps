@@ -8,6 +8,7 @@ import ca.mcgill.ecse.cheecsemanager.controller.TOShelf;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.ToastEvent;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.ToastEvent.ToastType;
 import ca.mcgill.ecse.cheecsemanager.fxml.store.ShelfCheeseWheelDataProvider;
+import ca.mcgill.ecse.cheecsemanager.fxml.store.ShelfDataProvider;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.fxml.FXML;
@@ -18,6 +19,8 @@ import javafx.scene.layout.HBox;
 public class CheeseDetailsController {
   private ShelfCheeseWheelDataProvider dataProvider =
       ShelfCheeseWheelDataProvider.getInstance();
+
+  private ShelfDataProvider shelfDataProvider = ShelfDataProvider.getInstance();
 
   @FXML private HBox root;
   @FXML private Label cheeseIdLabel;
@@ -99,6 +102,7 @@ public class CheeseDetailsController {
       root.fireEvent(new ToastEvent("Success!", ToastType.SUCCESS));
 
       dataProvider.refresh();
+      shelfDataProvider.refresh();
       this.onClosePressed.run();
     }
   }
@@ -111,6 +115,7 @@ public class CheeseDetailsController {
 
     if (error == null || error.isEmpty()) {
       dataProvider.refresh();
+      shelfDataProvider.refresh();
       this.onClosePressed.run();
     } else {
       root.fireEvent(new ToastEvent(error, ToastType.ERROR));

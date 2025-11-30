@@ -24,7 +24,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 
 public class ShelfController {
-
   private final ShelfDataProvider shelfDataProvider =
       ShelfDataProvider.getInstance();
 
