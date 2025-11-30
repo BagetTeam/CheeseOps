@@ -2,9 +2,11 @@ package ca.mcgill.ecse.cheecsemanager.fxml.controllers.shelf;
 
 import ca.mcgill.ecse.cheecsemanager.controller.*;
 import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton;
+import ca.mcgill.ecse.cheecsemanager.fxml.controllers.CheeseWheelsController;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.HidePopupEvent;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.ToastEvent;
 import ca.mcgill.ecse.cheecsemanager.fxml.store.CheeseWheelDataProvider;
+import ca.mcgill.ecse.cheecsemanager.fxml.store.ShelfCheeseWheelDataProvider;
 import ca.mcgill.ecse.cheecsemanager.fxml.store.ShelfDataProvider;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -17,6 +19,12 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.layout.VBox;
 
 public class AssignCheeseWheelController {
+  private ShelfCheeseWheelDataProvider dataProvider =
+      ShelfCheeseWheelDataProvider.getInstance();
+
+  private ShelfDataProvider shelfDataProvider = ShelfDataProvider.getInstance();
+  private CheeseWheelDataProvider cheeseWheelDataProvider =
+      CheeseWheelDataProvider.getInstance();
 
   @FXML private ComboBox<String> cheeseCombo;
   @FXML private ComboBox<String> shelfCombo;
@@ -35,9 +43,8 @@ public class AssignCheeseWheelController {
     List<String> unassigned =
         CheECSEManagerFeatureSet3Controller.getCheeseWheels()
             .stream()
-            .filter(c -> c.getShelfID() == null)
-            .map(
-                c -> "ID: " + c.getId() + " - " + c.getMonthsAged() + " months")
+            .filter(c -> c.getShelfID() == null && !c.getIsSpoiled())
+            .map(c -> c.getId() + " - " + c.getMonthsAged() + " months")
             .collect(Collectors.toList());
     cheeseCombo.setItems(FXCollections.observableArrayList(unassigned));
 
@@ -56,15 +63,20 @@ public class AssignCheeseWheelController {
       shelfCombo.setValue(preselectedShelf.getShelfID());
       onShelfSelected();
     }
+
+    TOCheeseWheel cheese = CheeseWheelsController.selectedCheeseWheel;
+    if (cheese != null) {
+      cheeseCombo.setValue(cheese.getId() + " - " + cheese.getMonthsAged() +
+                           " months");
+    }
   }
 
   private void populateShelves() {
-    List<String> shelves =
-        CheECSEManagerFeatureSet1Controller.getShelves()
-            .stream()
-            .filter(s -> hasAvailableSpace(s))
-            .map(s -> s.getShelfID())
-            .collect(Collectors.toList());
+    List<String> shelves = CheECSEManagerFeatureSet1Controller.getShelves()
+                               .stream()
+                               .filter(s -> hasAvailableSpace(s))
+                               .map(s -> s.getShelfID())
+                               .collect(Collectors.toList());
     shelfCombo.setItems(FXCollections.observableArrayList(shelves));
   }
 
@@ -94,7 +106,8 @@ public class AssignCheeseWheelController {
     occupiedCells.clear();
     if (selectedShelf != null) {
       for (int i = 0; i < selectedShelf.numberOfCheeseWheelIDs(); i++) {
-        occupiedCells.add(selectedShelf.getRowNr(i) + "-" + selectedShelf.getColumnNr(i));
+        occupiedCells.add(selectedShelf.getRowNr(i) + "-" +
+                          selectedShelf.getColumnNr(i));
       }
     }
 
@@ -151,10 +164,9 @@ public class AssignCheeseWheelController {
   }
 
   private void checkEnableAssign() {
-    assignButton.setDisable(cheeseCombo.getValue() == null ||
-                            shelfCombo.getValue() == null ||
-                            rowCombo.getValue() == null ||
-                            colCombo.getValue() == null);
+    assignButton.setDisable(
+        cheeseCombo.getValue() == null || shelfCombo.getValue() == null ||
+        rowCombo.getValue() == null || colCombo.getValue() == null);
   }
 
   @FXML
@@ -170,11 +182,10 @@ public class AssignCheeseWheelController {
     Integer col = colCombo.getValue();
     String shelfId = shelfCombo.getValue();
 
-    // Double-check the cell is available
     if (occupiedCells.contains(row + "-" + col)) {
-      root.fireEvent(new ToastEvent(
-          "Cell at row " + row + ", column " + col + " is already occupied.",
-          ToastEvent.ToastType.ERROR));
+      root.fireEvent(new ToastEvent("Cell at row " + row + ", column " + col +
+                                        " is already occupied.",
+                                    ToastEvent.ToastType.ERROR));
       return;
     }
 
@@ -188,8 +199,9 @@ public class AssignCheeseWheelController {
 
     root.fireEvent(new ToastEvent("Cheese wheel assigned successfully!",
                                   ToastEvent.ToastType.SUCCESS));
-    CheeseWheelDataProvider.getInstance().refresh();
-    ShelfDataProvider.getInstance().refresh();
+    dataProvider.refresh();
+    shelfDataProvider.refresh();
+    cheeseWheelDataProvider.refresh();
     closePopup();
   }
 

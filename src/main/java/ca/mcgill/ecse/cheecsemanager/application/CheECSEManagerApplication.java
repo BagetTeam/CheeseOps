@@ -17,6 +17,12 @@ public class CheECSEManagerApplication extends Application {
 
   @Override
   public void start(Stage stage) throws IOException {
+    var manager = CheECSEManagerApplication.getCheecseManager();
+
+    if (!manager.hasManager()) {
+      new FacilityManager("manager@cheesce.fr", "manager", manager);
+    }
+
     _loadFonts();
 
     FXMLLoader fxmlLoader =
@@ -88,10 +94,6 @@ public class CheECSEManagerApplication extends Application {
     if (cheecsemanager == null) {
       // load model from saved file
       cheecsemanager = CheECSEManagerPersistence.load();
-    }
-
-    if (!cheecsemanager.hasManager()) {
-      new FacilityManager("manager@cheesce.fr", "manager", cheecsemanager);
     }
 
     return cheecsemanager;

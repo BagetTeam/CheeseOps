@@ -69,7 +69,7 @@ public class CheECSEManagerFeatureSet3Controller {
   public static String updateCheeseWheel(Integer cheeseWheelID,
                                          String newMonthsAged,
                                          Boolean newIsSpoiled, int column,
-                                         int row, String shelfId) {
+                                         int row) {
     var cheeseWheel = _getCheeseWheelFromId(cheeseWheelID.intValue());
 
     var error = updateCheeseWheel(cheeseWheelID, newMonthsAged, newIsSpoiled);
@@ -78,18 +78,7 @@ public class CheECSEManagerFeatureSet3Controller {
       return error;
     }
 
-    var manager = CheECSEManagerApplication.getCheecseManager();
-
-    var shelf = manager.getShelves()
-                    .stream()
-                    .filter(s -> s.getId().equals(shelfId))
-                    .findFirst()
-                    .orElse(null);
-
-    if (shelf == null) {
-      return "Shelf with ID " + shelfId + " not found.";
-    }
-
+    var shelf = cheeseWheel.getLocation().getShelf();
     var locations = shelf.getLocations();
     var location =
         locations.stream()

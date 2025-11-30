@@ -1,16 +1,25 @@
 package ca.mcgill.ecse.cheecsemanager.fxml.controllers;
 
+import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
+import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet3Controller;
 import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet4Controller;
 import ca.mcgill.ecse.cheecsemanager.controller.TOCheeseWheel;
+import ca.mcgill.ecse.cheecsemanager.fxml.components.Animation.AnimationManager;
+import ca.mcgill.ecse.cheecsemanager.fxml.components.Animation.EasingInterpolators;
 import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton;
+import ca.mcgill.ecse.cheecsemanager.fxml.controllers.shelf.CheeseDetailsController;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.ShowPopupEvent;
 import ca.mcgill.ecse.cheecsemanager.fxml.store.CheeseWheelDataProvider;
+import ca.mcgill.ecse.cheecsemanager.fxml.store.ShelfCheeseWheelDataProvider;
+import ca.mcgill.ecse.cheecsemanager.fxml.store.ShelfDataProvider;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -19,6 +28,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 
 public class CheeseWheelsController {
+  private ShelfDataProvider shelfDataProvider = ShelfDataProvider.getInstance();
+
   private final CheeseWheelDataProvider cheeseWheelDataProvider =
       CheeseWheelDataProvider.getInstance();
 
@@ -78,6 +89,10 @@ public class CheeseWheelsController {
       private final StyledButton viewBtn = new StyledButton(
           StyledButton.Variant.MUTED, StyledButton.Size.SM, "View", null);
 
+      private final StyledButton notSpoiledBtn =
+          new StyledButton(StyledButton.Variant.PRIMARY, StyledButton.Size.SM,
+                           "Set Not Spoiled", null);
+
       private final HBox box = new HBox(10);
 
       {
@@ -95,6 +110,13 @@ public class CheeseWheelsController {
 
         viewBtn.setOnAction(e -> {
           TOCheeseWheel wheel = getTableView().getItems().get(getIndex());
+        });
+
+        notSpoiledBtn.setOnAction(e -> {
+          TOCheeseWheel wheel = getTableView().getItems().get(getIndex());
+          CheECSEManagerFeatureSet3Controller.updateCheeseWheel(
+              wheel.getId(), wheel.getMonthsAged(), false);
+          cheeseWheelDataProvider.refresh();
         });
 
         unassignBtn.setOnAction(e -> {
@@ -117,14 +139,13 @@ public class CheeseWheelsController {
         box.getChildren().clear();
 
         if (item.getIsSpoiled()) {
-          setGraphic(null);
-          return;
-        }
-
-        if (item.getShelfID() == null) {
-          box.getChildren().add(assignBtn);
+          box.getChildren().addAll(notSpoiledBtn);
         } else {
-          box.getChildren().addAll(viewBtn, unassignBtn);
+          if (item.getShelfID() == null) {
+            box.getChildren().add(assignBtn);
+          } else {
+            box.getChildren().addAll(viewBtn, unassignBtn);
+          }
         }
 
         setGraphic(box);
@@ -132,5 +153,36 @@ public class CheeseWheelsController {
         setAlignment(Pos.CENTER_RIGHT);
       }
     });
+  }
+
+  private void showCheeseDetail(TOCheeseWheel cheese) {
+    FXMLLoader loader = new FXMLLoader(CheECSEManagerApplication.getResource(
+        "view/components/Shelf/CheeseDetails.fxml"));
+    try {
+      Node node = loader.load();
+      CheeseDetailsController controller = loader.getController();
+      controller.init(cheese, () -> {
+        this.shelfDataProvider.refresh();
+        AnimationManager.numericBuilder()
+            .target(node.translateXProperty())
+            .from(0)
+            .to(384)
+            .durationMillis(500)
+            .easing(EasingInterpolators.CUBIC_OUT)
+            .onFinished(() -> { this.root.getChildren().remove(node); })
+            .play();
+      });
+      this.root.getChildren().add(node);
+
+      AnimationManager.numericBuilder()
+          .target(node.translateXProperty())
+          .from(384)
+          .to(0)
+          .durationMillis(500)
+          .easing(EasingInterpolators.CUBIC_OUT)
+          .play();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 }

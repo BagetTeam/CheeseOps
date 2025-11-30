@@ -18,7 +18,7 @@ import javafx.scene.layout.VBox;
 import java.util.List;
 
 /**
- * Reusable dropdown component with optional label and variant styling.
+ * Reusable dropdown component with optional label and variant styling. Shoutout mingli for the inspo!
  *
  * <pre>{@code
  * <Dropdown label="Select Farmer"
@@ -79,6 +79,7 @@ public class Dropdown extends VBox {
   }
 
   private void initialize() {
+    getStylesheets().add(getClass().getResource("/ca/mcgill/ecse/cheecsemanager/style/Dropdown.css").toExternalForm());
     setAlignment(Pos.CENTER_LEFT);
     setSpacing(4);
     setFillWidth(true);
@@ -93,6 +94,7 @@ public class Dropdown extends VBox {
     inlineWrapper.getStyleClass().add("dropdown-inline");
 
     labelNode.getStyleClass().add("dropdown-label");
+    // labelNode.getStyleClass().add("text-fg");
     labelNode.setVisible(false);
     labelNode.setManaged(false);
 

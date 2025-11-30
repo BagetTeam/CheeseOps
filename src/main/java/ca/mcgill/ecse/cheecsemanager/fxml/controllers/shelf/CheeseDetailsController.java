@@ -7,6 +7,7 @@ import ca.mcgill.ecse.cheecsemanager.controller.TOCheeseWheel;
 import ca.mcgill.ecse.cheecsemanager.controller.TOShelf;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.ToastEvent;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.ToastEvent.ToastType;
+import ca.mcgill.ecse.cheecsemanager.fxml.store.CheeseWheelDataProvider;
 import ca.mcgill.ecse.cheecsemanager.fxml.store.ShelfCheeseWheelDataProvider;
 import ca.mcgill.ecse.cheecsemanager.fxml.store.ShelfDataProvider;
 import java.util.ArrayList;
@@ -17,6 +18,12 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 
 public class CheeseDetailsController {
+  ShelfCheeseWheelDataProvider dataProvider =
+      ShelfCheeseWheelDataProvider.getInstance();
+
+  private final CheeseWheelDataProvider cheeseWheelDataProvider =
+      CheeseWheelDataProvider.getInstance();
+
   @FXML private HBox root;
   @FXML private Label cheeseIdLabel;
   @FXML private Label shelfIdLabel;
@@ -29,10 +36,6 @@ public class CheeseDetailsController {
 
   private Runnable onClosePressed;
   private TOCheeseWheel cheese;
-
-  private ShelfCheeseWheelDataProvider provider =
-      ShelfCheeseWheelDataProvider.getInstance();
-  private ShelfDataProvider shelfDataProvider = ShelfDataProvider.getInstance();
 
   public void init(TOCheeseWheel cheese, Runnable onClosePressed) {
     this.onClosePressed = onClosePressed;
@@ -83,8 +86,7 @@ public class CheeseDetailsController {
       error = CheECSEManagerFeatureSet3Controller.updateCheeseWheel(
           this.cheese.getId(), this.ageComboBox.getValue(),
           this.isSpoiledComboBox.getValue(), this.columnComboBox.getValue(),
-          this.rowComboBox.getValue(), this.cheese.getShelfID());
-
+          this.rowComboBox.getValue());
     } else {
       error = CheECSEManagerFeatureSet3Controller.updateCheeseWheel(
           this.cheese.getId(), this.ageComboBox.getValue(),
@@ -95,6 +97,9 @@ public class CheeseDetailsController {
       root.fireEvent(new ToastEvent(error, ToastType.ERROR));
     } else {
       root.fireEvent(new ToastEvent("Success!", ToastType.SUCCESS));
+      // dataProvider.refresh();
+      cheeseWheelDataProvider.refresh();
+
       this.onClosePressed.run();
     }
   }
@@ -108,11 +113,16 @@ public class CheeseDetailsController {
     if (error.isEmpty()) {
       this.onClosePressed.run();
     } else {
+      cheeseWheelDataProvider.refresh();
       root.fireEvent(new ToastEvent(error, ToastType.ERROR));
     }
   }
 
   private void populateLocations(TOShelf shelf) {
+    if (shelf == null) {
+      return;
+    }
+
     List<String> occupied = new ArrayList<>();
     for (int i = 0; i < shelf.numberOfCheeseWheelIDs(); i++) {
       occupied.add(shelf.getRowNr(i) + "-" + shelf.getColumnNr(i));

@@ -30,11 +30,6 @@ public class CheECSEManagerFeatureSet1Controller {
     var app = CheECSEManagerApplication.getCheecseManager();
     var manager = app.getManager();
 
-    if (manager.getPassword() != null &&
-        manager.getPassword().equals(password)) {
-      return "New password must be different from old password.";
-    }
-
     manager.setPassword(password);
 
     try {
@@ -70,6 +65,16 @@ public class CheECSEManagerFeatureSet1Controller {
     var app = CheECSEManagerApplication.getCheecseManager();
 
     return app.getShelves().stream().map(shelf -> _toShelf(shelf)).toList();
+  }
+
+  /**
+   * Get all shelf Ids in the system
+   * @return list of shelf Ids
+   * @author Benjamin Curis-Friedman
+   * */
+  public static List<String> getAllShelfIds() {
+    var app = CheECSEManagerApplication.getCheecseManager();
+    return app.getShelves().stream().map(shelf -> shelf.getId()).toList();
   }
 
   /**
