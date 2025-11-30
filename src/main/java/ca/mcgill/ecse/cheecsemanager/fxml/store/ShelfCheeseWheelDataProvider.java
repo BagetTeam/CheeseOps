@@ -32,10 +32,10 @@ public class ShelfCheeseWheelDataProvider {
 
   public void refresh() {
     List<TOCheeseWheel> latestShelves =
-        Arrays.stream(shelf.getCheeseWheelIDs())
+        Arrays.stream(this.shelf.getCheeseWheelIDs())
             .map(CheECSEManagerFeatureSet3Controller::getCheeseWheel)
             .filter(c -> !c.isIsSpoiled())
             .toList();
-    wheels.setAll(latestShelves);
+    this.wheels.setAll(latestShelves);
   }
 }

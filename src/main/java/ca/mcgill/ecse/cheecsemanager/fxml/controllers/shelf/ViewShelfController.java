@@ -19,7 +19,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 public class ViewShelfController {
-  ShelfCheeseWheelDataProvider provider;
+  private ShelfCheeseWheelDataProvider cheeseWheelsProvider;
   private ShelfDataProvider shelfDataProvider = ShelfDataProvider.getInstance();
 
   @FXML private Label shelfNameLabel;
@@ -34,7 +34,10 @@ public class ViewShelfController {
     this.onBackPressed = onBackPressed;
 
     shelfNameLabel.setText("Shelf " + shelf.getShelfID());
-    this.provider = new ShelfCheeseWheelDataProvider(shelf);
+    this.cheeseWheelsProvider = new ShelfCheeseWheelDataProvider(shelf);
+
+    AssignCheeseWheelController.context.shelfId = shelf.getShelfID();
+
     initShelfGrid(shelf);
   }
 
@@ -71,7 +74,7 @@ public class ViewShelfController {
       Node node = loader.load();
       CheeseDetailsController controller = loader.getController();
       controller.init(cheese, () -> {
-        this.provider.refresh();
+        this.cheeseWheelsProvider.refresh();
         this.shelfDataProvider.refresh();
         AnimationManager.numericBuilder()
             .target(node.translateXProperty())

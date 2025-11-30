@@ -86,6 +86,11 @@ public class CheeseDetailsController {
       error = CheECSEManagerFeatureSet4Controller.assignCheeseWheelToShelf(
           this.cheese.getId(), this.shelfIdComboBox.getValue(),
           this.columnComboBox.getValue(), this.rowComboBox.getValue());
+
+      if (error != null && !error.isEmpty()) {
+        root.fireEvent(new ToastEvent(error, ToastType.ERROR));
+        return;
+      }
     }
 
     error = CheECSEManagerFeatureSet3Controller.updateCheeseWheel(
@@ -96,8 +101,6 @@ public class CheeseDetailsController {
       root.fireEvent(new ToastEvent(error, ToastType.ERROR));
     } else {
       root.fireEvent(new ToastEvent("Success!", ToastType.SUCCESS));
-      // dataProvider.refresh();
-      cheeseWheelDataProvider.refresh();
 
       this.onClosePressed.run();
     }
@@ -112,7 +115,6 @@ public class CheeseDetailsController {
     if (error.isEmpty()) {
       this.onClosePressed.run();
     } else {
-      cheeseWheelDataProvider.refresh();
       root.fireEvent(new ToastEvent(error, ToastType.ERROR));
     }
   }
