@@ -33,7 +33,7 @@ public class ViewShelfController {
     this.onBackPressed = onBackPressed;
 
     shelfNameLabel.setText("Shelf " + shelf.getShelfID());
-    this.cheeseWheelsProvider.setShelf(shelf);
+    this.cheeseWheelsProvider.setShelf(shelf.getShelfID());
 
     AssignCheeseWheelController.context.shelfId = shelf.getShelfID();
 

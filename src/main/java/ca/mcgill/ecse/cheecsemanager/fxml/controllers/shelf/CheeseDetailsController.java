@@ -7,7 +7,6 @@ import ca.mcgill.ecse.cheecsemanager.controller.TOCheeseWheel;
 import ca.mcgill.ecse.cheecsemanager.controller.TOShelf;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.ToastEvent;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.ToastEvent.ToastType;
-import ca.mcgill.ecse.cheecsemanager.fxml.store.CheeseWheelDataProvider;
 import ca.mcgill.ecse.cheecsemanager.fxml.store.ShelfCheeseWheelDataProvider;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,9 +18,6 @@ import javafx.scene.layout.HBox;
 public class CheeseDetailsController {
   private ShelfCheeseWheelDataProvider dataProvider =
       ShelfCheeseWheelDataProvider.getInstance();
-
-  private final CheeseWheelDataProvider cheeseWheelDataProvider =
-      CheeseWheelDataProvider.getInstance();
 
   @FXML private HBox root;
   @FXML private Label cheeseIdLabel;

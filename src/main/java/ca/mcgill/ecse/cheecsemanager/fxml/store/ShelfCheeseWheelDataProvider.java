@@ -1,5 +1,6 @@
 package ca.mcgill.ecse.cheecsemanager.fxml.store;
 
+import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet1Controller;
 import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet3Controller;
 import ca.mcgill.ecse.cheecsemanager.controller.TOCheeseWheel;
 import ca.mcgill.ecse.cheecsemanager.controller.TOShelf;
@@ -14,7 +15,7 @@ import javafx.collections.ObservableList;
  * to model mutations without reloading the page.
  */
 public class ShelfCheeseWheelDataProvider {
-  private TOShelf shelf;
+  private String shelfId;
 
   private final ObservableList<TOCheeseWheel> wheels =
       FXCollections.observableArrayList();
@@ -29,13 +30,15 @@ public class ShelfCheeseWheelDataProvider {
   public ObservableList<TOCheeseWheel> getWheels() { return wheels; }
 
   public void refresh() {
-    if (this.shelf == null) {
+    if (this.shelfId == null) {
       this.wheels.setAll(new ArrayList<>());
       return;
     }
 
+    var shelf = CheECSEManagerFeatureSet1Controller.getShelf(this.shelfId);
+
     List<TOCheeseWheel> latestCheeseWheels =
-        Arrays.stream(this.shelf.getCheeseWheelIDs())
+        Arrays.stream(shelf.getCheeseWheelIDs())
             .map(CheECSEManagerFeatureSet3Controller::getCheeseWheel)
             .filter(c -> !c.isIsSpoiled())
             .toList();
@@ -43,8 +46,8 @@ public class ShelfCheeseWheelDataProvider {
     this.wheels.setAll(latestCheeseWheels);
   }
 
-  public void setShelf(TOShelf shelf) {
-    this.shelf = shelf;
+  public void setShelf(String shelfId) {
+    this.shelfId = shelfId;
     refresh();
   }
 }
