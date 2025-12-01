@@ -12,6 +12,7 @@ import javafx.util.Duration;
 /**
  * Reusable animation manager for smooth property animations with custom easing.
  * Can animate any WritableValue (properties, transforms, etc.).
+ * @author Ming Li liu
  */
 public class AnimationManager {
 

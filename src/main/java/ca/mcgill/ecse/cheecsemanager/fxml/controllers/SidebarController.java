@@ -1,9 +1,10 @@
 package ca.mcgill.ecse.cheecsemanager.fxml.controllers;
 
 import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton;
-import java.util.function.Consumer;
+import ca.mcgill.ecse.cheecsemanager.fxml.events.HidePopupEvent;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 
 public class SidebarController {
@@ -24,12 +25,14 @@ public class SidebarController {
   @FXML StyledButton buttonRobot;
   @FXML StyledButton buttonCheeseWheels;
   @FXML StyledButton buttonSettings;
+  @FXML VBox sidebar;
 
   // Callback for navigation - can be set by parent controller
   private Callback<Page, Boolean> navigationCallback;
 
   @FXML
   public void initialize() {
+    sidebar.setOnMouseClicked(e -> sidebar.fireEvent(new HidePopupEvent()));
     this.updateButtonStyles();
   }
 
@@ -68,6 +71,7 @@ public class SidebarController {
   }
 
   private void navigateTo(Page page) {
+    sidebar.fireEvent(new HidePopupEvent());
     if (navigationCallback != null) {
       if (navigationCallback.call(page)) {
         this.page = page;

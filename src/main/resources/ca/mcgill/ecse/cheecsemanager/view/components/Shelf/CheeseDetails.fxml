@@ -10,7 +10,11 @@
     fx:id="root"
     alignment="CENTER_RIGHT"
 >
-    <VBox spacing="36" styleClass="w-sm, bg-darker-bg, p-lg, rounded-md">
+    <VBox
+        spacing="36"
+        styleClass="w-sm, bg-darker-bg, p-lg, rounded-md"
+        fx:id="mainContainer"
+    >
         <StyledButton text="Close" onAction="#onClosePressed">
             <graphic>
                 <Icon icon="X" />
@@ -71,7 +75,7 @@
                 onAction="#onSavePressed"
             />
             <StyledButton
-                text="Delete"
+                text="Unassign"
                 variant="DESTRUCTIVE"
                 onAction="#onDeletePressed"
             />

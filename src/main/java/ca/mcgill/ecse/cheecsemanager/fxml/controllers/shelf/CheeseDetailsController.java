@@ -7,22 +7,31 @@ import ca.mcgill.ecse.cheecsemanager.controller.TOCheeseWheel;
 import ca.mcgill.ecse.cheecsemanager.controller.TOShelf;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.ToastEvent;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.ToastEvent.ToastType;
+import ca.mcgill.ecse.cheecsemanager.fxml.store.CheeseWheelDataProvider;
 import ca.mcgill.ecse.cheecsemanager.fxml.store.ShelfCheeseWheelDataProvider;
 import ca.mcgill.ecse.cheecsemanager.fxml.store.ShelfDataProvider;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 public class CheeseDetailsController {
-  private ShelfCheeseWheelDataProvider dataProvider =
+  private final ShelfCheeseWheelDataProvider dataProvider =
       ShelfCheeseWheelDataProvider.getInstance();
 
-  private ShelfDataProvider shelfDataProvider = ShelfDataProvider.getInstance();
+  private final ShelfDataProvider shelfDataProvider =
+      ShelfDataProvider.getInstance();
+
+  private final CheeseWheelDataProvider cheeseWheelDataProvider =
+      CheeseWheelDataProvider.getInstance();
 
   @FXML private HBox root;
+  @FXML private VBox mainContainer;
   @FXML private Label cheeseIdLabel;
   // @FXML private Label shelfIdLabel;
   @FXML private ComboBox<String> shelfIdComboBox;
@@ -68,6 +77,16 @@ public class CheeseDetailsController {
 
     isSpoiledComboBox.setValue(cheese.isIsSpoiled());
     isSpoiledComboBox.getItems().setAll(true, false);
+
+    root.setOnMouseClicked(e -> { this.onClosePressed.run(); });
+    mainContainer.setOnMouseClicked(e -> { e.consume(); });
+
+    root.sceneProperty().addListener((obs, oldScene, newScene) -> {
+      if (newScene == null) {
+        root.setOnMouseClicked(null);
+        mainContainer.setOnMouseClicked(null);
+      }
+    });
   }
 
   @FXML
@@ -103,6 +122,7 @@ public class CheeseDetailsController {
 
       shelfDataProvider.refresh();
       dataProvider.refresh();
+      cheeseWheelDataProvider.refresh();
       this.onClosePressed.run();
     }
   }
@@ -116,6 +136,7 @@ public class CheeseDetailsController {
     if (error == null || error.isEmpty()) {
       shelfDataProvider.refresh();
       dataProvider.refresh();
+      cheeseWheelDataProvider.refresh();
       this.onClosePressed.run();
     } else {
       root.fireEvent(new ToastEvent(error, ToastType.ERROR));

@@ -11,6 +11,7 @@
     spacing="8"
     styleClass="sidebar"
     VBox.vgrow="ALWAYS"
+    fx:id="sidebar"
 >
     <HBox
         style="-fx-background-color: -color-darker-bg"
