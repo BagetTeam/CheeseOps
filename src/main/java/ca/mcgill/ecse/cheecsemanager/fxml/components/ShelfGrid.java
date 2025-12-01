@@ -140,7 +140,7 @@ public class ShelfGrid extends BorderPane {
 
     this.sceneProperty().addListener((obs, oldScene, newScene) -> {
       if (newScene == null) {
-        wheels.removeListener(onChangeDetectedListener);
+        // wheels.removeListener(onChangeDetectedListener);
         grid.widthProperty().removeListener(gridWithCallback);
       }
     });

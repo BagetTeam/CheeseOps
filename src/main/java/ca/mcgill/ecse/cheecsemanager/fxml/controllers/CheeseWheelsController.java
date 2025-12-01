@@ -24,16 +24,20 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 
+/**
+ * Controller for the Cheese Wheels page.
+ * @author Ming Li liu
+ * */
 public class CheeseWheelsController {
   private ShelfDataProvider shelfDataProvider = ShelfDataProvider.getInstance();
 
   private final CheeseWheelDataProvider cheeseWheelDataProvider =
       CheeseWheelDataProvider.getInstance();
 
-  @FXML private BorderPane root;
+  @FXML private StackPane root;
   @FXML private Label inventoryLabel;
 
   @FXML private TableView<TOCheeseWheel> table;
@@ -87,9 +91,8 @@ public class CheeseWheelsController {
       private final StyledButton viewBtn = new StyledButton(
           StyledButton.Variant.MUTED, StyledButton.Size.SM, "View", null);
 
-      private final StyledButton notSpoiledBtn =
-          new StyledButton(StyledButton.Variant.PRIMARY, StyledButton.Size.SM,
-                           "Set Not Spoiled", null);
+      private final StyledButton notSpoiledBtn = new StyledButton(
+          StyledButton.Variant.PRIMARY, StyledButton.Size.SM, "Unspoil", null);
 
       private final HBox box = new HBox(10);
 
@@ -108,6 +111,7 @@ public class CheeseWheelsController {
 
         viewBtn.setOnAction(e -> {
           TOCheeseWheel wheel = getTableView().getItems().get(getIndex());
+          showCheeseDetail(wheel);
         });
 
         notSpoiledBtn.setOnAction(e -> {
@@ -160,7 +164,6 @@ public class CheeseWheelsController {
       Node node = loader.load();
       CheeseDetailsController controller = loader.getController();
       controller.init(cheese, () -> {
-        this.shelfDataProvider.refresh();
         AnimationManager.numericBuilder()
             .target(node.translateXProperty())
             .from(0)
