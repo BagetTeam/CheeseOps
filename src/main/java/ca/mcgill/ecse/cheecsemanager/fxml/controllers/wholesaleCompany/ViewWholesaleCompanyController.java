@@ -3,6 +3,7 @@ package ca.mcgill.ecse.cheecsemanager.fxml.controllers.wholesaleCompany;
 import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
 import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet6Controller;
 import ca.mcgill.ecse.cheecsemanager.controller.TOWholesaleCompany;
+import ca.mcgill.ecse.cheecsemanager.fxml.events.ShowPopupEvent;
 import java.sql.Date;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -22,6 +23,7 @@ import javafx.scene.layout.StackPane;
  * editing, deleting, and placing new orders.
  */
 public class ViewWholesaleCompanyController {
+  @FXML private StackPane root;
   @FXML private StackPane companyCardContainer;
 
   @FXML private TableView<Integer> ordersTable;
@@ -126,21 +128,9 @@ public class ViewWholesaleCompanyController {
   @FXML
   private void handlePlaceOrder() {
     try {
-      FXMLLoader loader =
-          new FXMLLoader(CheECSEManagerApplication.class.getResource(
-              "/ca/mcgill/ecse/cheecsemanager/view/components/Company/"
-              + "CompanyOrderPlacement.fxml"));
-      Parent dialog = loader.load();
-
-      // CompanyOrderPlacementController controller = loader.getController();
-      // controller.setMainController(this);
-      // controller.setCompany(companyName);
-      // controller.setOnClose(() -> {
-      //   closeDialog();
-      //   setCompany(companyName);
-      // });
-
-      // showDialog(dialog);
+      CompanyOrderPlacementController.companyName = company.getName();
+      root.fireEvent(new ShowPopupEvent(
+          "view/components/Company/CompanyOrderPlacement.fxml", "New Order"));
 
     } catch (Exception e) {
       e.printStackTrace();

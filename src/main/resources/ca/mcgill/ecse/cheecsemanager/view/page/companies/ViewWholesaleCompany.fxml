@@ -17,8 +17,9 @@
     xmlns:fx="http://javafx.com/fxml/1"
     fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.wholesaleCompany.ViewWholesaleCompanyController"
     alignment="TOP_CENTER"
+    fx:id="root"
 >
-    <VBox maxWidth="768" spacing="20">
+    <VBox maxWidth="768" spacing="28">
         <HBox spacing="24" alignment="CENTER_LEFT">
             <StyledButton variant="DEFAULT" size="BASE" onAction="#handleBack">
                 <graphic>
@@ -31,17 +32,17 @@
 
         <StackPane fx:id="companyCardContainer" />
 
-        <HBox maxWidth="Infinity" spacing="12" alignment="CENTER_LEFT">
+        <HBox spacing="16" alignment="CENTER_LEFT">
             <Label
                 text="Orders"
                 styleClass="text-fg, font-bold, text-md"
                 HBox.hgrow="ALWAYS"
-                maxWidth="Infinity"
             />
             <StyledButton
                 text="Place Order"
                 variant="PRIMARY"
                 onAction="#handlePlaceOrder"
+                size="SM"
             >
                 <graphic>
                     <Icon icon="Plus" />
