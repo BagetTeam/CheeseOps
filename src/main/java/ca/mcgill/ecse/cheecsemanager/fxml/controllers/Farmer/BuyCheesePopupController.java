@@ -10,6 +10,8 @@ import ca.mcgill.ecse.cheecsemanager.controller.TOShelf;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.ToastEvent;
 import ca.mcgill.ecse.cheecsemanager.fxml.store.CheeseWheelDataProvider;
 import ca.mcgill.ecse.cheecsemanager.fxml.store.FarmerDataProvider;
+import ca.mcgill.ecse.cheecsemanager.fxml.store.ShelfCheeseWheelDataProvider;
+import ca.mcgill.ecse.cheecsemanager.fxml.store.ShelfDataProvider;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
@@ -131,11 +133,15 @@ public class BuyCheesePopupController {
       }
       
       // Auto-assign only the newly bought cheese wheels
-      remaining = autoAssignCheeseWheels(newlyBoughtWheels);
+      remaining = BuyCheesePopupController.autoAssignCheeseWheels(newlyBoughtWheels);
     }
     
+    // Refresh all data sources
     FarmerDataProvider.getInstance().refresh();
     CheeseWheelDataProvider.getInstance().refresh();
+    ShelfCheeseWheelDataProvider.getInstance().refresh();
+    ShelfDataProvider.getInstance().refresh();
+
     if (farmerViewController != null) {
         farmerViewController.reloadFarmerDetails();
     }
@@ -164,7 +170,7 @@ public class BuyCheesePopupController {
    * @return the number of cheese wheels remaining to be assigned.
    * @author Ewen Gueguen
    */
-  private int autoAssignCheeseWheels(List<TOCheeseWheel> cheeseWheelsToAssign) {
+  public static int autoAssignCheeseWheels(List<TOCheeseWheel> cheeseWheelsToAssign) {
     int assignedCount = 0;
     List<TOShelf> shelves = CheECSEManagerFeatureSet1Controller.getShelves();
     
@@ -191,7 +197,8 @@ public class BuyCheesePopupController {
           while (assignedCount < cheeseWheelsToAssign.size() && 
                  (cheeseWheelsToAssign.get(assignedCount).getShelfID() != null || 
                   cheeseWheelsToAssign.get(assignedCount).getColumn() != -1 || 
-                  cheeseWheelsToAssign.get(assignedCount).getRow() != -1)) {
+                  cheeseWheelsToAssign.get(assignedCount).getRow() != -1) || 
+                  cheeseWheelsToAssign.get(assignedCount).getIsSpoiled()) {
             assignedCount++;
           }
 

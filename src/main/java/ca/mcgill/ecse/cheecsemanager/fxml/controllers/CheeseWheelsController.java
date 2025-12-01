@@ -1,5 +1,7 @@
 package ca.mcgill.ecse.cheecsemanager.fxml.controllers;
 
+import java.util.List;
+import org.checkerframework.checker.units.qual.C;
 import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
 import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet3Controller;
 import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet4Controller;
@@ -7,10 +9,14 @@ import ca.mcgill.ecse.cheecsemanager.controller.TOCheeseWheel;
 import ca.mcgill.ecse.cheecsemanager.fxml.components.Animation.AnimationManager;
 import ca.mcgill.ecse.cheecsemanager.fxml.components.Animation.EasingInterpolators;
 import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton;
+import ca.mcgill.ecse.cheecsemanager.fxml.controllers.Farmer.BuyCheesePopupController;
 import ca.mcgill.ecse.cheecsemanager.fxml.controllers.shelf.AssignCheeseWheelController;
 import ca.mcgill.ecse.cheecsemanager.fxml.controllers.shelf.CheeseDetailsController;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.ShowPopupEvent;
+import ca.mcgill.ecse.cheecsemanager.fxml.events.ToastEvent;
 import ca.mcgill.ecse.cheecsemanager.fxml.store.CheeseWheelDataProvider;
+import ca.mcgill.ecse.cheecsemanager.fxml.store.FarmerDataProvider;
+import ca.mcgill.ecse.cheecsemanager.fxml.store.ShelfCheeseWheelDataProvider;
 import ca.mcgill.ecse.cheecsemanager.fxml.store.ShelfDataProvider;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -77,7 +83,21 @@ public class CheeseWheelsController {
   }
 
   @FXML
-  private void assignAllCheeseWheels() {}
+  private void assignAllCheeseWheels() {
+    int rem = BuyCheesePopupController.autoAssignCheeseWheels(CheECSEManagerFeatureSet3Controller.getCheeseWheels());
+
+    FarmerDataProvider.getInstance().refresh();
+    CheeseWheelDataProvider.getInstance().refresh();
+    ShelfCheeseWheelDataProvider.getInstance().refresh();
+    ShelfDataProvider.getInstance().refresh();
+    
+    root.fireEvent(new ToastEvent("Success!", ToastEvent.ToastType.SUCCESS));
+    if (rem > 0) {
+      root.fireEvent(new ToastEvent(rem + " could not be auto assigned.", ToastEvent.ToastType.WARNING));
+    } 
+
+
+  }
 
   private void setupActionButtons() {
     actionColumn.setCellFactory(param -> new TableCell<>() {
