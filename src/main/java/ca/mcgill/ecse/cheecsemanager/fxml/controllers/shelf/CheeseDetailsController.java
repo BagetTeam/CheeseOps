@@ -101,8 +101,8 @@ public class CheeseDetailsController {
     } else {
       root.fireEvent(new ToastEvent("Success!", ToastType.SUCCESS));
 
-      dataProvider.refresh();
       shelfDataProvider.refresh();
+      dataProvider.refresh();
       this.onClosePressed.run();
     }
   }
@@ -114,8 +114,8 @@ public class CheeseDetailsController {
             this.cheese.getId());
 
     if (error == null || error.isEmpty()) {
-      dataProvider.refresh();
       shelfDataProvider.refresh();
+      dataProvider.refresh();
       this.onClosePressed.run();
     } else {
       root.fireEvent(new ToastEvent(error, ToastType.ERROR));

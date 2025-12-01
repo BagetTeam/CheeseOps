@@ -33,7 +33,7 @@
 }
 
 .combo-box {
-    -fx-background-color: -color-bg;
+    -fx-background-color: -color-darker-bg;
     -fx-background-radius: 14;
     -fx-border-radius: 14;
     -fx-border-width: 1;
@@ -44,7 +44,7 @@
 }
 
 .combo-box .list-view {
-    -fx-background-color: -color-bg;
+    -fx-background-color: -color-darker-bg;
     -fx-border-color: -color-muted;
     -fx-border-width: 1;
     -fx-border-radius: 12;

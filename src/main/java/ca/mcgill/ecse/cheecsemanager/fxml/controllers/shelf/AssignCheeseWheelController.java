@@ -2,7 +2,6 @@ package ca.mcgill.ecse.cheecsemanager.fxml.controllers.shelf;
 
 import ca.mcgill.ecse.cheecsemanager.controller.*;
 import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton;
-import ca.mcgill.ecse.cheecsemanager.fxml.controllers.CheeseWheelsController;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.HidePopupEvent;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.ToastEvent;
 import ca.mcgill.ecse.cheecsemanager.fxml.store.CheeseWheelDataProvider;
@@ -18,6 +17,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.VBox;
 
+/**
+ * Controller for the Assign Cheese Wheel Pop Up.
+ * @author Ming Li Liu, Ayush Patel
+ */
 public class AssignCheeseWheelController {
   public class Context {
     public Integer cheeseId;
@@ -47,6 +50,8 @@ public class AssignCheeseWheelController {
   @FXML private ComboBox<String> shelfCombo;
   @FXML private ComboBox<Integer> rowCombo;
   @FXML private ComboBox<Integer> colCombo;
+  @FXML private VBox rowVBox;
+  @FXML private VBox colVBox;
   @FXML private StyledButton assignButton;
   @FXML private VBox root;
   @FXML private VBox shelfSelectionBox;
@@ -95,6 +100,14 @@ public class AssignCheeseWheelController {
       cheeseCombo.setValue(cheese.getId() + " - " + cheese.getMonthsAged() +
                            " months");
     }
+
+    // Allow combo boxes to grow
+    rowCombo.setMaxWidth(Double.MAX_VALUE);
+    colCombo.setMaxWidth(Double.MAX_VALUE);
+
+    // Bind width to the VBox container (minus optional padding)
+    rowCombo.prefWidthProperty().bind(rowVBox.widthProperty());
+    colCombo.prefWidthProperty().bind(colVBox.widthProperty());
   }
 
   private void populateShelves() {
