@@ -20,13 +20,12 @@
     <Label
         fx:id="errorLabel"
         wrapText="true"
-        style="-fx-text-fill: -color-destructive"
+        styleClass="text-destructive"
         managed="false"
         visible="false"
     />
     <!-- Buttons -->
     <HBox spacing="12" alignment="CENTER_RIGHT">
-        <StyledButton text="Cancel" onAction="#handleClose" />
         <StyledButton text="Save" variant="PRIMARY" onAction="#handleSave" />
     </HBox>    
 </VBox>

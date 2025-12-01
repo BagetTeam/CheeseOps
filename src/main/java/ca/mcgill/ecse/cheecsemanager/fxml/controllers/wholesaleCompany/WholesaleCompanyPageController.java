@@ -1,16 +1,16 @@
 package ca.mcgill.ecse.cheecsemanager.fxml.controllers.wholesaleCompany;
 
 import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
-import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet6Controller;
 import ca.mcgill.ecse.cheecsemanager.controller.TOWholesaleCompany;
 import ca.mcgill.ecse.cheecsemanager.fxml.components.Input;
+import ca.mcgill.ecse.cheecsemanager.fxml.events.ShowPopupEvent;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.ToastEvent;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.ToastEvent.ToastType;
 import ca.mcgill.ecse.cheecsemanager.fxml.store.WholesaleCompanyDataProvider;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -29,8 +29,6 @@ public class WholesaleCompanyPageController {
   private final WholesaleCompanyDataProvider dataProvider =
       WholesaleCompanyDataProvider.getInstance();
 
-  private Map<Integer, CompanyCardController> cardControllers = new HashMap<>();
-
   @FXML private StackPane companiesPageRoot;
   @FXML private VBox cardsContainer;
   @FXML private Input searchInput;
@@ -40,10 +38,12 @@ public class WholesaleCompanyPageController {
     loadCompanies();
 
     dataProvider.getCompanies().addListener(this::dataListenerChanged);
+    searchInput.textProperty().addListener(this::inputListener);
 
     companiesPageRoot.sceneProperty().addListener((obs, oldScene, newScene) -> {
       if (newScene == null) {
         dataProvider.getCompanies().removeListener(this::dataListenerChanged);
+        searchInput.textProperty().removeListener(this::inputListener);
       }
     });
   }
@@ -56,44 +56,42 @@ public class WholesaleCompanyPageController {
     cardsContainer.getChildren().clear();
 
     List<TOWholesaleCompany> companies = dataProvider.getCompanies();
+    String filter = searchInput.getText();
 
-    for (int i = 0; i < companies.size(); i++) {
-      var company = companies.get(i);
-      FXMLLoader loader = new FXMLLoader(CheECSEManagerApplication.getResource(
-          "view/components/Company/CompanyCard.fxml"));
-
-      try {
-        HBox card = loader.load();
-        CompanyCardController controller = loader.getController();
-        controller.init(company,
-                        ()
-                            -> handleViewCompany(company),
-                        () -> handleDeleteCompanyCard(company));
-
-        cardsContainer.getChildren().add(card);
-
-        cardControllers.put(i, controller);
-      } catch (Exception e) {
-        e.printStackTrace();
+    for (TOWholesaleCompany company : companies) {
+      if (filter.isEmpty() ||
+          company.getName().toLowerCase().contains(filter)) {
+        addCompanyCard(company);
       }
     }
   }
 
   private void dataListenerChanged(
       ListChangeListener.Change<? extends TOWholesaleCompany> change) {
-    Platform.runLater(() -> {
-      var companies = dataProvider.getCompanies();
-      while (change.next()) {
-        for (int i = change.getFrom(); i < change.getTo(); i++) {
-          var company = companies.get(i);
-          var controller = cardControllers.get(i);
+    Platform.runLater(() -> { loadCompanies(); });
+  }
 
-          if (controller != null) {
-            controller.setCompany(company);
-          }
-        }
-      }
-    });
+  private void addCompanyCard(TOWholesaleCompany company) {
+    FXMLLoader loader = new FXMLLoader(CheECSEManagerApplication.getResource(
+        "view/components/Company/CompanyCard.fxml"));
+
+    try {
+      HBox card = loader.load();
+      CompanyCardController controller = loader.getController();
+      controller.init(company,
+                      ()
+                          -> handleViewCompany(company),
+                      () -> handleDeleteCompanyCard(company));
+
+      cardsContainer.getChildren().add(card);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  private void inputListener(ObservableValue<? extends String> observable,
+                             String oldValue, String newValue) {
+    loadCompanies();
   }
 
   /**
@@ -146,25 +144,8 @@ public class WholesaleCompanyPageController {
    */
   @FXML
   private void handleAddCompany() {
-    // try {
-    //   FXMLLoader loader =
-    //       new FXMLLoader(CheECSEManagerApplication.class.getResource(
-    //           "/ca/mcgill/ecse/cheecsemanager/view/page/companies/"
-    //           + "AddWholesaleCompany.fxml"));
-    //   Parent dialog = loader.load();
-    //
-    //   AddWholesaleCompanyController controller = loader.getController();
-    //   controller.setMainController(this);
-    //   controller.setOnClose(() -> {
-    //     closeDialog();
-    //     loadCompanies();
-    //   });
-    //
-    //   showDialog(dialog);
-    //
-    // } catch (Exception e) {
-    //   e.printStackTrace();
-    // }
+    this.companiesPageRoot.fireEvent(
+        new ShowPopupEvent("view/page/companies/AddWholesaleCompany.fxml"));
   }
 
   /**
