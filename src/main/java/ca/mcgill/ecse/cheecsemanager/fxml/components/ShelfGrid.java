@@ -13,6 +13,7 @@ import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ChangeListener;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -58,6 +59,9 @@ public class ShelfGrid extends BorderPane {
 
   private TOShelf shelf;
   private Consumer<TOCheeseWheel> callback;
+
+  private final ListChangeListener<TOCheeseWheel> onChangeDetectedListener =
+      change -> onChangeDetected(change);
 
   public ShelfGrid(TOShelf shelf, Consumer<TOCheeseWheel> callback) {
     this.shelf = shelf;
@@ -123,76 +127,89 @@ public class ShelfGrid extends BorderPane {
     setCenter(scrollPane);
 
     // Sync column labels width with grid
-    grid.widthProperty().addListener((obs, oldVal, newVal) -> {
+    ChangeListener<? super Number> gridWithCallback = (obs, oldVal, newVal) -> {
       columnLabels.setMinWidth(newVal.doubleValue());
       columnLabels.setPrefWidth(newVal.doubleValue());
+    };
+    grid.widthProperty().addListener(gridWithCallback);
+
+    var wheels = cheeseWheelsProvider.getWheels();
+    this.setCheeseWheels(wheels);
+
+    wheels.addListener(onChangeDetectedListener);
+
+    this.sceneProperty().addListener((obs, oldScene, newScene) -> {
+      if (newScene == null) {
+        wheels.removeListener(onChangeDetectedListener);
+        grid.widthProperty().removeListener(gridWithCallback);
+      }
     });
+  }
 
-    this.setCheeseWheels(cheeseWheelsProvider.getWheels());
+  private void
+  onChangeDetected(ListChangeListener.Change<? extends TOCheeseWheel> change) {
+    System.out.println("============== onChangeDetected ==============");
+    javafx.application.Platform.runLater(() -> {
+      while (change.next()) {
+        if (change.wasRemoved()) {
+          for (var cw : change.getRemoved()) {
+            String key = cw.getColumn() + "," + cw.getRow();
 
-    cheeseWheelsProvider.getWheels().addListener((ListChangeListener.Change<? extends TOCheeseWheel> change) -> {
-      javafx.application.Platform.runLater(() -> {
-        while (change.next()) {
-          if (change.wasRemoved()) {
-            for (var cw : change.getRemoved()) {
-              String key = cw.getColumn() + "," + cw.getRow();
+            var addButtonNode =
+                createAddButtonNode(cw.getColumn(), cw.getRow());
 
-              var addButtonNode =
-                  createAddButtonNode(cw.getColumn(), cw.getRow());
+            var container = locationNodes.get(key);
+            container.getChildren().clear();
+            container.getChildren().add(addButtonNode);
 
-              var container = locationNodes.get(key);
-              container.getChildren().clear();
-              container.getChildren().add(addButtonNode);
-
-              cheeseWheelsLocations.remove(cw.getId());
-            }
-          }
-
-          if (change.wasAdded()) {
-            for (var cw : change.getAddedSubList()) {
-              String key = cw.getColumn() + "," + cw.getRow();
-              var cheeseWheelNode = createCheeseWheelNode(cw);
-
-              var container = locationNodes.get(key);
-              container.getChildren().clear();
-              container.getChildren().add(cheeseWheelNode);
-
-              cheeseWheelsLocations.put(cw.getId(), key);
-            }
-          }
-
-          if (change.wasUpdated()) {
-            var cheeseWheels = cheeseWheelsProvider.getWheels();
-            for (int i = change.getFrom(); i < change.getTo(); i++) {
-              var cw = cheeseWheels.get(i);
-              String newKey = cw.getColumn() + "," + cw.getRow();
-              String oldKey = cheeseWheelsLocations.get(cw.getId());
-
-              if (newKey.equals(oldKey)) {
-                continue;
-              }
-
-              // swap nodes
-              var oldCheeseWheelNode = locationNodes.get(oldKey);
-
-              var newContainer = locationNodes.get(newKey);
-              newContainer.getChildren().clear();
-              newContainer.getChildren().add(oldCheeseWheelNode);
-
-              var oldKeyArr = oldKey.split(",");
-              var oldColumn = Integer.parseInt(oldKeyArr[0]);
-              var oldRow = Integer.parseInt(oldKeyArr[1]);
-
-              var oldContainer = locationNodes.get(oldKey);
-              oldContainer.getChildren().clear();
-              oldContainer.getChildren().add(
-                  createAddButtonNode(oldColumn, oldRow));
-
-              cheeseWheelsLocations.put(cw.getId(), newKey);
-            }
+            cheeseWheelsLocations.remove(cw.getId());
           }
         }
-      });
+
+        if (change.wasAdded()) {
+          for (var cw : change.getAddedSubList()) {
+            String key = cw.getColumn() + "," + cw.getRow();
+            var cheeseWheelNode = createCheeseWheelNode(cw);
+
+            var container = locationNodes.get(key);
+            container.getChildren().clear();
+            container.getChildren().add(cheeseWheelNode);
+
+            cheeseWheelsLocations.put(cw.getId(), key);
+          }
+        }
+
+        if (change.wasUpdated()) {
+          var cheeseWheels = cheeseWheelsProvider.getWheels();
+          for (int i = change.getFrom(); i < change.getTo(); i++) {
+            var cw = cheeseWheels.get(i);
+            String newKey = cw.getColumn() + "," + cw.getRow();
+            String oldKey = cheeseWheelsLocations.get(cw.getId());
+
+            if (newKey.equals(oldKey)) {
+              continue;
+            }
+
+            // swap nodes
+            var oldCheeseWheelNode = locationNodes.get(oldKey);
+
+            var newContainer = locationNodes.get(newKey);
+            newContainer.getChildren().clear();
+            newContainer.getChildren().add(oldCheeseWheelNode);
+
+            var oldKeyArr = oldKey.split(",");
+            var oldColumn = Integer.parseInt(oldKeyArr[0]);
+            var oldRow = Integer.parseInt(oldKeyArr[1]);
+
+            var oldContainer = locationNodes.get(oldKey);
+            oldContainer.getChildren().clear();
+            oldContainer.getChildren().add(
+                createAddButtonNode(oldColumn, oldRow));
+
+            cheeseWheelsLocations.put(cw.getId(), newKey);
+          }
+        }
+      }
     });
   }
 

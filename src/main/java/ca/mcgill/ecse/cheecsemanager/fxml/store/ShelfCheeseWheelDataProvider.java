@@ -3,7 +3,6 @@ package ca.mcgill.ecse.cheecsemanager.fxml.store;
 import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet1Controller;
 import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet3Controller;
 import ca.mcgill.ecse.cheecsemanager.controller.TOCheeseWheel;
-import ca.mcgill.ecse.cheecsemanager.controller.TOShelf;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -13,6 +12,7 @@ import javafx.collections.ObservableList;
 /**
  * Centralized observable source of shelf data so that UI controllers can react
  * to model mutations without reloading the page.
+ * @author Ming Li Liu
  */
 public class ShelfCheeseWheelDataProvider {
   private String shelfId;

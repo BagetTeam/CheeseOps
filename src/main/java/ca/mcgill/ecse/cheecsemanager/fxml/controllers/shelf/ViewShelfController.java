@@ -25,11 +25,11 @@ public class ViewShelfController {
   @FXML private StackPane root;
   @FXML private VBox content;
 
-  public static TOShelf shelfToView;
+  private TOShelf shelfToView;
   private Runnable onBackPressed;
 
   public void init(TOShelf shelf, Runnable onBackPressed) {
-    shelfToView = shelf;
+    this.shelfToView = shelf;
     this.onBackPressed = onBackPressed;
 
     shelfNameLabel.setText("Shelf " + shelf.getShelfID());
@@ -56,9 +56,13 @@ public class ViewShelfController {
 
   @FXML
   public void onAddCheesePressed() {
-    root.fireEvent(new ShowPopupEvent(
-        "view/components/Shelf/AssignCheeseWheelPopUp.fxml",
-        "Assign Cheese Wheel in Shelf " + shelfToView.getShelfID()));
+    AssignCheeseWheelController.context.shelfId = shelfToView.getShelfID();
+    AssignCheeseWheelController.context.col = null;
+    AssignCheeseWheelController.context.row = null;
+
+    root.fireEvent(
+        new ShowPopupEvent("view/components/Shelf/AssignCheeseWheelPopUp.fxml",
+                           "Assign Cheese Wheel in Shelf"));
   }
 
   private void initShelfGrid(TOShelf shelf) {
