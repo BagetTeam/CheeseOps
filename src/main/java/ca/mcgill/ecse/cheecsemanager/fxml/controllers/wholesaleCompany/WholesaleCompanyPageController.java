@@ -71,21 +71,8 @@ public class WholesaleCompanyPageController {
   }
 
   private void addCompanyCard(TOWholesaleCompany company) {
-    FXMLLoader loader = new FXMLLoader(CheECSEManagerApplication.getResource(
-        "view/components/Company/CompanyCard.fxml"));
-
-    try {
-      HBox card = loader.load();
-      CompanyCardController controller = loader.getController();
-      controller.init(company,
-                      ()
-                          -> handleViewCompany(company),
-                      () -> handleDeleteCompanyCard(company));
-
-      cardsContainer.getChildren().add(card);
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
+    HBox card = newCompanyCard(company, null);
+    cardsContainer.getChildren().add(card);
   }
 
   private void inputListener(ObservableValue<? extends String> observable,
@@ -105,8 +92,11 @@ public class WholesaleCompanyPageController {
       StackPane viewPage = loader.load();
 
       ViewWholesaleCompanyController controller = loader.getController();
-      controller.setCompany(company.getName());
-      controller.setOnBack(() -> navigateBackToCompaniesPage());
+
+      HBox card = newCompanyCard(company, viewPage);
+      controller.setCompany(company.getName(), card);
+      controller.setOnBack(
+          () -> companiesPageRoot.getChildren().remove(viewPage));
 
       // Replace this entire page with the view page
       companiesPageRoot.getChildren().add(viewPage);
@@ -115,26 +105,26 @@ public class WholesaleCompanyPageController {
       e.printStackTrace();
     }
   }
-  /**
-   * Navigates back to the companies page.
-   */
-  private void navigateBackToCompaniesPage() {
+
+  private HBox newCompanyCard(TOWholesaleCompany company, StackPane viewPage) {
+    FXMLLoader loader = new FXMLLoader(CheECSEManagerApplication.getResource(
+        "view/components/Company/CompanyCard.fxml"));
+
     try {
-      FXMLLoader loader =
-          new FXMLLoader(CheECSEManagerApplication.class.getResource(
-              "/ca/mcgill/ecse/cheecsemanager/view/page/companies/page.fxml"));
-      Parent companiesPage = loader.load();
+      HBox card = loader.load();
+      CompanyCardController controller = loader.getController();
+      controller.init(company,
+                      ()
+                          -> {
+                        if (viewPage == null)
+                          handleViewCompany(company);
+                      },
+                      () -> { handleDeleteCompanyCard(company, viewPage); });
 
-      // Replace current content with companies page
-      companiesPageRoot.getChildren().clear();
-      companiesPageRoot.getChildren().add(companiesPage);
-      AnchorPane.setTopAnchor(companiesPage, 0.0);
-      AnchorPane.setBottomAnchor(companiesPage, 0.0);
-      AnchorPane.setLeftAnchor(companiesPage, 0.0);
-      AnchorPane.setRightAnchor(companiesPage, 0.0);
-
+      return card;
     } catch (Exception e) {
       e.printStackTrace();
+      return null;
     }
   }
 
@@ -154,8 +144,15 @@ public class WholesaleCompanyPageController {
    * @param company the wholesale company to delete
    */
   @FXML
-  private void handleDeleteCompanyCard(TOWholesaleCompany company) {
+  private void handleDeleteCompanyCard(TOWholesaleCompany company,
+                                       StackPane viewPage) {
     DeleteWholesaleCompanyController.companyName = company.getName();
+
+    if (viewPage != null) {
+      DeleteWholesaleCompanyController.onDeleteCallback =
+          () -> companiesPageRoot.getChildren().remove(viewPage);
+    }
+
     this.companiesPageRoot.fireEvent(
         new ShowPopupEvent("view/page/companies/DeleteWholesaleCompany.fxml"));
   }

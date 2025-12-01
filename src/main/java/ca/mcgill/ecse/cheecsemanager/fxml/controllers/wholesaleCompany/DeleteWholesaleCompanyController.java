@@ -19,6 +19,7 @@ public class DeleteWholesaleCompanyController {
       WholesaleCompanyDataProvider.getInstance();
 
   public static String companyName;
+  public static Runnable onDeleteCallback;
 
   @FXML private Label companyNameLabel;
   @FXML private Label companyAddressLabel;
@@ -66,6 +67,9 @@ public class DeleteWholesaleCompanyController {
           new ToastEvent("Company  " + companyName + " deleted successfully!",
                          ToastType.SUCCESS));
       this.root.fireEvent(new HidePopupEvent());
+      if (onDeleteCallback != null) {
+        onDeleteCallback.run();
+      }
     } else {
       this.errorLabel.setText(error);
       this.errorLabel.setVisible(true);

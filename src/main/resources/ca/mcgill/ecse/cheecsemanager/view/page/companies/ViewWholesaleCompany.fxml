@@ -12,119 +12,79 @@
 <?import ca.mcgill.ecse.cheecsemanager.fxml.components.Icon?>
 <?import ca.mcgill.ecse.cheecsemanager.fxml.controllers.wholesaleCompany.CompanyCardController?>
 <StackPane
-    prefHeight="600.0"
-    prefWidth="900.0"
-    styleClass="page"
+    styleClass="bg-bg"
     xmlns="http://javafx.com/javafx/21"
     xmlns:fx="http://javafx.com/fxml/1"
     fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.wholesaleCompany.ViewWholesaleCompanyController"
     alignment="TOP_CENTER"
 >
     <VBox maxWidth="768" spacing="20">
-        <padding>
-            <Insets top="24" right="24" bottom="24" left="24" />
-        </padding>
-        <children>
-            <!-- Header Section -->
-            <HBox spacing="24" alignment="CENTER_LEFT">
-                <!-- Back Button -->
-                <StyledButton
-                    variant="DEFAULT"
-                    size="BASE"
-                    onAction="#handleBack"
-                >
-                    <graphic>
-                        <Icon icon="ArrowLeft" />
-                    </graphic>
-                </StyledButton>
-                
-                <VBox spacing="4" HBox.hgrow="ALWAYS">
-                    <Label
-                        text="Company Details"
-                        style="-fx-text-fill: -color-fg; -fx-font-size: 28px; -fx-font-weight: bold;"
-                    />
-                    <Label
-                        text="View and manage company information"
-                        style="-fx-text-fill: -color-primary; -fx-font-size: 14px;"
-                    />
-                </VBox>
-            </HBox>
+        <HBox spacing="24" alignment="CENTER_LEFT">
+            <StyledButton variant="DEFAULT" size="BASE" onAction="#handleBack">
+                <graphic>
+                    <Icon icon="ArrowLeft" />
+                </graphic>
+            </StyledButton>
             
-            <ScrollPane
-                fitToWidth="true"
-                VBox.vgrow="ALWAYS"
-                style="-fx-background-color: transparent; -fx-background: transparent;"
+            <Label text="Company Details" styleClass="text-fg" />
+        </HBox>
+
+        <StackPane fx:id="companyCardContainer" />
+
+        <HBox maxWidth="Infinity" spacing="12" alignment="CENTER_LEFT">
+            <Label
+                text="Orders"
+                styleClass="text-fg, font-bold, text-md"
+                HBox.hgrow="ALWAYS"
+                maxWidth="Infinity"
+            />
+            <StyledButton
+                text="Place Order"
+                variant="PRIMARY"
+                onAction="#handlePlaceOrder"
             >
-                <VBox.margin>
-                    <Insets top="24" />
-                </VBox.margin>
-                <content>
-                    <HBox spacing="24" alignment="TOP_LEFT">
-                        <!-- Company Info Card -->
-                        <CompanyCardController
-                            fx:id="companyCard"
-                            maxHeight="300"
-                        />
-                        
-                        <!-- Orders Table -->
-                        <VBox spacing="16" HBox.hgrow="ALWAYS">
-                            <Label
-                                text="Orders"
-                                style="-fx-text-fill: -color-fg; -fx-font-size: 20px; -fx-font-weight: bold;"
-                            />
-                            <StyledButton
-                                text="Place Order"
-                                variant="PRIMARY"
-                                size="SM"
-                                onAction="#handlePlaceOrder"
-                            >
-                            <graphic>
-                                <Icon icon="Plus" />
-                            </graphic>
-                            </StyledButton>
-                            <TableView
-                                fx:id="ordersTable"
-                                VBox.vgrow="ALWAYS"
-                                styleClass="farmer-table"
-                            >
-                                <columns>
-                                <TableColumn
-                                        fx:id="transactionDateColumn"
-                                        text="Transaction Date"
-                                        prefWidth="140"
-                                    />
-                                <TableColumn
-                                        fx:id="monthsAgedColumn"
-                                        text="Months Aged"
-                                        prefWidth="120"
-                                    />
-                                <TableColumn
-                                        fx:id="cheeseWheelsColumn"
-                                        text="Wheels Ordered"
-                                        prefWidth="130"
-                                    />
-                                <TableColumn
-                                        fx:id="missingWheelsColumn"
-                                        text="Missing"
-                                        prefWidth="80"
-                                    />
-                                <TableColumn
-                                        fx:id="deliveryDateColumn"
-                                        text="Delivery Date"
-                                        prefWidth="140"
-                                    />
-                                </columns>
-                                <columnResizePolicy>
-                                <TableView
-                                        fx:constant="CONSTRAINED_RESIZE_POLICY"
-                                    />
-                                </columnResizePolicy>
-                            </TableView>
-                        </VBox>
-                    </HBox>
-                </content>
-            </ScrollPane>
-        </children>
+                <graphic>
+                    <Icon icon="Plus" />
+                </graphic>
+            </StyledButton>
+
+        </HBox>
+        
+        <TableView
+            fx:id="ordersTable"
+            VBox.vgrow="ALWAYS"
+            styleClass="farmer-table"
+        >
+            <columns>
+            <TableColumn
+                    fx:id="transactionDateColumn"
+                    text="Transaction Date"
+                    prefWidth="140"
+                />
+            <TableColumn
+                    fx:id="monthsAgedColumn"
+                    text="Months Aged"
+                    prefWidth="120"
+                />
+            <TableColumn
+                    fx:id="cheeseWheelsColumn"
+                    text="Wheels Ordered"
+                    prefWidth="130"
+                />
+            <TableColumn
+                    fx:id="missingWheelsColumn"
+                    text="Missing"
+                    prefWidth="80"
+                />
+            <TableColumn
+                    fx:id="deliveryDateColumn"
+                    text="Delivery Date"
+                    prefWidth="140"
+                />
+            </columns>
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+            </columnResizePolicy>
+        </TableView>
     </VBox>
 </StackPane>
-
