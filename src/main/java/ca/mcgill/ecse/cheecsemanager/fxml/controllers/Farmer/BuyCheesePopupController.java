@@ -197,8 +197,8 @@ public class BuyCheesePopupController {
           while (assignedCount < cheeseWheelsToAssign.size() && 
                  (cheeseWheelsToAssign.get(assignedCount).getShelfID() != null || 
                   cheeseWheelsToAssign.get(assignedCount).getColumn() != -1 || 
-                  cheeseWheelsToAssign.get(assignedCount).getRow() != -1) || 
-                  cheeseWheelsToAssign.get(assignedCount).getIsSpoiled()) {
+                  cheeseWheelsToAssign.get(assignedCount).getRow() != -1 || 
+                  cheeseWheelsToAssign.get(assignedCount).getIsSpoiled())) {
             assignedCount++;
           }
 

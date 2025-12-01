@@ -1,5 +1,6 @@
 package ca.mcgill.ecse.cheecsemanager.fxml.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.checkerframework.checker.units.qual.C;
 import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
@@ -84,7 +85,18 @@ public class CheeseWheelsController {
 
   @FXML
   private void assignAllCheeseWheels() {
-    int rem = BuyCheesePopupController.autoAssignCheeseWheels(CheECSEManagerFeatureSet3Controller.getCheeseWheels());
+    List<TOCheeseWheel> cheeseWheels = CheECSEManagerFeatureSet3Controller.getCheeseWheels();
+    List<TOCheeseWheel> cheeseWheelsToAssign = new ArrayList<>();
+    for (TOCheeseWheel cheeseWheel : cheeseWheels) {
+      if (cheeseWheel.getShelfID() != null || cheeseWheel.getColumn() != -1 || 
+              cheeseWheel.getRow() != -1 || cheeseWheel.getIsSpoiled()) {
+        continue;
+      }
+
+      cheeseWheelsToAssign.add(cheeseWheel);
+    }
+  
+    int rem = BuyCheesePopupController.autoAssignCheeseWheels(cheeseWheelsToAssign);
 
     FarmerDataProvider.getInstance().refresh();
     CheeseWheelDataProvider.getInstance().refresh();
