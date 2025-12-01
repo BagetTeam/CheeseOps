@@ -24,8 +24,8 @@
         wrapText="true"
     />
 
-    <HBox spacing="20" alignment="CENTER_RIGHT">
-        <StyledButton variant="MUTED" text="Cancel" fx:id="cancelBtn" />
+    <HBox spacing="12" alignment="CENTER_RIGHT">
+        <StyledButton text="Cancel" fx:id="cancelBtn" />
         <StyledButton variant="PRIMARY" text="Add" fx:id="addBtn" />
     </HBox>
 </VBox>

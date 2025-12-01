@@ -12,7 +12,7 @@
     xmlns="http://javafx.com/javafx/21"
     styleClass="company-card, p-lg"
     stylesheets="@CompanyCard.css"
-    spacing="16"
+    spacing="20"
     alignment="CENTER_LEFT"
     fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.wholesaleCompany.CompanyCardController"
     maxWidth="Infinity"
@@ -49,8 +49,8 @@
             fx:id="updateCompanyBtn"
             variant="DEFAULT"
             size="SM"
-            text="View"
-            onAction="#handleView"
+            text="Edit"
+            onAction="#handleEdit"
         />
         <StyledButton
             fx:id="deleteCompanyBtn"

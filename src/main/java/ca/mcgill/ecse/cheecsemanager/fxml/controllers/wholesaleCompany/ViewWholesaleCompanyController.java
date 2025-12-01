@@ -133,7 +133,7 @@ public class ViewWholesaleCompanyController implements ToastProvider {
       Parent dialog = loader.load();
 
       UpdateWholesaleCompanyController controller = loader.getController();
-      controller.setMainController(this);
+      // controller.setMainController(this);
       controller.setCompany(companyName);
       controller.setOnClose((updatedName) -> {
         closeDialog();

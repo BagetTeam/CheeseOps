@@ -50,7 +50,7 @@ public class WholesaleCompanyPageController {
         controller.init(company,
                         ()
                             -> handleViewCompany(company),
-                        () -> {}, () -> handleDeleteCompanyCard(company));
+                        () -> handleDeleteCompanyCard(company));
 
         cardsContainer.getChildren().add(card);
       } catch (Exception e) {
