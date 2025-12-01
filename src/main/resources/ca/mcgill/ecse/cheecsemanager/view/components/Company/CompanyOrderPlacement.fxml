@@ -12,16 +12,10 @@
 >
   <!-- Maturation Period Dropdown -->
   <VBox spacing="8">
-    <HBox spacing="5">
       <Label
-                text="Maturation Period"
-                style="-fx-text-fill: -color-fg; -fx-font-size: 14px;"
-            />
-      <Label
-                text="*"
-                style="-fx-text-fill: -color-destructive; -fx-font-size: 14px;"
-            />
-    </HBox>
+            text="Maturation Period"
+            style="-fx-text-fill: -color-fg; -fx-font-size: 14px;"
+        />
     <ComboBox
             fx:id="maturationPeriodComboBox"
             promptText="Select aging period"
@@ -30,59 +24,45 @@
         />
   </VBox>
 
-  <Input label="Quantity*" fx:id="quantityInput" />
+  <Input label="Quantity*" fx:id="quantityInput" variant="OUTLINED" />
 
   <!-- Purchase Date (Read-only) -->
-  <VBox spacing="8">
+  <VBox spacing="4">
     <Label
-            text="Order Date"
+            text="Transaction Date"
             style="-fx-text-fill: -color-fg; -fx-font-size: 14px;"
         />
-    <TextField
-            fx:id="purchaseDateField"
-            editable="false"
-            style="-fx-background-color: derive(-color-bg, -10%); -fx-text-fill: -color-muted; -fx-background-radius: 8; -fx-padding: 12; -fx-font-size: 14px; -fx-border-color: -color-border; -fx-border-width: 1; -fx-border-radius: 8; -fx-opacity: 0.7;"
+    <DatePicker
+            fx:id="transactionDatePicker"
+            promptText="Select transaction date"
+            prefWidth="440"
+            styleClass="styled-date-picker"
         />
   </VBox>
 
   <!-- Delivery Date -->
-  <VBox spacing="8">
-    <HBox spacing="5">
-      <Label
-                text="Delivery Date"
-                style="-fx-text-fill: -color-fg; -fx-font-size: 14px;"
-            />
-      <Label
-                text="*"
-                style="-fx-text-fill: -color-destructive; -fx-font-size: 14px;"
-            />
-    </HBox>
+  <VBox spacing="4">
+    <Label
+            text="Delivery Date"
+            style="-fx-text-fill: -color-fg; -fx-font-size: 14px;"
+        />
     <DatePicker
             fx:id="deliveryDatePicker"
             promptText="Select delivery date"
             prefWidth="440"
             styleClass="styled-date-picker"
-            style="-fx-background-color: -color-bg; -fx-background-radius: 8; -fx-border-color: -color-border; -fx-border-width: 1; -fx-border-radius: 8;"
         />
   </VBox>
 
   <!-- Error Message from backend -->
-  <HBox
-        fx:id="errorContainer"
+  <Label
+        fx:id="errorLabel"
+        text=""
+        wrapText="true"
+        styleClass="text-destructive"
         visible="false"
         managed="false"
-        spacing="8"
-        alignment="CENTER_LEFT"
-        style="-fx-background-color: derive(-color-destructive, -70%); -fx-border-color: -color-destructive; -fx-border-width: 1; -fx-background-radius: 6; -fx-border-radius: 6; -fx-padding: 10 12;"
-    >
-    <Icon icon="Error" />
-    <Label
-            fx:id="errorLabel"
-            text=""
-            wrapText="true"
-            style="-fx-text-fill: -color-destructive; -fx-font-size: 13px;"
-        />
-  </HBox>
+    />
 
   <!-- Buttons -->
   <HBox spacing="15" alignment="CENTER">

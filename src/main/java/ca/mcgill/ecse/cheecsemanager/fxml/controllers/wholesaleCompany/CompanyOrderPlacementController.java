@@ -2,16 +2,16 @@ package ca.mcgill.ecse.cheecsemanager.fxml.controllers.wholesaleCompany;
 
 import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet5Controller;
 import ca.mcgill.ecse.cheecsemanager.fxml.components.Input;
+import ca.mcgill.ecse.cheecsemanager.fxml.events.HidePopupEvent;
+import ca.mcgill.ecse.cheecsemanager.fxml.events.ToastEvent;
+import ca.mcgill.ecse.cheecsemanager.fxml.events.ToastEvent.ToastType;
 import java.sql.Date;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class CompanyOrderPlacementController {
@@ -20,52 +20,20 @@ public class CompanyOrderPlacementController {
   @FXML private VBox root;
   @FXML private ComboBox<String> maturationPeriodComboBox;
   @FXML private Input quantityInput;
-  @FXML private TextField purchaseDateField;
+  @FXML private DatePicker transactionDatePicker;
   @FXML private DatePicker deliveryDatePicker;
-  @FXML private HBox errorContainer;
-  @FXML private Label errorLabel;
 
-  private Runnable onCloseCallback;
-  private LocalDate purchaseDate;
+  @FXML private Label errorLabel;
 
   @FXML
   public void initialize() {
     maturationPeriodComboBox.setItems(FXCollections.observableArrayList(
         "Six", "Twelve", "TwentyFour", "ThirtySix"));
-
-    // Set purchase date to current date (read-only)
-    purchaseDate = LocalDate.now();
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM dd, yyyy");
-    purchaseDateField.setText(purchaseDate.format(formatter));
-
-    // Apply custom styles to DatePicker
-    deliveryDatePicker.setStyle("-fx-background-color: -color-bg; "
-                                + "-fx-text-fill: -color-fg; "
-                                + "-fx-prompt-text-fill: -color-muted; "
-                                + "-fx-padding: 8 12; "
-                                + "-fx-font-size: 14px;");
-
-    // Style the text field inside DatePicker
-    deliveryDatePicker.getEditor().setStyle(
-        "-fx-background-color: -color-bg; "
-        + "-fx-text-fill: -color-fg; "
-        + "-fx-prompt-text-fill: -color-muted; "
-        + "-fx-padding: 8 12; "
-        + "-fx-font-size: 14px;");
   }
-
-  /**
-   * Registers a callback to execute when the dialog closes.
-   *
-   * @param callback the action to run on dialog close
-   */
-  public void setOnClose(Runnable callback) { this.onCloseCallback = callback; }
 
   @FXML
   private void handleClose() {
-    if (onCloseCallback != null) {
-      onCloseCallback.run();
-    }
+    root.fireEvent(new HidePopupEvent());
   }
 
   /**
@@ -81,6 +49,7 @@ public class CompanyOrderPlacementController {
     String maturationPeriod = maturationPeriodComboBox.getValue();
     String quantityText = quantityInput.getText();
     LocalDate deliveryDate = deliveryDatePicker.getValue();
+    LocalDate transactionDate = transactionDatePicker.getValue();
 
     // Validate inputs
     if (maturationPeriod == null || maturationPeriod.isEmpty()) {
@@ -106,15 +75,25 @@ public class CompanyOrderPlacementController {
     }
 
     // Convert LocalDate to java.sql.Date
-    Date sqlPurchaseDate = Date.valueOf(purchaseDate);
-    Date sqlDeliveryDate = Date.valueOf(deliveryDate);
 
+    Date sqlTransactionDate;
+    Date sqlDeliveryDate;
+    try {
+
+      sqlTransactionDate = Date.valueOf(transactionDate);
+      sqlDeliveryDate = Date.valueOf(deliveryDate);
+    } catch (Exception e) {
+      showError("Invalid date format.");
+      return;
+    }
     // Call controller method
     String error = CheECSEManagerFeatureSet5Controller.sellCheeseWheels(
-        companyName, sqlPurchaseDate, quantity, maturationPeriod,
+        companyName, sqlTransactionDate, quantity, maturationPeriod,
         sqlDeliveryDate);
 
     if (error.isEmpty()) {
+      this.root.fireEvent(
+          new ToastEvent("Order placed successfully", ToastType.SUCCESS));
       handleClose();
     } else {
       showError(error);
@@ -123,12 +102,12 @@ public class CompanyOrderPlacementController {
 
   private void showError(String message) {
     errorLabel.setText(message);
-    errorContainer.setVisible(true);
-    errorContainer.setManaged(true);
+    errorLabel.setVisible(true);
+    errorLabel.setManaged(true);
   }
 
   private void hideError() {
-    errorContainer.setVisible(false);
-    errorContainer.setManaged(false);
+    errorLabel.setVisible(false);
+    errorLabel.setManaged(false);
   }
 }
