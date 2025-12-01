@@ -10,7 +10,11 @@
     fx:id="root"
     alignment="CENTER_RIGHT"
 >
-    <VBox spacing="36" styleClass="w-sm, bg-darker-bg, p-lg, rounded-md">
+    <VBox
+        spacing="36"
+        styleClass="w-sm, bg-darker-bg, p-lg, rounded-md"
+        fx:id="mainContainer"
+    >
         <StyledButton text="Close" onAction="#onClosePressed">
             <graphic>
                 <Icon icon="X" />
@@ -20,16 +24,16 @@
         <VBox spacing="6">
             <Label fx:id="cheeseIdLabel" styleClass="text-fg" />
             <Label text="" fx:id="purchaseDateLabel" styleClass="text-fg" />
-            <Label text="" fx:id="shelfIdLabel" styleClass="text-fg" />
+            <!-- <Label text="" fx:id="shelfIdLabel" styleClass="text-fg" /> -->
 
-            <!-- <HBox alignment="CENTER_LEFT" spacing="12"> -->
-            <!--     <Label text="Shelf Id:" styleClass="text-fg" /> -->
-            <!--     <ComboBox -->
-            <!--         fx:id="shelfIdComboBox" -->
-            <!--         HBox.hgrow="ALWAYS" -->
-            <!--         styleClass="combo-box" -->
-            <!--     /> -->
-            <!-- </HBox> -->
+            <HBox alignment="CENTER_LEFT" spacing="12">
+                <Label text="Shelf Id:" styleClass="text-fg" />
+                <ComboBox
+                    fx:id="shelfIdComboBox"
+                    HBox.hgrow="ALWAYS"
+                    styleClass="combo-box"
+                />
+            </HBox>
             <HBox alignment="CENTER_LEFT" spacing="12">
                 <Label text="Row #" styleClass="text-fg" />
                 <ComboBox
@@ -71,7 +75,7 @@
                 onAction="#onSavePressed"
             />
             <StyledButton
-                text="Delete"
+                text="Unassign"
                 variant="DESTRUCTIVE"
                 onAction="#onDeletePressed"
             />

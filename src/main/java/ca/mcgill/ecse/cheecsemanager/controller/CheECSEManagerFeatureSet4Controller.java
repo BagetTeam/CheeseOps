@@ -18,8 +18,9 @@ public class CheECSEManagerFeatureSet4Controller {
    * @return error message, empty string if successful.
    * @author Eun-jun Chang
    */
-  public static String buyCheeseWheels(
-      String emailFarmer, Date purchaseDate, Integer nrCheeseWheels, String monthsAged) {
+  public static String buyCheeseWheels(String emailFarmer, Date purchaseDate,
+                                       Integer nrCheeseWheels,
+                                       String monthsAged) {
     var manager = CheECSEManagerApplication.getCheecseManager();
 
     if (emailFarmer == null || emailFarmer.trim().isEmpty()) {
@@ -54,7 +55,8 @@ public class CheECSEManagerFeatureSet4Controller {
       } catch (IllegalArgumentException e) {
         return "The monthsAged must be Six, Twelve, TwentyFour, or ThirtySix.";
       }
-      var purchase = new Purchase(purchaseDate, manager, farmer); // Create purchase
+      var purchase =
+          new Purchase(purchaseDate, manager, farmer); // Create purchase
 
       for (int i = 0; i < nrCheeseWheels; i++) { // Add cheese wheels to
                                                  // purchase
@@ -81,8 +83,10 @@ public class CheECSEManagerFeatureSet4Controller {
    * @return error message, empty string if successful.
    * @author Eun-jun Chang
    */
-  public static String assignCheeseWheelToShelf(
-      Integer cheeseWheelID, String shelfID, Integer columnNr, Integer rowNr) {
+  public static String assignCheeseWheelToShelf(Integer cheeseWheelID,
+                                                String shelfID,
+                                                Integer columnNr,
+                                                Integer rowNr) {
     var manager = CheECSEManagerApplication.getCheecseManager();
 
     if (cheeseWheelID == null) {
@@ -111,41 +115,31 @@ public class CheECSEManagerFeatureSet4Controller {
     }
 
     // Find shelf
-    Shelf shelf = null;
-    for (Shelf s : manager.getShelves()) {
-      if (s.getId().equals(shelfID)) {
-        shelf = s;
-        break;
-      }
-    }
+    Shelf shelf = Shelf.getWithId(shelfID);
     if (shelf == null) {
       return "Shelf with ID " + shelfID + " not found.";
     }
 
     // Finding shelf location
-    ShelfLocation Location = null;
-    for (ShelfLocation l : shelf.getLocations()) {
-      if (l.getColumn() == columnNr && l.getRow() == rowNr) {
-        Location = l;
-        break;
-      }
-    }
-    if (Location == null) {
+    ShelfLocation location =
+        shelf.getLocations()
+            .stream()
+            .filter(l -> l.getColumn() == columnNr && l.getRow() == rowNr)
+            .findFirst()
+            .orElse(null);
+    if (location == null) {
       return "The shelf location does not exist.";
     }
-    if (Location.hasCheeseWheel()) {
+    if (location.hasCheeseWheel()) {
       return "The shelf location is already occupied.";
     }
 
     // Check if cheese is already assigned
     if (cheese.getLocation() != null) {
-      ShelfLocation oldLocation = cheese.getLocation();
-      oldLocation.setCheeseWheel(null);
       cheese.setLocation(null);
     }
 
-    Location.setCheeseWheel(cheese);
-    cheese.setLocation(Location);
+    cheese.setLocation(location);
 
     try {
       CheECSEManagerPersistence.save();

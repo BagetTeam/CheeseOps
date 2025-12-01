@@ -9,27 +9,35 @@
     fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.shelf.AssignCheeseWheelController"
     spacing="16"
     alignment="TOP_CENTER"
-    styleClass="w-xs"
+    styleClass="w-2xs"
     fx:id="root"
 >
     <VBox spacing="10" alignment="CENTER_LEFT">
         <Label text="Cheese:" styleClass="text-fg, text-sm" />
-        <ComboBox fx:id="cheeseCombo" styleClass="combo-box" />
+        <ComboBox
+            fx:id="cheeseCombo"
+            styleClass="combo-box"
+            maxWidth="Infinity"
+        />
     </VBox>
 
     <VBox fx:id="shelfSelectionBox" spacing="10" alignment="CENTER_LEFT">
         <Label text="Shelf:" styleClass="text-fg, text-sm" />
-        <ComboBox fx:id="shelfCombo" styleClass="combo-box" />
+        <ComboBox
+            fx:id="shelfCombo"
+            styleClass="combo-box"
+            maxWidth="Infinity"
+        />
     </VBox>
 
     <HBox spacing="8" alignment="CENTER_LEFT">
-        <VBox spacing="8" HBox.hgrow="ALWAYS">
+        <VBox fx:id="rowVBox" spacing="8" HBox.hgrow="ALWAYS">
             <Label text="Row:" styleClass="text-fg, text-sm" />
-            <ComboBox fx:id="rowCombo" />
+            <ComboBox fx:id="rowCombo" maxWidth="Infinity" />
         </VBox>
-        <VBox spacing="8" HBox.hgrow="ALWAYS">
+        <VBox fx:id="colVBox" spacing="8" HBox.hgrow="ALWAYS">
             <Label text="Column:" styleClass="text-fg, text-sm" />
-            <ComboBox fx:id="colCombo" />
+            <ComboBox fx:id="colCombo" maxWidth="Infinity" />
         </VBox>
     </HBox>
 

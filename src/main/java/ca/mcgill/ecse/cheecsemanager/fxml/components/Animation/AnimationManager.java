@@ -1,5 +1,7 @@
 package ca.mcgill.ecse.cheecsemanager.fxml.components.Animation;
 
+import java.util.ArrayList;
+import java.util.List;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -10,6 +12,7 @@ import javafx.util.Duration;
 /**
  * Reusable animation manager for smooth property animations with custom easing.
  * Can animate any WritableValue (properties, transforms, etc.).
+ * @author Ming Li liu
  */
 public class AnimationManager {
 
@@ -73,6 +76,10 @@ public class AnimationManager {
    */
   public static NumericAnimationBuilder numericBuilder() {
     return new NumericAnimationBuilder();
+  }
+
+  public static MultiAnimationBuilder multiBuilder() {
+    return new MultiAnimationBuilder();
   }
 
   /**
@@ -199,6 +206,114 @@ public class AnimationManager {
 
       return AnimationManager.animate(target, startValue, endValue, duration,
                                       interpolator, onFinished);
+    }
+  }
+
+  /**
+   * Builder for animating multiple properties simultaneously
+   */
+  public static class MultiAnimationBuilder {
+    private final List<AnimationTarget<?>> targets = new ArrayList<>();
+    private Duration duration;
+    private javafx.animation.Interpolator interpolator =
+        javafx.animation.Interpolator.EASE_BOTH;
+    private Runnable onFinished;
+
+    /**
+     * Add a property to animate
+     * @param property The property to animate
+     * @param startValue Starting value
+     * @param endValue Ending value
+     * @param <T> The type of the property
+     * @return This builder for method chaining
+     */
+    public <T> MultiAnimationBuilder addTarget(WritableValue<T> property,
+                                               T startValue, T endValue) {
+      targets.add(new AnimationTarget<>(property, startValue, endValue));
+      return this;
+    }
+
+    /**
+     * Convenience method for adding numeric properties
+     */
+    public MultiAnimationBuilder
+    addNumericTarget(WritableValue<Number> property, double startValue,
+                     double endValue) {
+      targets.add(new AnimationTarget<>(property, startValue, endValue));
+      return this;
+    }
+
+    public MultiAnimationBuilder duration(Duration duration) {
+      this.duration = duration;
+      return this;
+    }
+
+    public MultiAnimationBuilder durationMillis(double millis) {
+      this.duration = Duration.millis(millis);
+      return this;
+    }
+
+    public MultiAnimationBuilder
+    easing(javafx.animation.Interpolator interpolator) {
+      this.interpolator = interpolator;
+      return this;
+    }
+
+    public MultiAnimationBuilder onFinished(Runnable callback) {
+      this.onFinished = callback;
+      return this;
+    }
+
+    public Timeline play() {
+      if (targets.isEmpty() || duration == null) {
+        throw new IllegalStateException(
+            "Multi-animation requires at least one target and a duration");
+      }
+
+      Timeline timeline = new Timeline();
+      List<KeyValue> keyValues = new ArrayList<>();
+
+      // Create KeyValue for each target
+      for (AnimationTarget<?> target : targets) {
+        addKeyValue(target, keyValues, interpolator);
+      }
+
+      KeyFrame keyFrame =
+          new KeyFrame(duration, keyValues.toArray(new KeyValue[0]));
+      timeline.getKeyFrames().add(keyFrame);
+
+      if (onFinished != null) {
+        timeline.setOnFinished(e -> onFinished.run());
+      }
+
+      timeline.play();
+      return timeline;
+    }
+
+    @SuppressWarnings("unchecked")
+    private static <T> void
+    addKeyValue(AnimationTarget<?> target, List<KeyValue> keyValues,
+                javafx.animation.Interpolator interpolator) {
+      AnimationTarget<T> typedTarget = (AnimationTarget<T>)target;
+      typedTarget.property.setValue(typedTarget.startValue);
+      KeyValue keyValue = new KeyValue(typedTarget.property,
+                                       typedTarget.endValue, interpolator);
+      keyValues.add(keyValue);
+    }
+  }
+
+  /**
+   * Internal holder for animation targets
+   */
+  private static class AnimationTarget<T> {
+    final WritableValue<T> property;
+    final T startValue;
+    final T endValue;
+
+    AnimationTarget(WritableValue<T> property, T startValue, T endValue) {
+      this.property = property;
+      this.startValue = startValue;
+      this.endValue = endValue;
     }
   }
 }

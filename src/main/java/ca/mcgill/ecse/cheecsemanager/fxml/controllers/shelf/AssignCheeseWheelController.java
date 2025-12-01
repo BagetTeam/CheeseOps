@@ -2,7 +2,6 @@ package ca.mcgill.ecse.cheecsemanager.fxml.controllers.shelf;
 
 import ca.mcgill.ecse.cheecsemanager.controller.*;
 import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton;
-import ca.mcgill.ecse.cheecsemanager.fxml.controllers.CheeseWheelsController;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.HidePopupEvent;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.ToastEvent;
 import ca.mcgill.ecse.cheecsemanager.fxml.store.CheeseWheelDataProvider;
@@ -18,7 +17,28 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.VBox;
 
+/**
+ * Controller for the Assign Cheese Wheel Pop Up.
+ * @author Ming Li Liu, Ayush Patel
+ */
 public class AssignCheeseWheelController {
+  public class Context {
+    public Integer cheeseId;
+    public String shelfId;
+    public Integer row;
+    public Integer col;
+
+    public Context(Integer cheeseId, String shelfId, Integer row, Integer col) {
+      this.cheeseId = cheeseId;
+      this.shelfId = shelfId;
+      this.row = row;
+      this.col = col;
+    }
+  }
+
+  public static Context context =
+      new AssignCheeseWheelController().new Context(null, null, null, null);
+
   private ShelfCheeseWheelDataProvider dataProvider =
       ShelfCheeseWheelDataProvider.getInstance();
 
@@ -30,6 +50,8 @@ public class AssignCheeseWheelController {
   @FXML private ComboBox<String> shelfCombo;
   @FXML private ComboBox<Integer> rowCombo;
   @FXML private ComboBox<Integer> colCombo;
+  @FXML private VBox rowVBox;
+  @FXML private VBox colVBox;
   @FXML private StyledButton assignButton;
   @FXML private VBox root;
   @FXML private VBox shelfSelectionBox;
@@ -58,17 +80,34 @@ public class AssignCheeseWheelController {
     assignButton.setOnAction(e -> assignCheeseWheel());
 
     // Pre-select shelf if coming from shelf view
-    TOShelf preselectedShelf = ViewShelfController.shelfToView;
-    if (preselectedShelf != null) {
-      shelfCombo.setValue(preselectedShelf.getShelfID());
+    if (context.shelfId != null) {
+      shelfCombo.setValue(context.shelfId);
       onShelfSelected();
     }
 
-    TOCheeseWheel cheese = CheeseWheelsController.selectedCheeseWheel;
-    if (cheese != null) {
+    if (context.row != null) {
+      rowCombo.setValue(context.row);
+      onRowSelected();
+    }
+
+    if (context.col != null) {
+      colCombo.setValue(context.col);
+    }
+
+    if (context.cheeseId != null) {
+      var cheese =
+          CheECSEManagerFeatureSet3Controller.getCheeseWheel(context.cheeseId);
       cheeseCombo.setValue(cheese.getId() + " - " + cheese.getMonthsAged() +
                            " months");
     }
+
+    // Allow combo boxes to grow
+    rowCombo.setMaxWidth(Double.MAX_VALUE);
+    colCombo.setMaxWidth(Double.MAX_VALUE);
+
+    // Bind width to the VBox container (minus optional padding)
+    rowCombo.prefWidthProperty().bind(rowVBox.widthProperty());
+    colCombo.prefWidthProperty().bind(colVBox.widthProperty());
   }
 
   private void populateShelves() {
@@ -96,11 +135,8 @@ public class AssignCheeseWheelController {
       return;
     }
 
-    selectedShelf = CheECSEManagerFeatureSet1Controller.getShelves()
-                        .stream()
-                        .filter(s -> s.getShelfID().equals(selectedShelfId))
-                        .findFirst()
-                        .orElse(null);
+    selectedShelf =
+        CheECSEManagerFeatureSet1Controller.getShelf(selectedShelfId);
 
     // Build occupied cells set
     occupiedCells.clear();
@@ -142,6 +178,7 @@ public class AssignCheeseWheelController {
 
   private void onRowSelected() {
     Integer selectedRow = rowCombo.getValue();
+
     colCombo.getItems().clear();
     colCombo.setValue(null);
 

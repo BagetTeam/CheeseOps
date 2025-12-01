@@ -5,6 +5,7 @@ import javafx.animation.Interpolator;
 /**
  * Collection of custom easing interpolators for more organic animations.
  * Based on Robert Penner's easing equations.
+ * @author Ming Li liu
  */
 public class EasingInterpolators {
 

@@ -18,6 +18,7 @@ public class ShelfDataProvider {
 
   private final ObservableList<TOShelf> shelves =
       FXCollections.observableArrayList();
+
   private final ReadOnlyIntegerWrapper cheeseInventory =
       new ReadOnlyIntegerWrapper(0);
 
@@ -38,8 +39,8 @@ public class ShelfDataProvider {
         CheECSEManagerFeatureSet1Controller.getShelves();
     shelves.setAll(latestShelves);
 
-    int cheeseCount = CheECSEManagerFeatureSet3Controller.getCheeseWheels()
-                          .size();
+    int cheeseCount =
+        CheECSEManagerFeatureSet3Controller.getCheeseWheels().size();
     cheeseInventory.set(cheeseCount);
   }
 }

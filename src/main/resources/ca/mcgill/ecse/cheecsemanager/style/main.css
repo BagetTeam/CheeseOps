@@ -33,7 +33,7 @@
 }
 
 .combo-box {
-    -fx-background-color: -color-bg;
+    -fx-background-color: -color-darker-bg;
     -fx-background-radius: 14;
     -fx-border-radius: 14;
     -fx-border-width: 1;
@@ -44,7 +44,7 @@
 }
 
 .combo-box .list-view {
-    -fx-background-color: -color-bg;
+    -fx-background-color: -color-darker-bg;
     -fx-border-color: -color-muted;
     -fx-border-width: 1;
     -fx-border-radius: 12;
@@ -278,7 +278,6 @@
     -fx-font-size: 13px;
 }
 
-
 /* DatePicker button styling */
 .styled-date-picker .arrow-button {
     -fx-background-color: transparent;
@@ -325,6 +324,7 @@
     -fx-background-color: transparent;
 }
 
+/* prettier-ignore */
 .styled-date-picker .date-picker-popup .month-year-pane .spinner .button .left-arrow,
 .styled-date-picker .date-picker-popup .month-year-pane .spinner .button .right-arrow {
     -fx-background-color: -color-fg;
@@ -391,6 +391,13 @@
     -fx-border-radius: 5;
     -fx-background-radius: 5;
     -fx-padding: 5;
+}
+
+.cheese-wheel-cell .icon {
+    -fx-stroke: -color-muted;
+}
+.cheese-wheel-cell:hover .icon {
+    -fx-stroke: -color-fg;
 }
 
 .cheese-wheel-cell:hover {
