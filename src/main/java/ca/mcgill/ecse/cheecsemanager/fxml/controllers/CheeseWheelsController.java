@@ -100,8 +100,8 @@ public class CheeseWheelsController {
 
     FarmerDataProvider.getInstance().refresh();
     CheeseWheelDataProvider.getInstance().refresh();
-    ShelfCheeseWheelDataProvider.getInstance().refresh();
     ShelfDataProvider.getInstance().refresh();
+    ShelfCheeseWheelDataProvider.getInstance().refresh();
     
     root.fireEvent(new ToastEvent("Success!", ToastEvent.ToastType.SUCCESS));
     if (rem > 0) {
