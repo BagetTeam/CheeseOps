@@ -56,14 +56,14 @@ public class ViewFarmerController extends PopupController implements PageNavigat
   @FXML private TableColumn<TOCheeseWheel, String> dateColumn;
   @FXML private TableColumn<TOCheeseWheel, Void> actionColumn;
 
-  @FXML private AnchorPane viewFarmerRoot;
+  @FXML private StackPane viewFarmerRoot;
 
   private Region contentToBlur;
 
   private final FarmerDataProvider farmerDataProvider = FarmerDataProvider.getInstance();
   private TOFarmer farmer;
 
-  public AnchorPane getViewFarmerRoot() {
+  public StackPane getViewFarmerRoot() {
     return viewFarmerRoot;
   }
 

@@ -47,9 +47,6 @@ public class MainController {
     // Set up navigation callback
     sidebarController.setNavigationCallback(this::loadPage);
 
-    // Initialize PageNavigator with content area
-    PageNavigator.getInstance().setContentArea(contentArea);
-
     // Load default page
     loadPage(Page.SHELVES);
 
