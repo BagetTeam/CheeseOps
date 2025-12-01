@@ -103,6 +103,9 @@ public class CheeseWheelsController {
         assignBtn.setOnAction(e -> {
           TOCheeseWheel wheel = getTableView().getItems().get(getIndex());
           AssignCheeseWheelController.context.cheeseId = wheel.getId();
+          AssignCheeseWheelController.context.shelfId = null;
+          AssignCheeseWheelController.context.row = null;
+          AssignCheeseWheelController.context.col = null;
 
           root.fireEvent(new ShowPopupEvent(
               "view/components/Shelf/AssignCheeseWheelPopUp.fxml",
