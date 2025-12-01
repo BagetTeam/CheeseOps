@@ -11,18 +11,18 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 
 /**
  * Controller for the wholesale companies list page.
  * Displays all companies in a grid layout and provides navigation to
  * individual company views and the add company dialog.
  */
-public class WholesaleCompanyPageController implements ToastProvider {
+public class WholesaleCompanyPageController {
   @FXML private StackPane companiesPageRoot;
-  @FXML private FlowPane cardsContainer;
-  @FXML private StackPane dialogContainer;
+  @FXML private VBox cardsContainer;
   @FXML private Input searchInput;
 
   @FXML
@@ -41,13 +41,21 @@ public class WholesaleCompanyPageController implements ToastProvider {
         CheECSEManagerFeatureSet6Controller.getWholesaleCompanies();
 
     for (TOWholesaleCompany company : companies) {
-      CompanyCardController card = new CompanyCardController();
-      card.setCompany(company);
+      FXMLLoader loader = new FXMLLoader(CheECSEManagerApplication.getResource(
+          "view/components/Company/CompanyCard.fxml"));
 
-      card.setOnView(() -> handleViewCompany(company));
-      card.setOnDelete(() -> handleDeleteCompanyCard(company));
+      try {
+        HBox card = loader.load();
+        CompanyCardController controller = loader.getController();
+        controller.init(company,
+                        ()
+                            -> handleViewCompany(company),
+                        () -> {}, () -> handleDeleteCompanyCard(company));
 
-      cardsContainer.getChildren().add(card);
+        cardsContainer.getChildren().add(card);
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
     }
   }
 
@@ -58,23 +66,16 @@ public class WholesaleCompanyPageController implements ToastProvider {
    */
   private void handleViewCompany(TOWholesaleCompany company) {
     try {
-      FXMLLoader loader =
-          new FXMLLoader(CheECSEManagerApplication.class.getResource(
-              "/ca/mcgill/ecse/cheecsemanager/view/page/companies/"
-              + "ViewWholesaleCompany.fxml"));
-      Parent viewPage = loader.load();
+      FXMLLoader loader = new FXMLLoader(CheECSEManagerApplication.getResource(
+          "view/page/companies/ViewWholesaleCompany.fxml"));
+      StackPane viewPage = loader.load();
 
       ViewWholesaleCompanyController controller = loader.getController();
       controller.setCompany(company.getName());
       controller.setOnBack(() -> navigateBackToCompaniesPage());
 
       // Replace this entire page with the view page
-      companiesPageRoot.getChildren().clear();
       companiesPageRoot.getChildren().add(viewPage);
-      AnchorPane.setTopAnchor(viewPage, 0.0);
-      AnchorPane.setBottomAnchor(viewPage, 0.0);
-      AnchorPane.setLeftAnchor(viewPage, 0.0);
-      AnchorPane.setRightAnchor(viewPage, 0.0);
 
     } catch (Exception e) {
       e.printStackTrace();
@@ -108,25 +109,25 @@ public class WholesaleCompanyPageController implements ToastProvider {
    */
   @FXML
   private void handleAddCompany() {
-    try {
-      FXMLLoader loader =
-          new FXMLLoader(CheECSEManagerApplication.class.getResource(
-              "/ca/mcgill/ecse/cheecsemanager/view/page/companies/"
-              + "AddWholesaleCompany.fxml"));
-      Parent dialog = loader.load();
-
-      AddWholesaleCompanyController controller = loader.getController();
-      controller.setMainController(this);
-      controller.setOnClose(() -> {
-        closeDialog();
-        loadCompanies();
-      });
-
-      showDialog(dialog);
-
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
+    // try {
+    //   FXMLLoader loader =
+    //       new FXMLLoader(CheECSEManagerApplication.class.getResource(
+    //           "/ca/mcgill/ecse/cheecsemanager/view/page/companies/"
+    //           + "AddWholesaleCompany.fxml"));
+    //   Parent dialog = loader.load();
+    //
+    //   AddWholesaleCompanyController controller = loader.getController();
+    //   controller.setMainController(this);
+    //   controller.setOnClose(() -> {
+    //     closeDialog();
+    //     loadCompanies();
+    //   });
+    //
+    //   showDialog(dialog);
+    //
+    // } catch (Exception e) {
+    //   e.printStackTrace();
+    // }
   }
 
   /**
@@ -137,44 +138,26 @@ public class WholesaleCompanyPageController implements ToastProvider {
    */
   @FXML
   private void handleDeleteCompanyCard(TOWholesaleCompany company) {
-    try {
-      FXMLLoader loader =
-          new FXMLLoader(CheECSEManagerApplication.class.getResource(
-              "/ca/mcgill/ecse/cheecsemanager/view/page/companies/"
-              + "DeleteWholesaleCompany.fxml"));
-      Parent dialog = loader.load();
-
-      DeleteWholesaleCompanyController controller = loader.getController();
-      controller.setMainController(this);
-      controller.setCompany(company.getName());
-      controller.setOnClose(() -> {
-        closeDialog();
-        loadCompanies();
-      });
-
-      showDialog(dialog);
-
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-  }
-
-  @Override
-  public void showDialog(Parent dialog) {
-    dialogContainer.getChildren().clear();
-    dialogContainer.getChildren().add(dialog);
-    dialogContainer.setMouseTransparent(false);
-  }
-
-  @Override
-  public void closeDialog() {
-    dialogContainer.getChildren().clear();
-    dialogContainer.setMouseTransparent(true);
-  }
-
-  @Override
-  public void showSuccessToast(String message) {
-    showToast(message);
+    // try {
+    //   FXMLLoader loader =
+    //       new FXMLLoader(CheECSEManagerApplication.class.getResource(
+    //           "/ca/mcgill/ecse/cheecsemanager/view/page/companies/"
+    //           + "DeleteWholesaleCompany.fxml"));
+    //   Parent dialog = loader.load();
+    //
+    //   DeleteWholesaleCompanyController controller = loader.getController();
+    //   controller.setMainController(this);
+    //   controller.setCompany(company.getName());
+    //   controller.setOnClose(() -> {
+    //     closeDialog();
+    //     loadCompanies();
+    //   });
+    //
+    //   showDialog(dialog);
+    //
+    // } catch (Exception e) {
+    //   e.printStackTrace();
+    // }
   }
 
   public void showToast(String message) {

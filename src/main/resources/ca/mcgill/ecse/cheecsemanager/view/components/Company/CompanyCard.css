@@ -1,13 +1,18 @@
 .company-card {
     -fx-background-color: -color-darker-bg;
     -fx-background-radius: 12px;
-    -fx-border-color: -color-border;
-    -fx-border-width: 1.5px;
+    -fx-border-width: 1px;
     -fx-border-radius: 12px;
+    -fx-border-color: -color-darker-bg;
+    -fx-cursor: hand;
+}
+
+.company-card:hover {
+    -fx-border-color: -color-primary;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 4, 0, 0, 1);
-        -fx-cursor: hand;
 }
 
 .company-card .name-label {
     -fx-text-alignment: center;
 }
+

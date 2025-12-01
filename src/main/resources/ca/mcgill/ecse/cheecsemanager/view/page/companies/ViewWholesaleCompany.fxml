@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
+<?xml version="1.0" encoding="UTF-8" ?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
@@ -12,67 +11,113 @@
 <?import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton?>
 <?import ca.mcgill.ecse.cheecsemanager.fxml.components.Icon?>
 <?import ca.mcgill.ecse.cheecsemanager.fxml.controllers.wholesaleCompany.CompanyCardController?>
-
-<AnchorPane
+<StackPane
     prefHeight="600.0"
     prefWidth="900.0"
     styleClass="page"
     xmlns="http://javafx.com/javafx/21"
     xmlns:fx="http://javafx.com/fxml/1"
-    fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.wholesaleCompany.ViewWholesaleCompanyController">
-    <VBox AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+    fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.wholesaleCompany.ViewWholesaleCompanyController"
+    alignment="TOP_CENTER"
+>
+    <VBox maxWidth="768" spacing="20">
         <padding>
-            <Insets top="24" right="24" bottom="24" left="24"/>
+            <Insets top="24" right="24" bottom="24" left="24" />
         </padding>
         <children>
             <!-- Header Section -->
             <HBox spacing="24" alignment="CENTER_LEFT">
                 <!-- Back Button -->
-                <StyledButton variant="DEFAULT" size="BASE" onAction="#handleBack">
+                <StyledButton
+                    variant="DEFAULT"
+                    size="BASE"
+                    onAction="#handleBack"
+                >
                     <graphic>
-                        <Icon icon="ArrowLeft"/>
+                        <Icon icon="ArrowLeft" />
                     </graphic>
                 </StyledButton>
                 
                 <VBox spacing="4" HBox.hgrow="ALWAYS">
-                    <Label text="Company Details" style="-fx-text-fill: -color-fg; -fx-font-size: 28px; -fx-font-weight: bold;"/>
-                    <Label text="View and manage company information" style="-fx-text-fill: -color-primary; -fx-font-size: 14px;"/>
+                    <Label
+                        text="Company Details"
+                        style="-fx-text-fill: -color-fg; -fx-font-size: 28px; -fx-font-weight: bold;"
+                    />
+                    <Label
+                        text="View and manage company information"
+                        style="-fx-text-fill: -color-primary; -fx-font-size: 14px;"
+                    />
                 </VBox>
             </HBox>
             
-            <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" style="-fx-background-color: transparent; -fx-background: transparent;">
+            <ScrollPane
+                fitToWidth="true"
+                VBox.vgrow="ALWAYS"
+                style="-fx-background-color: transparent; -fx-background: transparent;"
+            >
                 <VBox.margin>
-                    <Insets top="24"/>
+                    <Insets top="24" />
                 </VBox.margin>
                 <content>
                     <HBox spacing="24" alignment="TOP_LEFT">
                         <!-- Company Info Card -->
-                        <CompanyCardController fx:id="companyCard" maxHeight="300"/>
+                        <CompanyCardController
+                            fx:id="companyCard"
+                            maxHeight="300"
+                        />
                         
                         <!-- Orders Table -->
                         <VBox spacing="16" HBox.hgrow="ALWAYS">
                             <Label
                                 text="Orders"
-                                style="-fx-text-fill: -color-fg; -fx-font-size: 20px; -fx-font-weight: bold;" />
+                                style="-fx-text-fill: -color-fg; -fx-font-size: 20px; -fx-font-weight: bold;"
+                            />
                             <StyledButton
                                 text="Place Order"
                                 variant="PRIMARY"
                                 size="SM"
-                                onAction="#handlePlaceOrder">
+                                onAction="#handlePlaceOrder"
+                            >
                             <graphic>
                                 <Icon icon="Plus" />
                             </graphic>
                             </StyledButton>
-                            <TableView fx:id="ordersTable" VBox.vgrow="ALWAYS" styleClass="farmer-table">
+                            <TableView
+                                fx:id="ordersTable"
+                                VBox.vgrow="ALWAYS"
+                                styleClass="farmer-table"
+                            >
                                 <columns>
-                                <TableColumn fx:id="transactionDateColumn" text="Transaction Date" prefWidth="140" />
-                                <TableColumn fx:id="monthsAgedColumn" text="Months Aged" prefWidth="120" />
-                                <TableColumn fx:id="cheeseWheelsColumn" text="Wheels Ordered" prefWidth="130" />
-                                <TableColumn fx:id="missingWheelsColumn" text="Missing" prefWidth="80" />
-                                <TableColumn fx:id="deliveryDateColumn" text="Delivery Date" prefWidth="140" />
+                                <TableColumn
+                                        fx:id="transactionDateColumn"
+                                        text="Transaction Date"
+                                        prefWidth="140"
+                                    />
+                                <TableColumn
+                                        fx:id="monthsAgedColumn"
+                                        text="Months Aged"
+                                        prefWidth="120"
+                                    />
+                                <TableColumn
+                                        fx:id="cheeseWheelsColumn"
+                                        text="Wheels Ordered"
+                                        prefWidth="130"
+                                    />
+                                <TableColumn
+                                        fx:id="missingWheelsColumn"
+                                        text="Missing"
+                                        prefWidth="80"
+                                    />
+                                <TableColumn
+                                        fx:id="deliveryDateColumn"
+                                        text="Delivery Date"
+                                        prefWidth="140"
+                                    />
                                 </columns>
                                 <columnResizePolicy>
-                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                <TableView
+                                        fx:constant="CONSTRAINED_RESIZE_POLICY"
+                                    />
                                 </columnResizePolicy>
                             </TableView>
                         </VBox>
@@ -81,34 +126,5 @@
             </ScrollPane>
         </children>
     </VBox>
-    
-    <StackPane 
-        fx:id="dialogContainer" 
-        AnchorPane.topAnchor="0" 
-        AnchorPane.bottomAnchor="0" 
-        AnchorPane.leftAnchor="0" 
-        AnchorPane.rightAnchor="0"
-        mouseTransparent="true" />
+</StackPane>
 
-    <StackPane
-        AnchorPane.topAnchor="20"
-        AnchorPane.leftAnchor="0"
-        AnchorPane.rightAnchor="0"
-        mouseTransparent="true">
-        <HBox fx:id="toastContainer" 
-            visible="false" 
-            managed="false"
-            spacing="10" 
-            alignment="CENTER_LEFT"
-            style="-fx-background-color: derive(-color-success, -60%); -fx-background-radius: 8; -fx-padding: 12 16; -fx-border-color: -color-success; -fx-border-width: 1.5; -fx-border-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0, 0, 4);"
-            maxWidth="400"
-            mouseTransparent="false">
-            <Icon icon="Cheese" style="-fx-stroke: -color-success;" />
-            <Label fx:id="toastLabel" 
-                text="" 
-                wrapText="true"
-                style="-fx-text-fill: -color-success; -fx-font-size: 14px; -fx-font-weight: 600;" 
-                HBox.hgrow="ALWAYS" />
-        </HBox>
-    </StackPane>
-</AnchorPane>

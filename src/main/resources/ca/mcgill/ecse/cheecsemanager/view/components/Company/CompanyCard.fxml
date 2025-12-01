@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
+<?xml version="1.0" encoding="UTF-8" ?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
@@ -8,47 +7,57 @@
 <?import javafx.scene.shape.Circle?>
 <?import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton?>
 <?import ca.mcgill.ecse.cheecsemanager.fxml.components.Icon?>
-
-<fx:root type="javafx.scene.layout.VBox"
-         xmlns:fx="http://javafx.com/fxml/1"
-         xmlns="http://javafx.com/javafx/21"
-         styleClass="company-card"
-         stylesheets="@CompanyCard.css"
-         spacing="16"
-         alignment="TOP_CENTER"
-         prefWidth="280"
-         maxWidth="280"
-         minWidth="280">
-    <padding>
-        <Insets top="24" right="24" bottom="24" left="24"/>
-    </padding>
-    
+<HBox
+    xmlns:fx="http://javafx.com/fxml/1"
+    xmlns="http://javafx.com/javafx/21"
+    styleClass="company-card, p-lg"
+    stylesheets="@CompanyCard.css"
+    spacing="16"
+    alignment="CENTER_LEFT"
+    fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.wholesaleCompany.CompanyCardController"
+    maxWidth="Infinity"
+    fx:id="companyCardRoot"
+> 
     <!-- Profile Icon - Factory -->
-    <StackPane prefHeight="100.0" prefWidth="100.0">
-        <Circle radius="50.0" style="-fx-fill: transparent; -fx-stroke: -color-muted; -fx-stroke-width: 2;"/>
-        <Icon icon="Factory"/>
-    </StackPane>
+    <Icon icon="Company" />
     
-    <Label fx:id="nameLabel" styleClass="name-label" style="-fx-text-fill: -color-fg; -fx-font-size: 18px; -fx-font-weight: bold;" wrapText="true" alignment="CENTER"/>
+    <VBox spacing="6" alignment="CENTER_LEFT" prefWidth="250">
+        <Label fx:id="nameLabel" styleClass="text-fg, font-bold" />
+        <Label fx:id="addressLabel" styleClass="text-fg" wrapText="true" />
+    </VBox>
     
     <!-- Address with Icon -->
-    <HBox alignment="CENTER" spacing="6">
-        <Icon icon="Marker"/>
-        <Label fx:id="addressLabel" style="-fx-text-fill: -color-muted; -fx-font-size: 13px;" wrapText="true"/>
-    </HBox>
+    <VBox alignment="CENTER_LEFT" spacing="6">
+        <HBox spacing="4">
+            <Icon icon="Cheese" />
+            <Label
+                fx:id="soldCheeseLabel"
+                styleClass="text-fg"
+                wrapText="true"
+            />
+        </HBox>
+        <HBox spacing="4">
+            <Icon icon="Cargo" />
+            <Label fx:id="ordersLabel" styleClass="text-fg" />
+         </HBox>
+    </VBox>
     
-    <!-- Orders Count with Icon -->
-    <HBox alignment="CENTER" spacing="6">
-        <Icon icon="Cargo"/>
-        <Label fx:id="ordersLabel" style="-fx-text-fill: -color-muted; -fx-font-size: 13px;"/>
-    </HBox>
     
     <!-- Action Buttons -->
-    <HBox alignment="CENTER" spacing="12">
-        <VBox.margin>
-            <Insets top="8"/>
-        </VBox.margin>
-        <StyledButton fx:id="updateCompanyBtn" variant="DEFAULT" size="SM" text="View" onAction="#handleView"/>
-        <StyledButton fx:id="deleteCompanyBtn" variant="DESTRUCTIVE" size="SM" text="Delete" onAction="#handleDelete"/>
+    <HBox alignment="CENTER_RIGHT" spacing="12" HBox.hgrow="ALWAYS">
+        <StyledButton
+            fx:id="updateCompanyBtn"
+            variant="DEFAULT"
+            size="SM"
+            text="View"
+            onAction="#handleView"
+        />
+        <StyledButton
+            fx:id="deleteCompanyBtn"
+            variant="DESTRUCTIVE"
+            size="SM"
+            text="Delete"
+            onAction="#handleDelete"
+        />
     </HBox>
-</fx:root>
+</HBox>
