@@ -12,66 +12,63 @@
 <?import javafx.scene.layout.StackPane?>
 <?import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton?>
 
-<AnchorPane prefHeight="450.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.Farmer.AddFarmerPopup" style="-fx-background-color: -color-darker-bg; -fx-border-color: rgba(255, 218, 109, 0.35); -fx-border-width: 1; -fx-border-radius: 20; -fx-background-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 20, 0, 0, 10);">
+<StackPane prefHeight="450.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.Farmer.AddFarmerPopup" style="-fx-background-color: -color-darker-bg; -fx-border-color: rgba(255, 218, 109, 0.35); -fx-border-width: 1; -fx-border-radius: 20; -fx-background-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 20, 0, 0, 10);">
    <children>
-      <StackPane alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox alignment="TOP_CENTER" spacing="20.0" maxWidth="380.0">
+   <padding>
+      <Insets bottom="24.0" left="24.0" right="24.0" top="24.0" />
+   </padding>
+   <children>
+      <Label text="Add New Farmer" style="-fx-text-fill: -color-fg; -fx-font-size: 20px; -fx-font-weight: bold;" />
+      <HBox alignment="CENTER_LEFT" spacing="16.0">
          <children>
-            <VBox alignment="TOP_CENTER" spacing="20.0" maxWidth="380.0">
-         <padding>
-            <Insets bottom="24.0" left="24.0" right="24.0" top="24.0" />
-         </padding>
-         <children>
-            <Label text="Add New Farmer" style="-fx-text-fill: -color-fg; -fx-font-size: 20px; -fx-font-weight: bold;" />
-            <HBox alignment="CENTER_LEFT" spacing="16.0">
+            <AnchorPane prefHeight="90.0" prefWidth="90.0" style="-fx-background-color: -color-bg; -fx-border-color: rgba(215, 205, 196, 0.35); -fx-border-radius: 16; -fx-background-radius: 16; -fx-padding: 10;">
                <children>
-                  <AnchorPane prefHeight="90.0" prefWidth="90.0" style="-fx-background-color: -color-bg; -fx-border-color: rgba(215, 205, 196, 0.35); -fx-border-radius: 16; -fx-background-radius: 16; -fx-padding: 10;">
-                     <children>
-                        <ImageView fx:id="photoView" fitHeight="90.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true" />
-                        <Label fx:id="photoPlaceholder" alignment="CENTER" text="No Photo" style="-fx-text-fill: -color-muted; -fx-font-size: 12px;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                     </children>
-                  </AnchorPane>
-                  <Button mnemonicParsing="false" onAction="#onUploadPhoto" text="Upload Photo" style="-fx-background-color: transparent; -fx-text-fill: -color-primary; -fx-font-weight: bold; -fx-border-color: transparent; -fx-padding: 0 8;" />
+                  <ImageView fx:id="photoView" fitHeight="90.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true" />
+                  <Label fx:id="photoPlaceholder" alignment="CENTER" text="No Photo" style="-fx-text-fill: -color-muted; -fx-font-size: 12px;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                </children>
-            </HBox>
-            <VBox spacing="8.0">
-               <children>
-                  <Label text="Name" style="-fx-text-fill: -color-fg; -fx-font-size: 12px;" />
-                  <TextField fx:id="nameField" promptText="Enter name (Optional)" style="-fx-background-color: -color-bg; -fx-background-radius: 12; -fx-border-radius: 12; -fx-border-color: rgba(215, 205, 196, 0.45); -fx-border-width: 1; -fx-text-fill: -color-fg; -fx-prompt-text-fill: rgba(215, 205, 196, 0.6); -fx-padding: 8 12;" />
-               </children>
-            </VBox>
-            <VBox spacing="8.0">
-               <children>
-                  <Label text="Email *" style="-fx-text-fill: -color-fg; -fx-font-size: 12px;" />
-                  <TextField fx:id="emailField" promptText="Enter email" style="-fx-background-color: -color-bg; -fx-background-radius: 12; -fx-border-radius: 12; -fx-border-color: rgba(215, 205, 196, 0.45); -fx-border-width: 1; -fx-text-fill: -color-fg; -fx-prompt-text-fill: rgba(215, 205, 196, 0.6); -fx-padding: 8 12;" />
-               </children>
-            </VBox>
-            <VBox spacing="8.0">
-               <children>
-                  <Label text="Password *" style="-fx-text-fill: -color-fg; -fx-font-size: 12px;" />
-                  <PasswordField fx:id="passwordField" promptText="Enter password" style="-fx-background-color: -color-bg; -fx-background-radius: 12; -fx-border-radius: 12; -fx-border-color: rgba(215, 205, 196, 0.45); -fx-border-width: 1; -fx-text-fill: -color-fg; -fx-prompt-text-fill: rgba(215, 205, 196, 0.6); -fx-padding: 8 12;" />
-               </children>
-            </VBox>
-            <VBox spacing="8.0">
-               <children>
-                  <Label text="Address *" style="-fx-text-fill: -color-fg; -fx-font-size: 12px;" />
-                  <TextField fx:id="addressField" promptText="Enter address" style="-fx-background-color: -color-bg; -fx-background-radius: 12; -fx-border-radius: 12; -fx-border-color: rgba(215, 205, 196, 0.45); -fx-border-width: 1; -fx-text-fill: -color-fg; -fx-prompt-text-fill: rgba(215, 205, 196, 0.6); -fx-padding: 8 12;" />
-               </children>
-            </VBox>
-            <Label fx:id="errorLabel" wrapText="true" visible="false" managed="false" style="-fx-text-fill: #f07e68; -fx-font-size: 12px;" />
-            <HBox alignment="CENTER_RIGHT" spacing="10.0" style="-fx-padding: 10 0 0 0;">
-               <children>
-                  <StyledButton mnemonicParsing="false" onAction="#onCancel" variant="DEFAULT" style="-fx-border-color: rgba(215, 205, 196, 0.45); -fx-border-radius: 8;" size="BASE" text="Cancel"/>
-                  <StyledButton mnemonicParsing="false" onAction="#onAdd" variant="PRIMARY" style="-fx-border-color: rgba(215, 205, 196, 0.45); -fx-border-radius: 8;" size="BASE" text="Add"/>
-               
-               </children>
-               <VBox.margin>
-                  <Insets top="10.0" />
-               </VBox.margin>
-             </HBox>
-          </children>
-            </VBox>
+            </AnchorPane>
+            <Button mnemonicParsing="false" onAction="#onUploadPhoto" text="Upload Photo" style="-fx-background-color: transparent; -fx-text-fill: -color-primary; -fx-font-weight: bold; -fx-border-color: transparent; -fx-padding: 0 8;" />
          </children>
-      </StackPane>
-    </children>
-</AnchorPane>
+      </HBox>
+      <VBox spacing="8.0">
+         <children>
+            <Label text="Name" style="-fx-text-fill: -color-fg; -fx-font-size: 12px;" />
+            <TextField fx:id="nameField" promptText="Enter name (Optional)" style="-fx-background-color: -color-bg; -fx-background-radius: 12; -fx-border-radius: 12; -fx-border-color: rgba(215, 205, 196, 0.45); -fx-border-width: 1; -fx-text-fill: -color-fg; -fx-prompt-text-fill: rgba(215, 205, 196, 0.6); -fx-padding: 8 12;" />
+         </children>
+      </VBox>
+      <VBox spacing="8.0">
+         <children>
+            <Label text="Email *" style="-fx-text-fill: -color-fg; -fx-font-size: 12px;" />
+            <TextField fx:id="emailField" promptText="Enter email" style="-fx-background-color: -color-bg; -fx-background-radius: 12; -fx-border-radius: 12; -fx-border-color: rgba(215, 205, 196, 0.45); -fx-border-width: 1; -fx-text-fill: -color-fg; -fx-prompt-text-fill: rgba(215, 205, 196, 0.6); -fx-padding: 8 12;" />
+         </children>
+      </VBox>
+      <VBox spacing="8.0">
+         <children>
+            <Label text="Password *" style="-fx-text-fill: -color-fg; -fx-font-size: 12px;" />
+            <PasswordField fx:id="passwordField" promptText="Enter password" style="-fx-background-color: -color-bg; -fx-background-radius: 12; -fx-border-radius: 12; -fx-border-color: rgba(215, 205, 196, 0.45); -fx-border-width: 1; -fx-text-fill: -color-fg; -fx-prompt-text-fill: rgba(215, 205, 196, 0.6); -fx-padding: 8 12;" />
+         </children>
+      </VBox>
+      <VBox spacing="8.0">
+         <children>
+            <Label text="Address *" style="-fx-text-fill: -color-fg; -fx-font-size: 12px;" />
+            <TextField fx:id="addressField" promptText="Enter address" style="-fx-background-color: -color-bg; -fx-background-radius: 12; -fx-border-radius: 12; -fx-border-color: rgba(215, 205, 196, 0.45); -fx-border-width: 1; -fx-text-fill: -color-fg; -fx-prompt-text-fill: rgba(215, 205, 196, 0.6); -fx-padding: 8 12;" />
+         </children>
+      </VBox>
+      <Label fx:id="errorLabel" wrapText="true" visible="false" managed="false" style="-fx-text-fill: #f07e68; -fx-font-size: 12px;" />
+      <HBox alignment="CENTER_RIGHT" spacing="10.0" style="-fx-padding: 10 0 0 0;">
+         <children>
+            <StyledButton mnemonicParsing="false" onAction="#onCancel" variant="DEFAULT" style="-fx-border-color: rgba(215, 205, 196, 0.45); -fx-border-radius: 8;" size="BASE" text="Cancel"/>
+            <StyledButton mnemonicParsing="false" onAction="#onAdd" variant="PRIMARY" style="-fx-border-color: rgba(215, 205, 196, 0.45); -fx-border-radius: 8;" size="BASE" text="Add"/>
+         
+         </children>
+         <VBox.margin>
+            <Insets top="10.0" />
+         </VBox.margin>
+         </HBox>
+      </children>
+      </VBox>
+   </children>
+
+</StackPane>
 
