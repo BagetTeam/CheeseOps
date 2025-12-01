@@ -7,10 +7,10 @@ import ca.mcgill.ecse.cheecsemanager.fxml.components.Input;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.HidePopupEvent;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.ToastEvent;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.ToastEvent.ToastType;
+import ca.mcgill.ecse.cheecsemanager.fxml.store.WholesaleCompanyDataProvider;
 import java.util.function.Consumer;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 /**
@@ -19,6 +19,9 @@ import javafx.scene.layout.VBox;
  * controller.
  */
 public class UpdateWholesaleCompanyController {
+  private final WholesaleCompanyDataProvider dataProvider =
+      WholesaleCompanyDataProvider.getInstance();
+
   public static String currentCompanyName;
 
   @FXML private VBox root;
@@ -86,9 +89,7 @@ public class UpdateWholesaleCompanyController {
                                         " updated successfully!",
                                     ToastType.SUCCESS));
 
-      if (onCloseCallback != null) {
-        onCloseCallback.accept(newName);
-      }
+      dataProvider.refresh();
       handleClose();
     } else {
       showError(error);

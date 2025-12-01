@@ -13,7 +13,6 @@ import javafx.scene.layout.HBox;
  * Renders company name, address, and provides edit/delete callbacks.
  */
 public class CompanyCardController {
-
   @FXML private HBox companyCardRoot;
   @FXML private Label nameLabel;
   @FXML private Label soldCheeseLabel;
@@ -39,7 +38,7 @@ public class CompanyCardController {
    *
    * @param company the wholesale company data to display
    */
-  private void setCompany(TOWholesaleCompany company) {
+  public void setCompany(TOWholesaleCompany company) {
     this.company = company;
     nameLabel.setText(company.getName());
     addressLabel.setText(company.getAddress());

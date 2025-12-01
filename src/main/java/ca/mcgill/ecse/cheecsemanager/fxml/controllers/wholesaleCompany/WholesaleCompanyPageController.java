@@ -6,7 +6,12 @@ import ca.mcgill.ecse.cheecsemanager.controller.TOWholesaleCompany;
 import ca.mcgill.ecse.cheecsemanager.fxml.components.Input;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.ToastEvent;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.ToastEvent.ToastType;
+import ca.mcgill.ecse.cheecsemanager.fxml.store.WholesaleCompanyDataProvider;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import javafx.application.Platform;
+import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -21,6 +26,11 @@ import javafx.scene.layout.VBox;
  * individual company views and the add company dialog.
  */
 public class WholesaleCompanyPageController {
+  private final WholesaleCompanyDataProvider dataProvider =
+      WholesaleCompanyDataProvider.getInstance();
+
+  private Map<Integer, CompanyCardController> cardControllers = new HashMap<>();
+
   @FXML private StackPane companiesPageRoot;
   @FXML private VBox cardsContainer;
   @FXML private Input searchInput;
@@ -28,6 +38,14 @@ public class WholesaleCompanyPageController {
   @FXML
   public void initialize() {
     loadCompanies();
+
+    dataProvider.getCompanies().addListener(this::dataListenerChanged);
+
+    companiesPageRoot.sceneProperty().addListener((obs, oldScene, newScene) -> {
+      if (newScene == null) {
+        dataProvider.getCompanies().removeListener(this::dataListenerChanged);
+      }
+    });
   }
 
   /**
@@ -37,10 +55,10 @@ public class WholesaleCompanyPageController {
   private void loadCompanies() {
     cardsContainer.getChildren().clear();
 
-    List<TOWholesaleCompany> companies =
-        CheECSEManagerFeatureSet6Controller.getWholesaleCompanies();
+    List<TOWholesaleCompany> companies = dataProvider.getCompanies();
 
-    for (TOWholesaleCompany company : companies) {
+    for (int i = 0; i < companies.size(); i++) {
+      var company = companies.get(i);
       FXMLLoader loader = new FXMLLoader(CheECSEManagerApplication.getResource(
           "view/components/Company/CompanyCard.fxml"));
 
@@ -53,10 +71,29 @@ public class WholesaleCompanyPageController {
                         () -> handleDeleteCompanyCard(company));
 
         cardsContainer.getChildren().add(card);
+
+        cardControllers.put(i, controller);
       } catch (Exception e) {
         e.printStackTrace();
       }
     }
+  }
+
+  private void dataListenerChanged(
+      ListChangeListener.Change<? extends TOWholesaleCompany> change) {
+    Platform.runLater(() -> {
+      var companies = dataProvider.getCompanies();
+      while (change.next()) {
+        for (int i = change.getFrom(); i < change.getTo(); i++) {
+          var company = companies.get(i);
+          var controller = cardControllers.get(i);
+
+          if (controller != null) {
+            controller.setCompany(company);
+          }
+        }
+      }
+    });
   }
 
   /**
