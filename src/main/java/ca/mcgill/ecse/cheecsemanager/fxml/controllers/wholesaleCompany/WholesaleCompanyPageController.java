@@ -9,7 +9,6 @@ import ca.mcgill.ecse.cheecsemanager.fxml.events.ToastEvent.ToastType;
 import ca.mcgill.ecse.cheecsemanager.fxml.store.WholesaleCompanyDataProvider;
 import java.util.List;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
@@ -144,8 +143,8 @@ public class WholesaleCompanyPageController {
    */
   @FXML
   private void handleAddCompany() {
-    this.companiesPageRoot.fireEvent(
-        new ShowPopupEvent("view/page/companies/AddWholesaleCompany.fxml"));
+    this.companiesPageRoot.fireEvent(new ShowPopupEvent(
+        "view/page/companies/AddWholesaleCompany.fxml", "Confirm Delete"));
   }
 
   /**
@@ -156,26 +155,9 @@ public class WholesaleCompanyPageController {
    */
   @FXML
   private void handleDeleteCompanyCard(TOWholesaleCompany company) {
-    // try {
-    //   FXMLLoader loader =
-    //       new FXMLLoader(CheECSEManagerApplication.class.getResource(
-    //           "/ca/mcgill/ecse/cheecsemanager/view/page/companies/"
-    //           + "DeleteWholesaleCompany.fxml"));
-    //   Parent dialog = loader.load();
-    //
-    //   DeleteWholesaleCompanyController controller = loader.getController();
-    //   controller.setMainController(this);
-    //   controller.setCompany(company.getName());
-    //   controller.setOnClose(() -> {
-    //     closeDialog();
-    //     loadCompanies();
-    //   });
-    //
-    //   showDialog(dialog);
-    //
-    // } catch (Exception e) {
-    //   e.printStackTrace();
-    // }
+    DeleteWholesaleCompanyController.companyName = company.getName();
+    this.companiesPageRoot.fireEvent(
+        new ShowPopupEvent("view/page/companies/DeleteWholesaleCompany.fxml"));
   }
 
   public void showToast(String message) {

@@ -157,32 +157,7 @@ public class ViewWholesaleCompanyController implements ToastProvider {
    * Opens the delete company confirmation dialog and navigates back on success.
    */
   @FXML
-  private void handleDelete() {
-    try {
-      FXMLLoader loader =
-          new FXMLLoader(CheECSEManagerApplication.class.getResource(
-              "/ca/mcgill/ecse/cheecsemanager/view/page/companies/"
-              + "DeleteWholesaleCompany.fxml"));
-      Parent dialog = loader.load();
-
-      DeleteWholesaleCompanyController controller = loader.getController();
-      controller.setMainController(this);
-      controller.setCompany(companyName);
-      controller.setOnClose(() -> {
-        // Go back to companies list after successful delete
-        if (onBackCallback != null) {
-          onBackCallback.run();
-        }
-      });
-
-      showDialog(dialog);
-
-    } catch (Exception e) {
-      e.printStackTrace();
-      System.err.println("Error loading DeleteWholesaleCompany dialog: " +
-                         e.getMessage());
-    }
-  }
+  private void handleDelete() {}
 
   /**
    * Opens the order placement dialog for the current company.
