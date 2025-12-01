@@ -10,7 +10,7 @@
 <?import ca.mcgill.ecse.cheecsemanager.fxml.components.*?>
 
 
-<StackPane fx:id="viewFarmerRoot" prefHeight="600.0" prefWidth="900.0" styleClass="page" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.Farmer.ViewFarmerController">
+<StackPane fx:id="viewFarmerRoot" prefHeight="600.0" prefWidth="900.0" styleClass="page, bg-bg" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.Farmer.ViewFarmerController">
    <children>
       <VBox>
          <children>

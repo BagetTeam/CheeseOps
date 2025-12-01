@@ -2,10 +2,14 @@ package ca.mcgill.ecse.cheecsemanager.fxml.controllers.Farmer;
 
 import ca.mcgill.ecse.cheecsemanager.fxml.components.Icon;
 import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton;
+import ca.mcgill.ecse.cheecsemanager.fxml.components.Animation.AnimationManager;
+import ca.mcgill.ecse.cheecsemanager.fxml.components.Animation.EasingInterpolators;
 import ca.mcgill.ecse.cheecsemanager.fxml.controllers.PageNavigator;
 import ca.mcgill.ecse.cheecsemanager.fxml.controllers.PopupController;
+import ca.mcgill.ecse.cheecsemanager.fxml.controllers.shelf.CheeseDetailsController;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.ToastEvent;
 import ca.mcgill.ecse.cheecsemanager.fxml.store.FarmerDataProvider;
+import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
 import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet7Controller;
 import ca.mcgill.ecse.cheecsemanager.controller.TOFarmer;
 import ca.mcgill.ecse.cheecsemanager.controller.TOCheeseWheel;
@@ -19,6 +23,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
@@ -163,7 +168,7 @@ public class ViewFarmerController extends PopupController implements PageNavigat
 
   @FXML
   private void handleBack() {
-    PageNavigator.getInstance().goBack();
+    PageNavigator.getInstance().goBack(true);
   }
 
   @FXML
@@ -247,9 +252,34 @@ public class ViewFarmerController extends PopupController implements PageNavigat
         }
   }
 
-  private void handleViewCheeseWheel(TOCheeseWheel cheeseWheel) {
-    System.out.println("View cheese wheel: " + cheeseWheel.getId());
-    // TODO: Navigate to cheese wheel details MINGLI MING LI 
+  private void handleViewCheeseWheel(TOCheeseWheel cheese) {
+    FXMLLoader loader = new FXMLLoader(CheECSEManagerApplication.getResource(
+        "view/components/Shelf/CheeseDetails.fxml"));
+    try {
+      Node node = loader.load();
+      CheeseDetailsController controller = loader.getController();
+      controller.init(cheese, () -> {
+        AnimationManager.numericBuilder()
+            .target(node.translateXProperty())
+            .from(0)
+            .to(384)
+            .durationMillis(500)
+            .easing(EasingInterpolators.CUBIC_OUT)
+            .onFinished(() -> { this.viewFarmerRoot.getChildren().remove(node); })
+            .play();
+      });
+      this.viewFarmerRoot.getChildren().add(node);
+
+      AnimationManager.numericBuilder()
+          .target(node.translateXProperty())
+          .from(384)
+          .to(0)
+          .durationMillis(500)
+          .easing(EasingInterpolators.CUBIC_OUT)
+          .play();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 
   public String deleteFarmer(TOFarmer farmer, StackPane overlay) {
@@ -257,9 +287,10 @@ public class ViewFarmerController extends PopupController implements PageNavigat
         
         if (error == null || error.isEmpty()) {
             // Success - close popup and go back to farmer list
+            farmerDataProvider.refresh();
             removePopup(overlay);
             getViewFarmerRoot().fireEvent(new ToastEvent("Farmer deleted successfully.", ToastEvent.ToastType.SUCCESS));
-            PageNavigator.getInstance().goBack();
+            PageNavigator.getInstance().goBack(false);
             return "";
         } else {
             // Error - keep popup open and return error message
@@ -277,6 +308,7 @@ public class ViewFarmerController extends PopupController implements PageNavigat
 
   public void refreshFarmerCard(TOFarmer farmer) {
     if (farmer != null) {
+      farmerDataProvider.refresh();
       setFarmer(farmer);
     }
   }

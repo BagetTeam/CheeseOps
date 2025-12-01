@@ -205,8 +205,7 @@ public class FarmerController
 
     if (error == null || error.isEmpty()) {
       // Success - remove the card from UI and close popup
-      farmerDataProvider.getFarmers().removeIf(
-          f -> f.getEmail().equals(farmer.getEmail()));
+      farmerDataProvider.refresh();
       removePopup(overlay);
       getFarmerRoot().fireEvent(new ToastEvent("Farmer deleted successfully.",
                                                ToastEvent.ToastType.SUCCESS));
