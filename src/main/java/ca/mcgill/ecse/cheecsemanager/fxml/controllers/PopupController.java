@@ -13,12 +13,17 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
-
 public class PopupController {
   @FXML private VBox popupContainer;
   @FXML private StyledButton closeButton;
   @FXML private VBox popup;
   @FXML private HBox popupHeader;
+
+  @FXML
+  private void initialize() {
+    popupContainer.setOnMouseClicked(e -> e.consume());
+    popup.setOnMouseClicked(e -> popup.fireEvent(new HidePopupEvent()));
+  }
 
   public void setContent(String fxml) {
     loadContent(fxml);

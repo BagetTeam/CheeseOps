@@ -3,7 +3,6 @@ package ca.mcgill.ecse.cheecsemanager.fxml.controllers;
 import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
 import ca.mcgill.ecse.cheecsemanager.fxml.components.Animation.AnimationManager;
 import ca.mcgill.ecse.cheecsemanager.fxml.components.Animation.AnimationManager.MultiAnimationBuilder;
-import ca.mcgill.ecse.cheecsemanager.fxml.components.Animation.AnimationManager.NumericAnimationBuilder;
 import ca.mcgill.ecse.cheecsemanager.fxml.components.Animation.EasingInterpolators;
 import ca.mcgill.ecse.cheecsemanager.fxml.components.PopupManager;
 import ca.mcgill.ecse.cheecsemanager.fxml.components.Toast;
@@ -19,6 +18,7 @@ import java.util.Queue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
@@ -30,6 +30,7 @@ public class MainController {
   @FXML private StackPane contentArea;
   @FXML private SidebarController sidebarController;
   @FXML private VBox toastContainer;
+  @FXML private BorderPane root;
 
   // Cache for loaded pages
   private Map<Page, Pane> pageCache = new HashMap<>();
@@ -53,14 +54,11 @@ public class MainController {
     loadPage(Page.SHELVES);
 
     this.popupManager.initialize(rootStackPane, veil);
-    rootStackPane.addEventFilter(ShowPopupEvent.SHOW_POPUP,
-                                 this::handleShowPopup);
-    rootStackPane.addEventFilter(HidePopupEvent.HIDE_POPUP,
-                                 this::handleHidePopup);
+    root.addEventFilter(ShowPopupEvent.SHOW_POPUP, this::handleShowPopup);
+    root.addEventFilter(HidePopupEvent.HIDE_POPUP, this::handleHidePopup);
 
     /// === Toasts ===
-    rootStackPane.addEventFilter(ToastEvent.TOAST_NOTIFICATION,
-                                 this::handleToastEvent);
+    root.addEventFilter(ToastEvent.TOAST_NOTIFICATION, this::handleToastEvent);
     // Configure toast container
     toastContainer.setPickOnBounds(false);    // Allow clicks to pass through
     toastContainer.setMouseTransparent(true); // Make container non-interactive

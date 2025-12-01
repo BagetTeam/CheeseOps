@@ -136,11 +136,12 @@ public class ShelfGrid extends BorderPane {
     var wheels = cheeseWheelsProvider.getWheels();
     this.setCheeseWheels(wheels);
 
+    // wheels.removeListener(onChangeDetectedListener);
     wheels.addListener(onChangeDetectedListener);
 
     this.sceneProperty().addListener((obs, oldScene, newScene) -> {
       if (newScene == null) {
-        // wheels.removeListener(onChangeDetectedListener);
+        wheels.removeListener(onChangeDetectedListener);
         grid.widthProperty().removeListener(gridWithCallback);
       }
     });
