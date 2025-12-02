@@ -8,15 +8,15 @@ import ca.mcgill.ecse.cheecsemanager.controller.TOShelf;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.ToastEvent;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.ToastEvent.ToastType;
 import ca.mcgill.ecse.cheecsemanager.fxml.store.CheeseWheelDataProvider;
+import ca.mcgill.ecse.cheecsemanager.fxml.store.OrdersProvider;
 import ca.mcgill.ecse.cheecsemanager.fxml.store.ShelfCheeseWheelDataProvider;
 import ca.mcgill.ecse.cheecsemanager.fxml.store.ShelfDataProvider;
+import ca.mcgill.ecse.cheecsemanager.fxml.store.WholesaleCompanyDataProvider;
 import java.util.ArrayList;
 import java.util.List;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -33,13 +33,13 @@ public class CheeseDetailsController {
   @FXML private HBox root;
   @FXML private VBox mainContainer;
   @FXML private Label cheeseIdLabel;
-  // @FXML private Label shelfIdLabel;
   @FXML private ComboBox<String> shelfIdComboBox;
   @FXML private ComboBox<Integer> rowComboBox;
   @FXML private ComboBox<Integer> columnComboBox;
   @FXML private ComboBox<String> ageComboBox;
   @FXML private Label purchaseDateLabel;
   @FXML private ComboBox<Boolean> isSpoiledComboBox;
+  @FXML private Label errorLabel;
 
   private Runnable onClosePressed;
   private TOCheeseWheel cheese;
@@ -52,7 +52,6 @@ public class CheeseDetailsController {
     purchaseDateLabel.setText("Purchase data: " +
                               cheese.getPurchaseDate().toString());
 
-    // shelfIdLabel.setText("Shelf ID: " + cheese.getShelfID());
     shelfIdComboBox.setValue(cheese.getShelfID());
     shelfIdComboBox.getItems().clear();
     shelfIdComboBox.getItems().setAll(
@@ -98,6 +97,13 @@ public class CheeseDetailsController {
   public void onSavePressed() {
     String error;
 
+    if (this.columnComboBox.getValue() == null ||
+        this.rowComboBox.getValue() == null ||
+        this.shelfIdComboBox.getValue() == null) {
+      showError("Please select a location.");
+      return;
+    }
+
     if (this.columnComboBox.getValue() != cheese.getColumn() ||
         this.rowComboBox.getValue() != cheese.getRow() ||
         !this.shelfIdComboBox.getValue().equals(cheese.getShelfID())) {
@@ -106,7 +112,7 @@ public class CheeseDetailsController {
           this.columnComboBox.getValue(), this.rowComboBox.getValue());
 
       if (error != null && !error.isEmpty()) {
-        root.fireEvent(new ToastEvent(error, ToastType.ERROR));
+        showError(error);
         return;
       }
     }
@@ -116,13 +122,15 @@ public class CheeseDetailsController {
         this.isSpoiledComboBox.getValue());
 
     if (error != null && !error.isEmpty()) {
-      root.fireEvent(new ToastEvent(error, ToastType.ERROR));
+      showError(error);
     } else {
       root.fireEvent(new ToastEvent("Success!", ToastType.SUCCESS));
 
       shelfDataProvider.refresh();
       dataProvider.refresh();
       cheeseWheelDataProvider.refresh();
+      WholesaleCompanyDataProvider.getInstance().refresh();
+      OrdersProvider.getInstance().refresh();
       this.onClosePressed.run();
     }
   }
@@ -137,10 +145,18 @@ public class CheeseDetailsController {
       shelfDataProvider.refresh();
       dataProvider.refresh();
       cheeseWheelDataProvider.refresh();
+      WholesaleCompanyDataProvider.getInstance().refresh();
+      OrdersProvider.getInstance().refresh();
       this.onClosePressed.run();
     } else {
-      root.fireEvent(new ToastEvent(error, ToastType.ERROR));
+      showError(error);
     }
+  }
+
+  private void showError(String error) {
+    this.errorLabel.setText(error);
+    this.errorLabel.setVisible(true);
+    this.errorLabel.setManaged(true);
   }
 
   private void populateLocations(TOShelf shelf) {

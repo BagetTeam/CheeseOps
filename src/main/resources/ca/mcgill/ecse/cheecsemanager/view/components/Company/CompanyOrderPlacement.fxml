@@ -9,6 +9,7 @@
     xmlns="http://javafx.com/javafx/21"
     xmlns:fx="http://javafx.com/fxml/1"
     fx:id="root"
+    styleClass="w-xs"
 >
   <!-- Maturation Period Dropdown -->
   <VBox spacing="8">
