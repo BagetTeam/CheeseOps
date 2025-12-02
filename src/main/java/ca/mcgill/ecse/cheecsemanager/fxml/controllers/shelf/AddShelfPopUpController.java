@@ -23,8 +23,6 @@ public class AddShelfPopUpController {
   private TextField rowsField;
   private TextField colsField;
 
-  @FXML private Button cancelBtn;
-
   @FXML private Button addBtn;
 
   @FXML private Label errorLabel;
@@ -32,7 +30,6 @@ public class AddShelfPopUpController {
 
   @FXML
   public void initialize() {
-    cancelBtn.setOnAction(e -> closePopup());
     addBtn.setOnAction(e -> submit());
 
     idField = shelfIdInput.getTextField();

@@ -63,6 +63,12 @@ public class ShelfGrid extends BorderPane {
   private final ListChangeListener<TOCheeseWheel> onChangeDetectedListener =
       change -> onChangeDetected(change);
 
+  private ChangeListener<? super Number> gridWidthCallback =
+      (obs, oldVal, newVal) -> {
+    columnLabels.setMinWidth(newVal.doubleValue());
+    columnLabels.setPrefWidth(newVal.doubleValue());
+  };
+
   public ShelfGrid(TOShelf shelf, Consumer<TOCheeseWheel> callback) {
     this.shelf = shelf;
     this.callback = callback;
@@ -127,22 +133,19 @@ public class ShelfGrid extends BorderPane {
     setCenter(scrollPane);
 
     // Sync column labels width with grid
-    ChangeListener<? super Number> gridWithCallback = (obs, oldVal, newVal) -> {
-      columnLabels.setMinWidth(newVal.doubleValue());
-      columnLabels.setPrefWidth(newVal.doubleValue());
-    };
-    grid.widthProperty().addListener(gridWithCallback);
+    grid.widthProperty().removeListener(gridWidthCallback);
+    grid.widthProperty().addListener(gridWidthCallback);
 
     var wheels = cheeseWheelsProvider.getWheels();
     this.setCheeseWheels(wheels);
 
-    // wheels.removeListener(onChangeDetectedListener);
+    wheels.removeListener(onChangeDetectedListener);
     wheels.addListener(onChangeDetectedListener);
 
     this.sceneProperty().addListener((obs, oldScene, newScene) -> {
       if (newScene == null) {
         wheels.removeListener(onChangeDetectedListener);
-        grid.widthProperty().removeListener(gridWithCallback);
+        grid.widthProperty().removeListener(gridWidthCallback);
       }
     });
   }

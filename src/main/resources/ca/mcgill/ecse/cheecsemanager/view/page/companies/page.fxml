@@ -40,30 +40,8 @@
         </HBox>
         
         <!-- Company Cards Grid -->
-        <ScrollPane
-            fitToWidth="true"
-            VBox.vgrow="ALWAYS"
-            style="-fx-background-color: transparent; -fx-background: transparent;"
-        >
-            <VBox.margin>
-                <Insets top="24" />
-            </VBox.margin>
-            <content>
-                <FlowPane
-                    fx:id="cardsContainer"
-                    hgap="24"
-                    vgap="24"
-                    style="-fx-background-color: transparent;"
-                />
-            </content>
+        <ScrollPane VBox.vgrow="ALWAYS" maxWidth="Infinity" fitToWidth="true">
+            <VBox fx:id="cardsContainer" spacing="16" />
         </ScrollPane>
     </VBox>
-    <StackPane
-        fx:id="dialogContainer"
-        AnchorPane.topAnchor="0"
-        AnchorPane.bottomAnchor="0"
-        AnchorPane.leftAnchor="0"
-        AnchorPane.rightAnchor="0"
-        mouseTransparent="true"
-    />
 </StackPane>

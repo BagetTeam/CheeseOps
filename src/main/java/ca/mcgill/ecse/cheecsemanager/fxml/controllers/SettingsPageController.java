@@ -8,7 +8,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
 public class SettingsPageController {
-  @FXML private BorderPane rootPane;
+  @FXML private StackPane rootPane;
 
   @FXML private Input oldPasswordInput;
   @FXML private Input newPasswordInput;

@@ -3,47 +3,47 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.control.*?>
 <?import ca.mcgill.ecse.cheecsemanager.fxml.components.*?>
-<BorderPane
+<StackPane
     xmlns="http://javafx.com/javafx/17.0.2-ea"
     xmlns:fx="http://javafx.com/fxml/1"
     fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.SettingsPageController"
     fx:id="rootPane"
+    style="-fx-padding: 36 16;"
+    alignment="TOP_CENTER"
 >
-    <center>
-        <VBox spacing="30" maxWidth="768" style="-fx-padding: 36 16;">
-            <Label text="Settings" styleClass="text-fg, font-bold" />
-            <VBox spacing="16" maxHeight="-Infinity">
-                <Label text="Update Password" styleClass="text-fg, text-lg" />
-                <Input
-                    label="Old Password"
-                    placeholder="Enter your old password"
-                    fx:id="oldPasswordInput"
-                    variant="OUTLINED"
-                />
-                <Input
-                    label="New Password"
-                    placeholder="Enter your new password"
-                    fx:id="newPasswordInput"
-                    variant="OUTLINED"
-                />
-                <Input
-                    label="Confirm Password"
-                    placeholder="Confirm your new password"
-                    fx:id="confirmPasswordInput"
-                    variant="OUTLINED"
-                />
-                <Label
-                    styleClass="text-destructive"
-                    visible="false"
-                    fx:id="errorLabel"
-                    managed="false"
-                />
-                <StyledButton
-                    text="Update Password"
-                    variant="PRIMARY"
-                    onAction="#handleSubmit"
-                />
-            </VBox>
+    <VBox spacing="20" maxWidth="768">
+        <Label text="Settings" styleClass="text-lg, text-fg, text-bold" />
+        <VBox spacing="16" maxHeight="-Infinity">
+            <Label text="Update Password" styleClass="text-fg, text-lg" />
+            <Input
+                label="Old Password"
+                placeholder="Enter your old password"
+                fx:id="oldPasswordInput"
+                variant="OUTLINED"
+            />
+            <Input
+                label="New Password"
+                placeholder="Enter your new password"
+                fx:id="newPasswordInput"
+                variant="OUTLINED"
+            />
+            <Input
+                label="Confirm Password"
+                placeholder="Confirm your new password"
+                fx:id="confirmPasswordInput"
+                variant="OUTLINED"
+            />
+            <Label
+                styleClass="text-destructive"
+                visible="false"
+                fx:id="errorLabel"
+                managed="false"
+            />
+            <StyledButton
+                text="Update Password"
+                variant="PRIMARY"
+                onAction="#handleSubmit"
+            />
         </VBox>
-    </center>
-</BorderPane>
+    </VBox>
+</StackPane>
