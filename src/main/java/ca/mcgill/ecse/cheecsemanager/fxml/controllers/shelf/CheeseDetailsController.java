@@ -42,11 +42,15 @@ public class CheeseDetailsController {
   @FXML private Label errorLabel;
 
   private Runnable onClosePressed;
+
+  // private int cheeseId;
   private TOCheeseWheel cheese;
 
-  public void init(TOCheeseWheel cheese, Runnable onClosePressed) {
+  public void init(int cheeseId, Runnable onClosePressed) {
     this.onClosePressed = onClosePressed;
-    this.cheese = cheese;
+    // this.cheeseId = cheeseId;
+
+    this.cheese = CheECSEManagerFeatureSet3Controller.getCheeseWheel(cheeseId);
 
     cheeseIdLabel.setText("Cheese Wheel #" + cheese.getId());
     purchaseDateLabel.setText("Purchase data: " +

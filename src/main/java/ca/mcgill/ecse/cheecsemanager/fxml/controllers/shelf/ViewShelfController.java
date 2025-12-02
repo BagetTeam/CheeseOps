@@ -76,7 +76,7 @@ public class ViewShelfController {
     try {
       Node node = loader.load();
       CheeseDetailsController controller = loader.getController();
-      controller.init(cheese, () -> {
+      controller.init(cheese.getId(), () -> {
         AnimationManager.numericBuilder()
             .target(node.translateXProperty())
             .from(0)
