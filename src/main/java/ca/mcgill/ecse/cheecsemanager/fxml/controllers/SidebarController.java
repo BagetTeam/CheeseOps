@@ -72,6 +72,9 @@ public class SidebarController {
 
   private void navigateTo(Page page) {
     sidebar.fireEvent(new HidePopupEvent());
+    if (page == this.page) {
+      return;
+    }
     if (navigationCallback != null) {
       if (navigationCallback.call(page)) {
         this.page = page;

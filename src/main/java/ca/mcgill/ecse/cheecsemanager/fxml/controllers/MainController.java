@@ -142,9 +142,10 @@ public class MainController {
         // Cache the page
         pageCache.put(pageName, newPage);
       }
-      contentArea.getChildren().add(newPage);
 
-      double height = rootStackPane.getHeight();
+      contentArea.getChildren().remove(newPage);
+      contentArea.getChildren().add(newPage);
+      double height = rootStackPane.getHeight() * 1.1;
 
       MultiAnimationBuilder currentPageAnimation = null;
 
@@ -161,10 +162,7 @@ public class MainController {
                 .addNumericTarget(currentPagePane.opacityProperty(), 1, 0)
                 .durationMillis(300)
                 .easing(EasingInterpolators.CUBIC_OUT)
-                .onFinished(() -> {
-                  contentArea.getChildren().remove(currentPagePane);
-                  isCurrentPageAnimating = false;
-                });
+                .onFinished(() -> { isCurrentPageAnimating = false; });
       }
 
       var newPageAnimation =

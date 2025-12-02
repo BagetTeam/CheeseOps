@@ -78,7 +78,7 @@ public class ShelfController {
   private void setupActionButtons() {
     actionColumn.setCellFactory(param -> new TableCell<>() {
       private final StyledButton viewBtn = new StyledButton(
-          StyledButton.Variant.MUTED, StyledButton.Size.SM, "View", null);
+          StyledButton.Variant.DEFAULT, StyledButton.Size.SM, "View", null);
       private final StyledButton deleteBtn =
           new StyledButton(StyledButton.Variant.DESTRUCTIVE,
                            StyledButton.Size.SM, "Delete", null);
