@@ -9,6 +9,7 @@ import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.ShowPopupEvent;
 import ca.mcgill.ecse.cheecsemanager.fxml.store.ShelfDataProvider;
 import java.util.Arrays;
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleLongProperty;
@@ -62,9 +63,6 @@ public class ShelfController {
                    .count())
                .asObject());
 
-    shelfTable.getColumns().forEach(tc -> tc.setMinWidth(tc.getPrefWidth()));
-    shelfTable.setItems(shelfDataProvider.getShelves());
-
     setupActionButtons();
     bindInventoryLabel();
 
@@ -73,7 +71,8 @@ public class ShelfController {
           "view/components/Shelf/AddShelfPopUp.fxml", "Add Shelf"));
     });
 
-    refreshTable();
+    Platform.runLater(
+        () -> { shelfTable.setItems(shelfDataProvider.getShelves()); });
   }
 
   private void setupActionButtons() {
@@ -154,10 +153,6 @@ public class ShelfController {
       e.printStackTrace();
     }
   }
-
-  public void refreshTable() { shelfDataProvider.refresh(); }
-
-  public StackPane getRoot() { return root; }
 
   private void bindInventoryLabel() {
     inventoryLabel.textProperty().bind(Bindings.createStringBinding(
