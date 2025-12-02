@@ -13,8 +13,6 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -57,10 +55,11 @@ public class WholesaleCompanyPageController {
     List<TOWholesaleCompany> companies = dataProvider.getCompanies();
     String filter = searchInput.getText();
 
-    for (TOWholesaleCompany company : companies) {
+    for (int i = 0; i < companies.size(); i++) {
+      TOWholesaleCompany company = companies.get(i);
       if (filter.isEmpty() ||
           company.getName().toLowerCase().contains(filter)) {
-        addCompanyCard(company);
+        addCompanyCard(company, i);
       }
     }
   }
@@ -70,8 +69,8 @@ public class WholesaleCompanyPageController {
     Platform.runLater(() -> { loadCompanies(); });
   }
 
-  private void addCompanyCard(TOWholesaleCompany company) {
-    HBox card = newCompanyCard(company, null);
+  private void addCompanyCard(TOWholesaleCompany company, int i) {
+    HBox card = newCompanyCard(company, null, i);
     cardsContainer.getChildren().add(card);
   }
 
@@ -85,7 +84,7 @@ public class WholesaleCompanyPageController {
    *
    * @param companyName the name of the company to view
    */
-  private void handleViewCompany(TOWholesaleCompany company) {
+  private void handleViewCompany(TOWholesaleCompany company, int i) {
     try {
       FXMLLoader loader = new FXMLLoader(CheECSEManagerApplication.getResource(
           "view/page/companies/ViewWholesaleCompany.fxml"));
@@ -93,7 +92,7 @@ public class WholesaleCompanyPageController {
 
       ViewWholesaleCompanyController controller = loader.getController();
 
-      HBox card = newCompanyCard(company, viewPage);
+      HBox card = newCompanyCard(company, viewPage, i);
       controller.setCompany(company.getName(), card);
       controller.setOnBack(
           () -> companiesPageRoot.getChildren().remove(viewPage));
@@ -106,20 +105,23 @@ public class WholesaleCompanyPageController {
     }
   }
 
-  private HBox newCompanyCard(TOWholesaleCompany company, StackPane viewPage) {
+  private HBox newCompanyCard(TOWholesaleCompany company, StackPane viewPage,
+                              int i) {
     FXMLLoader loader = new FXMLLoader(CheECSEManagerApplication.getResource(
         "view/components/Company/CompanyCard.fxml"));
 
     try {
       HBox card = loader.load();
       CompanyCardController controller = loader.getController();
-      controller.init(company,
+      controller.init(i,
                       ()
                           -> {
                         if (viewPage == null)
-                          handleViewCompany(company);
+                          handleViewCompany(company, i);
                       },
-                      () -> { handleDeleteCompanyCard(company, viewPage); });
+                      ()
+                          -> { handleDeleteCompanyCard(company, viewPage); },
+                      viewPage != null);
 
       return card;
     } catch (Exception e) {
@@ -134,7 +136,7 @@ public class WholesaleCompanyPageController {
   @FXML
   private void handleAddCompany() {
     this.companiesPageRoot.fireEvent(new ShowPopupEvent(
-        "view/page/companies/AddWholesaleCompany.fxml", "Confirm Delete"));
+        "view/page/companies/AddWholesaleCompany.fxml", "Add Company"));
   }
 
   /**

@@ -3,6 +3,8 @@ package ca.mcgill.ecse.cheecsemanager.fxml.controllers.wholesaleCompany;
 import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet6Controller;
 import ca.mcgill.ecse.cheecsemanager.controller.TOWholesaleCompany;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.ShowPopupEvent;
+import ca.mcgill.ecse.cheecsemanager.fxml.store.OrdersProvider;
+import ca.mcgill.ecse.cheecsemanager.fxml.store.OrdersProvider.Order;
 import java.sql.Date;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -20,15 +22,17 @@ import javafx.scene.layout.StackPane;
  * editing, deleting, and placing new orders.
  */
 public class ViewWholesaleCompanyController {
+  private final OrdersProvider ordersProvider = OrdersProvider.getInstance();
+
   @FXML private StackPane root;
   @FXML private StackPane companyCardContainer;
 
-  @FXML private TableView<Integer> ordersTable;
-  @FXML private TableColumn<Integer, Date> transactionDateColumn;
-  @FXML private TableColumn<Integer, String> monthsAgedColumn;
-  @FXML private TableColumn<Integer, Integer> cheeseWheelsColumn;
-  @FXML private TableColumn<Integer, Integer> missingWheelsColumn;
-  @FXML private TableColumn<Integer, Date> deliveryDateColumn;
+  @FXML private TableView<Order> ordersTable;
+  @FXML private TableColumn<Order, Date> transactionDateColumn;
+  @FXML private TableColumn<Order, String> monthsAgedColumn;
+  @FXML private TableColumn<Order, Integer> cheeseWheelsColumn;
+  @FXML private TableColumn<Order, Integer> missingWheelsColumn;
+  @FXML private TableColumn<Order, Date> deliveryDateColumn;
 
   private TOWholesaleCompany company;
   private Runnable onBackCallback;
@@ -42,31 +46,26 @@ public class ViewWholesaleCompanyController {
 
   private void setupTableColumns() {
     transactionDateColumn.setCellValueFactory(
-        cellData
-        -> new SimpleObjectProperty<>(
-            company.getOrderDate(cellData.getValue())));
+        cellData -> new SimpleObjectProperty<>(cellData.getValue().orderDate));
 
     monthsAgedColumn.setCellValueFactory(
-        cellData
-        -> new SimpleStringProperty(
-            company.getMonthsAged(cellData.getValue())));
+        cellData -> new SimpleStringProperty(cellData.getValue().monthsAged));
 
     cheeseWheelsColumn.setCellValueFactory(
         cellData
-        -> new SimpleIntegerProperty(
-               company.getNrCheeseWheelsOrdered(cellData.getValue()))
+        -> new SimpleIntegerProperty(cellData.getValue().nrCheeseWheelsOrdered)
                .asObject());
 
     missingWheelsColumn.setCellValueFactory(
         cellData
-        -> new SimpleIntegerProperty(
-               company.getNrCheeseWheelsMissing(cellData.getValue()))
+        -> new SimpleIntegerProperty(cellData.getValue().nrCheeseWheelsMissing)
                .asObject());
 
     deliveryDateColumn.setCellValueFactory(
         cellData
-        -> new SimpleObjectProperty<>(
-            company.getDeliveryDate(cellData.getValue())));
+        -> new SimpleObjectProperty<>(cellData.getValue().deliveryDate));
+
+    ordersTable.setItems(ordersProvider.getOrders());
   }
   /**
    * Sets the company to be displayed and loads its order data.
@@ -82,22 +81,13 @@ public class ViewWholesaleCompanyController {
     this.company =
         CheECSEManagerFeatureSet6Controller.getWholesaleCompany(companyName);
 
-    if (company != null) {
+    ordersProvider.setCompany(this.company.getName());
+
+    if (this.company != null) {
       setupTableColumns();
-      loadOrders();
     }
   }
 
-  private void loadOrders() {
-    javafx.collections.ObservableList<Integer> indices =
-        javafx.collections.FXCollections.observableArrayList();
-
-    for (int i = 0; i < company.numberOfOrderDates(); i++) {
-      indices.add(i);
-    }
-
-    ordersTable.setItems(indices);
-  }
   /**
    * Registers a callback to execute when navigating back to the companies list.
    *
@@ -111,12 +101,6 @@ public class ViewWholesaleCompanyController {
       onBackCallback.run();
     }
   }
-
-  /**
-   * Opens the delete company confirmation dialog and navigates back on success.
-   */
-  @FXML
-  private void handleDelete() {}
 
   /**
    * Opens the order placement dialog for the current company.

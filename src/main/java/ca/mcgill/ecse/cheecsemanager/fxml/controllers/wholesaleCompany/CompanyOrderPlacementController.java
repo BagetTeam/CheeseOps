@@ -5,6 +5,8 @@ import ca.mcgill.ecse.cheecsemanager.fxml.components.Input;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.HidePopupEvent;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.ToastEvent;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.ToastEvent.ToastType;
+import ca.mcgill.ecse.cheecsemanager.fxml.store.OrdersProvider;
+import ca.mcgill.ecse.cheecsemanager.fxml.store.WholesaleCompanyDataProvider;
 import java.sql.Date;
 import java.time.LocalDate;
 import javafx.collections.FXCollections;
@@ -15,6 +17,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
 public class CompanyOrderPlacementController {
+  private final OrdersProvider ordersProvider = OrdersProvider.getInstance();
+
   public static String companyName;
 
   @FXML private VBox root;
@@ -94,6 +98,8 @@ public class CompanyOrderPlacementController {
     if (error.isEmpty()) {
       this.root.fireEvent(
           new ToastEvent("Order placed successfully", ToastType.SUCCESS));
+      ordersProvider.refresh();
+      WholesaleCompanyDataProvider.getInstance().refresh();
       handleClose();
     } else {
       showError(error);
