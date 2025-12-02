@@ -2,6 +2,8 @@ package ca.mcgill.ecse.cheecsemanager.fxml.controllers.wholesaleCompany;
 
 import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
 import ca.mcgill.ecse.cheecsemanager.controller.TOWholesaleCompany;
+import ca.mcgill.ecse.cheecsemanager.fxml.components.Animation.AnimationManager;
+import ca.mcgill.ecse.cheecsemanager.fxml.components.Animation.EasingInterpolators;
 import ca.mcgill.ecse.cheecsemanager.fxml.components.Input;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.ShowPopupEvent;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.ToastEvent;
@@ -86,6 +88,8 @@ public class WholesaleCompanyPageController {
    */
   private void handleViewCompany(TOWholesaleCompany company, int i) {
     try {
+      var width = companiesPageRoot.getWidth();
+
       FXMLLoader loader = new FXMLLoader(CheECSEManagerApplication.getResource(
           "view/page/companies/ViewWholesaleCompany.fxml"));
       StackPane viewPage = loader.load();
@@ -94,11 +98,28 @@ public class WholesaleCompanyPageController {
 
       HBox card = newCompanyCard(company, viewPage, i);
       controller.setCompany(company.getName(), card);
-      controller.setOnBack(
-          () -> companiesPageRoot.getChildren().remove(viewPage));
+      controller.setOnBack(() -> {
+        AnimationManager.numericBuilder()
+            .target(viewPage.translateXProperty())
+            .from(0)
+            .to(width)
+            .durationMillis(500)
+            .easing(EasingInterpolators.CUBIC_OUT)
+            .onFinished(
+                () -> { companiesPageRoot.getChildren().remove(viewPage); })
+            .play();
+      });
 
       // Replace this entire page with the view page
       companiesPageRoot.getChildren().add(viewPage);
+
+      AnimationManager.numericBuilder()
+          .target(viewPage.translateXProperty())
+          .from(width)
+          .to(0)
+          .durationMillis(500)
+          .easing(EasingInterpolators.CUBIC_OUT)
+          .play();
 
     } catch (Exception e) {
       e.printStackTrace();
@@ -155,8 +176,8 @@ public class WholesaleCompanyPageController {
           () -> companiesPageRoot.getChildren().remove(viewPage);
     }
 
-    this.companiesPageRoot.fireEvent(
-        new ShowPopupEvent("view/page/companies/DeleteWholesaleCompany.fxml"));
+    this.companiesPageRoot.fireEvent(new ShowPopupEvent(
+        "view/page/companies/DeleteWholesaleCompany.fxml", "Delete Company"));
   }
 
   public void showToast(String message) {
