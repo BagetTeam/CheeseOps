@@ -8,7 +8,6 @@ import ca.mcgill.ecse.cheecsemanager.fxml.components.Animation.EasingInterpolato
 import ca.mcgill.ecse.cheecsemanager.fxml.components.ShelfGrid;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.ShowPopupEvent;
 import ca.mcgill.ecse.cheecsemanager.fxml.store.ShelfCheeseWheelDataProvider;
-import ca.mcgill.ecse.cheecsemanager.fxml.store.ShelfDataProvider;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -19,22 +18,25 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 public class ViewShelfController {
-  ShelfCheeseWheelDataProvider provider;
-  private ShelfDataProvider shelfDataProvider = ShelfDataProvider.getInstance();
+  private ShelfCheeseWheelDataProvider cheeseWheelsProvider =
+      ShelfCheeseWheelDataProvider.getInstance();
 
   @FXML private Label shelfNameLabel;
   @FXML private StackPane root;
   @FXML private VBox content;
 
-  public static TOShelf shelfToView;
+  private TOShelf shelfToView;
   private Runnable onBackPressed;
 
   public void init(TOShelf shelf, Runnable onBackPressed) {
-    shelfToView = shelf;
+    this.shelfToView = shelf;
     this.onBackPressed = onBackPressed;
 
     shelfNameLabel.setText("Shelf " + shelf.getShelfID());
-    this.provider = new ShelfCheeseWheelDataProvider(shelf);
+    this.cheeseWheelsProvider.setShelf(shelf.getShelfID());
+
+    AssignCheeseWheelController.context.shelfId = shelf.getShelfID();
+
     initShelfGrid(shelf);
   }
 
@@ -54,9 +56,13 @@ public class ViewShelfController {
 
   @FXML
   public void onAddCheesePressed() {
-    root.fireEvent(new ShowPopupEvent(
-        "view/components/Shelf/AssignCheeseWheelPopUp.fxml",
-        "Assign Cheese Wheel in Shelf " + shelfToView.getShelfID()));
+    AssignCheeseWheelController.context.shelfId = shelfToView.getShelfID();
+    AssignCheeseWheelController.context.col = null;
+    AssignCheeseWheelController.context.row = null;
+
+    root.fireEvent(
+        new ShowPopupEvent("view/components/Shelf/AssignCheeseWheelPopUp.fxml",
+                           "Assign Cheese Wheel in Shelf"));
   }
 
   private void initShelfGrid(TOShelf shelf) {
@@ -70,9 +76,7 @@ public class ViewShelfController {
     try {
       Node node = loader.load();
       CheeseDetailsController controller = loader.getController();
-      controller.init(cheese, () -> {
-        this.provider.refresh();
-        this.shelfDataProvider.refresh();
+      controller.init(cheese.getId(), () -> {
         AnimationManager.numericBuilder()
             .target(node.translateXProperty())
             .from(0)

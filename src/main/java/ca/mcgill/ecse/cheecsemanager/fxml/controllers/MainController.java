@@ -1,8 +1,12 @@
 package ca.mcgill.ecse.cheecsemanager.fxml.controllers;
 
 import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
+import ca.mcgill.ecse.cheecsemanager.fxml.components.Animation.AnimationManager;
+import ca.mcgill.ecse.cheecsemanager.fxml.components.Animation.AnimationManager.MultiAnimationBuilder;
+import ca.mcgill.ecse.cheecsemanager.fxml.components.Animation.EasingInterpolators;
 import ca.mcgill.ecse.cheecsemanager.fxml.components.PopupManager;
 import ca.mcgill.ecse.cheecsemanager.fxml.components.Toast;
+import ca.mcgill.ecse.cheecsemanager.fxml.controllers.SidebarController.Page;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.HidePopupEvent;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.ShowPopupEvent;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.ToastEvent;
@@ -14,6 +18,7 @@ import java.util.Queue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
@@ -25,9 +30,13 @@ public class MainController {
   @FXML private StackPane contentArea;
   @FXML private SidebarController sidebarController;
   @FXML private VBox toastContainer;
+  @FXML private BorderPane root;
 
   // Cache for loaded pages
-  private Map<String, Pane> pageCache = new HashMap<>();
+  private Map<Page, Pane> pageCache = new HashMap<>();
+  private Page currentPage;
+  private boolean isCurrentPageAnimating = false;
+  private boolean isNewPageAnimating = false;
 
   private PopupManager popupManager = new PopupManager();
 
@@ -38,21 +47,15 @@ public class MainController {
     // Set up navigation callback
     sidebarController.setNavigationCallback(this::loadPage);
 
-    // Initialize PageNavigator with content area
-    PageNavigator.getInstance().setContentArea(contentArea);
-
     // Load default page
-    loadPage("shelves");
+    loadPage(Page.SHELVES);
 
     this.popupManager.initialize(rootStackPane, veil);
-    rootStackPane.addEventFilter(ShowPopupEvent.SHOW_POPUP,
-                                 this::handleShowPopup);
-    rootStackPane.addEventFilter(HidePopupEvent.HIDE_POPUP,
-                                 this::handleHidePopup);
+    root.addEventFilter(ShowPopupEvent.SHOW_POPUP, this::handleShowPopup);
+    root.addEventFilter(HidePopupEvent.HIDE_POPUP, this::handleHidePopup);
 
     /// === Toasts ===
-    rootStackPane.addEventFilter(ToastEvent.TOAST_NOTIFICATION,
-                                 this::handleToastEvent);
+    root.addEventFilter(ToastEvent.TOAST_NOTIFICATION, this::handleToastEvent);
     // Configure toast container
     toastContainer.setPickOnBounds(false);    // Allow clicks to pass through
     toastContainer.setMouseTransparent(true); // Make container non-interactive
@@ -120,34 +123,74 @@ public class MainController {
     this.popupManager.hidePopup();
   }
 
-  private void loadPage(String pageName) {
+  private boolean loadPage(Page pageName) {
+    if (isCurrentPageAnimating || isNewPageAnimating) {
+      return false;
+    }
     try {
       // Check cache first
+      Pane newPage;
       if (pageCache.containsKey(pageName)) {
-        contentArea.getChildren().clear();
-        contentArea.getChildren().add(pageCache.get(pageName));
-        return;
+        newPage = pageCache.get(pageName);
+      } else {
+        String path = "view/page/" + pageName + "/page.fxml";
+        // Load new page
+        FXMLLoader loader =
+            new FXMLLoader(CheECSEManagerApplication.getResource(path));
+        newPage = loader.load();
+
+        // Cache the page
+        pageCache.put(pageName, newPage);
       }
 
-      String path = "view/page/" + pageName + "/page.fxml";
-      // Load new page
-      FXMLLoader loader =
-          new FXMLLoader(CheECSEManagerApplication.getResource(path));
-      Pane page = loader.load();
+      contentArea.getChildren().remove(newPage);
+      contentArea.getChildren().add(newPage);
+      double height = rootStackPane.getHeight() * 1.1;
 
-      // Cache the page
-      pageCache.put(pageName, page);
+      MultiAnimationBuilder currentPageAnimation = null;
 
-      // Display the page
-      contentArea.getChildren().clear();
-      contentArea.getChildren().add(page);
+      if (currentPage != null) {
+        if (currentPage.ordinal() < pageName.ordinal()) {
+          height *= -1;
+        }
+        Pane currentPagePane = pageCache.get(currentPage);
 
+        currentPageAnimation =
+            AnimationManager.multiBuilder()
+                .addNumericTarget(currentPagePane.translateYProperty(), 0,
+                                  height / 2)
+                .addNumericTarget(currentPagePane.opacityProperty(), 1, 0)
+                .durationMillis(300)
+                .easing(EasingInterpolators.CUBIC_OUT)
+                .onFinished(() -> { isCurrentPageAnimating = false; });
+      }
+
+      var newPageAnimation =
+          AnimationManager.multiBuilder()
+              .addNumericTarget(newPage.translateYProperty(), -height / 2, 0)
+              .addNumericTarget(newPage.opacityProperty(), 0, 1)
+              .durationMillis(300)
+              .easing(EasingInterpolators.CUBIC_OUT)
+              .onFinished(() -> {
+                currentPage = pageName;
+                isNewPageAnimating = false;
+              });
+
+      if (currentPageAnimation != null) {
+        isCurrentPageAnimating = true;
+        currentPageAnimation.play();
+      }
+      isNewPageAnimating = true;
+      newPageAnimation.play();
+
+      return true;
     } catch (IOException e) {
       System.err.println("Error loading page: " + pageName);
       e.printStackTrace();
 
       // Show error page or placeholder
-      showErrorPage(pageName);
+      showErrorPage(pageName.name());
+      return false;
     }
   }
 

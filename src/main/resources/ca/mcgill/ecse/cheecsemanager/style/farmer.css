@@ -12,6 +12,7 @@
 /* Table Styles */
 .farmer-table {
     -fx-background-color: transparent;
+    -fx-fixed-cell-size: 48px;
 }
 
 .farmer-table .table-view {
@@ -116,4 +117,3 @@
 .farmer-table .table-view .placeholder .label {
     -fx-text-fill: -color-muted;
 }
-

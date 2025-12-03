@@ -8,6 +8,8 @@ import javafx.beans.property.SimpleIntegerProperty;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 
 public class RobotController {
 
@@ -15,10 +17,9 @@ public class RobotController {
    * Version property to notify observers when the robot log changes
    * @author Benjamin Curis-Friedman
    */
-  private static final SimpleIntegerProperty logVersion = new SimpleIntegerProperty(0);
-  public static IntegerProperty logVersionProperty() {
-    return logVersion;
-  }
+  private static final SimpleIntegerProperty logVersion =
+      new SimpleIntegerProperty(0);
+  public static IntegerProperty logVersionProperty() { return logVersion; }
 
   /**
    * Get the current status of the robot
@@ -87,13 +88,14 @@ public class RobotController {
     var status = robot.getStatus();
 
     switch (status) {
-      case Idle:
-      case AtEntranceNotFacingAisle:
-        // clears all data related to the robot from the system
-        robot.delete();
-        break;
-      default:
-        throw new RuntimeException("The robot cannot be deactivated during active treatment.");
+    case Idle:
+    case AtEntranceNotFacingAisle:
+      // clears all data related to the robot from the system
+      robot.delete();
+      break;
+    default:
+      throw new RuntimeException(
+          "The robot cannot be deactivated during active treatment.");
     }
 
     logVersion.set(logVersion.get() + 1);
@@ -119,7 +121,8 @@ public class RobotController {
       throw new RuntimeException("A shelf must be specified.");
     }
 
-    if (robot.getCurrentShelf() != null || robot.getStatus() != Robot.Status.Idle) {
+    if (robot.getCurrentShelf() != null ||
+        robot.getStatus() != Robot.Status.Idle) {
       throw new RuntimeException("The robot has already been initialized.");
     }
 
@@ -149,41 +152,46 @@ public class RobotController {
    *
    * @author Ming Li Liu and Olivier Mao
    */
-  public static void initializeTreatment(int purchaseId, String monthAgedString) {
+  public static void initializeTreatment(int purchaseId,
+                                         String monthAgedString) {
     MaturationPeriod monthAged;
     try {
       monthAged = MaturationPeriod.valueOf(monthAgedString);
     } catch (Exception _e) {
-      throw new RuntimeException("The monthsAged must be Six, Twelve, TwentyFour, or ThirtySix.");
+      throw new RuntimeException(
+          "The monthsAged must be Six, Twelve, TwentyFour, or ThirtySix.");
     }
 
     var robot = getRobot();
 
     switch (robot.getStatus()) {
-      case Idle:
-        throw new RuntimeException("The robot must be initialized first.");
-      case AtEntranceFacingAisle:
-      case AtCheeseWheel:
-        throw new RuntimeException("The robot cannot be triggered to perform "
-            + "treatment again during active treatment.");
-      default:
-        break;
+    case Idle:
+      throw new RuntimeException("The robot must be initialized first.");
+    case AtEntranceFacingAisle:
+    case AtCheeseWheel:
+      throw new RuntimeException("The robot cannot be triggered to perform "
+                                 + "treatment again during active treatment.");
+    default:
+      break;
     }
 
     CheECSEManager manager = CheECSEManagerApplication.getCheecseManager();
 
     // Get transaction of purchaseId and purchase
     Purchase purchase =
-        (Purchase) manager.getTransactions()
+        (Purchase)manager.getTransactions()
             .stream()
             .filter(t -> t instanceof Purchase && t.getId() == purchaseId)
             .findFirst()
-            .orElseThrow(
-                () -> new RuntimeException("The purchase " + purchaseId + " does not exist."));
+            .orElseThrow(()
+                             -> new RuntimeException("The purchase " +
+                                                     purchaseId +
+                                                     " does not exist."));
 
     robot.setCurrentPurchaseTreated(purchase);
 
-    purchase.getCheeseWheels().forEach(wheel -> { treatCheeseWheel(wheel, monthAged); });
+    purchase.getCheeseWheels().forEach(
+        wheel -> { treatCheeseWheel(wheel, monthAged); });
 
     goBackToEntrance();
     turnRight();
@@ -201,7 +209,8 @@ public class RobotController {
    * @param monthAged: the age of the cheese wheel
    * @author Ewen Gueguen
    */
-  private static void treatCheeseWheel(CheeseWheel wheel, MaturationPeriod monthAged) {
+  private static void treatCheeseWheel(CheeseWheel wheel,
+                                       MaturationPeriod monthAged) {
     Robot robot = getRobot();
 
     if (wheel.getMonthsAged() != monthAged || wheel.getIsSpoiled()) {
@@ -292,7 +301,8 @@ public class RobotController {
     }
 
     if (robot.getStatus() != Robot.Status.AtEntranceNotFacingAisle) {
-      throw new RuntimeException("The robot cannot be moved to shelf #" + shelfId + ".");
+      throw new RuntimeException("The robot cannot be moved to shelf #" +
+                                 shelfId + ".");
     }
 
     Shelf currentShelf = robot.getCurrentShelf();
@@ -305,12 +315,14 @@ public class RobotController {
       return false;
     }
 
-    List<Shelf> allShelves = CheECSEManagerApplication.getCheecseManager().getShelves();
+    List<Shelf> allShelves =
+        CheECSEManagerApplication.getCheecseManager().getShelves();
     int currentShelfIndex = allShelves.indexOf(currentShelf);
     int targetShelfIndex = allShelves.indexOf(targetShelf);
 
     if (targetShelfIndex == -1) {
-      throw new IllegalArgumentException("Target shelf does not exist: " + targetShelf);
+      throw new IllegalArgumentException("Target shelf does not exist: " +
+                                         targetShelf);
     }
 
     int diff = targetShelfIndex - currentShelfIndex;
@@ -344,8 +356,10 @@ public class RobotController {
     CheECSEManager manager = CheECSEManagerApplication.getCheecseManager();
     Robot.Status status = robot.getStatus();
 
-    if (status != Robot.Status.AtEntranceFacingAisle && status != Robot.Status.AtCheeseWheel) {
-      throw new RuntimeException("The robot cannot be moved to cheese wheel #" + wheelId + ".");
+    if (status != Robot.Status.AtEntranceFacingAisle &&
+        status != Robot.Status.AtCheeseWheel) {
+      throw new RuntimeException("The robot cannot be moved to cheese wheel #" +
+                                 wheelId + ".");
     }
 
     Shelf currentShelf = robot.getCurrentShelf();
@@ -354,15 +368,17 @@ public class RobotController {
             .stream()
             .filter(wheel -> wheel.getId() == wheelId)
             .findFirst()
-            .orElseThrow(
-                () -> new RuntimeException("Cheese wheel " + wheelId + " does not exist."));
+            .orElseThrow(()
+                             -> new RuntimeException("Cheese wheel " + wheelId +
+                                                     " does not exist."));
 
     ShelfLocation shelfLocationOfTarget = targetCheeseWheel.getLocation();
     Shelf shelfOfTarget = shelfLocationOfTarget.getShelf();
 
     if (!currentShelf.getId().equals(shelfOfTarget.getId())) {
-      throw new RuntimeException(
-          "Cheese wheel #" + wheelId + " is not on shelf #" + currentShelf.getId() + ".");
+      throw new RuntimeException("Cheese wheel #" + wheelId +
+                                 " is not on shelf #" + currentShelf.getId() +
+                                 ".");
     }
 
     int targetRow = shelfLocationOfTarget.getRow();
@@ -380,7 +396,8 @@ public class RobotController {
     }
 
     if (targetRow != currRow) {
-      logAction(LogAction.logAdjustHeight((targetRow - currRow) * 40)); // the robot
+      logAction(
+          LogAction.logAdjustHeight((targetRow - currRow) * 40)); // the robot
     }
     robot.setRow(targetRow);
 
@@ -432,24 +449,24 @@ public class RobotController {
 
   /**
    * @author Ayush Patel
-   * Go backToMenu to the entrance of the aisle when the robot is at a cheese wheel
-   * (i.e., the robot determines how much to move straight backward and how much
-   * to adjust its height down)
-   * When the robot goes backToMenu to the entrance of an aisle, its height must be
-   * reset to row 1
+   * Go backToMenu to the entrance of the aisle when the robot is at a cheese
+   * wheel (i.e., the robot determines how much to move straight backward and
+   * how much to adjust its height down) When the robot goes backToMenu to the
+   * entrance of an aisle, its height must be reset to row 1
    * @return whether action was successful
    */
   public static boolean goBackToEntrance() {
     Robot robot = getRobot();
 
     switch (robot.getStatus()) {
-      case Idle:
-      case AtEntranceFacingAisle:
-      case AtEntranceNotFacingAisle:
-        throw new RuntimeException("The robot cannot be moved to the entrance of the aisle.");
+    case Idle:
+    case AtEntranceFacingAisle:
+    case AtEntranceNotFacingAisle:
+      throw new RuntimeException(
+          "The robot cannot be moved to the entrance of the aisle.");
 
-      default:
-        break;
+    default:
+      break;
     }
 
     int targetRow = 1;
@@ -526,6 +543,9 @@ public class RobotController {
       return new ArrayList<>();
     }
 
-    return robot.getLog().stream().map(log -> new TOLogEntry(log.getDescription())).toList();
+    return robot.getLog()
+        .stream()
+        .map(log -> new TOLogEntry(log.getDescription()))
+        .toList();
   }
 }

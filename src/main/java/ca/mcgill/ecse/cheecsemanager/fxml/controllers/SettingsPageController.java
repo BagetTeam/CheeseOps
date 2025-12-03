@@ -2,14 +2,13 @@ package ca.mcgill.ecse.cheecsemanager.fxml.controllers;
 
 import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet1Controller;
 import ca.mcgill.ecse.cheecsemanager.fxml.components.*;
-import ca.mcgill.ecse.cheecsemanager.fxml.events.ShowPopupEvent;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.ToastEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
 public class SettingsPageController {
-  @FXML private BorderPane rootPane;
+  @FXML private StackPane rootPane;
 
   @FXML private Input oldPasswordInput;
   @FXML private Input newPasswordInput;
@@ -41,14 +40,21 @@ public class SettingsPageController {
       return;
     }
 
-    if (!CheECSEManagerFeatureSet1Controller.getFacilityManagerPassword()
-             .equals(oldPassword)) {
+    String storedOldPassword =
+        CheECSEManagerFeatureSet1Controller.getFacilityManagerPassword();
+
+    if (storedOldPassword != null && !storedOldPassword.equals(oldPassword)) {
       this.showError("Old password does not match.");
       return;
     }
 
     if (!newPassword.equals(confirmPassword)) {
       this.showError("Confirm password must match.");
+      return;
+    }
+
+    if (newPassword.equals(storedOldPassword)) {
+      this.showError("New password must be different from old password.");
       return;
     }
 

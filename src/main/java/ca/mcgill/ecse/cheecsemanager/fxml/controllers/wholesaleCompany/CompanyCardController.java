@@ -2,97 +2,111 @@ package ca.mcgill.ecse.cheecsemanager.fxml.controllers.wholesaleCompany;
 
 import ca.mcgill.ecse.cheecsemanager.controller.TOWholesaleCompany;
 import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton;
-import java.io.IOException;
+import ca.mcgill.ecse.cheecsemanager.fxml.events.ShowPopupEvent;
+import ca.mcgill.ecse.cheecsemanager.fxml.store.WholesaleCompanyDataProvider;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
 
 /**
  * Reusable component displaying wholesale company details with action buttons.
  * Renders company name, address, and provides edit/delete callbacks.
  */
-public class CompanyCardController extends VBox {
+public class CompanyCardController {
+  private final WholesaleCompanyDataProvider provider =
+      WholesaleCompanyDataProvider.getInstance();
 
-    @FXML
-    private Label nameLabel;
+  @FXML private HBox companyCardRoot;
+  @FXML private Label nameLabel;
+  @FXML private Label soldCheeseLabel;
+  @FXML private Label addressLabel;
+  @FXML private Label ordersLabel;
 
-    @FXML
-    private Label addressLabel;
+  @FXML private StyledButton updateCompanyBtn;
+  @FXML private StyledButton deleteCompanyBtn;
 
-    @FXML
-    private Label ordersLabel;
+  private Integer companyIndex;
+  private Runnable onDeleteCallback;
 
-    @FXML private StyledButton updateCompanyBtn;
-    @FXML private StyledButton deleteCompanyBtn;
+  public void init(Integer companyIndex, Runnable onView, Runnable onDelete,
+                   boolean isInCompanyDetails) {
+    setCompany(companyIndex);
+    setOnDelete(onDelete);
 
-    private Runnable onViewCallback;
-    private Runnable onEditCallback;
-    private Runnable onDeleteCallback;
+    companyCardRoot.setOnMouseClicked(e -> onView.run());
 
-    public CompanyCardController() {
-        FXMLLoader loader = new FXMLLoader(
-            getClass().getResource(
-                "/ca/mcgill/ecse/cheecsemanager/view/components/Company/CompanyCard.fxml"));
-        loader.setRoot(this);
-        loader.setController(this);
-
-        try {
-            loader.load();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    if (isInCompanyDetails) {
+      provider.getCompanies().addListener(this::updateOrdersLabel);
     }
 
-    /**
-     * Populates the card with company information from a transfer object.
-     *
-     * @param company the wholesale company data to display
-     */
-    public void setCompany(TOWholesaleCompany company) {
-        nameLabel.setText(company.getName());
-        addressLabel.setText(company.getAddress());
+    companyCardRoot.sceneProperty().addListener((obs, oldScene, newScene) -> {
+      if (newScene == null) {
+        provider.getCompanies().removeListener(this::updateOrdersLabel);
+      }
+    });
+  }
 
-        int ordersCount = company.numberOfOrderDates();
-        ordersLabel.setText(ordersCount + " order" + (ordersCount != 1 ? "s" : ""));
+  private void
+  updateOrdersLabel(javafx.collections.ListChangeListener
+                        .Change<? extends TOWholesaleCompany> change) {
+    if (provider.getCompanies().size() > companyIndex) {
+      setCompany(companyIndex);
     }
+  }
 
-    public void setOnView(Runnable callback) {
-        this.onViewCallback = callback;
-    }
+  /**
+   * Populates the card with company information from a transfer object.
+   *
+   * @param company the wholesale company data to display
+   */
+  public void setCompany(Integer companyIndex) {
+    this.companyIndex = companyIndex;
+    var company = provider.getCompanies().get(companyIndex);
 
-    /**
-     * Registers a callback for the edit button action.
-     *
-     * @param callback the action to execute when edit is triggered
-     */
-    public void setOnEdit(Runnable callback) {
-        this.onEditCallback = callback;
-        updateCompanyBtn.setText("Edit");
-    }
+    nameLabel.setText(company.getName());
+    addressLabel.setText(company.getAddress());
+    soldCheeseLabel.setText("" + getNrCheeseWheelsOrdereds(company));
 
-    /**
-     * Registers a callback for the delete button action.
-     *
-     * @param callback the action to execute when delete is triggered
-     */
-    public void setOnDelete(Runnable callback) {
-        this.onDeleteCallback = callback;
-    }
+    int ordersCount = company.numberOfOrderDates();
+    ordersLabel.setText("" + ordersCount);
+  }
 
-    @FXML
-    private void handleView() {
-        if (onViewCallback != null) {
-            onViewCallback.run();
-        } else if (onEditCallback != null) {
-            onEditCallback.run();
-        }
-    }
+  private int getNrCheeseWheelsOrdereds(TOWholesaleCompany company) {
+    Integer[] nrCheeseWheelsOrdereds = company.getNrCheeseWheelsOrdereds();
+    Integer[] nrCheeseWheelsMissings = company.getNrCheeseWheelsMissings();
 
-    @FXML
-    private void handleDelete() {
-        if (onDeleteCallback != null) {
-            onDeleteCallback.run();
-        }
+    int count = 0;
+    for (int i = 0; i < nrCheeseWheelsOrdereds.length; i++) {
+      count += nrCheeseWheelsOrdereds[i] - nrCheeseWheelsMissings[i];
     }
+    return count;
+  }
+
+  /**
+   * Registers a callback for the delete button action.
+   *
+   * @param callback the action to execute when delete is triggered
+   */
+  public void setOnDelete(Runnable callback) {
+    this.onDeleteCallback = callback;
+  }
+
+  @FXML
+  private void handleDelete(ActionEvent e) {
+    e.consume();
+    if (onDeleteCallback != null) {
+      onDeleteCallback.run();
+    }
+  }
+
+  @FXML
+  void handleEdit(ActionEvent e) {
+    e.consume();
+
+    var company = provider.getCompanies().get(companyIndex);
+    UpdateWholesaleCompanyController.currentCompanyName = company.getName();
+    companyCardRoot.fireEvent(new ShowPopupEvent(
+        "view/page/companies/UpdateWholesaleCompany.fxml", "Update Company"));
+  }
 }

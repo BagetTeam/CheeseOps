@@ -32,7 +32,7 @@ public class FarmerController
   private final FarmerDataProvider farmerDataProvider =
       FarmerDataProvider.getInstance();
 
-  @FXML private AnchorPane farmerRoot;
+  @FXML private StackPane farmerRoot;
   @FXML private FlowPane cardsContainer;
   @FXML private TextField searchField;
   @FXML private StyledButton addFarmerBtn;
@@ -42,10 +42,13 @@ public class FarmerController
 
   private FilteredList<TOFarmer> filteredFarmers;
 
-  public AnchorPane getFarmerRoot() { return farmerRoot; }
+  public StackPane getFarmerRoot() { return farmerRoot; }
 
   @FXML
   public void initialize() {
+    
+    // Initialize PageNavigator with content area
+    PageNavigator.getInstance().setContentArea(farmerRoot);
     // Setup blur effect reference
     if (!farmerRoot.getChildren().isEmpty()) {
       contentToBlur = (Region)farmerRoot.getChildren().get(0);
@@ -144,7 +147,7 @@ public class FarmerController
       FXMLLoader loader = new FXMLLoader(
           getClass().getResource("/ca/mcgill/ecse/cheecsemanager/view/" +
                                  "components/Farmer/AddFarmer.fxml"));
-      AnchorPane popup = loader.load();
+      StackPane popup = loader.load();
 
       popup.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
 
@@ -202,8 +205,7 @@ public class FarmerController
 
     if (error == null || error.isEmpty()) {
       // Success - remove the card from UI and close popup
-      farmerDataProvider.getFarmers().removeIf(
-          f -> f.getEmail().equals(farmer.getEmail()));
+      farmerDataProvider.refresh();
       removePopup(overlay);
       getFarmerRoot().fireEvent(new ToastEvent("Farmer deleted successfully.",
                                                ToastEvent.ToastType.SUCCESS));

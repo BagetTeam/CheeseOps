@@ -10,16 +10,16 @@
 <?import ca.mcgill.ecse.cheecsemanager.fxml.components.*?>
 
 
-<AnchorPane fx:id="viewFarmerRoot" prefHeight="600.0" prefWidth="900.0" styleClass="page" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.Farmer.ViewFarmerController">
+<StackPane fx:id="viewFarmerRoot" prefHeight="600.0" prefWidth="900.0" styleClass="page, bg-bg" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.Farmer.ViewFarmerController">
    <children>
-      <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox>
          <children>
             <!-- Header -->
             <HBox alignment="CENTER_LEFT" spacing="12" style="-fx-padding: 16; -fx-background-color: transparent;">
                <children>
-                  <StyledButton fx:id="backBtn" variant="DEFAULT" size="SM" text="" onAction="#handleBack">
+                  <StyledButton fx:id="backBtn" variant="DEFAULT" text="" onAction="#handleBack">
                      <graphic>
-                        <SVGPath content="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" styleClass="icon"/>
+                        <Icon icon="ArrowLeft"/>
                      </graphic>
                   </StyledButton>
                   <Label text="Farmer details" style="-fx-text-fill: -color-fg; -fx-font-size: 18px; -fx-font-weight: bold;"/>
@@ -80,7 +80,11 @@
                         <VBox alignment="CENTER_LEFT" spacing="16">
                            <children>
                               <Label text="Purchased Cheese Wheels" style="-fx-text-fill: -color-fg; -fx-font-size: 20px; -fx-font-weight: bold;" VBox.vgrow="ALWAYS"/>
-                              <StyledButton fx:id="buyBtn" variant="PRIMARY" size="SM" text="buy" onAction="#handleBuy"/>
+                              <StyledButton fx:id="buyBtn" variant="PRIMARY" size="SM" text="Add Purchase" onAction="#handleBuy">
+                                 <graphic>
+                                    <Icon icon="Plus" />
+                                 </graphic>
+                              </StyledButton>
                            </children>
                         </VBox>
                         
@@ -104,4 +108,4 @@
          </children>
       </VBox>
    </children>
-</AnchorPane>
+</StackPane>

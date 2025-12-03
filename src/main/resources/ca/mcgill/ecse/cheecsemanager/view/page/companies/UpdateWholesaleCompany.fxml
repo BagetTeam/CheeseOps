@@ -1,105 +1,31 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 <?import ca.mcgill.ecse.cheecsemanager.fxml.components.*?>
-
-<StackPane
-    fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.wholesaleCompany.UpdateWholesaleCompanyController"
-    prefHeight="640.0" 
-    prefWidth="980.0"
-    style="-fx-background-color: rgba(0, 0, 0, 0.5);"
+<!-- Dialog Box -->
+<VBox
     xmlns="http://javafx.com/javafx/21"
-    xmlns:fx="http://javafx.com/fxml/1">
-    
-    <!-- Dialog Box -->
-    <VBox 
-        style="-fx-background-color: -color-darker-bg; -fx-background-radius: 12; -fx-padding: 30; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 30, 0, 0, 10);"
-        spacing="25"
-        prefWidth="500"
-        prefHeight="520"
-        minWidth="500"
-        minHeight="520"
-        maxWidth="500"
-        maxHeight="520">
-        
-        <!-- Header with X button -->
-        <HBox alignment="CENTER_LEFT" spacing="10">
-            <StyledButton 
-                variant="DEFAULT" 
-                size="SM"
-                onAction="#handleClose">
-                <graphic>
-                    <Icon icon="X" />
-                </graphic>
-            </StyledButton>
-            <Label text="Update Wholesale Company" 
-                   styleClass="dialog-title"
-                   style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: -color-fg;" />
-        </HBox>
-        
-        <!-- Current Company Display -->
-        <HBox alignment="CENTER_LEFT" 
-              spacing="12"
-              style="-fx-border-color: -color-muted; -fx-border-width: 1; -fx-border-radius: 8; -fx-background-color: derive(-color-bg, -20%); -fx-padding: 16 20;">
-            <Icon icon="Factory"/>
-            <HBox spacing="6" alignment="CENTER_LEFT" >
-                <Label text="Currently Editing:" 
-                       style="-fx-text-fill: -color-muted; -fx-font-size: 12px;" />
-                <Label fx:id="currentCompanyLabel" 
-                       text="Skibidi" 
-                       style="-fx-text-fill: -color-primary; -fx-font-size: 16px; -fx-font-weight: 600;" />
-            </HBox>
-        </HBox>
-        
-        <!-- Name Field -->
-        <VBox spacing="8">
-            <Label text="New Name" 
-                   style="-fx-text-fill: -color-fg; -fx-font-size: 14px;" />
-            <TextField
-                fx:id="nameField"
-                promptText="Enter new company name"
-                style="-fx-background-color: -color-bg; -fx-text-fill: -color-fg; -fx-prompt-text-fill: -color-muted; -fx-background-radius: 8; -fx-padding: 12; -fx-font-size: 14px; -fx-border-color: transparent;" />
-        </VBox>
-        
-        <!-- Address Field -->
-        <VBox spacing="8">
-            <HBox spacing="5">
-                <Label text="New Address" 
-                       style="-fx-text-fill: -color-fg; -fx-font-size: 14px;" />
-                <Label text="*" 
-                       style="-fx-text-fill: -color-destructive; -fx-font-size: 14px;" />
-            </HBox>
-            <TextField
-                fx:id="addressField"
-                promptText="Enter new address"
-                style="-fx-background-color: -color-bg; -fx-text-fill: -color-fg; -fx-prompt-text-fill: -color-muted; -fx-background-radius: 8; -fx-padding: 12; -fx-font-size: 14px; -fx-border-color: transparent;" />
-        </VBox>
+    xmlns:fx="http://javafx.com/fxml/1"
+    fx:id="root"
+    fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.wholesaleCompany.UpdateWholesaleCompanyController"
+    spacing="16"
+    styleClass="w-xs"
+>   
+    <!-- Name Field -->
+    <Input label="Name" fx:id="nameInput" variant="OUTLINED" />
+    <Input label="Address" fx:id="addressInput" variant="OUTLINED" />
 
-        <!-- Error Message from backend -->
-        <HBox fx:id="errorContainer" visible="false" managed="false" spacing="8" alignment="CENTER_LEFT" 
-              style="-fx-background-color: derive(-color-destructive, -70%); -fx-border-color: -color-destructive; -fx-border-width: 1; -fx-background-radius: 6; -fx-border-radius: 6; -fx-padding: 10 12;">
-            <Icon icon="Error"/>
-            <Label fx:id="errorLabel" 
-                   text="" 
-                   wrapText="true"
-                   style="-fx-text-fill: -color-destructive; -fx-font-size: 13px;" />
-        </HBox>
-        <!-- Buttons -->
-        <HBox spacing="15" alignment="CENTER">
-            <StyledButton
-                text="Cancel"
-                variant="MUTED" 
-                size="SM"
-                onAction="#handleClose"/>
-            <StyledButton
-                text="Save"
-                variant="PRIMARY"
-                size="SM"
-                onAction="#handleSave"
-            />
-        </HBox>
-        
-    </VBox>
-    
-</StackPane>
+    <!-- Error Message from backend -->
+    <Label
+        fx:id="errorLabel"
+        wrapText="true"
+        styleClass="text-destructive"
+        managed="false"
+        visible="false"
+    />
+    <!-- Buttons -->
+    <HBox spacing="12" alignment="CENTER_RIGHT">
+        <StyledButton text="Save" variant="PRIMARY" onAction="#handleSave" />
+    </HBox>    
+</VBox>

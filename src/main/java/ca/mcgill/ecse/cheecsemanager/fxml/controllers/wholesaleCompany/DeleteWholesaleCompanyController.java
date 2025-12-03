@@ -1,63 +1,45 @@
 package ca.mcgill.ecse.cheecsemanager.fxml.controllers.wholesaleCompany;
 
-import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
 import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet6Controller;
 import ca.mcgill.ecse.cheecsemanager.controller.TOWholesaleCompany;
+import ca.mcgill.ecse.cheecsemanager.fxml.events.HidePopupEvent;
+import ca.mcgill.ecse.cheecsemanager.fxml.events.ToastEvent;
+import ca.mcgill.ecse.cheecsemanager.fxml.events.ToastEvent.ToastType;
+import ca.mcgill.ecse.cheecsemanager.fxml.store.WholesaleCompanyDataProvider;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
 
 /**
  * Controller for deleting a wholesale company from the system.
  * Displays confirmation dialog and handles company removal through backend.
  */
 public class DeleteWholesaleCompanyController {
-  @FXML
-  private Label companyNameLabel;
+  private final WholesaleCompanyDataProvider dataProvider =
+      WholesaleCompanyDataProvider.getInstance();
 
-  @FXML
-  private Label companyAddressLabel;
+  public static String companyName;
+  public static Runnable onDeleteCallback;
 
-  @FXML
-  private Label ordersCountLabel;
-
-  private String companyName;
-  private Runnable onCloseCallback;
-  private ToastProvider mainController;
-
-    /**
-   * Registers a callback to execute when the dialog closes.
-   *
-   * @param callback the action to run on dialog close
-   */
-  public void setOnClose(Runnable callback) {
-    this.onCloseCallback = callback;
-  }
-  
-  /**
-   * Sets the main controller to enable toast notifications.
-   *
-   * @param controller the parent controller implementing ToastProvider
-   */
-  public void setMainController(ToastProvider controller) {
-    this.mainController = controller;
-  }
+  @FXML private Label companyNameLabel;
+  @FXML private Label companyAddressLabel;
+  @FXML private Label ordersCountLabel;
+  @FXML private Label errorLabel;
+  @FXML private VBox root;
 
   /**
    * Set the company to be deleted and populate the dialog with company info
-   * @param companyName The name of the company to delete
    */
-  public void setCompany(String companyName) {
-    this.companyName = companyName;
-    
+  @FXML
+  public void initialize() {
     // Fetch company details from backend
-    TOWholesaleCompany company = CheECSEManagerFeatureSet6Controller.getWholesaleCompany(companyName);
-    
+    TOWholesaleCompany company =
+        CheECSEManagerFeatureSet6Controller.getWholesaleCompany(companyName);
+
     if (company != null) {
       companyNameLabel.setText(company.getName());
       companyAddressLabel.setText(company.getAddress());
-      
+
       // Get number of orders
       int ordersCount = company.numberOfOrderDates();
       ordersCountLabel.setText(String.valueOf(ordersCount));
@@ -66,60 +48,32 @@ public class DeleteWholesaleCompanyController {
 
   @FXML
   private void handleClose() {
-      if (mainController != null) {
-          mainController.closeDialog();
-      }
+    this.root.fireEvent(new HidePopupEvent());
   }
 
   /**
- * Executes company deletion through the backend controller.
- * Shows success toast on completion and triggers navigation callback.
- */
+   * Executes company deletion through the backend controller.
+   * Shows success toast on completion and triggers navigation callback.
+   */
   @FXML
   private void handleDelete() {
     String companyName = companyNameLabel.getText();
-    String error = CheECSEManagerFeatureSet6Controller.deleteWholesaleCompany(companyName);
+    String error =
+        CheECSEManagerFeatureSet6Controller.deleteWholesaleCompany(companyName);
 
     if (error.isEmpty()) {
-      if (mainController != null) {
-        mainController.showSuccessToast("✓ Company \"" + companyName + "\" deleted successfully!");
-        mainController.closeDialog();
-      }
-      if (onCloseCallback != null) {
-        onCloseCallback.run();
+      dataProvider.refresh();
+      this.root.fireEvent(
+          new ToastEvent("Company  " + companyName + " deleted successfully!",
+                         ToastType.SUCCESS));
+      this.root.fireEvent(new HidePopupEvent());
+      if (onDeleteCallback != null) {
+        onDeleteCallback.run();
       }
     } else {
-      showErrorDialog(error);
-    }
-  }
-
-  private void showErrorDialog(String error) {
-    try {
-      FXMLLoader loader = new FXMLLoader(
-          CheECSEManagerApplication.class.getResource(
-              "/ca/mcgill/ecse/cheecsemanager/view/page/companies/DeleteError.fxml"
-          )
-      );
-      Parent dialog = loader.load();
-      
-      DeleteErrorController controller = loader.getController();
-      controller.setErrorMessage(error);
-      controller.setOnClose(() -> {
-        if (mainController != null) {
-          mainController.closeDialog();
-        }
-        if (onCloseCallback != null) {
-          onCloseCallback.run();
-        }
-      });
-      
-      // Show error dialog in dialogController
-      if (mainController != null) {
-        mainController.showDialog(dialog);
-      }
-    } catch (Exception e) {
-      e.printStackTrace();
-      System.err.println("Error loading ErrorDialog: " + e.getMessage());
+      this.errorLabel.setText(error);
+      this.errorLabel.setVisible(true);
+      this.errorLabel.setManaged(true);
     }
   }
 }
