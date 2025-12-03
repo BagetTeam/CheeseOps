@@ -43,9 +43,15 @@
     -fx-border-width: 0;
 }
 
+.dropdown .dropdown-combobox .arrow, .dropdown .dropdown-combobox .arrow-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+    -fx-shape: null;
+}
+
 .dropdown-label {
     -fx-text-fill: -color-fg;
-    -fx-font-size: 20px;
+    -fx-font-size: 15px;
     -fx-font-weight: bold;
 }
 
