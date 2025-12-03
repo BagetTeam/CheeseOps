@@ -15,7 +15,7 @@
     fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.Farmer.ViewFarmerController"
     alignment="TOP_CENTER"
 >
-   <VBox maxWidth="832" spacing="28">
+   <VBox maxWidth="832" spacing="28" style="-fx-padding: 36 0">
       <!-- Header -->
       <HBox alignment="CENTER_LEFT" spacing="24">
          <StyledButton fx:id="backBtn" onAction="#handleBack">

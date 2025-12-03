@@ -16,9 +16,8 @@
     fx:id="farmerRoot"
     fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.Farmer.FarmerController"
     alignment="TOP_CENTER"
-    style="-fx-padding: 36 16"
 >
-    <StackPane>
+    <StackPane style="-fx-padding: 36 16">
         <VBox maxWidth="832" spacing="20">
             <!-- Title -->
             <Label
