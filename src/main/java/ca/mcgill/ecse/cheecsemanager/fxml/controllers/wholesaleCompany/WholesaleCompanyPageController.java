@@ -23,6 +23,7 @@ import javafx.scene.layout.VBox;
  * Controller for the wholesale companies list page.
  * Displays all companies in a grid layout and provides navigation to
  * individual company views and the add company dialog.
+ * @author Oliver Mao
  */
 public class WholesaleCompanyPageController {
   private final WholesaleCompanyDataProvider dataProvider =
@@ -32,6 +33,7 @@ public class WholesaleCompanyPageController {
   @FXML private VBox cardsContainer;
   @FXML private Input searchInput;
 
+  /** Wires up listeners and renders the initial set of company cards. */
   @FXML
   public void initialize() {
     loadCompanies();
@@ -66,16 +68,21 @@ public class WholesaleCompanyPageController {
     }
   }
 
+  /**
+   * Rebuilds the cards whenever the underlying wholesale company list changes.
+   */
   private void dataListenerChanged(
       ListChangeListener.Change<? extends TOWholesaleCompany> change) {
     Platform.runLater(() -> { loadCompanies(); });
   }
 
+  /** Adds a single company card to the container at the given index. */
   private void addCompanyCard(TOWholesaleCompany company, int i) {
     HBox card = newCompanyCard(company, null, i);
     cardsContainer.getChildren().add(card);
   }
 
+  /** Filters the visible cards as the search query changes. */
   private void inputListener(ObservableValue<? extends String> observable,
                              String oldValue, String newValue) {
     loadCompanies();
@@ -85,6 +92,9 @@ public class WholesaleCompanyPageController {
    * Navigates to the detailed view of a specific wholesale company.
    *
    * @param companyName the name of the company to view
+   */
+  /**
+   * Performs animated navigation into the detail view for a company.
    */
   private void handleViewCompany(TOWholesaleCompany company, int i) {
     try {
@@ -126,6 +136,9 @@ public class WholesaleCompanyPageController {
     }
   }
 
+  /**
+   * Builds a company card configured with the correct callbacks.
+   */
   private HBox newCompanyCard(TOWholesaleCompany company, StackPane viewPage,
                               int i) {
     FXMLLoader loader = new FXMLLoader(CheECSEManagerApplication.getResource(
@@ -180,6 +193,7 @@ public class WholesaleCompanyPageController {
         "view/page/companies/DeleteWholesaleCompany.fxml", "Delete Company"));
   }
 
+  /** Emits a success toast from this page. */
   public void showToast(String message) {
     companiesPageRoot.fireEvent(new ToastEvent(message, ToastType.SUCCESS));
   }

@@ -143,6 +143,7 @@ public class RobotPageController {
     // startTile.managedProperty().bind(canStartTreatment);
   }
 
+  /** Connects click handlers for each robot action tile. */
   private void wireTileInteractions() {
     activateTile.setOnMouseClicked(event -> handleActivate());
     deactivateTile.setOnMouseClicked(event -> handleDeactivate());
@@ -150,6 +151,7 @@ public class RobotPageController {
     startTile.setOnMouseClicked(event -> handleTreatment());
   }
 
+  /** Attempts to activate the robot and surfaces errors as toast messages. */
   @FXML
   private void handleActivate() {
     try {
@@ -161,6 +163,7 @@ public class RobotPageController {
     }
   }
 
+  /** Attempts to deactivate the robot and surfaces errors as toast messages. */
   @FXML
   private void handleDeactivate() {
     try {
@@ -172,6 +175,7 @@ public class RobotPageController {
     }
   }
 
+  /** Opens the initialize robot popup to capture initialization parameters. */
   @FXML
   private void handleInitialize() {
     if (rootPane != null) {

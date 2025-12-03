@@ -1,16 +1,20 @@
 package ca.mcgill.ecse.cheecsemanager.fxml.controllers.Robot;
+import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet1Controller;
+import ca.mcgill.ecse.cheecsemanager.controller.RobotController;
 import ca.mcgill.ecse.cheecsemanager.fxml.components.Dropdown;
 import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.HidePopupEvent;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.ToastEvent;
+import java.util.List;
+import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
-import java.util.List;
-import ca.mcgill.ecse.cheecsemanager.controller.RobotController;
-import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet1Controller;
 
-import javafx.fxml.FXML;
-
+/**
+ * Popup controller for initializing the robot at a specific shelf.
+ *
+ * @author Benjamin Curis-Friedman
+ * */
 public class InitializeRobotController {
 
   @FXML private VBox root;
@@ -18,6 +22,7 @@ public class InitializeRobotController {
   @FXML private StyledButton startBtn;
   @FXML private Label errorLabel;
 
+  /** Loads dropdown options and wires button bindings. */
   @FXML
   public void initialize() {
     bindings();
@@ -26,10 +31,10 @@ public class InitializeRobotController {
     ShelfIdDropdown.setItems(items);
   }
 
-  private void closePopup() {
-    root.fireEvent(new HidePopupEvent());
-  }
+  /** Closes the popup once initialization succeeds. */
+  private void closePopup() { root.fireEvent(new HidePopupEvent()); }
 
+  /** Sets up basic validation bindings and handlers for the action button. */
   private void bindings() {
     // Disable Start until fields are filled
     startBtn.disableProperty().bind(
@@ -38,6 +43,7 @@ public class InitializeRobotController {
     startBtn.setOnAction(e -> submit());
   }
 
+  /** Validates input and calls the robot controller to initialize. */
   private void submit() {
     String shelfIdVal = ShelfIdDropdown.getSelectedValue();
 
@@ -49,14 +55,15 @@ public class InitializeRobotController {
     try {
       RobotController.initializeRobot(shelfIdVal);
       root.fireEvent(new ToastEvent("Robot initialized succsessfully.",
-                            ToastEvent.ToastType.SUCCESS));
+                                    ToastEvent.ToastType.SUCCESS));
       closePopup();
     } catch (RuntimeException e) {
       errorLabel.setText(e.getMessage());
     }
   }
 
-    private void showError(String message) {
+  /** Shows validation or controller errors within the popup. */
+  private void showError(String message) {
     if (errorLabel != null) {
       errorLabel.setText(message);
       errorLabel.setVisible(true);

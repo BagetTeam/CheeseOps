@@ -7,15 +7,21 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.StackPane;
 
 /**
- * @author Ming Li Liu
+ * Simple wrapper that loads reusable SVG-based icons from FXML snippets.
+ *
+ * @author Ming Li liu
  * */
 public class Icon extends StackPane {
   private String icon;
+  /** @return identifier of the loaded icon */
   public String getIcon() { return icon; }
+  /** Sets the icon identifier without reloading resources. */
   public void setIcon(String icon) { this.icon = icon; }
 
+  /** Builds an empty icon container. */
   public Icon() { super(); }
 
+  /** Loads the referenced icon FXML and injects it into the stack pane. */
   public Icon(@NamedArg("icon") String icon) {
     this();
     var resource = CheECSEManagerApplication.getResource("view/icons/fxml/" +
@@ -35,6 +41,7 @@ public class Icon extends StackPane {
     }
   }
 
+  /** Copies the child nodes and preferred sizing from the loaded template. */
   private void setChildren(StackPane node) {
     var children = node.getChildren();
     this.getChildren().setAll(children);

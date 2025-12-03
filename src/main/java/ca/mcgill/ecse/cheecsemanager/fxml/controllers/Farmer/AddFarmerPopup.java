@@ -28,24 +28,29 @@ public class AddFarmerPopup {
   private StackPane popupOverlay;
   private FarmerController farmerController;
 
+  /** Stores the overlay reference so the popup can dismiss itself. */
   public void setPopupOverlay(StackPane overlay) {
     this.popupOverlay = overlay;
   }
 
+  /** Connects the popup to the farmer controller for callbacks and toasts. */
   public void setFarmerController(FarmerController controller) {
     this.farmerController = controller;
   }
 
+  /** Clears the error label when the popup loads. */
   @FXML
   public void initialize() {
     errorLabel.setText("");
   }
 
+  /** Handles cancel button presses. */
   @FXML
   private void onCancel() {
     closePopup();
   }
 
+  /** Validates inputs and registers a new farmer. */
   @FXML
   private void onAdd() {
     String name = nameField.getText();
@@ -103,6 +108,7 @@ public class AddFarmerPopup {
     }
   }
 
+  /** Removes the popup overlay from the farmer controller. */
   private void closePopup() {
     if (farmerController != null && popupOverlay != null) {
       farmerController.removePopup(popupOverlay);

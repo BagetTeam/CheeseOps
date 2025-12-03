@@ -23,12 +23,16 @@ public class ShelfCheeseWheelDataProvider {
   private static ShelfCheeseWheelDataProvider INSTANCE =
       new ShelfCheeseWheelDataProvider();
 
+  /** Builds the singleton instance and primes it with the current selection. */
   private ShelfCheeseWheelDataProvider() { refresh(); }
 
+  /** @return shared provider instance */
   public static ShelfCheeseWheelDataProvider getInstance() { return INSTANCE; }
 
+  /** @return observable list of non-spoiled cheese wheels on the active shelf */
   public ObservableList<TOCheeseWheel> getWheels() { return wheels; }
 
+  /** Refreshes the shelf-specific wheel list from the controllers. */
   public void refresh() {
     if (this.shelfId == null) {
       this.wheels.setAll(new ArrayList<>());
@@ -46,6 +50,10 @@ public class ShelfCheeseWheelDataProvider {
     this.wheels.setAll(latestCheeseWheels);
   }
 
+  /**
+   * Updates the shelf whose cheese wheels should be shown and reloads the list.
+   * @param shelfId identifier of the selected shelf
+   */
   public void setShelf(String shelfId) {
     this.shelfId = shelfId;
     refresh();

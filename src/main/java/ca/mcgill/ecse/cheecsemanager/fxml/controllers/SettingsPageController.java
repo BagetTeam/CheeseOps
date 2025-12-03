@@ -7,6 +7,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
+/**
+ * Controller that manages facility manager password changes from the settings
+ * page.
+ * @author Ming Li Liu
+ */
 public class SettingsPageController {
   @FXML private StackPane rootPane;
 
@@ -15,6 +20,7 @@ public class SettingsPageController {
   @FXML private Input confirmPasswordInput;
   @FXML private Label errorLabel;
 
+  /** Disables the old password field if no password is currently set. */
   @FXML
   void initialize() {
     boolean hasPassword =
@@ -25,6 +31,7 @@ public class SettingsPageController {
     }
   }
 
+  /** Validates the password update form and persists the new credential. */
   @FXML
   private void handleSubmit() {
     boolean hasPassword =
@@ -73,17 +80,23 @@ public class SettingsPageController {
                                       ToastEvent.ToastType.SUCCESS));
   }
 
+  /**
+   * Displays a validation or controller error directly on the form.
+   * @param message error text for the user
+   */
   private void showError(String message) {
     errorLabel.setText(message);
     errorLabel.setVisible(true);
     errorLabel.setManaged(true);
   }
 
+  /** Clears the error label from the view. */
   private void hideError() {
     errorLabel.setVisible(false);
     errorLabel.setManaged(false);
   }
 
+  /** Resets every password field back to an empty state. */
   private void resetFields() {
     oldPasswordInput.setText("");
     newPasswordInput.setText("");

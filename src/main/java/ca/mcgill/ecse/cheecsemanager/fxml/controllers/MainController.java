@@ -24,6 +24,11 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
+/**
+ * Root controller coordinating sidebar navigation, popup lifecycle, and global
+ * toast notifications.
+ * @author Ming Li Liu
+ */
 public class MainController {
   @FXML private StackPane rootStackPane;
   @FXML private Region veil;
@@ -42,6 +47,9 @@ public class MainController {
 
   private final Queue<ToastEvent> toastQueue = new LinkedList<>();
 
+  /**
+   * Wires up event handlers, loads the default page, and primes popups/toasts.
+   */
   @FXML
   public void initialize() {
     // Set up navigation callback
@@ -61,6 +69,10 @@ public class MainController {
     toastContainer.setMouseTransparent(true); // Make container non-interactive
   }
 
+  /**
+   * Queues a toast request triggered somewhere in the UI and ensures it is
+   * shown in order.
+   */
   private void handleToastEvent(ToastEvent event) {
     event.consume(); // Prevent further propagation
 
@@ -69,6 +81,7 @@ public class MainController {
     showNextToast();
   }
 
+  /** Displays the next toast in the queue, if any. */
   private void showNextToast() {
     if (toastQueue.isEmpty()) {
       return;
@@ -90,6 +103,9 @@ public class MainController {
     toast.show();
   }
 
+  /**
+   * Loads and displays the shared popup shell with the requested nested FXML.
+   */
   private void handleShowPopup(ShowPopupEvent event) {
     event.consume();
     try {
@@ -118,11 +134,18 @@ public class MainController {
     }
   }
 
+  /** Closes the visible popup when a hide event is fired. */
   private void handleHidePopup(HidePopupEvent event) {
     event.consume();
     this.popupManager.hidePopup();
   }
 
+  /**
+   * Loads (and optionally caches) the requested page, playing transition
+   * animations between screens.
+   * @param pageName requested page from the sidebar
+   * @return {@code true} if navigation succeeded
+   */
   private boolean loadPage(Page pageName) {
     if (isCurrentPageAnimating || isNewPageAnimating) {
       return false;
@@ -194,6 +217,10 @@ public class MainController {
     }
   }
 
+  /**
+   * Fallback hook that shows a simple error label if an FXML page fails to
+   * load.
+   */
   private void showErrorPage(String pageName) {
     javafx.scene.control.Label errorLabel =
         new javafx.scene.control.Label("Page not found: " + pageName);

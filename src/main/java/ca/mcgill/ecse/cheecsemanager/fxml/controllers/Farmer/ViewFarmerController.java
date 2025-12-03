@@ -67,8 +67,10 @@ public class ViewFarmerController
       FarmerDataProvider.getInstance();
   private TOFarmer farmer;
 
+  /** @return root container so other components can fire events */
   public StackPane getViewFarmerRoot() { return viewFarmerRoot; }
 
+  /** Configures table columns, placeholders, and the action column. */
   @FXML
   public void initialize() {
     // Get the first child of viewFarmerRoot (the VBox containing all content)
@@ -145,6 +147,7 @@ public class ViewFarmerController
     });
   }
 
+  /** Populates the page with the provided farmer and binds their cheeses. */
   public void setFarmer(TOFarmer farmer) {
     this.farmer = farmer;
     if (farmer != null) {
@@ -164,11 +167,13 @@ public class ViewFarmerController
     }
   }
 
+  /** Returns to the farmer list page. */
   @FXML
   private void handleBack() {
     PageNavigator.getInstance().goBack(true);
   }
 
+  /** Opens the edit popup with the current farmer's information. */
   @FXML
   private void handleEdit() {
     System.out.println("Edit farmer: " + farmer.getName());
@@ -198,6 +203,7 @@ public class ViewFarmerController
     }
   }
 
+  /** Opens the delete confirmation popup for this farmer. */
   @FXML
   private void handleDelete() {
     if (contentToBlur != null) {
@@ -224,6 +230,7 @@ public class ViewFarmerController
     }
   }
 
+  /** Opens the buy cheese popup with this farmer preselected. */
   @FXML
   private void handleBuy() {
     if (contentToBlur != null) {
@@ -250,6 +257,7 @@ public class ViewFarmerController
     }
   }
 
+  /** Slides in the cheese details drawer for a wheel owned by the farmer. */
   private void handleViewCheeseWheel(TOCheeseWheel cheese) {
     FXMLLoader loader = new FXMLLoader(CheECSEManagerApplication.getResource(
         "view/components/Shelf/CheeseDetails.fxml"));
@@ -281,6 +289,10 @@ public class ViewFarmerController
     }
   }
 
+  /**
+   * Deletes the farmer via the controller and navigates back to the list.
+   * @return empty string on success, otherwise an error message
+   */
   public String deleteFarmer(TOFarmer farmer, StackPane overlay) {
     String error = ca.mcgill.ecse.cheecsemanager.controller
                        .CheECSEManagerFeatureSet7Controller.deleteFarmer(
@@ -300,6 +312,7 @@ public class ViewFarmerController
     }
   }
 
+  /** Removes the popup overlay and clears the blur. */
   public void removePopup(StackPane overlay) {
     if (contentToBlur != null) {
       contentToBlur.setEffect(null);
@@ -307,6 +320,7 @@ public class ViewFarmerController
     viewFarmerRoot.getChildren().remove(overlay);
   }
 
+  /** Refreshes the view with the updated farmer data. */
   public void refreshFarmerCard(TOFarmer farmer) {
     if (farmer != null) {
       farmerDataProvider.refresh();
@@ -314,6 +328,7 @@ public class ViewFarmerController
     }
   }
 
+  /** Fetches the latest farmer data from the controller and displays it. */
   public void reloadFarmerDetails() {
     if (farmer == null) {
       return;
@@ -325,6 +340,7 @@ public class ViewFarmerController
     }
   }
 
+  /** Binds the table to the observable list of cheeses for the farmer. */
   private void bindCheeseWheelsToFarmer(String email) {
     ObservableList<TOCheeseWheel> wheels =
         farmerDataProvider.getCheeseWheelsForFarmer(email);

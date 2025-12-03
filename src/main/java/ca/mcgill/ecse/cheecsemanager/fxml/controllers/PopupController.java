@@ -13,24 +13,38 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
+/**
+ * Generic popup shell that loads arbitrary FXML content and handles dismissal.
+ * @author Ming Li Liu
+ */
 public class PopupController {
   @FXML private VBox popupContainer;
   @FXML private StyledButton closeButton;
   @FXML private VBox popup;
   @FXML private HBox popupHeader;
 
+  /** Prevents popup clicks from propagating and wires up close behavior. */
   @FXML
   private void initialize() {
     popupContainer.setOnMouseClicked(e -> e.consume());
     popup.setOnMouseClicked(e -> popup.fireEvent(new HidePopupEvent()));
   }
 
+  /**
+   * Loads the provided FXML into the popup without a custom header title.
+   * @param fxml resource path relative to the application
+   */
   public void setContent(String fxml) {
     loadContent(fxml);
 
     closeButton.setText("Close");
   }
 
+  /**
+   * Loads FXML content and renders a header title.
+   * @param fxmlPath popup body resource
+   * @param title header title to display
+   */
   public void setContent(String fxmlPath, String title) {
     loadContent(fxmlPath);
 
@@ -39,6 +53,10 @@ public class PopupController {
     popupHeader.getChildren().add(titleLabel);
   }
 
+  /**
+   * Loads and mounts arbitrary FXML into the popup container.
+   * @param fxmlPath resource path under {@code view/}
+   */
   private void loadContent(String fxmlPath) {
     FXMLLoader loader =
         new FXMLLoader(CheECSEManagerApplication.getResource(fxmlPath));
@@ -52,16 +70,24 @@ public class PopupController {
     }
   }
 
+  /**
+   * Adds custom style classes to the popup root for contextual theming.
+   */
   public void setStyleClasses(String... styleClasses) {
     popup.getStyleClass().addAll(styleClasses);
   }
 
+  /** Handles the close button press by emitting a hide event. */
   @FXML
   private void handleClose() {
     // Fire hide event that bubbles up to root
     popup.fireEvent(new HidePopupEvent());
   }
 
+  /**
+   * Creates a semi-transparent overlay that sits behind the popup.
+   * @return overlay stack pane ready to be added to the scene
+   */
   public StackPane createOverlay() {
     StackPane overlay = new StackPane();
     overlay.setStyle("-fx-background-color: rgba(0,0,0,0.3);");
@@ -74,7 +100,9 @@ public class PopupController {
     return overlay;
   }
 
-  // Remove popup and clear blur
+  /**
+   * Removes the popup overlay and clears any effects on the root container.
+   */
   public void removePopup(StackPane overlay, AnchorPane root) {
     root.setEffect(null);
     root.getChildren().remove(overlay);

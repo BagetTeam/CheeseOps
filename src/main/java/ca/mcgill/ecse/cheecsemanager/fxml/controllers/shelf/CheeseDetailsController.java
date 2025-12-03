@@ -20,6 +20,11 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+/**
+ * Drawer controller that edits an individual cheese wheel's information.
+ *
+ * @author Ming Li Liu
+ * */
 public class CheeseDetailsController {
   private final ShelfCheeseWheelDataProvider dataProvider =
       ShelfCheeseWheelDataProvider.getInstance();
@@ -46,6 +51,11 @@ public class CheeseDetailsController {
   // private int cheeseId;
   private TOCheeseWheel cheese;
 
+  /**
+   * Loads the cheese wheel info and prepares bindings for the detail drawer.
+   * @param cheeseId wheel identifier to inspect
+   * @param onClosePressed callback when the drawer should close
+   */
   public void init(int cheeseId, Runnable onClosePressed) {
     this.onClosePressed = onClosePressed;
     // this.cheeseId = cheeseId;
@@ -92,11 +102,13 @@ public class CheeseDetailsController {
     });
   }
 
+  /** Handles the close button tap and runs the injected callback. */
   @FXML
   public void onClosePressed() {
     this.onClosePressed.run();
   }
 
+  /** Persists location, aging, and spoilage changes through the controllers. */
   @FXML
   public void onSavePressed() {
     String error;
@@ -139,6 +151,7 @@ public class CheeseDetailsController {
     }
   }
 
+  /** Removes the cheese wheel from its shelf entirely. */
   @FXML
   public void onDeletePressed() {
     String error =
@@ -157,12 +170,14 @@ public class CheeseDetailsController {
     }
   }
 
+  /** Displays an error beneath the form fields. */
   private void showError(String error) {
     this.errorLabel.setText(error);
     this.errorLabel.setVisible(true);
     this.errorLabel.setManaged(true);
   }
 
+  /** Populates row/column combos based on the selected shelf's free slots. */
   private void populateLocations(TOShelf shelf) {
     if (shelf == null) {
       return;
