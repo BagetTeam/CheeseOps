@@ -27,18 +27,22 @@ public class DeleteFarmerPopup {
     private TOFarmer farmer;
     private FarmerCard farmerCard;
 
+    /** Stores the overlay container to remove when closing the popup. */
     public void setPopupOverlay(StackPane overlay) {
         this.popupOverlay = overlay;
     }
 
+    /** Registers the farmer list controller to delegate deletion to. */
     public void setFarmerController(FarmerController controller) {
         this.farmerController = controller;
     }
 
+    /** Registers the farmer detail controller to delegate deletion to. */
     public void setViewFarmerController(ViewFarmerController controller) {
         this.viewFarmerController = controller;
     }
 
+    /** Injects the farmer whose deletion is being confirmed. */
     public void setFarmer(TOFarmer farmer) {
         this.farmer = farmer;
     
@@ -47,11 +51,13 @@ public class DeleteFarmerPopup {
                          " (" + farmer.getName() + ")? This action cannot be undone.");
     }
     
+    /** Associates the popup with the originating farmer card. */
     public void setFarmerCard(FarmerCard card) {
         this.farmerCard = card;
         setFarmer(card.getFarmer());
     }
 
+    /** Sets up button handlers and default warning text. */
     @FXML
     public void initialize() {
         if (farmer != null) {
@@ -66,11 +72,13 @@ public class DeleteFarmerPopup {
         noBtn.setOnAction(e -> closePopup());
     }
 
+    /** Handles the close button press. */
     @FXML
     public void handleClose() {
         closePopup();
     }
 
+    /** Closes the popup for whichever controller opened it. */
     private void closePopup() {
         if (farmerController != null && popupOverlay != null) {
             farmerController.removePopup(popupOverlay);
@@ -80,6 +88,7 @@ public class DeleteFarmerPopup {
         }
     }
 
+    /** Attempts to delete the farmer using whichever controller is present. */
     private void confirmDelete() {
         if (this.farmer != null) {
             // Try to delete the farmer

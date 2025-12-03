@@ -43,8 +43,8 @@ public class UpdateWholesaleCompanyController {
   }
 
   /**
-   * Set the company to be deleted and populate the dialog with company info
-   * @param companyName The name of the company to delete
+   * Sets which company is being edited so initialization can pre-fill fields.
+   * @param companyName name of the company selected in the list
    */
   public void setCompany(String companyName) {
     // currentCompanyName = companyName;
@@ -52,6 +52,7 @@ public class UpdateWholesaleCompanyController {
     // Fetch company details from backend
   }
 
+  /** Pre-populates the form with the current company values. */
   @FXML
   private void initialize() {
     TOWholesaleCompany company =
@@ -64,6 +65,7 @@ public class UpdateWholesaleCompanyController {
     }
   }
 
+  /** Closes the popup shell without saving changes. */
   @FXML
   private void handleClose() {
     this.root.fireEvent(new HidePopupEvent());
@@ -96,12 +98,17 @@ public class UpdateWholesaleCompanyController {
     }
   }
 
+  /**
+   * Displays validation feedback directly below the form inputs.
+   * @param message error text to show
+   */
   private void showError(String message) {
     errorLabel.setText(message);
     errorLabel.setVisible(true);
     errorLabel.setManaged(true);
   }
 
+  /** Hides the error label from view. */
   private void hideError() {
     errorLabel.setVisible(false);
     errorLabel.setManaged(false);

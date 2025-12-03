@@ -23,6 +23,7 @@ public class TreatmentPopUpController {
   @FXML private Label errorLabel;
   @FXML private StyledButton startBtn;
 
+  /** Wires the dropdowns, loads options, and sets up validation bindings. */
   @FXML
   public void initialize() {
     maturationDropdown.setItems(java.util.Arrays.asList("Six", "Twelve", "TwentyFour", "ThirtySix"));
@@ -36,10 +37,12 @@ public class TreatmentPopUpController {
     startBtn.setOnAction(e -> submit());
   }
 
+  /** Closes the popup once treatment has been triggered. */
   private void closePopup() {
     root.fireEvent(new HidePopupEvent());
   }
 
+  /** Validates inputs and starts the robot treatment workflow. */
   private void submit() {
     if (errorLabel != null) {
       errorLabel.setText("");
@@ -79,6 +82,7 @@ public class TreatmentPopUpController {
     }
   }
 
+  /** Displays an error message underneath the form. */
   private void showError(String message) {
     if (errorLabel != null) {
       errorLabel.setText(message);

@@ -22,18 +22,27 @@ public class ShelfDataProvider {
   private final ReadOnlyIntegerWrapper cheeseInventory =
       new ReadOnlyIntegerWrapper(0);
 
+  /** Builds the singleton instance and loads the initial snapshot of shelves. */
   private ShelfDataProvider() { refresh(); }
 
+  /** @return global provider instance shared across the UI */
   public static ShelfDataProvider getInstance() { return INSTANCE; }
 
+  /** @return observable list the UI grid binds to for shelf content */
   public ObservableList<TOShelf> getShelves() { return shelves; }
 
+  /**
+   * @return property exposing the total cheese count so labels can reactively
+   *     update
+   */
   public ReadOnlyIntegerProperty cheeseInventoryProperty() {
     return cheeseInventory.getReadOnlyProperty();
   }
 
+  /** @return cached total number of cheese wheels stored on every shelf */
   public int getCheeseInventory() { return cheeseInventory.get(); }
 
+  /** Reloads shelves and inventory figures from the controllers. */
   public void refresh() {
     List<TOShelf> latestShelves =
         CheECSEManagerFeatureSet1Controller.getShelves();

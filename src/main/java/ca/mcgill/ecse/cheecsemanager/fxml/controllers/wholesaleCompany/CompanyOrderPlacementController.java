@@ -16,6 +16,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
+/** Popup controller used to capture a wholesale company order. */
 public class CompanyOrderPlacementController {
   private final OrdersProvider ordersProvider = OrdersProvider.getInstance();
 
@@ -29,12 +30,14 @@ public class CompanyOrderPlacementController {
 
   @FXML private Label errorLabel;
 
+  /** Populates the maturation period combo box with supported values. */
   @FXML
   public void initialize() {
     maturationPeriodComboBox.setItems(FXCollections.observableArrayList(
         "Six", "Twelve", "TwentyFour", "ThirtySix"));
   }
 
+  /** Closes the popup shell when the user cancels. */
   @FXML
   private void handleClose() {
     root.fireEvent(new HidePopupEvent());
@@ -106,12 +109,17 @@ public class CompanyOrderPlacementController {
     }
   }
 
+  /**
+   * Displays an error message beneath the form fields.
+   * @param message human-readable error
+   */
   private void showError(String message) {
     errorLabel.setText(message);
     errorLabel.setVisible(true);
     errorLabel.setManaged(true);
   }
 
+  /** Hides the currently displayed error label. */
   private void hideError() {
     errorLabel.setVisible(false);
     errorLabel.setManaged(false);

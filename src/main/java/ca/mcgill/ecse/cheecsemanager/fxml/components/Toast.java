@@ -13,10 +13,14 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.util.Duration;
 
+/** Visual component that shows transient toast notifications. */
 public class Toast extends HBox {
   private final SequentialTransition animation;
   private final Consumer<Toast> onFinished;
 
+  /**
+   * Builds a toast with a message, severity icon, and completion callback.
+   */
   public Toast(String message, ToastEvent.ToastType type,
                Consumer<Toast> onFinished) {
     this.onFinished = onFinished;
@@ -69,8 +73,10 @@ public class Toast extends HBox {
     animation.setOnFinished(e -> onFinished.accept(this));
   }
 
+  /** Starts the toast animation sequence. */
   public void show() { animation.play(); }
 
+  /** Immediately hides the toast and notifies the completion callback. */
   public void hide() {
     animation.stop();
     onFinished.accept(this);

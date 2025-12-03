@@ -13,6 +13,7 @@ import javafx.collections.ObservableList;
  * @author Ming Li Liu
  */
 public class OrdersProvider {
+  /** Lightweight projection representing a single wholesale company order. */
   public class Order {
     public Date orderDate;
     public String monthsAged;
@@ -28,12 +29,21 @@ public class OrdersProvider {
 
   private static OrdersProvider INSTANCE = new OrdersProvider();
 
+  /** Builds the singleton instance and primes it with the current selection. */
   private OrdersProvider() { refresh(); }
 
+  /** @return shared provider instance */
   public static OrdersProvider getInstance() { return INSTANCE; }
 
+  /**
+   * @return observable list of orders that the FXML tables bind to
+   */
   public ObservableList<Order> getOrders() { return orders; }
 
+  /**
+   * Refreshes the observable list so the UI reflects the currently selected
+   * wholesale company's orders.
+   */
   public void refresh() {
     if (this.companyName == null) {
       this.orders.setAll(new ArrayList<>());
@@ -65,6 +75,11 @@ public class OrdersProvider {
     this.orders.setAll(latestOrders);
   }
 
+  /**
+   * Updates the wholesale company whose orders should be shown and refreshes the
+   * backing list.
+   * @param companyName name of the selected wholesale company
+   */
   public void setCompany(String companyName) {
     this.companyName = companyName;
     refresh();

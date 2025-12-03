@@ -24,6 +24,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 
+/** Controller for the shelves page that lists and manages every shelf. */
 public class ShelfController {
   private final ShelfDataProvider shelfDataProvider =
       ShelfDataProvider.getInstance();
@@ -42,6 +43,7 @@ public class ShelfController {
   @FXML private StyledButton openPopupBtn;
   @FXML private Label inventoryLabel;
 
+  /** Configures table columns, binds data providers, and wires popups. */
   @FXML
   private void initialize() {
     idColumn.setCellValueFactory(
@@ -75,6 +77,7 @@ public class ShelfController {
         () -> { shelfTable.setItems(shelfDataProvider.getShelves()); });
   }
 
+  /** Builds the per-row action buttons and attaches their handlers. */
   private void setupActionButtons() {
     actionColumn.setCellFactory(param -> new TableCell<>() {
       private final StyledButton viewBtn = new StyledButton(
@@ -107,6 +110,7 @@ public class ShelfController {
     });
   }
 
+  /** Opens the delete confirmation popup for the provided shelf. */
   private void showDeleteConfirmPopupForRow(TOShelf shelf) {
     try {
       selectedShelfId = shelf.getShelfID();
@@ -118,6 +122,7 @@ public class ShelfController {
     }
   }
 
+  /** Slides in the view shelf panel for the selected shelf. */
   private void showViewShelfPopup(TOShelf shelf) {
     FXMLLoader loader = new FXMLLoader(CheECSEManagerApplication.getResource(
         "view/components/Shelf/ViewShelf.fxml"));
@@ -154,6 +159,7 @@ public class ShelfController {
     }
   }
 
+  /** Binds the inventory summary label to the provider's live property. */
   private void bindInventoryLabel() {
     inventoryLabel.textProperty().bind(Bindings.createStringBinding(
         ()

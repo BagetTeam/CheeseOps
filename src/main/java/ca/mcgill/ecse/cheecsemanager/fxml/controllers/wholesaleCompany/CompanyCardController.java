@@ -29,6 +29,13 @@ public class CompanyCardController {
   private Integer companyIndex;
   private Runnable onDeleteCallback;
 
+  /**
+   * Initializes the card with callbacks and binds it to a company index.
+   * @param companyIndex index in the provider's observable list
+   * @param onView action to run when the card is clicked
+   * @param onDelete action to run when delete is requested
+   * @param isInCompanyDetails whether this card sits inside the detail page
+   */
   public void init(Integer companyIndex, Runnable onView, Runnable onDelete,
                    boolean isInCompanyDetails) {
     setCompany(companyIndex);
@@ -47,6 +54,7 @@ public class CompanyCardController {
     });
   }
 
+  /** Keeps the order count in sync when the provider list mutates. */
   private void
   updateOrdersLabel(javafx.collections.ListChangeListener
                         .Change<? extends TOWholesaleCompany> change) {
@@ -55,11 +63,7 @@ public class CompanyCardController {
     }
   }
 
-  /**
-   * Populates the card with company information from a transfer object.
-   *
-   * @param company the wholesale company data to display
-   */
+  /** Populates the card with company information from the shared provider. */
   public void setCompany(Integer companyIndex) {
     this.companyIndex = companyIndex;
     var company = provider.getCompanies().get(companyIndex);
@@ -72,6 +76,7 @@ public class CompanyCardController {
     ordersLabel.setText("" + ordersCount);
   }
 
+  /** @return number of cheese wheels successfully delivered to the company */
   private int getNrCheeseWheelsOrdereds(TOWholesaleCompany company) {
     Integer[] nrCheeseWheelsOrdereds = company.getNrCheeseWheelsOrdereds();
     Integer[] nrCheeseWheelsMissings = company.getNrCheeseWheelsMissings();
@@ -92,6 +97,7 @@ public class CompanyCardController {
     this.onDeleteCallback = callback;
   }
 
+  /** Handles the delete button press and executes the registered callback. */
   @FXML
   private void handleDelete(ActionEvent e) {
     e.consume();
@@ -100,6 +106,7 @@ public class CompanyCardController {
     }
   }
 
+  /** Opens the edit popup for this company card. */
   @FXML
   void handleEdit(ActionEvent e) {
     e.consume();

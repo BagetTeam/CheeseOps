@@ -17,6 +17,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
+/** Controller that displays a shelf and allows inspecting its cheese wheels. */
 public class ViewShelfController {
   private ShelfCheeseWheelDataProvider cheeseWheelsProvider =
       ShelfCheeseWheelDataProvider.getInstance();
@@ -28,6 +29,11 @@ public class ViewShelfController {
   private TOShelf shelfToView;
   private Runnable onBackPressed;
 
+  /**
+   * Initializes the controller with the shelf to display and the back action.
+   * @param shelf shelf transfer object to show
+   * @param onBackPressed callback when the back button is pressed
+   */
   public void init(TOShelf shelf, Runnable onBackPressed) {
     this.shelfToView = shelf;
     this.onBackPressed = onBackPressed;
@@ -40,6 +46,7 @@ public class ViewShelfController {
     initShelfGrid(shelf);
   }
 
+  /** Basic label styling run after the view is constructed. */
   @FXML
   public void initialize() {
     shelfNameLabel.getStyleClass().add("text-fg");
@@ -47,6 +54,7 @@ public class ViewShelfController {
     HBox.setHgrow(shelfNameLabel, Priority.ALWAYS);
   }
 
+  /** Invokes the external back callback if present. */
   @FXML
   private void onBackPressed() {
     if (onBackPressed != null) {
@@ -54,6 +62,7 @@ public class ViewShelfController {
     }
   }
 
+  /** Opens the assign cheese popup for this shelf. */
   @FXML
   public void onAddCheesePressed() {
     AssignCheeseWheelController.context.shelfId = shelfToView.getShelfID();
@@ -65,11 +74,16 @@ public class ViewShelfController {
                            "Assign Cheese Wheel in Shelf"));
   }
 
+  /** Builds the shelf grid component and injects the cheese detail handler. */
   private void initShelfGrid(TOShelf shelf) {
     ShelfGrid grid = new ShelfGrid(shelf, (cheese) -> showCheeseDetail(cheese));
     content.getChildren().add(grid);
   }
 
+  /**
+   * Shows the cheese detail drawer for a selected wheel.
+   * @param cheese wheel to inspect
+   */
   private void showCheeseDetail(TOCheeseWheel cheese) {
     FXMLLoader loader = new FXMLLoader(CheECSEManagerApplication.getResource(
         "view/components/Shelf/CheeseDetails.fxml"));

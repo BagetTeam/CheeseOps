@@ -46,6 +46,7 @@ public class DeleteWholesaleCompanyController {
     }
   }
 
+  /** Closes the confirmation popup without deleting. */
   @FXML
   private void handleClose() {
     this.root.fireEvent(new HidePopupEvent());

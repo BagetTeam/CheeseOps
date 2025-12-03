@@ -42,8 +42,10 @@ public class FarmerController
 
   private FilteredList<TOFarmer> filteredFarmers;
 
+  /** @return root stack pane so other controllers can fire events */
   public StackPane getFarmerRoot() { return farmerRoot; }
 
+  /** Configures navigation, search, data listeners, and card rendering. */
   @FXML
   public void initialize() {
 
@@ -102,11 +104,13 @@ public class FarmerController
         }
   }
 
+  /** Refreshes farmer data whenever the page becomes visible. */
   @Override
   public void onPageAppear() {
     farmerDataProvider.refresh();
   }
 
+  /** Adds a single farmer card to the layout. */
   public void addNewFarmerToList(TOFarmer farmer) {
     FarmerCard card = new FarmerCard();
     card.setFarmer(farmer);
@@ -114,6 +118,7 @@ public class FarmerController
     cardsContainer.getChildren().add(card);
   }
 
+  /** Removes the card representing the provided farmer. */
   private void removeCardForFarmer(TOFarmer farmer) {
     cardsContainer.getChildren().removeIf(
         node
@@ -123,6 +128,7 @@ public class FarmerController
                                              .equals(farmer.getEmail()));
   }
 
+  /** Refreshes the UI for the provided farmer without rebuilding all cards. */
   private void updateCardForFarmer(TOFarmer farmer) {
     cardsContainer.getChildren()
         .stream()
@@ -133,11 +139,13 @@ public class FarmerController
         .ifPresent(FarmerCard::refresh);
   }
 
+  /** Clears and repopulates the card grid using the filtered list. */
   private void rebuildAllCards() {
     cardsContainer.getChildren().clear();
     filteredFarmers.forEach(this::addNewFarmerToList);
   }
 
+  /** Opens the add farmer popup and applies a blur to the background. */
   @FXML
   public void addFarmer(javafx.event.ActionEvent event) {
     if (contentToBlur != null) {
@@ -166,6 +174,7 @@ public class FarmerController
     }
   }
 
+  /** Opens the delete confirmation popup for the requested card. */
   public void deleteFarmerPopup(FarmerCard card) {
     if (contentToBlur != null) {
       contentToBlur.setEffect(new BoxBlur(5, 5, 3));
@@ -191,6 +200,7 @@ public class FarmerController
     }
   }
 
+  /** Removes an active popup and clears the blur effect. */
   public void removePopup(StackPane overlay) {
     if (contentToBlur != null) {
       contentToBlur.setEffect(null);
@@ -198,6 +208,10 @@ public class FarmerController
     farmerRoot.getChildren().remove(overlay);
   }
 
+  /**
+   * Deletes the farmer via the controller and removes the popup overlay.
+   * @return empty string on success, otherwise an error message
+   */
   public String deleteFarmerCard(TOFarmer farmer, FarmerCard card,
                                  StackPane overlay) {
     String error =
@@ -216,6 +230,7 @@ public class FarmerController
     }
   }
 
+  /** Rebuilds the card list to match the current state of the controller. */
   public void refreshAllCards() {
     List<TOFarmer> currentFarmers =
         CheECSEManagerFeatureSet7Controller.getFarmers();

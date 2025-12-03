@@ -54,6 +54,7 @@ public class CheeseWheelsController {
   @FXML private TableColumn<TOCheeseWheel, String> purchaseDateColumn;
   @FXML private TableColumn<TOCheeseWheel, TOCheeseWheel> actionColumn;
 
+  /** Configures table columns, binds data providers, and hooks up actions. */
   @FXML
   private void initialize() {
     idColumn.setCellValueFactory(
@@ -83,6 +84,10 @@ public class CheeseWheelsController {
             " total cheese wheels"));
   }
 
+  /**
+   * Attempts to auto-assign every unplaced, unspoiled cheese wheel to shelves
+   * and reports the number that could not be placed.
+   */
   @FXML
   private void assignAllCheeseWheels() {
     List<TOCheeseWheel> cheeseWheels =
@@ -112,6 +117,7 @@ public class CheeseWheelsController {
     }
   }
 
+  /** Builds the custom action column housing assign/unassign buttons. */
   private void setupActionButtons() {
     actionColumn.setCellFactory(param -> new TableCell<>() {
       private final StyledButton assignBtn = new StyledButton(
@@ -193,6 +199,10 @@ public class CheeseWheelsController {
     });
   }
 
+  /**
+   * Slides in the cheese detail drawer for the selected wheel.
+   * @param cheese transfer object describing the selected wheel
+   */
   private void showCheeseDetail(TOCheeseWheel cheese) {
     FXMLLoader loader = new FXMLLoader(CheECSEManagerApplication.getResource(
         "view/components/Shelf/CheeseDetails.fxml"));

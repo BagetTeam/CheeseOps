@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
+/** Confirmation dialog controller for deleting a shelf. */
 public class ConfirmDeletePopUpController {
   private final ShelfDataProvider shelfDataProvider =
       ShelfDataProvider.getInstance();
@@ -18,6 +19,7 @@ public class ConfirmDeletePopUpController {
   @FXML private Label errorLabel;
 
 
+  /** Configures the confirmation message and button actions. */
   @FXML
   private void initialize() {
     warningLabel.setText("Are you sure you want to delete shelf " +
@@ -28,8 +30,10 @@ public class ConfirmDeletePopUpController {
     noBtn.setOnAction(e -> closePopup());
   }
 
+  /** Closes the dialog without deleting. */
   private void closePopup() { root.fireEvent(new HidePopupEvent()); }
 
+  /** Invokes the controller to delete the selected shelf and refreshes data. */
   private void confirmDelete() {
     String shelfId = ShelfController.selectedShelfId;
 

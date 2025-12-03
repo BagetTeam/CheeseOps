@@ -69,6 +69,9 @@ public class ShelfGrid extends BorderPane {
     columnLabels.setPrefWidth(newVal.doubleValue());
   };
 
+  /**
+   * Builds a grid for the provided shelf and registers a click callback.
+   */
   public ShelfGrid(TOShelf shelf, Consumer<TOCheeseWheel> callback) {
     this.shelf = shelf;
     this.callback = callback;
@@ -76,6 +79,7 @@ public class ShelfGrid extends BorderPane {
     initialize();
   }
 
+  /** Lays out the grid, labels, scroll pane, and data listeners. */
   private void initialize() {
     cornerLabel.setPrefSize(LABEL_SIZE, LABEL_SIZE);
     cornerLabel.getStyleClass().add("corner-label");
@@ -150,6 +154,7 @@ public class ShelfGrid extends BorderPane {
     });
   }
 
+  /** Handles observable list changes by updating grid cells in place. */
   private void
   onChangeDetected(ListChangeListener.Change<? extends TOCheeseWheel> change) {
     System.out.println("============== onChangeDetected ==============");
@@ -217,6 +222,7 @@ public class ShelfGrid extends BorderPane {
     });
   }
 
+  /** Rebuilds the grid entries using the provided cheese wheel list. */
   public void setCheeseWheels(ObservableList<TOCheeseWheel> cheeseWheels) {
     grid.getChildren().clear();
     locationNodes.clear();
@@ -256,6 +262,7 @@ public class ShelfGrid extends BorderPane {
     }
   }
 
+  /** @return a UI node representing a specific cheese wheel. */
   private Node createCheeseWheelNode(TOCheeseWheel cheese) {
     VBox container = new VBox(5);
     container.setAlignment(Pos.CENTER);
@@ -279,6 +286,7 @@ public class ShelfGrid extends BorderPane {
     return container;
   }
 
+  /** @return a node that opens the assign popup for the given location. */
   private Node createAddButtonNode(int col, int row) {
     VBox container = new VBox();
     container.setAlignment(Pos.CENTER);
@@ -298,6 +306,7 @@ public class ShelfGrid extends BorderPane {
     return container;
   }
 
+  /** @return empty cell placeholder ready to host an icon or add button. */
   private StackPane createEmptyLocationNode() {
     var region = new Region();
     region.getStyleClass().add("cheese-wheel-cell");
@@ -307,6 +316,7 @@ public class ShelfGrid extends BorderPane {
     return pane;
   }
 
+  /** Highlights and scrolls to the cell matching the provided key. */
   public void searchAndSelect(String query) {
     String key = query.toLowerCase().trim();
     Node targetNode = locationNodes.get(key);
@@ -322,6 +332,7 @@ public class ShelfGrid extends BorderPane {
     }
   }
 
+  /** Animates horizontal scroll to bring the requested column into view. */
   private void scrollToLocation(int column) {
     double cellWidth = CELL_SIZE + GAP;
     double targetX = column * cellWidth;
@@ -340,6 +351,7 @@ public class ShelfGrid extends BorderPane {
     }
   }
 
+  /** @return property tracking which cheese wheel is currently selected */
   public ObjectProperty<TOCheeseWheel> selectedCheeseWheelProperty() {
     return selectedCheeseWheel;
   }

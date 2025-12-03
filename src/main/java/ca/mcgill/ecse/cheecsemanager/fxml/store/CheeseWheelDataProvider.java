@@ -23,20 +23,31 @@ public class CheeseWheelDataProvider {
   private final ReadOnlyIntegerWrapper cheeseInventory =
       new ReadOnlyIntegerWrapper(0);
 
+  /** Builds the singleton instance and loads the first snapshot of data. */
   private CheeseWheelDataProvider() { refresh(); }
 
+  /** @return global provider instance shared across the UI */
   public static CheeseWheelDataProvider getInstance() { return INSTANCE; }
 
+  /**
+   * @return observable list that UI tables bind to for cheese wheel state
+   */
   public ObservableList<TOCheeseWheel> getCheesewheels() {
     return cheesewheels;
   }
 
+  /**
+   * @return read-only property exposing the total number of cheese wheels
+   *     tracked by the provider
+   */
   public ReadOnlyIntegerProperty cheeseInventoryProperty() {
     return cheeseInventory.getReadOnlyProperty();
   }
 
+  /** @return cached total cheese wheel count */
   public int getCheeseInventory() { return cheeseInventory.get(); }
 
+  /** Reloads the cheese wheel list and inventory count from the controllers. */
   public void refresh() {
     List<TOCheeseWheel> latestShelves =
         CheECSEManagerFeatureSet3Controller.getCheeseWheels();

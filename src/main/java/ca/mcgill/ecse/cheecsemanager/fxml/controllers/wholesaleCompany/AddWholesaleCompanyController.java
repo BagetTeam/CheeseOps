@@ -43,12 +43,17 @@ public class AddWholesaleCompanyController {
     }
   }
 
+  /**
+   * Displays a validation or controller error below the form inputs.
+   * @param message error to show
+   */
   private void showError(String message) {
     errorLabel.setText(message);
     errorLabel.setVisible(true);
     errorLabel.setManaged(true);
   }
 
+  /** Hides any previously shown error message. */
   private void hideError() {
     errorLabel.setVisible(false);
     errorLabel.setManaged(false);

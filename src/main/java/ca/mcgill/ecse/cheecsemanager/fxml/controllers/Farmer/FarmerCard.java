@@ -41,17 +41,19 @@ public class FarmerCard extends VBox {
     }
   }
 
+  /** Injects the parent controller so callbacks can reach it. */
   public void setFarmerController(FarmerController farmerController) {
     this.farmerController = farmerController;
   }
 
+  /** Wires up the view and delete buttons after FXML load. */
   @FXML
   public void initialize() {
     viewFarmerBtn.setOnAction(e -> handleView());
     deleteFarmerBtn.setOnAction(e -> handleDelete());
   }
 
-  // set info for farmer
+  /** Populates the card labels using the provided transfer object. */
   public void setFarmer(TOFarmer farmer) {
     this.farmerData = farmer;
     if (farmer != null) {
@@ -63,9 +65,10 @@ public class FarmerCard extends VBox {
     }
   }
 
+  /** @return the farmer currently represented by this card */
   public TOFarmer getFarmer() { return farmerData; }
 
-  // Refresh the card's displayed data from the current farmer object
+  /** Refreshes every label with the latest information from the model. */
   public void refresh() {
     if (farmerData != null) {
       nameLabel.setText("Name: " + farmerData.getName());
@@ -76,6 +79,7 @@ public class FarmerCard extends VBox {
     }
   }
 
+  /** Navigates to the farmer detail page with this card's data. */
   private void handleView() {
     if (farmerData != null) {
       ca.mcgill.ecse.cheecsemanager.fxml.controllers.PageNavigator.getInstance()
@@ -85,6 +89,7 @@ public class FarmerCard extends VBox {
     }
   }
 
+  /** Triggers the parent controller's delete popup flow. */
   private void handleDelete() {
     if (farmerController != null) {
       farmerController.deleteFarmerPopup(this);

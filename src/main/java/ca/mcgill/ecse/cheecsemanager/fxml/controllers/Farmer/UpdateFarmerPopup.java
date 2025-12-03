@@ -25,6 +25,10 @@ public class UpdateFarmerPopup {
 
   private TOFarmer farmerData;
 
+  /**
+   * Loads the selected farmer data into the popup fields.
+   * @param farmer farmer transfer object to edit
+   */
   public void setFarmerData(TOFarmer farmer) {
     this.farmerData = farmer;
     nameField.setText(farmerData.getName());
@@ -33,24 +37,29 @@ public class UpdateFarmerPopup {
     addressField.setText(farmerData.getAddress());
   }
 
+  /** Saves the overlay reference so it can be removed later. */
   public void setPopupOverlay(StackPane overlay) {
     this.popupOverlay = overlay;
   }
 
+  /** Connects the popup to the parent view controller for callbacks. */
   public void setViewFarmerController(ViewFarmerController controller) {
     this.farmerViewController = controller;
   }
 
+  /** Clears error text when the popup is initialized. */
   @FXML
   public void initialize() {
     errorLabel.setText("");
   }
 
+  /** Handles cancel button presses. */
   @FXML
   private void onCancel() {
     closePopup();
   }
 
+  /** Validates the form and submits the farmer update request. */
   @FXML
   private void onSave() {
     String name = nameField.getText();
@@ -111,6 +120,7 @@ public class UpdateFarmerPopup {
     }
   }
 
+  /** Removes the popup overlay via the parent controller. */
   private void closePopup() {
     if (farmerViewController != null && popupOverlay != null) {
       farmerViewController.removePopup(popupOverlay);

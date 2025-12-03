@@ -13,6 +13,7 @@ import javafx.scene.control.TextField;
  * */
 import javafx.scene.layout.VBox;
 
+/** Popup controller that creates a new shelf with user-specified dimensions. */
 public class AddShelfPopUpController {
 
   @FXML private Input shelfIdInput;
@@ -28,6 +29,7 @@ public class AddShelfPopUpController {
   @FXML private Label errorLabel;
   @FXML private VBox root;
 
+  /** Wires the add button and caches the underlying text fields. */
   @FXML
   public void initialize() {
     addBtn.setOnAction(e -> submit());
@@ -37,8 +39,10 @@ public class AddShelfPopUpController {
     colsField = colsInput.getTextField();
   }
 
+  /** Closes the popup when the shelf is created or the user cancels. */
   private void closePopup() { root.fireEvent(new HidePopupEvent()); }
 
+  /** Validates the form and calls the controller to create a shelf. */
   private void submit() {
     if (errorLabel != null) {
       errorLabel.setText("");
@@ -75,6 +79,10 @@ public class AddShelfPopUpController {
     }
   }
 
+  /**
+   * Renders a validation or controller error underneath the form.
+   * @param message error text for the user
+   */
   private void showError(String message) {
     if (errorLabel != null) {
       errorLabel.setText(message);

@@ -9,6 +9,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.util.Duration;
 
+/** Legacy controller handling simple robot action buttons and animations. */
 public class RobotHandlingController {
 
     public AnchorPane activateScreen;
@@ -24,6 +25,7 @@ public class RobotHandlingController {
     public TextField shelfIDInput;
 
 
+    /** Activates the robot and plays the activation animation strip. */
     public void onActivateRobot(){
         try {
             RobotController.activateRobot();
@@ -31,6 +33,7 @@ public class RobotHandlingController {
         }catch (Exception e){}
     }
 
+    /** Initializes the robot using the provided shelf id text box. */
     public void onInitializeRobot(){
         try {
             //don't know what arg to take in initialize robot
@@ -52,6 +55,7 @@ public class RobotHandlingController {
         }
     }
 
+    /** Deactivates the robot and plays the corresponding animation. */
     public void onDeactivateRobot(){
         try {
             RobotController.deactivateRobot();
@@ -61,6 +65,12 @@ public class RobotHandlingController {
 
 
 
+    /**
+     * Plays a fade in/out overlay while updating the displayed robot status.
+     * @param coverPane pane to animate over the button grid
+     * @param newStatus status string to show after the animation
+     * @param paint color applied to the status label
+     */
     public void transition(Pane coverPane, String newStatus, String paint){
         coverPane.setVisible(true);
         FadeTransition fade = new FadeTransition(new Duration(1500), coverPane);
@@ -85,5 +95,6 @@ public class RobotHandlingController {
 
 
 
+    /** Navigates back to the main menu (implementation pending). */
     public void returnToMenu(){}
 }

@@ -7,23 +7,21 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
-/*
- * @author Ayush
+/**
+ * Legacy popup controller for viewing a shelf using a grid layout.
+ * @author Ayush Patel
  * */
-
 public class ViewShelfPopUpController implements Initializable {
 
   @FXML private Label shelfHeader;
@@ -34,33 +32,47 @@ public class ViewShelfPopUpController implements Initializable {
   private AnchorPane popupOverlay;
   private String shelfID;
 
+  /**
+   * Registers the parent controller so this popup can call back into it.
+   * @param controller owning shelf controller
+   */
   public void setMainController(ShelfController controller) {
     this.mainController = controller;
   }
 
+  /** @return reference to the parent controller */
   public ShelfController getMainController() { return mainController; }
 
+  /** Saves the overlay that contains this popup. */
   public void setPopupOverlay(AnchorPane overlay) {
     this.popupOverlay = overlay;
   }
 
+  /**
+   * Sets which shelf to render and triggers a refresh.
+   * @param shelfID identifier of the shelf being displayed
+   */
   public void setShelfToView(String shelfID) {
     this.shelfID = shelfID;
     shelfHeader.setText("Shelf " + shelfID);
     populateShelfGrid();
   }
 
+  /** Rebuilds the grid to reflect the latest cheese placements. */
   public void refreshShelfGrid() { populateShelfGrid(); }
 
+  /** Hooks up the close button to dismiss the popup. */
   @Override
   public void initialize(URL url, ResourceBundle rb) {
     closeBtn.setOnAction(e -> closePopup());
   }
 
+  /** Dismisses the popup overlay (implementation pending). */
   private void closePopup() {
     // mainController.removePopup(popupOverlay);
   }
 
+  /** Opens a nested popup showing information about a specific cheese wheel. */
   private void showCheeseWheelPopup(int cheeseID) {
     // try {
     //   // mainController.applyBlur();
@@ -83,6 +95,7 @@ public class ViewShelfPopUpController implements Initializable {
     // }
   }
 
+  /** Builds the visual grid that represents the selected shelf. */
   private void populateShelfGrid() {
     shelfGrid.getChildren().clear();
 

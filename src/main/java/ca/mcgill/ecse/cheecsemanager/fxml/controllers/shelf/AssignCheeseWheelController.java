@@ -22,12 +22,17 @@ import javafx.scene.layout.VBox;
  * @author Ming Li Liu, Ayush Patel
  */
 public class AssignCheeseWheelController {
+  /** Captures the selection context when opening the assign popup. */
   public class Context {
     public Integer cheeseId;
     public String shelfId;
     public Integer row;
     public Integer col;
 
+    /**
+     * Creates a context describing which cheese and location should be pre-set
+     * when opening the assign popup.
+     */
     public Context(Integer cheeseId, String shelfId, Integer row, Integer col) {
       this.cheeseId = cheeseId;
       this.shelfId = shelfId;
@@ -59,6 +64,7 @@ public class AssignCheeseWheelController {
   private TOShelf selectedShelf;
   private Set<String> occupiedCells = new HashSet<>();
 
+  /** Pre-populates combo boxes and wires listeners. */
   @FXML
   public void initialize() {
     // Populate unassigned cheese wheels
@@ -110,6 +116,7 @@ public class AssignCheeseWheelController {
     colCombo.prefWidthProperty().bind(colVBox.widthProperty());
   }
 
+  /** Loads every shelf with available space into the selection combo. */
   private void populateShelves() {
     List<String> shelves = CheECSEManagerFeatureSet1Controller.getShelves()
                                .stream()
@@ -119,11 +126,13 @@ public class AssignCheeseWheelController {
     shelfCombo.setItems(FXCollections.observableArrayList(shelves));
   }
 
+  /** @return true if the provided shelf has at least one free slot */
   private boolean hasAvailableSpace(TOShelf shelf) {
     int totalSlots = shelf.getMaxRows() * shelf.getMaxColumns();
     return shelf.numberOfCheeseWheelIDs() < totalSlots;
   }
 
+  /** Updates the UI state when a shelf is selected by the user. */
   private void onShelfSelected() {
     String selectedShelfId = shelfCombo.getValue();
     if (selectedShelfId == null) {
@@ -153,6 +162,7 @@ public class AssignCheeseWheelController {
     checkEnableAssign();
   }
 
+  /** Populates the list of rows that still contain at least one free slot. */
   private void populateAvailableRows() {
     rowCombo.getItems().clear();
     rowCombo.setValue(null);
@@ -176,6 +186,7 @@ public class AssignCheeseWheelController {
     rowCombo.setItems(FXCollections.observableArrayList(availableRows));
   }
 
+  /** Updates the column combo box based on the selected row. */
   private void onRowSelected() {
     Integer selectedRow = rowCombo.getValue();
 
@@ -200,12 +211,17 @@ public class AssignCheeseWheelController {
     checkEnableAssign();
   }
 
+  /** Enables the assign button only when every selection is present. */
   private void checkEnableAssign() {
     assignButton.setDisable(
         cheeseCombo.getValue() == null || shelfCombo.getValue() == null ||
         rowCombo.getValue() == null || colCombo.getValue() == null);
   }
 
+  /**
+   * Persists the assignment via the controller layer after validating the
+   * selected cell.
+   */
   @FXML
   private void assignCheeseWheel() {
     String selected = cheeseCombo.getValue();
@@ -242,5 +258,6 @@ public class AssignCheeseWheelController {
     closePopup();
   }
 
+  /** Closes the popup by firing a hide event. */
   private void closePopup() { root.fireEvent(new HidePopupEvent()); }
 }
