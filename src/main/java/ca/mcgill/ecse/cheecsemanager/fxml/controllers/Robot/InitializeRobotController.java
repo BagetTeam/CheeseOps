@@ -5,8 +5,6 @@ import ca.mcgill.ecse.cheecsemanager.fxml.events.HidePopupEvent;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.ToastEvent;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
-import ca.mcgill.ecse.cheecsemanager.model.Shelf;
-import java.util.ArrayList;
 import java.util.List;
 import ca.mcgill.ecse.cheecsemanager.controller.RobotController;
 import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet1Controller;
