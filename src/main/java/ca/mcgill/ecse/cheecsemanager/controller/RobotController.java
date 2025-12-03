@@ -3,6 +3,8 @@ import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
 import ca.mcgill.ecse.cheecsemanager.model.*;
 import ca.mcgill.ecse.cheecsemanager.model.CheeseWheel.MaturationPeriod;
 import ca.mcgill.ecse.cheecsemanager.persistence.CheECSEManagerPersistence;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -10,10 +12,20 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
 public class RobotController {
+
+  /**
+   * Version property to notify observers when the robot log changes
+   * @author Benjamin Curis-Friedman
+   */
   private static final SimpleIntegerProperty logVersion =
       new SimpleIntegerProperty(0);
   public static IntegerProperty logVersionProperty() { return logVersion; }
 
+  /**
+   * Get the current status of the robot
+   * @return the status of the robot as a string
+   * @author Benjamin Curis-Friedman
+   */
   public static String getRobotStatus() {
     Robot robot = getManager().getRobot();
     if (robot == null || !robot.getIsActivated()) {
@@ -34,36 +46,6 @@ public class RobotController {
     }
 
     return robot;
-  }
-
-  public static boolean isRobotActivated() {
-    // return getManager().hasRobot() &&
-    // getManager().getRobot().getIsActivated();
-    return getManager().hasRobot();
-  }
-
-  public static boolean isTreatmentActive() {
-    Robot robot = getManager().getRobot();
-    if (robot == null || !robot.getIsActivated()) {
-      return false;
-    }
-
-    switch (robot.getStatus()) {
-    case AtEntranceFacingAisle:
-    case AtCheeseWheel:
-      return true;
-    default:
-      return false;
-    }
-  }
-
-  public static boolean isRobotInitialized() {
-    Robot robot = getManager().getRobot();
-    if (robot == null || !robot.getIsActivated()) {
-      return false;
-    }
-
-    return robot.getCurrentShelf() != null;
   }
 
   /* =================================================== */

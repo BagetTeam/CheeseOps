@@ -45,6 +45,8 @@ public class Dropdown extends VBox {
   private final ObjectProperty<LabelPosition> labelPosition =
       new SimpleObjectProperty<>(LabelPosition.TOP);
 
+  private long lastHideTime = 0;
+
   public Dropdown() {
     super();
     initialize();
@@ -105,6 +107,7 @@ public class Dropdown extends VBox {
     comboBox.setFocusTraversable(true);
     HBox.setHgrow(comboBox, Priority.ALWAYS);
 
+
     promptText.addListener(
         (observable, oldValue, newValue) -> comboBox.setPromptText(newValue));
 
@@ -120,31 +123,24 @@ public class Dropdown extends VBox {
     labelPosition.addListener(
         (observable, oldValue, newValue) -> { refreshLayout(); });
 
-    comboBox.focusedProperty().addListener((observable, oldValue, newValue) -> {
-      if (newValue) {
-        if (!fieldWrapper.getStyleClass().contains("dropdown-focused")) {
-          fieldWrapper.getStyleClass().add("dropdown-focused");
-        }
+    javafx.beans.value.ChangeListener<Boolean> focusListener = (obs, oldVal, newVal) ->
+        updateFocusState(comboBox.isFocused() || comboBox.isShowing());
 
-        // If the current configured variant is DEFAULT, temporarily show the outlined
-        // variant while the combo is focused. We record this temporary change in the
-        // node properties so we can roll it back when focus is lost.
-        if (variant.get() == Variant.DEFAULT && !fieldWrapper.getStyleClass().contains("dropdown-outlined")) {
-          fieldWrapper.getStyleClass().add("dropdown-outlined");
-          fieldWrapper.getProperties().put("tempOutlined", Boolean.TRUE);
-        }
-      } else {
-        fieldWrapper.getStyleClass().remove("dropdown-focused");
-
-        // Remove the temporary outlined variant if we added it on focus.
-        Object temp = fieldWrapper.getProperties().remove("tempOutlined");
-        if (temp != null) {
-          fieldWrapper.getStyleClass().remove("dropdown-outlined");
-        }
-      }
-    });
+    comboBox.focusedProperty().addListener(focusListener);
+    comboBox.showingProperty().addListener(focusListener);
 
     fieldWrapper.getChildren().add(comboBox);
+
+    comboBox.addEventHandler(ComboBox.ON_HIDING, e -> lastHideTime = System.currentTimeMillis());
+
+    // Clicking anywhere on the root should toggle the combobox
+    this.setOnMouseClicked(e -> {
+      if (System.currentTimeMillis() - lastHideTime < 200) return;
+      comboBox.requestFocus();
+      if (comboBox.isShowing()) comboBox.hide();
+      else comboBox.show();
+    });
+
     updateLabelVisibility(label.get());
     refreshLayout();
   }
@@ -238,6 +234,30 @@ public class Dropdown extends VBox {
   private void detachFromParent(Node node) {
     if (node.getParent() instanceof Pane pane) {
       pane.getChildren().remove(node);
+    }
+  }
+
+  private void updateFocusState(boolean active) {
+    if (active) {
+      if (!fieldWrapper.getStyleClass().contains("dropdown-focused")) {
+        fieldWrapper.getStyleClass().add("dropdown-focused");
+      }
+
+      // If the current configured variant is DEFAULT, temporarily show the outlined
+      // variant while the combo is focused. We record this temporary change in the
+      // node properties so we can roll it back when focus is lost.
+      if (variant.get() == Variant.DEFAULT && !fieldWrapper.getStyleClass().contains("dropdown-outlined")) {
+        fieldWrapper.getStyleClass().add("dropdown-outlined");
+        fieldWrapper.getProperties().put("tempOutlined", Boolean.TRUE);
+      }
+    } else {
+      fieldWrapper.getStyleClass().remove("dropdown-focused");
+
+      // Remove the temporary outlined variant if we added it on focus.
+      Object temp = fieldWrapper.getProperties().remove("tempOutlined");
+      if (temp != null) {
+        fieldWrapper.getStyleClass().remove("dropdown-outlined");
+      }
     }
   }
 }
