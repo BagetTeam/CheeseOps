@@ -211,7 +211,7 @@ public class RobotPageController {
     // Show the in-page popup (handled by MainController -> PopupManager)
     if (rootPane != null) {
       rootPane.fireEvent(new ShowPopupEvent(
-          "view/components/Robot/TreatmentPopUp.fxml", "Initialize Robot"));
+          "view/components/Robot/TreatmentPopUp.fxml", "Initialize Treatment"));
     }
   }
 }
