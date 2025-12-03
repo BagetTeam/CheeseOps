@@ -24,7 +24,11 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 
-/** Controller for the shelves page that lists and manages every shelf. */
+/**
+ * Controller for the shelves page that lists and manages every shelf.
+ *
+ * @author Ming Li Liu
+ * */
 public class ShelfController {
   private final ShelfDataProvider shelfDataProvider =
       ShelfDataProvider.getInstance();

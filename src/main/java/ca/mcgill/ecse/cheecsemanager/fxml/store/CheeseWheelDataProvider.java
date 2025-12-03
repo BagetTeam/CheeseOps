@@ -12,6 +12,7 @@ import javafx.collections.ObservableList;
 /**
  * Centralized observable source of shelf data so that UI controllers can react
  * to model mutations without reloading the page.
+ * @author Ming Li Liu
  */
 public class CheeseWheelDataProvider {
   private static final CheeseWheelDataProvider INSTANCE =

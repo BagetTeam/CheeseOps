@@ -27,6 +27,7 @@ import javafx.scene.layout.VBox;
 /**
  * Root controller coordinating sidebar navigation, popup lifecycle, and global
  * toast notifications.
+ * @author Ming Li Liu
  */
 public class MainController {
   @FXML private StackPane rootStackPane;
@@ -46,7 +47,9 @@ public class MainController {
 
   private final Queue<ToastEvent> toastQueue = new LinkedList<>();
 
-  /** Wires up event handlers, loads the default page, and primes popups/toasts. */
+  /**
+   * Wires up event handlers, loads the default page, and primes popups/toasts.
+   */
   @FXML
   public void initialize() {
     // Set up navigation callback

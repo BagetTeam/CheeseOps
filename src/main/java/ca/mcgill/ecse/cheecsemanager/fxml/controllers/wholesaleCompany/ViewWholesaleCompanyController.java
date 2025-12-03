@@ -20,6 +20,7 @@ import javafx.scene.layout.StackPane;
  * Controller for viewing and managing a wholesale company's details and orders.
  * Displays company information card, orders table, and provides actions for
  * editing, deleting, and placing new orders.
+ * @author Oliver Mao
  */
 public class ViewWholesaleCompanyController {
   private final OrdersProvider ordersProvider = OrdersProvider.getInstance();
@@ -45,7 +46,9 @@ public class ViewWholesaleCompanyController {
     ordersTable.setPlaceholder(placeholder);
   }
 
-  /** Initializes table column bindings and connects the shared data provider. */
+  /**
+   * Initializes table column bindings and connects the shared data provider.
+   */
   private void setupTableColumns() {
     transactionDateColumn.setCellValueFactory(
         cellData -> new SimpleObjectProperty<>(cellData.getValue().orderDate));

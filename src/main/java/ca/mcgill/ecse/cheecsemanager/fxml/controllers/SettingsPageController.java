@@ -10,6 +10,7 @@ import javafx.scene.layout.*;
 /**
  * Controller that manages facility manager password changes from the settings
  * page.
+ * @author Ming Li Liu
  */
 public class SettingsPageController {
   @FXML private StackPane rootPane;

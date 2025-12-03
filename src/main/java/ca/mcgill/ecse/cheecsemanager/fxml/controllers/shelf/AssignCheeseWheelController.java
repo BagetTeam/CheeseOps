@@ -19,7 +19,7 @@ import javafx.scene.layout.VBox;
 
 /**
  * Controller for the Assign Cheese Wheel Pop Up.
- * @author Ming Li Liu, Ayush Patel
+ * @author Ayush Patel
  */
 public class AssignCheeseWheelController {
   /** Captures the selection context when opening the assign popup. */

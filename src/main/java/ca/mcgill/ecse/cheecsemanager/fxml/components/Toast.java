@@ -13,7 +13,11 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.util.Duration;
 
-/** Visual component that shows transient toast notifications. */
+/**
+ * Visual component that shows transient toast notifications.
+ *
+ * @author Ming Li liu
+ * */
 public class Toast extends HBox {
   private final SequentialTransition animation;
   private final Consumer<Toast> onFinished;

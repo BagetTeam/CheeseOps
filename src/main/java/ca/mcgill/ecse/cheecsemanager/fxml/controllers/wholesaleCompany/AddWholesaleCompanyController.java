@@ -11,6 +11,7 @@ import javafx.scene.layout.VBox;
 /**
  * Controller for adding a new wholesale company to the system.
  * Handles form validation and company creation through the backend controller.
+ * @author Oliver Mao
  */
 public class AddWholesaleCompanyController {
   private final WholesaleCompanyDataProvider dataProvider =

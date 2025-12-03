@@ -17,7 +17,10 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
-/** Controller that displays a shelf and allows inspecting its cheese wheels. */
+/**
+ * Controller that displays a shelf and allows inspecting its cheese wheels.
+ * @author Ming Li Liu
+ * */
 public class ViewShelfController {
   private ShelfCheeseWheelDataProvider cheeseWheelsProvider =
       ShelfCheeseWheelDataProvider.getInstance();

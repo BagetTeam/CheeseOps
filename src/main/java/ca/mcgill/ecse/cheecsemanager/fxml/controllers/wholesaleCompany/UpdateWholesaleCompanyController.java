@@ -17,6 +17,7 @@ import javafx.scene.layout.VBox;
  * Controller for updating an existing wholesale company's details.
  * Handles form validation and company modification through the backend
  * controller.
+ * @author Oliver Mao
  */
 public class UpdateWholesaleCompanyController {
   private final WholesaleCompanyDataProvider dataProvider =

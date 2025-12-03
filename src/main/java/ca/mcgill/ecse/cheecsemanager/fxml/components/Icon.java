@@ -6,7 +6,11 @@ import javafx.beans.NamedArg;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.StackPane;
 
-/** Simple wrapper that loads reusable SVG-based icons from FXML snippets. */
+/**
+ * Simple wrapper that loads reusable SVG-based icons from FXML snippets.
+ *
+ * @author Ming Li liu
+ * */
 public class Icon extends StackPane {
   private String icon;
   /** @return identifier of the loaded icon */

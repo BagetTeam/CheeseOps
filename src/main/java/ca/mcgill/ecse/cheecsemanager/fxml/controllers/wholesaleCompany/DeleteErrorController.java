@@ -3,10 +3,13 @@ package ca.mcgill.ecse.cheecsemanager.fxml.controllers.wholesaleCompany;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
-/** Controller for the popup that explains why a company delete failed. */
+/**
+ * Controller for the popup that explains why a company delete failed.
+ *
+ * @author Oliver Mao
+ * */
 public class DeleteErrorController {
-  @FXML
-  private Label errorMessageLabel;
+  @FXML private Label errorMessageLabel;
 
   private Runnable onCloseCallback;
 
@@ -14,10 +17,8 @@ public class DeleteErrorController {
    * Registers a callback invoked when the popup is dismissed.
    * @param callback code to run on close, typically hiding the popup
    */
-  public void setOnClose(Runnable callback) {
-    this.onCloseCallback = callback;
-  } 
- 
+  public void setOnClose(Runnable callback) { this.onCloseCallback = callback; }
+
   /**
    * Set the error message to display
    * @param message The error message

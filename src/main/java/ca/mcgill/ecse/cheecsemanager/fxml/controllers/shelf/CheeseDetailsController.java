@@ -20,7 +20,11 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-/** Drawer controller that edits an individual cheese wheel's information. */
+/**
+ * Drawer controller that edits an individual cheese wheel's information.
+ *
+ * @author Ming Li Liu
+ * */
 public class CheeseDetailsController {
   private final ShelfCheeseWheelDataProvider dataProvider =
       ShelfCheeseWheelDataProvider.getInstance();

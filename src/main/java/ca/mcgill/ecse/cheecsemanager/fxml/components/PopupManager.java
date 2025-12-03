@@ -9,7 +9,11 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
-/** Utility that blurs the background and animates modal popups in/out. */
+/**
+ * Utility that blurs the background and animates modal popups in/out.
+ *
+ * @author Ming Li liu
+ * */
 public class PopupManager {
   private StackPane rootStackPane;
   private Region veil;

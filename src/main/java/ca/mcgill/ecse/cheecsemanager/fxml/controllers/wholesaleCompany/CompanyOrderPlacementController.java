@@ -16,7 +16,10 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
-/** Popup controller used to capture a wholesale company order. */
+/**
+ * Popup controller used to capture a wholesale company order.
+ * @author Oliver Mao
+ * */
 public class CompanyOrderPlacementController {
   private final OrdersProvider ordersProvider = OrdersProvider.getInstance();
 

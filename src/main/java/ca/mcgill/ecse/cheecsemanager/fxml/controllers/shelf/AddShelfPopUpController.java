@@ -8,12 +8,13 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-/*
- * @author Ayush, Ming Li Liu
- * */
 import javafx.scene.layout.VBox;
 
-/** Popup controller that creates a new shelf with user-specified dimensions. */
+/**
+ * Popup controller that creates a new shelf with user-specified dimensions.
+ *
+ * @author Ayush
+ * */
 public class AddShelfPopUpController {
 
   @FXML private Input shelfIdInput;

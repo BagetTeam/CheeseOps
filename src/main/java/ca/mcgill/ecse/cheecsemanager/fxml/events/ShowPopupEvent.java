@@ -3,7 +3,11 @@ package ca.mcgill.ecse.cheecsemanager.fxml.events;
 import javafx.event.Event;
 import javafx.event.EventType;
 
-/** Event requesting that the main controller display a popup. */
+/**
+ * Event requesting that the main controller display a popup.
+ *
+ * @author Ming Li Liu
+ * */
 public class ShowPopupEvent extends Event {
   public static final EventType<ShowPopupEvent> SHOW_POPUP =
       new EventType<>(Event.ANY, "SHOW_POPUP");

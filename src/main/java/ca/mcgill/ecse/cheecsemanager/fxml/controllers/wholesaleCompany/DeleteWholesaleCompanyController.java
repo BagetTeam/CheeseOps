@@ -13,6 +13,7 @@ import javafx.scene.layout.VBox;
 /**
  * Controller for deleting a wholesale company from the system.
  * Displays confirmation dialog and handles company removal through backend.
+ * @author Oliver Mao
  */
 public class DeleteWholesaleCompanyController {
   private final WholesaleCompanyDataProvider dataProvider =

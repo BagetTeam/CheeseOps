@@ -7,7 +7,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
-/** Confirmation dialog controller for deleting a shelf. */
+/**
+ * Confirmation dialog controller for deleting a shelf.
+ *
+ * @author Ming Li Liu
+ * */
 public class ConfirmDeletePopUpController {
   private final ShelfDataProvider shelfDataProvider =
       ShelfDataProvider.getInstance();
@@ -17,7 +21,6 @@ public class ConfirmDeletePopUpController {
   @FXML private VBox root;
   @FXML private Label warningLabel;
   @FXML private Label errorLabel;
-
 
   /** Configures the confirmation message and button actions. */
   @FXML

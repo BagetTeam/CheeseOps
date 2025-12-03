@@ -12,6 +12,7 @@ import javafx.collections.ObservableList;
 /**
  * Centralized observable source of shelf data so that UI controllers can react
  * to model mutations without reloading the page.
+ * @author Ming Li Liu
  */
 public class ShelfDataProvider {
   private static final ShelfDataProvider INSTANCE = new ShelfDataProvider();
@@ -22,7 +23,9 @@ public class ShelfDataProvider {
   private final ReadOnlyIntegerWrapper cheeseInventory =
       new ReadOnlyIntegerWrapper(0);
 
-  /** Builds the singleton instance and loads the initial snapshot of shelves. */
+  /**
+   * Builds the singleton instance and loads the initial snapshot of shelves.
+   */
   private ShelfDataProvider() { refresh(); }
 
   /** @return global provider instance shared across the UI */

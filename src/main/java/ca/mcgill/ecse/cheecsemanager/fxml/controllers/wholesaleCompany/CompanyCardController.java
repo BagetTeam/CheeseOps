@@ -12,6 +12,7 @@ import javafx.scene.layout.HBox;
 /**
  * Reusable component displaying wholesale company details with action buttons.
  * Renders company name, address, and provides edit/delete callbacks.
+ * @author Oliver Mao
  */
 public class CompanyCardController {
   private final WholesaleCompanyDataProvider provider =

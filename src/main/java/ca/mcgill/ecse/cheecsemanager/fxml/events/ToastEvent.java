@@ -3,7 +3,11 @@ package ca.mcgill.ecse.cheecsemanager.fxml.events;
 import javafx.event.Event;
 import javafx.event.EventType;
 
-/** Event requesting that a toast notification be shown near the root. */
+/**
+ * Event requesting that a toast notification be shown near the root.
+ *
+ * @author Ming Li Liu
+ * */
 public class ToastEvent extends Event {
   public static final EventType<ToastEvent> TOAST_NOTIFICATION =
       new EventType<>(Event.ANY, "TOAST_NOTIFICATION");

@@ -23,6 +23,7 @@ import javafx.scene.layout.VBox;
  * Controller for the wholesale companies list page.
  * Displays all companies in a grid layout and provides navigation to
  * individual company views and the add company dialog.
+ * @author Oliver Mao
  */
 public class WholesaleCompanyPageController {
   private final WholesaleCompanyDataProvider dataProvider =

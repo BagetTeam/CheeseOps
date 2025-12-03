@@ -15,6 +15,7 @@ import javafx.scene.layout.VBox;
 
 /**
  * Generic popup shell that loads arbitrary FXML content and handles dismissal.
+ * @author Ming Li Liu
  */
 public class PopupController {
   @FXML private VBox popupContainer;

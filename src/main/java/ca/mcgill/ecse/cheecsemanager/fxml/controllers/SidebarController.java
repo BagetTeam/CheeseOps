@@ -10,6 +10,7 @@ import javafx.util.Callback;
 /**
  * Controller backing the persistent sidebar navigation, responsible for routing
  * and button highlighting.
+ * @author Ming Li Liu
  */
 public class SidebarController {
   /** Supported main pages that the sidebar can navigate to. */
