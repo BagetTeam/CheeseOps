@@ -2,6 +2,7 @@ package ca.mcgill.ecse.cheecsemanager.fxml.controllers.Farmer;
 
 import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet7Controller;
 import ca.mcgill.ecse.cheecsemanager.controller.TOFarmer;
+import ca.mcgill.ecse.cheecsemanager.fxml.components.Input;
 import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton;
 import ca.mcgill.ecse.cheecsemanager.fxml.controllers.PageNavigator;
 import ca.mcgill.ecse.cheecsemanager.fxml.controllers.PopupController;
@@ -14,7 +15,6 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.TextField;
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
@@ -34,7 +34,7 @@ public class FarmerController
 
   @FXML private StackPane farmerRoot;
   @FXML private FlowPane cardsContainer;
-  @FXML private TextField searchField;
+  @FXML private Input searchInput;
   @FXML private StyledButton addFarmerBtn;
 
   private Region
@@ -46,7 +46,7 @@ public class FarmerController
 
   @FXML
   public void initialize() {
-    
+
     // Initialize PageNavigator with content area
     PageNavigator.getInstance().setContentArea(farmerRoot);
     // Setup blur effect reference
@@ -87,8 +87,8 @@ public class FarmerController
         rebuildAllCards();
 
         // Setup search
-        if (searchField != null) {
-          searchField.textProperty().addListener(
+        if (searchInput != null) {
+          searchInput.textProperty().addListener(
               (obs, oldVal, newVal)
                   -> filteredFarmers.setPredicate(
                       farmer
@@ -145,8 +145,8 @@ public class FarmerController
     }
     try {
       FXMLLoader loader = new FXMLLoader(
-          getClass().getResource("/ca/mcgill/ecse/cheecsemanager/view/" +
-                                 "components/Farmer/AddFarmer.fxml"));
+          getClass().getResource("/ca/mcgill/ecse/cheecsemanager/view/"
+                                 + "components/Farmer/AddFarmer.fxml"));
       StackPane popup = loader.load();
 
       popup.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
@@ -172,8 +172,8 @@ public class FarmerController
     }
     try {
       FXMLLoader loader = new FXMLLoader(
-          getClass().getResource("/ca/mcgill/ecse/cheecsemanager/view/" +
-                                 "components/Farmer/DeleteFarmerPopup.fxml"));
+          getClass().getResource("/ca/mcgill/ecse/cheecsemanager/view/"
+                                 + "components/Farmer/DeleteFarmerPopup.fxml"));
       AnchorPane popup = loader.load();
       popup.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
 

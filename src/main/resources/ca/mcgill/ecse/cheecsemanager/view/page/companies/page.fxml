@@ -11,7 +11,7 @@
     style="-fx-padding: 36 16"
     alignment="TOP_CENTER"
 >
-    <VBox maxWidth="768" spacing="20">
+    <VBox maxWidth="832" spacing="20">
         <Label
             text="Wholesale Company Management"
             styleClass="text-lg, text-fg, text-bold"

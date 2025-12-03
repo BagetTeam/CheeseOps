@@ -11,7 +11,7 @@
     style="-fx-padding: 36 16;"
     alignment="TOP_CENTER"
 >
-    <VBox spacing="20" maxWidth="768">
+    <VBox spacing="20" maxWidth="832">
         <Label text="Settings" styleClass="text-lg, text-fg, text-bold" />
         <VBox spacing="16" maxHeight="-Infinity">
             <Label text="Update Password" styleClass="text-fg, text-lg" />

@@ -12,14 +12,11 @@
     alignment="TOP_CENTER"
     style="-fx-padding: 36 16"
 >    
-    <VBox spacing="24.0" maxWidth="768">
+    <VBox spacing="24.0" maxWidth="832">
         <Label
             text="Robot Management"
             styleClass="text-lg, text-fg, text-bold"
         />
-        <padding>
-            <Insets right="24" bottom="24" left="24" />
-        </padding>
         <!-- Command Center -->
         <HBox alignment="CENTER_LEFT" spacing="18.0">
             <StackPane prefWidth="140.0">

@@ -19,7 +19,7 @@
     alignment="TOP_CENTER"
     fx:id="root"
 >
-    <VBox maxWidth="768" spacing="28">
+    <VBox maxWidth="832" spacing="28">
         <HBox spacing="24" alignment="CENTER_LEFT">
             <StyledButton variant="DEFAULT" size="BASE" onAction="#handleBack">
                 <graphic>

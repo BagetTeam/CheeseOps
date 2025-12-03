@@ -6,7 +6,6 @@ import ca.mcgill.ecse.cheecsemanager.controller.TOCheeseWheel;
 import ca.mcgill.ecse.cheecsemanager.controller.TOFarmer;
 import ca.mcgill.ecse.cheecsemanager.fxml.components.Animation.AnimationManager;
 import ca.mcgill.ecse.cheecsemanager.fxml.components.Animation.EasingInterpolators;
-import ca.mcgill.ecse.cheecsemanager.fxml.components.Icon;
 import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton;
 import ca.mcgill.ecse.cheecsemanager.fxml.controllers.PageNavigator;
 import ca.mcgill.ecse.cheecsemanager.fxml.controllers.PopupController;
@@ -123,10 +122,8 @@ public class ViewFarmerController
     actionColumn.setCellFactory(param -> new TableCell<>() {
       private final StyledButton viewBtn;
       {
-        Icon eyeIcon = new Icon("Eye");
 
-        viewBtn = new StyledButton("view", eyeIcon);
-        viewBtn.setVariant(StyledButton.Variant.PRIMARY);
+        viewBtn = new StyledButton("view");
         viewBtn.setSize(StyledButton.Size.SM);
 
         viewBtn.setOnAction(event -> {
@@ -180,8 +177,8 @@ public class ViewFarmerController
     }
     try {
       FXMLLoader loader = new FXMLLoader(
-          getClass().getResource("/ca/mcgill/ecse/cheecsemanager/view/" +
-                                 "components/Farmer/UpdateFarmer.fxml"));
+          getClass().getResource("/ca/mcgill/ecse/cheecsemanager/view/"
+                                 + "components/Farmer/UpdateFarmer.fxml"));
       AnchorPane popup = loader.load();
       popup.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
 
@@ -208,8 +205,8 @@ public class ViewFarmerController
     }
     try {
       FXMLLoader loader = new FXMLLoader(
-          getClass().getResource("/ca/mcgill/ecse/cheecsemanager/view/" +
-                                 "components/Farmer/DeleteFarmerPopup.fxml"));
+          getClass().getResource("/ca/mcgill/ecse/cheecsemanager/view/"
+                                 + "components/Farmer/DeleteFarmerPopup.fxml"));
       AnchorPane popup = loader.load();
       popup.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
 
@@ -234,8 +231,8 @@ public class ViewFarmerController
     }
     try {
       FXMLLoader loader = new FXMLLoader(
-          getClass().getResource("/ca/mcgill/ecse/cheecsemanager/view/page/" +
-                                 "farmers/BuyCheesePopup.fxml"));
+          getClass().getResource("/ca/mcgill/ecse/cheecsemanager/view/page/"
+                                 + "farmers/BuyCheesePopup.fxml"));
       AnchorPane popup = loader.load();
       popup.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
 

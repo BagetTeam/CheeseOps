@@ -12,7 +12,7 @@
 >
     <BorderPane style="-fx-padding: 36 16">
         <center>
-            <VBox fx:id="mainContainer" spacing="20" maxWidth="768">
+            <VBox fx:id="mainContainer" spacing="20" maxWidth="832">
                 <Label
                     text="Cheese Wheels"
                     styleClass="text-lg, text-fg, text-bold"

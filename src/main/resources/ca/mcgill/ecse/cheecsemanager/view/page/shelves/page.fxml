@@ -13,7 +13,7 @@
     fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.shelf.ShelfController"
     alignment="TOP_CENTER"
 >
-    <VBox fx:id="mainContainer" spacing="20" maxWidth="768">
+    <VBox fx:id="mainContainer" spacing="20" maxWidth="832">
         <Label
             text="Shelf Management"
             styleClass="text-lg, text-fg, text-bold"
