@@ -44,11 +44,15 @@
         <Label
             fx:id="nameLabel"
             styleClass="name-label, text-fg, text-bold"
-            style="-fx-font-size: 18px;"
             wrapText="true"
             alignment="CENTER"
         />
-        <Label fx:id="emailLabel" wrapText="true" alignment="CENTER" />
+        <Label
+            fx:id="emailLabel"
+            wrapText="true"
+            alignment="CENTER"
+            styleClass="text-fg"
+        />
     </VBox>
 
     <VBox alignment="TOP_LEFT" maxWidth="Infinity" spacing="4">
