@@ -1,8 +1,8 @@
-# 🧀 CheECSEManager Project
+# 🧀 CheeseOps
 
-CheecseManager is an innovative application that allows businesses to effectively manage the flow of local cheese products from the production line all the way to the clients!
+CheeseOps is an innovative application that allows businesses to effectively manage the flow of local cheese products from the production line all the way to the clients!
 
-For more information about the CheECSEManager application, please consult the [wiki](../../wiki). (this is fake there isn't anything)
+For more information about the CheeseOps application, please consult the [wiki](../../wiki). (this is fake there isn't anything)
 
 
 ## Building the app
