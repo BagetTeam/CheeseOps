@@ -11,7 +11,7 @@
     styleClass="bg-bg"
     fx:id="root"
 >
-    <VBox spacing="16" maxWidth="768" fx:id="content">
+    <VBox spacing="16" maxWidth="832" fx:id="content">
         <HBox alignment="CENTER_LEFT" spacing="10">
             <StyledButton onAction="#onBackPressed">
                 <graphic>

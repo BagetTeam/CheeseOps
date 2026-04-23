@@ -8,18 +8,23 @@ import ca.mcgill.ecse.cheecsemanager.controller.TOShelf;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.ToastEvent;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.ToastEvent.ToastType;
 import ca.mcgill.ecse.cheecsemanager.fxml.store.CheeseWheelDataProvider;
+import ca.mcgill.ecse.cheecsemanager.fxml.store.OrdersProvider;
 import ca.mcgill.ecse.cheecsemanager.fxml.store.ShelfCheeseWheelDataProvider;
 import ca.mcgill.ecse.cheecsemanager.fxml.store.ShelfDataProvider;
+import ca.mcgill.ecse.cheecsemanager.fxml.store.WholesaleCompanyDataProvider;
 import java.util.ArrayList;
 import java.util.List;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+/**
+ * Drawer controller that edits an individual cheese wheel's information.
+ *
+ * @author Ming Li Liu
+ * */
 public class CheeseDetailsController {
   private final ShelfCheeseWheelDataProvider dataProvider =
       ShelfCheeseWheelDataProvider.getInstance();
@@ -33,26 +38,34 @@ public class CheeseDetailsController {
   @FXML private HBox root;
   @FXML private VBox mainContainer;
   @FXML private Label cheeseIdLabel;
-  // @FXML private Label shelfIdLabel;
   @FXML private ComboBox<String> shelfIdComboBox;
   @FXML private ComboBox<Integer> rowComboBox;
   @FXML private ComboBox<Integer> columnComboBox;
   @FXML private ComboBox<String> ageComboBox;
   @FXML private Label purchaseDateLabel;
   @FXML private ComboBox<Boolean> isSpoiledComboBox;
+  @FXML private Label errorLabel;
 
   private Runnable onClosePressed;
+
+  // private int cheeseId;
   private TOCheeseWheel cheese;
 
-  public void init(TOCheeseWheel cheese, Runnable onClosePressed) {
+  /**
+   * Loads the cheese wheel info and prepares bindings for the detail drawer.
+   * @param cheeseId wheel identifier to inspect
+   * @param onClosePressed callback when the drawer should close
+   */
+  public void init(int cheeseId, Runnable onClosePressed) {
     this.onClosePressed = onClosePressed;
-    this.cheese = cheese;
+    // this.cheeseId = cheeseId;
+
+    this.cheese = CheECSEManagerFeatureSet3Controller.getCheeseWheel(cheeseId);
 
     cheeseIdLabel.setText("Cheese Wheel #" + cheese.getId());
     purchaseDateLabel.setText("Purchase data: " +
                               cheese.getPurchaseDate().toString());
 
-    // shelfIdLabel.setText("Shelf ID: " + cheese.getShelfID());
     shelfIdComboBox.setValue(cheese.getShelfID());
     shelfIdComboBox.getItems().clear();
     shelfIdComboBox.getItems().setAll(
@@ -89,14 +102,23 @@ public class CheeseDetailsController {
     });
   }
 
+  /** Handles the close button tap and runs the injected callback. */
   @FXML
   public void onClosePressed() {
     this.onClosePressed.run();
   }
 
+  /** Persists location, aging, and spoilage changes through the controllers. */
   @FXML
   public void onSavePressed() {
     String error;
+
+    if (this.columnComboBox.getValue() == null ||
+        this.rowComboBox.getValue() == null ||
+        this.shelfIdComboBox.getValue() == null) {
+      showError("Please select a location.");
+      return;
+    }
 
     if (this.columnComboBox.getValue() != cheese.getColumn() ||
         this.rowComboBox.getValue() != cheese.getRow() ||
@@ -106,7 +128,7 @@ public class CheeseDetailsController {
           this.columnComboBox.getValue(), this.rowComboBox.getValue());
 
       if (error != null && !error.isEmpty()) {
-        root.fireEvent(new ToastEvent(error, ToastType.ERROR));
+        showError(error);
         return;
       }
     }
@@ -116,17 +138,20 @@ public class CheeseDetailsController {
         this.isSpoiledComboBox.getValue());
 
     if (error != null && !error.isEmpty()) {
-      root.fireEvent(new ToastEvent(error, ToastType.ERROR));
+      showError(error);
     } else {
       root.fireEvent(new ToastEvent("Success!", ToastType.SUCCESS));
 
       shelfDataProvider.refresh();
       dataProvider.refresh();
       cheeseWheelDataProvider.refresh();
+      WholesaleCompanyDataProvider.getInstance().refresh();
+      OrdersProvider.getInstance().refresh();
       this.onClosePressed.run();
     }
   }
 
+  /** Removes the cheese wheel from its shelf entirely. */
   @FXML
   public void onDeletePressed() {
     String error =
@@ -137,12 +162,22 @@ public class CheeseDetailsController {
       shelfDataProvider.refresh();
       dataProvider.refresh();
       cheeseWheelDataProvider.refresh();
+      WholesaleCompanyDataProvider.getInstance().refresh();
+      OrdersProvider.getInstance().refresh();
       this.onClosePressed.run();
     } else {
-      root.fireEvent(new ToastEvent(error, ToastType.ERROR));
+      showError(error);
     }
   }
 
+  /** Displays an error beneath the form fields. */
+  private void showError(String error) {
+    this.errorLabel.setText(error);
+    this.errorLabel.setVisible(true);
+    this.errorLabel.setManaged(true);
+  }
+
+  /** Populates row/column combos based on the selected shelf's free slots. */
   private void populateLocations(TOShelf shelf) {
     if (shelf == null) {
       return;

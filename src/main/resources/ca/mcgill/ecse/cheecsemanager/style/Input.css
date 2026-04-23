@@ -2,8 +2,8 @@
     -fx-background-insets: 0;
     -fx-border-width: 1;
     -fx-padding: 6 14;
-    -fx-background-radius: 8;
-    -fx-border-radius: 8;
+    -fx-background-radius: 14;
+    -fx-border-radius: 14;
     -fx-alignment: center-left;
     -fx-min-height: 40px;
 }
@@ -34,7 +34,7 @@
     -fx-background-insets: 0;
     -fx-border-width: 0;
     -fx-padding: 4 0;
-    -fx-font-size: 14px;
+    -fx-font-size: 16px;
 }
 
 .input .input-field:focused {
@@ -57,7 +57,7 @@
 
 .input-label {
     -fx-text-fill: -color-fg;
-    -fx-font-size: 12px;
+    -fx-font-size: 14px;
     -fx-font-weight: 600;
 }
 

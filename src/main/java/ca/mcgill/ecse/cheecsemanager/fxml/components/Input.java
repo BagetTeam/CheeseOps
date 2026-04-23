@@ -51,11 +51,15 @@ public class Input extends VBox {
   private final ObjectProperty<LabelPosition> labelPosition =
       new SimpleObjectProperty<>(LabelPosition.TOP);
 
+  /** Builds a blank input with default styling. */
   public Input() {
     super();
     initialize();
   }
 
+  /**
+   * Builds an input with placeholder, variant, icon, label, and label position.
+   */
   public Input(@NamedArg("placeholder") String placeholder,
                @NamedArg("variant") Variant variant,
                @NamedArg("icon") Node icon, @NamedArg("label") String label,
@@ -83,6 +87,7 @@ public class Input extends VBox {
     }
   }
 
+  /** Applies styles, sets up listeners, and prepares optional elements. */
   private void initialize() {
     setAlignment(Pos.CENTER_LEFT);
     setSpacing(4);
@@ -145,36 +150,43 @@ public class Input extends VBox {
     refreshLayout();
   }
 
+  /** @return underlying text field for additional customization */
   public TextField getTextField() { return textField; }
 
+  /** @return text currently entered in the field */
   public final String getText() { return textProperty().get(); }
   public final void setText(String value) { textProperty().set(value); }
   public final StringProperty textProperty() {
     return textField.textProperty();
   }
 
+  /** @return placeholder text displayed when empty */
   public final String getPlaceholder() { return placeholder.get(); }
   public final void setPlaceholder(String value) {
     placeholder.set(value == null ? "" : value);
   }
   public final StringProperty placeholderProperty() { return placeholder; }
 
+  /** @return current variant (default or outlined) */
   public final Variant getVariant() { return variant.get(); }
   public final void setVariant(Variant value) {
     variant.set(value == null ? Variant.DEFAULT : value);
   }
   public final ObjectProperty<Variant> variantProperty() { return variant; }
 
+  /** @return optional icon node rendered before the text field */
   public final Node getIcon() { return icon.get(); }
   public final void setIcon(Node value) { icon.set(value); }
   public final ObjectProperty<Node> iconProperty() { return icon; }
 
+  /** @return label text associated with the input */
   public final String getLabel() { return label.get(); }
   public final void setLabel(String value) {
     label.set(value == null ? "" : value);
   }
   public final StringProperty labelProperty() { return label; }
 
+  /** @return preferred label position (top or left) */
   public final LabelPosition getLabelPosition() { return labelPosition.get(); }
   public final void setLabelPosition(LabelPosition value) {
     labelPosition.set(value == null ? LabelPosition.TOP : value);
@@ -183,6 +195,7 @@ public class Input extends VBox {
     return labelPosition;
   }
 
+  /** Re-renders the optional icon node and inserts/removes it as needed. */
   private void refreshIcon(Node node) {
     iconContainer.getChildren().clear();
 
@@ -206,6 +219,7 @@ public class Input extends VBox {
     }
   }
 
+  /** Updates CSS classes when the variant changes. */
   private void updateVariantStyle(Variant oldVariant, Variant newVariant) {
     if (oldVariant != null) {
       fieldWrapper.getStyleClass().remove(styleClassForVariant(oldVariant));
@@ -219,11 +233,13 @@ public class Input extends VBox {
     }
   }
 
+  /** @return CSS class for the provided variant */
   private String styleClassForVariant(Variant value) {
     Variant resolved = value == null ? Variant.DEFAULT : value;
     return "input-" + resolved.name().toLowerCase();
   }
 
+  /** Shows or hides the label node depending on the configured text. */
   private void updateLabelVisibility(String value) {
     boolean hasLabel = value != null && !value.isBlank();
     labelNode.setText(hasLabel ? value : "");
@@ -231,6 +247,7 @@ public class Input extends VBox {
     labelNode.setManaged(hasLabel);
   }
 
+  /** Rebuilds the layout hierarchy based on label configuration. */
   private void refreshLayout() {
     detachFromParent(fieldWrapper);
     detachFromParent(labelNode);
@@ -250,6 +267,7 @@ public class Input extends VBox {
     }
   }
 
+  /** Removes the provided node from whichever parent currently holds it. */
   private void detachFromParent(Node node) {
     if (node.getParent() instanceof Pane pane) {
       pane.getChildren().remove(node);

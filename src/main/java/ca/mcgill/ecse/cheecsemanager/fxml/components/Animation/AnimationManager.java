@@ -78,6 +78,7 @@ public class AnimationManager {
     return new NumericAnimationBuilder();
   }
 
+  /** @return builder that animates multiple properties together */
   public static MultiAnimationBuilder multiBuilder() {
     return new MultiAnimationBuilder();
   }
@@ -93,42 +94,50 @@ public class AnimationManager {
     private javafx.animation.Interpolator interpolator = Interpolator.EASE_BOTH;
     private Runnable onFinished;
 
+    /** Sets the property or value to animate. */
     public AnimationBuilder<T> target(WritableValue<T> target) {
       this.target = target;
       return this;
     }
 
+    /** Sets the starting value for the animation. */
     public AnimationBuilder<T> from(T startValue) {
       this.startValue = startValue;
       return this;
     }
 
+    /** Sets the ending value for the animation. */
     public AnimationBuilder<T> to(T endValue) {
       this.endValue = endValue;
       return this;
     }
 
+    /** Sets the animation duration. */
     public AnimationBuilder<T> duration(Duration duration) {
       this.duration = duration;
       return this;
     }
 
+    /** Convenience helper to set the duration using milliseconds. */
     public AnimationBuilder<T> durationMillis(double millis) {
       this.duration = Duration.millis(millis);
       return this;
     }
 
+    /** Configures which interpolator to use for the animation. */
     public AnimationBuilder<T>
     easing(javafx.animation.Interpolator interpolator) {
       this.interpolator = interpolator;
       return this;
     }
 
+    /** Registers a callback that runs after the animation completes. */
     public AnimationBuilder<T> onFinished(Runnable callback) {
       this.onFinished = callback;
       return this;
     }
 
+    /** Builds and starts the animation using the configured options. */
     public Timeline play() {
       if (target == null || startValue == null || endValue == null ||
           duration == null) {
@@ -153,6 +162,7 @@ public class AnimationManager {
     }
   }
 
+  /** Builder specialized for animating numeric properties. */
   public static class NumericAnimationBuilder {
     private WritableValue<Number> target;
     private double startValue;
@@ -162,42 +172,50 @@ public class AnimationManager {
         javafx.animation.Interpolator.EASE_BOTH;
     private Runnable onFinished;
 
+    /** Sets the numeric property to animate. */
     public NumericAnimationBuilder target(WritableValue<Number> target) {
       this.target = target;
       return this;
     }
 
+    /** Sets the starting value. */
     public NumericAnimationBuilder from(double startValue) {
       this.startValue = startValue;
       return this;
     }
 
+    /** Sets the ending value. */
     public NumericAnimationBuilder to(double endValue) {
       this.endValue = endValue;
       return this;
     }
 
+    /** Sets the animation duration. */
     public NumericAnimationBuilder duration(Duration duration) {
       this.duration = duration;
       return this;
     }
 
+    /** Sets the duration using milliseconds. */
     public NumericAnimationBuilder durationMillis(double millis) {
       this.duration = Duration.millis(millis);
       return this;
     }
 
+    /** Configures the interpolator used for easing. */
     public NumericAnimationBuilder
     easing(javafx.animation.Interpolator interpolator) {
       this.interpolator = interpolator;
       return this;
     }
 
+    /** Registers a completion callback. */
     public NumericAnimationBuilder onFinished(Runnable callback) {
       this.onFinished = callback;
       return this;
     }
 
+    /** Builds and starts the configured numeric animation. */
     public Timeline play() {
       if (target == null || duration == null) {
         throw new IllegalStateException(
@@ -243,27 +261,32 @@ public class AnimationManager {
       return this;
     }
 
+    /** Sets the duration applied to every target animation. */
     public MultiAnimationBuilder duration(Duration duration) {
       this.duration = duration;
       return this;
     }
 
+    /** Sets the duration using milliseconds. */
     public MultiAnimationBuilder durationMillis(double millis) {
       this.duration = Duration.millis(millis);
       return this;
     }
 
+    /** Configures the interpolator used for every target animation. */
     public MultiAnimationBuilder
     easing(javafx.animation.Interpolator interpolator) {
       this.interpolator = interpolator;
       return this;
     }
 
+    /** Registers a callback to run after all animations finish. */
     public MultiAnimationBuilder onFinished(Runnable callback) {
       this.onFinished = callback;
       return this;
     }
 
+    /** Builds and plays the multi-property animation. */
     public Timeline play() {
       if (targets.isEmpty() || duration == null) {
         throw new IllegalStateException(
@@ -290,6 +313,10 @@ public class AnimationManager {
       return timeline;
     }
 
+    /**
+     * Adds a key value for the provided animation target using the shared
+     * interpolator.
+     */
     @SuppressWarnings("unchecked")
     private static <T> void
     addKeyValue(AnimationTarget<?> target, List<KeyValue> keyValues,

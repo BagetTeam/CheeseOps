@@ -1,21 +1,18 @@
 package ca.mcgill.ecse.cheecsemanager.fxml.controllers.Farmer;
 
-import ca.mcgill.ecse.cheecsemanager.fxml.components.Icon;
-import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton;
+import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
+import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet7Controller;
+import ca.mcgill.ecse.cheecsemanager.controller.TOCheeseWheel;
+import ca.mcgill.ecse.cheecsemanager.controller.TOFarmer;
 import ca.mcgill.ecse.cheecsemanager.fxml.components.Animation.AnimationManager;
 import ca.mcgill.ecse.cheecsemanager.fxml.components.Animation.EasingInterpolators;
+import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton;
 import ca.mcgill.ecse.cheecsemanager.fxml.controllers.PageNavigator;
 import ca.mcgill.ecse.cheecsemanager.fxml.controllers.PopupController;
 import ca.mcgill.ecse.cheecsemanager.fxml.controllers.shelf.CheeseDetailsController;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.ToastEvent;
 import ca.mcgill.ecse.cheecsemanager.fxml.store.FarmerDataProvider;
-import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
-import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet7Controller;
-import ca.mcgill.ecse.cheecsemanager.controller.TOFarmer;
-import ca.mcgill.ecse.cheecsemanager.controller.TOCheeseWheel;
-
 import java.io.IOException;
-
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -29,20 +26,21 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.effect.BoxBlur;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.effect.BoxBlur;
-import javafx.scene.image.ImageView;
 
 /**
  * Controller for the view farmer page
- * Handles displaying a farmer's data including cheese wheel purchases for that farmer 
- * Handles updating, deleting, and buying cheese for a farmer
+ * Handles displaying a farmer's data including cheese wheel purchases for that
+ * farmer Handles updating, deleting, and buying cheese for a farmer
  * @author Ewen Gueguen
  */
-public class ViewFarmerController extends PopupController implements PageNavigator.DataReceiver{
+public class ViewFarmerController
+    extends PopupController implements PageNavigator.DataReceiver {
   @FXML private Button backBtn;
 
   @FXML private VBox farmerDescriptionCard;
@@ -65,20 +63,21 @@ public class ViewFarmerController extends PopupController implements PageNavigat
 
   private Region contentToBlur;
 
-  private final FarmerDataProvider farmerDataProvider = FarmerDataProvider.getInstance();
+  private final FarmerDataProvider farmerDataProvider =
+      FarmerDataProvider.getInstance();
   private TOFarmer farmer;
 
-  public StackPane getViewFarmerRoot() {
-    return viewFarmerRoot;
-  }
+  /** @return root container so other components can fire events */
+  public StackPane getViewFarmerRoot() { return viewFarmerRoot; }
 
+  /** Configures table columns, placeholders, and the action column. */
   @FXML
   public void initialize() {
     // Get the first child of viewFarmerRoot (the VBox containing all content)
     if (!viewFarmerRoot.getChildren().isEmpty()) {
-      contentToBlur = (Region) viewFarmerRoot.getChildren().get(0);
+      contentToBlur = (Region)viewFarmerRoot.getChildren().get(0);
     }
-    
+
     // Initialize columns
     idColumn.setCellValueFactory(
         cellData -> new SimpleObjectProperty<>(cellData.getValue().getId()));
@@ -93,7 +92,10 @@ public class ViewFarmerController extends PopupController implements PageNavigat
         -> new SimpleStringProperty(cellData.getValue().getIsSpoiled() ? "Yes"
                                                                        : "No"));
 
-    dateColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPurchaseDate().toString()));
+    dateColumn.setCellValueFactory(
+        cellData
+        -> new SimpleStringProperty(
+            cellData.getValue().getPurchaseDate().toString()));
 
     farmerDescriptionCard.setMaxHeight(Region.USE_PREF_SIZE);
 
@@ -122,10 +124,8 @@ public class ViewFarmerController extends PopupController implements PageNavigat
     actionColumn.setCellFactory(param -> new TableCell<>() {
       private final StyledButton viewBtn;
       {
-        Icon eyeIcon = new Icon("Eye");
 
-        viewBtn = new StyledButton("view", eyeIcon);
-        viewBtn.setVariant(StyledButton.Variant.PRIMARY);
+        viewBtn = new StyledButton("view");
         viewBtn.setSize(StyledButton.Size.SM);
 
         viewBtn.setOnAction(event -> {
@@ -147,6 +147,7 @@ public class ViewFarmerController extends PopupController implements PageNavigat
     });
   }
 
+  /** Populates the page with the provided farmer and binds their cheeses. */
   public void setFarmer(TOFarmer farmer) {
     this.farmer = farmer;
     if (farmer != null) {
@@ -166,106 +167,112 @@ public class ViewFarmerController extends PopupController implements PageNavigat
     }
   }
 
+  /** Returns to the farmer list page. */
   @FXML
   private void handleBack() {
     PageNavigator.getInstance().goBack(true);
   }
 
+  /** Opens the edit popup with the current farmer's information. */
   @FXML
   private void handleEdit() {
     System.out.println("Edit farmer: " + farmer.getName());
     if (contentToBlur != null) {
-            contentToBlur.setEffect(new BoxBlur(5, 5, 3));
-        }
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(
-                    "/ca/mcgill/ecse/cheecsemanager/view/components/Farmer/UpdateFarmer.fxml"
-            ));
-            AnchorPane popup = loader.load();
-            popup.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
-        
-            // Create overlay FIRST
-            StackPane overlay = createOverlay();
-            
-            // Add popup to overlay, then overlay to root
-            overlay.getChildren().add(popup);
-            viewFarmerRoot.getChildren().add(overlay);
-                        
-            UpdateFarmerPopup controller = loader.getController();
-            controller.setFarmerData(farmer);
-            controller.setViewFarmerController(this);
-            controller.setPopupOverlay(overlay);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+      contentToBlur.setEffect(new BoxBlur(5, 5, 3));
+    }
+    try {
+      FXMLLoader loader = new FXMLLoader(
+          getClass().getResource("/ca/mcgill/ecse/cheecsemanager/view/"
+                                 + "components/Farmer/UpdateFarmer.fxml"));
+      AnchorPane popup = loader.load();
+      popup.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+
+      // Create overlay FIRST
+      StackPane overlay = createOverlay();
+
+      // Add popup to overlay, then overlay to root
+      overlay.getChildren().add(popup);
+      viewFarmerRoot.getChildren().add(overlay);
+
+      UpdateFarmerPopup controller = loader.getController();
+      controller.setFarmerData(farmer);
+      controller.setViewFarmerController(this);
+      controller.setPopupOverlay(overlay);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
+  /** Opens the delete confirmation popup for this farmer. */
   @FXML
   private void handleDelete() {
     if (contentToBlur != null) {
-            contentToBlur.setEffect(new BoxBlur(5, 5, 3));
-        }
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(
-                    "/ca/mcgill/ecse/cheecsemanager/view/components/Farmer/DeleteFarmerPopup.fxml"
-            ));
-            AnchorPane popup = loader.load();
-            popup.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+      contentToBlur.setEffect(new BoxBlur(5, 5, 3));
+    }
+    try {
+      FXMLLoader loader = new FXMLLoader(
+          getClass().getResource("/ca/mcgill/ecse/cheecsemanager/view/"
+                                 + "components/Farmer/DeleteFarmerPopup.fxml"));
+      AnchorPane popup = loader.load();
+      popup.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
 
-            StackPane overlay = createOverlay();
+      StackPane overlay = createOverlay();
 
-            overlay.getChildren().add(popup);
-            viewFarmerRoot.getChildren().add(overlay);
-    
-            DeleteFarmerPopup controller = loader.getController();
-            controller.setFarmer(farmer);
-            controller.setViewFarmerController(this);
-            controller.setPopupOverlay(overlay);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+      overlay.getChildren().add(popup);
+      viewFarmerRoot.getChildren().add(overlay);
+
+      DeleteFarmerPopup controller = loader.getController();
+      controller.setFarmer(farmer);
+      controller.setViewFarmerController(this);
+      controller.setPopupOverlay(overlay);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
+  /** Opens the buy cheese popup with this farmer preselected. */
   @FXML
   private void handleBuy() {
     if (contentToBlur != null) {
-            contentToBlur.setEffect(new BoxBlur(5, 5, 3));
-        }
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(
-                    "/ca/mcgill/ecse/cheecsemanager/view/page/farmers/BuyCheesePopup.fxml"
-            ));
-            AnchorPane popup = loader.load();
-            popup.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+      contentToBlur.setEffect(new BoxBlur(5, 5, 3));
+    }
+    try {
+      FXMLLoader loader = new FXMLLoader(
+          getClass().getResource("/ca/mcgill/ecse/cheecsemanager/view/page/"
+                                 + "farmers/BuyCheesePopup.fxml"));
+      AnchorPane popup = loader.load();
+      popup.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
 
-            StackPane overlay = createOverlay();
+      StackPane overlay = createOverlay();
 
-            overlay.getChildren().add(popup);
-            viewFarmerRoot.getChildren().add(overlay);
-    
-            BuyCheesePopupController controller = loader.getController();
-            controller.setFarmer(farmer);
-            controller.setViewFarmerController(this);
-            controller.setPopupOverlay(overlay);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+      overlay.getChildren().add(popup);
+      viewFarmerRoot.getChildren().add(overlay);
+
+      BuyCheesePopupController controller = loader.getController();
+      controller.setFarmer(farmer);
+      controller.setViewFarmerController(this);
+      controller.setPopupOverlay(overlay);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
+  /** Slides in the cheese details drawer for a wheel owned by the farmer. */
   private void handleViewCheeseWheel(TOCheeseWheel cheese) {
     FXMLLoader loader = new FXMLLoader(CheECSEManagerApplication.getResource(
         "view/components/Shelf/CheeseDetails.fxml"));
     try {
       Node node = loader.load();
       CheeseDetailsController controller = loader.getController();
-      controller.init(cheese, () -> {
+      controller.init(cheese.getId(), () -> {
         AnimationManager.numericBuilder()
             .target(node.translateXProperty())
             .from(0)
             .to(384)
             .durationMillis(500)
             .easing(EasingInterpolators.CUBIC_OUT)
-            .onFinished(() -> { this.viewFarmerRoot.getChildren().remove(node); })
+            .onFinished(
+                () -> { this.viewFarmerRoot.getChildren().remove(node); })
             .play();
       });
       this.viewFarmerRoot.getChildren().add(node);
@@ -282,30 +289,38 @@ public class ViewFarmerController extends PopupController implements PageNavigat
     }
   }
 
+  /**
+   * Deletes the farmer via the controller and navigates back to the list.
+   * @return empty string on success, otherwise an error message
+   */
   public String deleteFarmer(TOFarmer farmer, StackPane overlay) {
-        String error = ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet7Controller.deleteFarmer(farmer.getEmail());
-        
-        if (error == null || error.isEmpty()) {
-            // Success - close popup and go back to farmer list
-            farmerDataProvider.refresh();
-            removePopup(overlay);
-            getViewFarmerRoot().fireEvent(new ToastEvent("Farmer deleted successfully.", ToastEvent.ToastType.SUCCESS));
-            PageNavigator.getInstance().goBack(false);
-            return "";
-        } else {
-            // Error - keep popup open and return error message
-            return error;
-        }
+    String error = ca.mcgill.ecse.cheecsemanager.controller
+                       .CheECSEManagerFeatureSet7Controller.deleteFarmer(
+                           farmer.getEmail());
+
+    if (error == null || error.isEmpty()) {
+      // Success - close popup and go back to farmer list
+      farmerDataProvider.refresh();
+      removePopup(overlay);
+      getViewFarmerRoot().fireEvent(new ToastEvent(
+          "Farmer deleted successfully.", ToastEvent.ToastType.SUCCESS));
+      PageNavigator.getInstance().goBack(false);
+      return "";
+    } else {
+      // Error - keep popup open and return error message
+      return error;
     }
+  }
 
-
+  /** Removes the popup overlay and clears the blur. */
   public void removePopup(StackPane overlay) {
-        if (contentToBlur != null) {
-            contentToBlur.setEffect(null);
-        }
-        viewFarmerRoot.getChildren().remove(overlay);
+    if (contentToBlur != null) {
+      contentToBlur.setEffect(null);
     }
+    viewFarmerRoot.getChildren().remove(overlay);
+  }
 
+  /** Refreshes the view with the updated farmer data. */
   public void refreshFarmerCard(TOFarmer farmer) {
     if (farmer != null) {
       farmerDataProvider.refresh();
@@ -313,18 +328,23 @@ public class ViewFarmerController extends PopupController implements PageNavigat
     }
   }
 
+  /** Fetches the latest farmer data from the controller and displays it. */
   public void reloadFarmerDetails() {
     if (farmer == null) {
       return;
     }
-    TOFarmer refreshed = CheECSEManagerFeatureSet7Controller.getFarmer(farmer.getEmail());
+    TOFarmer refreshed =
+        CheECSEManagerFeatureSet7Controller.getFarmer(farmer.getEmail());
     if (refreshed != null) {
       setFarmer(refreshed);
     }
   }
 
+  /** Binds the table to the observable list of cheeses for the farmer. */
   private void bindCheeseWheelsToFarmer(String email) {
-    ObservableList<TOCheeseWheel> wheels = farmerDataProvider.getCheeseWheelsForFarmer(email);
-    cheeseTable.setItems(wheels != null ? wheels : FXCollections.emptyObservableList());
+    ObservableList<TOCheeseWheel> wheels =
+        farmerDataProvider.getCheeseWheelsForFarmer(email);
+    cheeseTable.setItems(wheels != null ? wheels
+                                        : FXCollections.emptyObservableList());
   }
 }

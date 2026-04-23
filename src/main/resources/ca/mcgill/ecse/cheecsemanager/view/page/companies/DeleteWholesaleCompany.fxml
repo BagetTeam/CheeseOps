@@ -1,89 +1,69 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 <?import ca.mcgill.ecse.cheecsemanager.fxml.components.*?>
-
-<StackPane
+<VBox
     fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.wholesaleCompany.DeleteWholesaleCompanyController"
-    prefHeight="640.0" 
-    prefWidth="980.0"
-    style="-fx-background-color: rgba(0, 0, 0, 0.5);"
     xmlns="http://javafx.com/javafx/21"
-    xmlns:fx="http://javafx.com/fxml/1">
-    
-    <!-- Dialog Box - Smaller for delete confirmation -->
-    <VBox 
-        style="-fx-background-color: -color-darker-bg; -fx-background-radius: 12; -fx-padding: 30; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 30, 0, 0, 10);"
-        spacing="25"
-        prefWidth="450"
-        prefHeight="350"
-        minWidth="450"
-        minHeight="350"
-        maxWidth="450"
-        maxHeight="350">
-        
-        <!-- X button -->
-        <HBox alignment="CENTER_LEFT" spacing="10">
-            <StyledButton 
-                variant="DEFAULT" 
-                size="SM"
-                onAction="#handleClose">
-                <graphic>
-                    <Icon icon="X" />
-                </graphic>
-            </StyledButton>
-            <Label text="Are you sure you want to delete?" 
-                   style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: -color-fg; -fx-cursor: hand;" />
+    xmlns:fx="http://javafx.com/fxml/1"
+    spacing="16"
+    styleClass="w-sm"
+    fx:id="root"
+> 
+    <!-- Company Info Display -->
+    <VBox spacing="20" styleClass="bg-darker-bg, rounded-md, p-xl">
+        <!-- Company Name with Factory Icon -->
+        <HBox alignment="CENTER" spacing="10">
+            <Icon icon="Company" />
+            <Label
+                fx:id="companyNameLabel"
+                text="Ewen's Company"
+                style="-fx-text-fill: -color-fg; -fx-font-size: 18px; -fx-font-weight: 600;"
+            />
         </HBox>
         
-        <!-- Company Info Display -->
-        <VBox 
-            spacing="12"
-            style="-fx-border-color: -color-muted; -fx-border-width: 1; -fx-border-radius: 8; -fx-background-color: derive(-color-bg, -20%); -fx-padding: 20;">
-            
-            <!-- Company Name with Factory Icon -->
-            <HBox alignment="CENTER_LEFT" spacing="10">
-                <Icon icon="Factory" />
-                <Label fx:id="companyNameLabel" 
-                       text="Ewen's Company" 
-                       style="-fx-text-fill: -color-fg; -fx-font-size: 18px; -fx-font-weight: 600;" />
-            </HBox>
-            
-            <!-- Address -->
+        <!-- Address -->
+        <VBox spacing="6">
             <HBox alignment="CENTER_LEFT" spacing="10">
                 <Icon icon="Marker" />
-                <Label fx:id="companyAddressLabel" 
-                       text="123 Sigma Street, Montreal" 
-                       style="-fx-text-fill: -color-muted; -fx-font-size: 14px;" 
-                       wrapText="true"
-                       maxWidth="350" />
+                <Label
+                    fx:id="companyAddressLabel"
+                    text="123 Sigma Street, Montreal"
+                    styleClass="text-fg"
+                    wrapText="true"
+                    maxWidth="350"
+                />
             </HBox>
             
             <!-- Number of Orders -->
             <HBox alignment="CENTER_LEFT" spacing="10">
                 <Icon icon="Cargo" />
-                <Label fx:id="ordersCountLabel" 
-                       text="14" 
-                       style="-fx-text-fill: -color-muted; -fx-font-size: 14px;" />
+                <Label
+                    fx:id="ordersCountLabel"
+                    text="14"
+                    styleClass="text-fg"
+                />
             </HBox>
         </VBox>
-        
-        <!-- Buttons -->
-        <HBox spacing="15" alignment="CENTER">
-            <StyledButton
-                text="Cancel"
-                variant="MUTED" 
-                size="MD"
-                onAction="#handleClose"/>
-            <StyledButton
-                text="Delete"
-                variant="DESTRUCTIVE"
-                size="MD"
-                onAction="#handleDelete"
-            />
-        </HBox>
-        
     </VBox>
+
+    <Label
+        fx:id="errorLabel"
+        styleClass="text-destructive"
+        visible="false"
+        managed="false"
+        wrapText="true"
+    />
     
-</StackPane>
+    <!-- Buttons -->
+    <HBox spacing="12" alignment="CENTER_RIGHT">
+        <StyledButton text="Cancel" onAction="#handleClose" />
+        <StyledButton
+            text="Delete"
+            variant="DESTRUCTIVE"
+            onAction="#handleDelete"
+        />
+    </HBox>
+    
+</VBox>

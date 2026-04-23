@@ -24,7 +24,6 @@
         <VBox spacing="6">
             <Label fx:id="cheeseIdLabel" styleClass="text-fg" />
             <Label text="" fx:id="purchaseDateLabel" styleClass="text-fg" />
-            <!-- <Label text="" fx:id="shelfIdLabel" styleClass="text-fg" /> -->
 
             <HBox alignment="CENTER_LEFT" spacing="12">
                 <Label text="Shelf Id:" styleClass="text-fg" />
@@ -68,6 +67,13 @@
                 />
             </HBox>
         </VBox>
+        <Label
+            fx:id="errorLabel"
+            styleClass="text-destructive"
+            visible="false"
+            managed="false"
+            wrapText="true"
+        />
         <HBox alignment="CENTER_RIGHT" spacing="12">
             <StyledButton
                 text="Save"

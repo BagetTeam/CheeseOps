@@ -9,6 +9,7 @@ import ca.mcgill.ecse.cheecsemanager.fxml.components.StyledButton;
 import ca.mcgill.ecse.cheecsemanager.fxml.events.ShowPopupEvent;
 import ca.mcgill.ecse.cheecsemanager.fxml.store.ShelfDataProvider;
 import java.util.Arrays;
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleLongProperty;
@@ -23,6 +24,11 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 
+/**
+ * Controller for the shelves page that lists and manages every shelf.
+ *
+ * @author Ming Li Liu
+ * */
 public class ShelfController {
   private final ShelfDataProvider shelfDataProvider =
       ShelfDataProvider.getInstance();
@@ -41,6 +47,7 @@ public class ShelfController {
   @FXML private StyledButton openPopupBtn;
   @FXML private Label inventoryLabel;
 
+  /** Configures table columns, binds data providers, and wires popups. */
   @FXML
   private void initialize() {
     idColumn.setCellValueFactory(
@@ -62,9 +69,6 @@ public class ShelfController {
                    .count())
                .asObject());
 
-    shelfTable.getColumns().forEach(tc -> tc.setMinWidth(tc.getPrefWidth()));
-    shelfTable.setItems(shelfDataProvider.getShelves());
-
     setupActionButtons();
     bindInventoryLabel();
 
@@ -73,13 +77,15 @@ public class ShelfController {
           "view/components/Shelf/AddShelfPopUp.fxml", "Add Shelf"));
     });
 
-    refreshTable();
+    Platform.runLater(
+        () -> { shelfTable.setItems(shelfDataProvider.getShelves()); });
   }
 
+  /** Builds the per-row action buttons and attaches their handlers. */
   private void setupActionButtons() {
     actionColumn.setCellFactory(param -> new TableCell<>() {
       private final StyledButton viewBtn = new StyledButton(
-          StyledButton.Variant.MUTED, StyledButton.Size.SM, "View", null);
+          StyledButton.Variant.DEFAULT, StyledButton.Size.SM, "View", null);
       private final StyledButton deleteBtn =
           new StyledButton(StyledButton.Variant.DESTRUCTIVE,
                            StyledButton.Size.SM, "Delete", null);
@@ -108,6 +114,7 @@ public class ShelfController {
     });
   }
 
+  /** Opens the delete confirmation popup for the provided shelf. */
   private void showDeleteConfirmPopupForRow(TOShelf shelf) {
     try {
       selectedShelfId = shelf.getShelfID();
@@ -119,6 +126,7 @@ public class ShelfController {
     }
   }
 
+  /** Slides in the view shelf panel for the selected shelf. */
   private void showViewShelfPopup(TOShelf shelf) {
     FXMLLoader loader = new FXMLLoader(CheECSEManagerApplication.getResource(
         "view/components/Shelf/ViewShelf.fxml"));
@@ -155,10 +163,7 @@ public class ShelfController {
     }
   }
 
-  public void refreshTable() { shelfDataProvider.refresh(); }
-
-  public StackPane getRoot() { return root; }
-
+  /** Binds the inventory summary label to the provider's live property. */
   private void bindInventoryLabel() {
     inventoryLabel.textProperty().bind(Bindings.createStringBinding(
         ()

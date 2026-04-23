@@ -44,14 +44,17 @@ public class BuyCheesePopupController {
   private StackPane popupOverlay;
   private ViewFarmerController farmerViewController;
 
+  /** Stores the overlay reference so the popup can be dismissed. */
   public void setPopupOverlay(StackPane overlay) {
       this.popupOverlay = overlay;
   }
 
+  /** Connects this popup back to the farmer view page for refreshes. */
   public void setViewFarmerController(ViewFarmerController controller) {
       this.farmerViewController = controller;
   }
 
+  /** Pre-selects the farmer if the popup was opened from a card. */
   public void setFarmer(TOFarmer farmer) {
     this.farmer = farmer;
     
@@ -60,6 +63,7 @@ public class BuyCheesePopupController {
     }
   }
 
+  /** Loads farmers, dropdown options, and default purchase date. */
   @FXML
   private void initialize() {
 
@@ -75,6 +79,7 @@ public class BuyCheesePopupController {
     purchaseDatePicker.setValue(LocalDate.now());
   }
 
+  /** Validates user input and buys cheese wheels from the controller. */
   @FXML
   private void handleBuy() {
     errorLabel.setText("");
@@ -153,11 +158,13 @@ public class BuyCheesePopupController {
     } 
   }
 
+  /** Handles the cancel/back button click. */
   @FXML
   private void goBack() {
     closePopup();
   }
 
+  /** Removes the popup overlay via the view controller. */
   private void closePopup() {
         if (farmerViewController != null && popupOverlay != null) {
             farmerViewController.removePopup(popupOverlay);

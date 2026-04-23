@@ -81,21 +81,28 @@ public class StyledButton extends Button {
   private final StringProperty size =
       new SimpleStringProperty(Size.BASE.name());
 
+  /** Updates the variant, refreshing style classes. */
   public void setVariant(Variant variant) { this.variant.set(variant.name()); }
+  /** @return current variant name */
   public String getVariant() { return this.variant.get(); }
+  /** Updates the size token applied to the button. */
   public void setSize(Size size) { this.size.set(size.name()); }
+  /** @return current size name */
   public String getSize() { return this.size.get(); }
 
+  /** Builds a default styled button with placeholder styles. */
   public StyledButton() {
     super();
     this.initialize();
   }
 
+  /** Builds a button with text content. */
   public StyledButton(String text) {
     super(text);
     this.initialize();
   }
 
+  /** Builds a button with text and a graphic node. */
   public StyledButton(String text, Node graphic) {
     super(text, graphic);
     this.initialize();
@@ -118,6 +125,7 @@ public class StyledButton extends Button {
     }
   }
 
+  /** Applies style classes and listens for variant/size changes. */
   public void initialize() {
     this.getStyleClass().add("button");
     this.getStyleClass().add(
@@ -136,6 +144,7 @@ public class StyledButton extends Button {
     });
   }
 
+  /** Ensures an attached graphic gets the shared `icon` style class. */
   private void ensureIconStyleClass() {
     var graphic = this.graphicProperty().get();
     if (graphic != null && !graphic.getStyleClass().contains("icon")) {

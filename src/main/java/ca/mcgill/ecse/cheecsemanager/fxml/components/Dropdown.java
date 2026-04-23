@@ -45,11 +45,17 @@ public class Dropdown extends VBox {
   private final ObjectProperty<LabelPosition> labelPosition =
       new SimpleObjectProperty<>(LabelPosition.TOP);
 
+  private long lastHideTime = 0;
+
+  /** Builds an empty dropdown with default styling. */
   public Dropdown() {
     super();
     initialize();
   }
 
+  /**
+   * Builds a dropdown pre-populated with items, prompt text, and styles.
+   */
   public Dropdown(@NamedArg("items") List<String> items,
                   @NamedArg("promptText") String promptText,
                   @NamedArg("variant") Variant variant,
@@ -78,6 +84,7 @@ public class Dropdown extends VBox {
     }
   }
 
+  /** Applies styles, wires listeners, and prepares the inline layout. */
   private void initialize() {
     getStylesheets().add(getClass().getResource("/ca/mcgill/ecse/cheecsemanager/style/Dropdown.css").toExternalForm());
     setAlignment(Pos.CENTER_LEFT);
@@ -105,6 +112,7 @@ public class Dropdown extends VBox {
     comboBox.setFocusTraversable(true);
     HBox.setHgrow(comboBox, Priority.ALWAYS);
 
+
     promptText.addListener(
         (observable, oldValue, newValue) -> comboBox.setPromptText(newValue));
 
@@ -120,58 +128,58 @@ public class Dropdown extends VBox {
     labelPosition.addListener(
         (observable, oldValue, newValue) -> { refreshLayout(); });
 
-    comboBox.focusedProperty().addListener((observable, oldValue, newValue) -> {
-      if (newValue) {
-        if (!fieldWrapper.getStyleClass().contains("dropdown-focused")) {
-          fieldWrapper.getStyleClass().add("dropdown-focused");
-        }
+    javafx.beans.value.ChangeListener<Boolean> focusListener = (obs, oldVal, newVal) ->
+        updateFocusState(comboBox.isFocused() || comboBox.isShowing());
 
-        // If the current configured variant is DEFAULT, temporarily show the outlined
-        // variant while the combo is focused. We record this temporary change in the
-        // node properties so we can roll it back when focus is lost.
-        if (variant.get() == Variant.DEFAULT && !fieldWrapper.getStyleClass().contains("dropdown-outlined")) {
-          fieldWrapper.getStyleClass().add("dropdown-outlined");
-          fieldWrapper.getProperties().put("tempOutlined", Boolean.TRUE);
-        }
-      } else {
-        fieldWrapper.getStyleClass().remove("dropdown-focused");
-
-        // Remove the temporary outlined variant if we added it on focus.
-        Object temp = fieldWrapper.getProperties().remove("tempOutlined");
-        if (temp != null) {
-          fieldWrapper.getStyleClass().remove("dropdown-outlined");
-        }
-      }
-    });
+    comboBox.focusedProperty().addListener(focusListener);
+    comboBox.showingProperty().addListener(focusListener);
 
     fieldWrapper.getChildren().add(comboBox);
+
+    comboBox.addEventHandler(ComboBox.ON_HIDING, e -> lastHideTime = System.currentTimeMillis());
+
+    // Clicking anywhere on the root should toggle the combobox
+    this.setOnMouseClicked(e -> {
+      if (System.currentTimeMillis() - lastHideTime < 200) return;
+      comboBox.requestFocus();
+      if (comboBox.isShowing()) comboBox.hide();
+      else comboBox.show();
+    });
+
     updateLabelVisibility(label.get());
     refreshLayout();
   }
 
+  /** @return underlying combo box for advanced customization */
   public ComboBox<String> getComboBox() { return comboBox; }
 
+  /** @return currently selected value or {@code null} */
   public final String getSelectedValue() { return comboBox.getValue(); }
+  /** Sets the currently selected value. */
   public final void setSelectedValue(String value) { comboBox.setValue(value); }
 
+  /** @return prompt text displayed when no value is selected */
   public final String getPromptText() { return promptText.get(); }
   public final void setPromptText(String value) {
     promptText.set(value == null ? "" : value);
   }
   public final StringProperty promptTextProperty() { return promptText; }
 
+  /** @return dropdown variant (default or outlined) */
   public final Variant getVariant() { return variant.get(); }
   public final void setVariant(Variant value) {
     variant.set(value == null ? Variant.DEFAULT : value);
   }
   public final ObjectProperty<Variant> variantProperty() { return variant; }
 
+  /** @return label text shown next to the dropdown */
   public final String getLabel() { return label.get(); }
   public final void setLabel(String value) {
     label.set(value == null ? "" : value);
   }
   public final StringProperty labelProperty() { return label; }
 
+  /** @return whether the label is shown on top or inline */
   public final LabelPosition getLabelPosition() { return labelPosition.get(); }
   public final void setLabelPosition(LabelPosition value) {
     labelPosition.set(value == null ? LabelPosition.TOP : value);
@@ -180,17 +188,20 @@ public class Dropdown extends VBox {
     return labelPosition;
   }
 
+  /** Replaces the combo box items with the provided list. */
   public final void setItems(List<String> items) {
     if (items != null) {
       comboBox.setItems(FXCollections.observableArrayList(items));
     }
   }
 
+  /** @return copy of the combo box's items list */
   public final List<String> getItems() {
     return comboBox.getItems() != null ? new java.util.ArrayList<>(comboBox.getItems())
         : new java.util.ArrayList<>();
   }
 
+  /** Updates the CSS classes when the variant changes. */
   private void updateVariantStyle(Variant oldVariant, Variant newVariant) {
     if (oldVariant != null) {
       fieldWrapper.getStyleClass().remove(styleClassForVariant(oldVariant));
@@ -204,11 +215,13 @@ public class Dropdown extends VBox {
     }
   }
 
+  /** @return CSS class name for the provided variant */
   private String styleClassForVariant(Variant value) {
     Variant resolved = value == null ? Variant.DEFAULT : value;
     return "dropdown-" + resolved.name().toLowerCase();
   }
 
+  /** Shows or hides the label node depending on text presence. */
   private void updateLabelVisibility(String value) {
     boolean hasLabel = value != null && !value.isBlank();
     labelNode.setText(hasLabel ? value : "");
@@ -216,6 +229,7 @@ public class Dropdown extends VBox {
     labelNode.setManaged(hasLabel);
   }
 
+  /** Rebuilds the layout based on label visibility and position. */
   private void refreshLayout() {
     detachFromParent(fieldWrapper);
     detachFromParent(labelNode);
@@ -235,9 +249,35 @@ public class Dropdown extends VBox {
     }
   }
 
+  /** Removes the node from its parent if attached. */
   private void detachFromParent(Node node) {
     if (node.getParent() instanceof Pane pane) {
       pane.getChildren().remove(node);
+    }
+  }
+
+  /** Adds or removes focus styling (and temporary outline) on focus changes. */
+  private void updateFocusState(boolean active) {
+    if (active) {
+      if (!fieldWrapper.getStyleClass().contains("dropdown-focused")) {
+        fieldWrapper.getStyleClass().add("dropdown-focused");
+      }
+
+      // If the current configured variant is DEFAULT, temporarily show the outlined
+      // variant while the combo is focused. We record this temporary change in the
+      // node properties so we can roll it back when focus is lost.
+      if (variant.get() == Variant.DEFAULT && !fieldWrapper.getStyleClass().contains("dropdown-outlined")) {
+        fieldWrapper.getStyleClass().add("dropdown-outlined");
+        fieldWrapper.getProperties().put("tempOutlined", Boolean.TRUE);
+      }
+    } else {
+      fieldWrapper.getStyleClass().remove("dropdown-focused");
+
+      // Remove the temporary outlined variant if we added it on focus.
+      Object temp = fieldWrapper.getProperties().remove("tempOutlined");
+      if (temp != null) {
+        fieldWrapper.getStyleClass().remove("dropdown-outlined");
+      }
     }
   }
 }

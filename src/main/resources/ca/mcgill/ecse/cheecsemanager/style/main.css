@@ -9,6 +9,7 @@
     -color-darker-bg: #191701;
     -color-darker-bg-70: rgba(25, 23, 1, 0.7);
     -color-muted: rgba(215, 205, 196, 0.43);
+    -color-border: rgba(215, 205, 196, 0.43);
     -color-green: #bae727;
 
     /* for reference only */
@@ -276,6 +277,15 @@
 .custom-checkbox .text {
     -fx-fill: -color-fg;
     -fx-font-size: 13px;
+}
+
+.styled-date-picker {
+    -fx-background-color: -color-bg;
+    -fx-border-color: -color-border;
+    -fx-border-width: 1;
+    -fx-background-radius: 14;
+    -fx-border-radius: 14;
+    -fx-padding: 6 4;
 }
 
 /* DatePicker button styling */

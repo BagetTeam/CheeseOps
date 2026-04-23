@@ -19,8 +19,10 @@ public class PageNavigator {
     private StackPane contentArea;
     private Stack<Pane> navigationStack = new Stack<>();
     
+    /** Enforces singleton usage. */
     private PageNavigator() {}
     
+    /** @return singleton navigator instance */
     public static PageNavigator getInstance() {
         if (instance == null) {
             instance = new PageNavigator();
@@ -28,14 +30,23 @@ public class PageNavigator {
         return instance;
     }
     
+    /**
+     * Sets the stack pane whose children represent the currently active page.
+     * @param contentArea root container controlled by this navigator
+     */
     public void setContentArea(StackPane contentArea) {
         this.contentArea = contentArea;
     }
     
+    /** Navigates to an FXML page without passing any state. */
     public void navigateTo(String fxmlPath) {
         navigateTo(fxmlPath, null);
     }
     
+    /**
+     * Navigates to a new page, optionally providing a data object to the target
+     * controller.
+     */
     public void navigateTo(String fxmlPath, Object data) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
@@ -79,6 +90,10 @@ public class PageNavigator {
         }
     }
     
+    /**
+     * Returns to the previous page if the navigation stack is non-empty.
+     * @param animate whether the transition should be animated
+     */
     public void goBack(boolean animate) {
         if (!navigationStack.isEmpty()) {
             StackPane previousPage = (StackPane) navigationStack.pop();
@@ -110,22 +125,25 @@ public class PageNavigator {
         }
     }
     
+    /** @return true if there is at least one page to pop */
     public boolean canGoBack() {
         return !navigationStack.isEmpty();
     }
     
+    /** Clears the navigation history stack. */
     public void clearHistory() {
         navigationStack.clear();
     }
     
-    // Interface for controllers that can receive data
+    /** Interface for controllers that can receive data */
     public interface DataReceiver {
+        /** Supplies the controller with data passed during navigation. */
         void setData(Object data);
     }
     
-    // Interface for pages that need to refresh when they become visible
+    /** Interface for pages that need to refresh when they become visible */
     public interface PageRefreshable {
+        /** Callback fired after the page returns to the top of the stack. */
         void onPageAppear();
     }
 }
-

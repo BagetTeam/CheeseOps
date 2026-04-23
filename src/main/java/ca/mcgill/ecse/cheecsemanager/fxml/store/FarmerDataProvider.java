@@ -27,16 +27,25 @@ public class FarmerDataProvider {
   private final ObservableMap<String, ObservableList<TOCheeseWheel>> cheeseWheels =
       FXCollections.observableHashMap();
 
+  /** Builds the singleton instance and loads the initial farmer roster. */
   private FarmerDataProvider() { refresh(); }
 
+  /** @return shared provider instance */
   public static FarmerDataProvider getInstance() { return INSTANCE; }
 
+  /** @return observable list of farmers that UI lists bind to */
   public ObservableList<TOFarmer> getFarmers() { return farmers; }
 
+  /**
+   * @param email farmer email used as the lookup key
+   * @return observable list of cheese wheels owned by the requested farmer,
+   *     allocating it on demand
+   */
   public ObservableList<TOCheeseWheel> getCheeseWheelsForFarmer(String email) {
     return cheeseWheels.computeIfAbsent(email, key -> FXCollections.observableArrayList());
   }
 
+  /** Re-synchronizes farmers and per-farmer cheese wheels with the controllers. */
   public void refresh() {
     List<TOFarmer> latestFarmers =
         CheECSEManagerFeatureSet7Controller.getFarmers();

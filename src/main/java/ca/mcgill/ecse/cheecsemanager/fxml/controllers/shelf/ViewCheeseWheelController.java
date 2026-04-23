@@ -16,11 +16,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
-/*
- *
- * @author Ayush
- * */
 
+/**
+ * Controller that displays and edits a single cheese wheel's details.
+ *
+ * @author Ayush Patel
+ * */
 public class ViewCheeseWheelController {
 
   @FXML private AnchorPane rootPane;
@@ -55,14 +56,17 @@ public class ViewCheeseWheelController {
 
   private ViewShelfPopUpController parentPopupController;
 
+  /** Registers the parent popup so it can be refreshed after edits. */
   public void setParentPopupController(ViewShelfPopUpController parent) {
     this.parentPopupController = parent;
   }
 
+  /** Links this popup back to the shelves controller. */
   public void setMainController(ShelfController controller) {
     this.mainController = controller;
   }
 
+  /** Stores the overlay so it can be closed when the popup is dismissed. */
   public void setPopupOverlay(AnchorPane overlay) {
     this.popupOverlay = overlay;
 
@@ -73,6 +77,7 @@ public class ViewCheeseWheelController {
     });
   }
 
+  /** Loads the cheese wheel with the provided id into the form. */
   public void setCheeseToView(int id) {
     this.cheeseWheelID = id;
 
@@ -80,6 +85,7 @@ public class ViewCheeseWheelController {
     initializeEditButton();
   }
 
+  /** Fetches the cheese wheel data and populates the UI labels. */
   private void loadCheeseWheel() {
     TOCheeseWheel wheel =
         CheECSEManagerFeatureSet3Controller.getCheeseWheel(cheeseWheelID);
@@ -101,6 +107,7 @@ public class ViewCheeseWheelController {
     removeButton.setOnAction(e -> removeFromShelf());
   }
 
+  /** Loads the SVG-based icon that visually represents the cheese. */
   private void loadIconFXML(String iconName) {
     if (cheeseIcon == null)
       return;
@@ -121,6 +128,7 @@ public class ViewCheeseWheelController {
     }
   }
 
+  /** Configures the edit button and prepares combo boxes/text fields. */
   private void initializeEditButton() {
     monthsAgedCombo = new ComboBox<>();
     monthsAgedCombo.getItems().addAll("Six", "Twelve", "TwentyFour",
@@ -128,6 +136,7 @@ public class ViewCheeseWheelController {
     editButton.setOnAction(e -> toggleEditMode());
   }
 
+  /** Switches between read-only and editable states, persisting changes. */
   private void toggleEditMode() {
     if (!editing) {
       editing = true;
@@ -195,6 +204,7 @@ public class ViewCheeseWheelController {
     }
   }
 
+  /** Removes the cheese wheel from its shelf and refreshes the parent view. */
   private void removeFromShelf() {
     String error =
         CheECSEManagerFeatureSet4Controller.removeCheeseWheelFromShelf(

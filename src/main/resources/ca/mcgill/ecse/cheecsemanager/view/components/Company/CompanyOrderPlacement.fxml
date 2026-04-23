@@ -1,112 +1,83 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
+<?xml version="1.0" encoding="UTF-8" ?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 <?import ca.mcgill.ecse.cheecsemanager.fxml.components.*?>
-
-<StackPane
+<VBox
+    spacing="16"
     fx:controller="ca.mcgill.ecse.cheecsemanager.fxml.controllers.wholesaleCompany.CompanyOrderPlacementController"
-    prefHeight="640.0"
-    prefWidth="980.0"
-    style="-fx-background-color: rgba(0, 0, 0, 0.5);"
-    stylesheets="@CompanyOrderPlacement.css"
     xmlns="http://javafx.com/javafx/21"
-    xmlns:fx="http://javafx.com/fxml/1">
-  <!-- Dialog Box -->
-  <VBox
-      style="-fx-background-color: -color-darker-bg; -fx-background-radius: 12; -fx-padding: 30; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 30, 0, 0, 10);"
-      spacing="25"
-      prefWidth="500"
-      prefHeight="520"
-      minWidth="500"
-      minHeight="520"
-      maxWidth="500"
-      maxHeight="520">
-    <!-- Header with X button -->
-    <HBox alignment="CENTER_LEFT" spacing="10">
-      <StyledButton variant="DEFAULT" size="SM" onAction="#handleClose">
-        <graphic>
-          <Icon icon="X" />
-        </graphic>
-      </StyledButton>
+    xmlns:fx="http://javafx.com/fxml/1"
+    fx:id="root"
+    styleClass="w-xs"
+>
+  <!-- Maturation Period Dropdown -->
+  <VBox spacing="8">
       <Label
-          text="Place Order"
-          styleClass="dialog-title"
-          style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: -color-fg;" />
-    </HBox>
-
-    <!-- Maturation Period Dropdown -->
-    <VBox spacing="8">
-      <HBox spacing="5">
-        <Label
             text="Maturation Period"
-            style="-fx-text-fill: -color-fg; -fx-font-size: 14px;" />
-        <Label text="*" style="-fx-text-fill: -color-destructive; -fx-font-size: 14px;" />
-      </HBox>
-      <ComboBox
-          fx:id="maturationPeriodComboBox"
-          promptText="Select aging period"
-          prefWidth="440"
-          styleClass="styled-combo-box"
-          style="-fx-background-color: -color-bg; -fx-background-radius: 8; -fx-border-color: -color-border; -fx-border-width: 1; -fx-border-radius: 8; -fx-text-fill: -color-fg; -fx-prompt-text-fill: -color-muted; -fx-padding: 8 12; -fx-font-size: 14px;" />
-    </VBox>
+            style="-fx-text-fill: -color-fg; -fx-font-size: 14px;"
+        />
+    <ComboBox
+            fx:id="maturationPeriodComboBox"
+            promptText="Select aging period"
+            prefWidth="440"
+            styleClass="combo-box"
+        />
+  </VBox>
 
-    <!-- Quantity Field -->
-    <VBox spacing="8">
-      <HBox spacing="5">
-        <Label text="Quantity" style="-fx-text-fill: -color-fg; -fx-font-size: 14px;" />
-        <Label text="*" style="-fx-text-fill: -color-destructive; -fx-font-size: 14px;" />
-      </HBox>
-      <TextField
-          fx:id="quantityField"
-          promptText="Number of cheese wheels"
-          style="-fx-background-color: -color-bg; -fx-text-fill: -color-fg; -fx-prompt-text-fill: -color-muted; -fx-background-radius: 8; -fx-padding: 12; -fx-font-size: 14px; -fx-border-color: -color-border; -fx-border-width: 1; -fx-border-radius: 8;" />
-    </VBox>
+  <Input label="Quantity*" fx:id="quantityInput" variant="OUTLINED" />
 
-    <!-- Purchase Date (Read-only) -->
-    <VBox spacing="8">
-      <Label text="Order Date" style="-fx-text-fill: -color-fg; -fx-font-size: 14px;" />
-      <TextField
-          fx:id="purchaseDateField"
-          editable="false"
-          style="-fx-background-color: derive(-color-bg, -10%); -fx-text-fill: -color-muted; -fx-background-radius: 8; -fx-padding: 12; -fx-font-size: 14px; -fx-border-color: -color-border; -fx-border-width: 1; -fx-border-radius: 8; -fx-opacity: 0.7;" />
-    </VBox>
+  <!-- Purchase Date (Read-only) -->
+  <VBox spacing="4">
+    <Label
+            text="Transaction Date"
+            style="-fx-text-fill: -color-fg; -fx-font-size: 14px;"
+        />
+    <DatePicker
+            fx:id="transactionDatePicker"
+            promptText="Select transaction date"
+            prefWidth="440"
+            styleClass="styled-date-picker"
+        />
+  </VBox>
 
-    <!-- Delivery Date -->
-    <VBox spacing="8">
-      <HBox spacing="5">
-        <Label text="Delivery Date" style="-fx-text-fill: -color-fg; -fx-font-size: 14px;" />
-        <Label text="*" style="-fx-text-fill: -color-destructive; -fx-font-size: 14px;" />
-      </HBox>
-      <DatePicker
-          fx:id="deliveryDatePicker"
-          promptText="Select delivery date"
-          prefWidth="440"
-          styleClass="styled-date-picker"
-          style="-fx-background-color: -color-bg; -fx-background-radius: 8; -fx-border-color: -color-border; -fx-border-width: 1; -fx-border-radius: 8;" />
-    </VBox>
+  <!-- Delivery Date -->
+  <VBox spacing="4">
+    <Label
+            text="Delivery Date"
+            style="-fx-text-fill: -color-fg; -fx-font-size: 14px;"
+        />
+    <DatePicker
+            fx:id="deliveryDatePicker"
+            promptText="Select delivery date"
+            prefWidth="440"
+            styleClass="styled-date-picker"
+        />
+  </VBox>
 
-    <!-- Error Message from backend -->
-    <HBox
-        fx:id="errorContainer"
+  <!-- Error Message from backend -->
+  <Label
+        fx:id="errorLabel"
+        text=""
+        wrapText="true"
+        styleClass="text-destructive"
         visible="false"
         managed="false"
-        spacing="8"
-        alignment="CENTER_LEFT"
-        style="-fx-background-color: derive(-color-destructive, -70%); -fx-border-color: -color-destructive; -fx-border-width: 1; -fx-background-radius: 6; -fx-border-radius: 6; -fx-padding: 10 12;">
-      <Icon icon="Error" />
-      <Label
-          fx:id="errorLabel"
-          text=""
-          wrapText="true"
-          style="-fx-text-fill: -color-destructive; -fx-font-size: 13px;" />
-    </HBox>
+    />
 
-    <!-- Buttons -->
-    <HBox spacing="15" alignment="CENTER">
-      <StyledButton text="Cancel" variant="MUTED" size="SM" onAction="#handleClose" />
-      <StyledButton text="Place Order" variant="PRIMARY" size="SM" onAction="#handleSave" />
-    </HBox>
-  </VBox>
-</StackPane>
+  <!-- Buttons -->
+  <HBox spacing="15" alignment="CENTER">
+    <StyledButton
+            text="Cancel"
+            variant="MUTED"
+            size="SM"
+            onAction="#handleClose"
+        />
+    <StyledButton
+            text="Place Order"
+            variant="PRIMARY"
+            size="SM"
+            onAction="#handleSave"
+        />
+  </HBox>
+</VBox>

@@ -12,8 +12,11 @@
 >
     <BorderPane style="-fx-padding: 36 16">
         <center>
-            <VBox fx:id="mainContainer" spacing="20" maxWidth="768">
-                <Label text="Cheese Wheels" styleClass="text-fg, text-bold" />
+            <VBox fx:id="mainContainer" spacing="20" maxWidth="832">
+                <Label
+                    text="Cheese Wheels"
+                    styleClass="text-lg, text-fg, text-bold"
+                />
 
                 <HBox alignment="CENTER_LEFT">
                     <Label

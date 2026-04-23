@@ -1,8 +1,5 @@
 package ca.mcgill.ecse.cheecsemanager.fxml.controllers;
 
-import java.util.ArrayList;
-import java.util.List;
-import org.checkerframework.checker.units.qual.C;
 import ca.mcgill.ecse.cheecsemanager.application.CheECSEManagerApplication;
 import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet3Controller;
 import ca.mcgill.ecse.cheecsemanager.controller.CheECSEManagerFeatureSet4Controller;
@@ -19,6 +16,8 @@ import ca.mcgill.ecse.cheecsemanager.fxml.store.CheeseWheelDataProvider;
 import ca.mcgill.ecse.cheecsemanager.fxml.store.FarmerDataProvider;
 import ca.mcgill.ecse.cheecsemanager.fxml.store.ShelfCheeseWheelDataProvider;
 import ca.mcgill.ecse.cheecsemanager.fxml.store.ShelfDataProvider;
+import java.util.ArrayList;
+import java.util.List;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -33,6 +32,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import org.checkerframework.checker.units.qual.C;
 
 /**
  * Controller for the Cheese Wheels page.
@@ -54,6 +54,7 @@ public class CheeseWheelsController {
   @FXML private TableColumn<TOCheeseWheel, String> purchaseDateColumn;
   @FXML private TableColumn<TOCheeseWheel, TOCheeseWheel> actionColumn;
 
+  /** Configures table columns, binds data providers, and hooks up actions. */
   @FXML
   private void initialize() {
     idColumn.setCellValueFactory(
@@ -83,20 +84,26 @@ public class CheeseWheelsController {
             " total cheese wheels"));
   }
 
+  /**
+   * Attempts to auto-assign every unplaced, unspoiled cheese wheel to shelves
+   * and reports the number that could not be placed.
+   */
   @FXML
   private void assignAllCheeseWheels() {
-    List<TOCheeseWheel> cheeseWheels = CheECSEManagerFeatureSet3Controller.getCheeseWheels();
+    List<TOCheeseWheel> cheeseWheels =
+        CheECSEManagerFeatureSet3Controller.getCheeseWheels();
     List<TOCheeseWheel> cheeseWheelsToAssign = new ArrayList<>();
     for (TOCheeseWheel cheeseWheel : cheeseWheels) {
-      if (cheeseWheel.getShelfID() != null || cheeseWheel.getColumn() != -1 || 
-              cheeseWheel.getRow() != -1 || cheeseWheel.getIsSpoiled()) {
+      if (cheeseWheel.getShelfID() != null || cheeseWheel.getColumn() != -1 ||
+          cheeseWheel.getRow() != -1 || cheeseWheel.getIsSpoiled()) {
         continue;
       }
 
       cheeseWheelsToAssign.add(cheeseWheel);
     }
-  
-    int rem = BuyCheesePopupController.autoAssignCheeseWheels(cheeseWheelsToAssign);
+
+    int rem =
+        BuyCheesePopupController.autoAssignCheeseWheels(cheeseWheelsToAssign);
 
     FarmerDataProvider.getInstance().refresh();
     CheeseWheelDataProvider.getInstance().refresh();
@@ -105,12 +112,12 @@ public class CheeseWheelsController {
     
     root.fireEvent(new ToastEvent("Success!", ToastEvent.ToastType.SUCCESS));
     if (rem > 0) {
-      root.fireEvent(new ToastEvent(rem + " could not be auto assigned.", ToastEvent.ToastType.WARNING));
-    } 
-
-
+      root.fireEvent(new ToastEvent(rem + " could not be auto assigned.",
+                                    ToastEvent.ToastType.WARNING));
+    }
   }
 
+  /** Builds the custom action column housing assign/unassign buttons. */
   private void setupActionButtons() {
     actionColumn.setCellFactory(param -> new TableCell<>() {
       private final StyledButton assignBtn = new StyledButton(
@@ -192,13 +199,17 @@ public class CheeseWheelsController {
     });
   }
 
+  /**
+   * Slides in the cheese detail drawer for the selected wheel.
+   * @param cheese transfer object describing the selected wheel
+   */
   private void showCheeseDetail(TOCheeseWheel cheese) {
     FXMLLoader loader = new FXMLLoader(CheECSEManagerApplication.getResource(
         "view/components/Shelf/CheeseDetails.fxml"));
     try {
       Node node = loader.load();
       CheeseDetailsController controller = loader.getController();
-      controller.init(cheese, () -> {
+      controller.init(cheese.getId(), () -> {
         AnimationManager.numericBuilder()
             .target(node.translateXProperty())
             .from(0)
